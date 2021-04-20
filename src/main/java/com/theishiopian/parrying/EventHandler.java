@@ -47,13 +47,15 @@ public class EventHandler
                 {
                     ParryingMod.LOGGER.info("blocked");
                     player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundCategory.PLAYERS, 1,1);
+                    //get heading. i could do this using the vector from earlier, this was just for debugging.
                     double dirX = player.getX() - attacker.getX();
                     double dirZ = player.getZ() - attacker.getZ();
 
+                    //this works only if the event isnt canceled
                     player.knockback(1, -dirX, -dirZ);
-
+                    //more debug
                     log.info("("+dirX + ", " + dirZ+")");
-                    //event.setCanceled(true);
+                    event.setCanceled(true);//disable this for knockback to work.
                 }
             }
         }
