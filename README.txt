@@ -1,1 +1,1 @@
-This mod aims to spice up miencraft combat by adding the concept of 'parrying'.
+This mod aims to spice up minecraft combat by adding the concept of 'parrying'.
