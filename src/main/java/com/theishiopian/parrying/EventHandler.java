@@ -1,8 +1,6 @@
 package com.theishiopian.parrying;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.TieredItem;
@@ -10,12 +8,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import org.apache.logging.log4j.Logger;
 
 public class EventHandler
@@ -45,17 +39,13 @@ public class EventHandler
 
                 if(angle > 0.8 && player.swinging)
                 {
-                    ParryingMod.LOGGER.info("blocked");
+                    log.info("blocked");
                     player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundCategory.PLAYERS, 1,1);
-                    //get heading. i could do this using the vector from earlier, this was just for debugging.
                     double dirX = player.getX() - attacker.getX();
                     double dirZ = player.getZ() - attacker.getZ();
-
-                    //this works only if the event isnt canceled
                     player.knockback(1, -dirX, -dirZ);
-                    //more debug
-                    log.info("("+dirX + ", " + dirZ+")");
-                    event.setCanceled(true);//disable this for knockback to work.
+                    player.hurtMarked = true;//this makes knockback work
+                    event.setCanceled(true);
                 }
             }
         }
