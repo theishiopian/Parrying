@@ -40,7 +40,7 @@ public class EventHandler
 
                 if(angle > 0.95 && player.swinging)
                 {
-                    log.info("blocked");
+                    //log.info("blocked");
                     player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundCategory.PLAYERS, 1,1);
                     player.knockback(0.33f, attackerDir.x, attackerDir.z);
                     player.hurtMarked = true;//this makes knockback work
