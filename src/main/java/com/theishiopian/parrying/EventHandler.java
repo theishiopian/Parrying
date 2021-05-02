@@ -1,6 +1,7 @@
 package com.theishiopian.parrying;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -43,6 +44,9 @@ public class EventHandler
                     player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundCategory.PLAYERS, 1,1);
                     player.knockback(0.33f, attackerDir.x, attackerDir.z);
                     player.hurtMarked = true;//this makes knockback work
+                    float damage = event.getAmount();
+                    player.causeFoodExhaustion(damage);
+                    held.damageItem(player.getMainHandItem(), (int)damage, null, null);
                     event.setCanceled(true);
                 }
             }
