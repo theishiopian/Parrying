@@ -21,8 +21,8 @@ public class ParryParticle extends SpriteTexturedParticle
         this.rCol = f;
         this.gCol = f;
         this.bCol = f;
-        this.quadSize = 1;
-        this.lifetime = 25;
+        this.quadSize = 0.35f;
+        this.lifetime = 4;
         this.sprites = sprites;
         this.setSpriteFromAge(sprites);
     }
@@ -32,7 +32,7 @@ public class ParryParticle extends SpriteTexturedParticle
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        ParryingMod.LOGGER.info("ticking particle");
+        //ParryingMod.LOGGER.info("ticking particle");
         if (this.age++ >= this.lifetime)
         {
             this.remove();
