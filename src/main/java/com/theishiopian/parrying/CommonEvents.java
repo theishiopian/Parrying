@@ -1,14 +1,11 @@
 package com.theishiopian.parrying;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.TieredItem;
 import net.minecraft.util.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
@@ -45,7 +42,7 @@ public class CommonEvents
                 {
                     //log.info("blocked");
                     Random random = new Random();
-                    player.level.playSound(null, player.blockPosition(), SoundEvents.ANVIL_PLACE, SoundCategory.PLAYERS, 0.2f, (random.nextFloat() * 0.2f) + 0.8f);
+                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
                     //attacker.playSound(ParryingMod.BLOCK_HIT_EVENT, 1, random.nextFloat() * 2f);
                     player.knockback(0.33f, attackerDir.x, attackerDir.z);
                     player.hurtMarked = true;//this makes knockback work

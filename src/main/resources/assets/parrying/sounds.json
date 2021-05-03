@@ -1,0 +1,13 @@
+{
+  "block_hit":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:block_hit",
+        "stream": false
+      }
+    ]
+  }
+}
