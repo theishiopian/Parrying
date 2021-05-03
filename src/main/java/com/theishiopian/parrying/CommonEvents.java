@@ -1,8 +1,11 @@
 package com.theishiopian.parrying;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.TieredItem;
@@ -27,7 +30,7 @@ public class CommonEvents
             PlayerEntity player = (PlayerEntity) event.getEntity();
             Item held = player.getMainHandItem().getItem();
 
-            if(held instanceof TieredItem || held == Items.TRIDENT)
+            if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE))
             {
                 Entity attacker = source.getEntity();
 
