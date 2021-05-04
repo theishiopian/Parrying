@@ -8,6 +8,6 @@ public class ClientEvents
     public static void OnRegisterParticles(ParticleFactoryRegisterEvent event)
     {
         //ParryingMod.LOGGER.info("HEY LISTEN !!!!!!!!!!!");
-        Minecraft.getInstance().particleEngine.register(ParryingMod.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
     }
 }
