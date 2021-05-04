@@ -48,15 +48,13 @@ public class CommonEvents
 
                     if(angle > 0.95 && player.swinging)
                     {
-                        //log.info("blocked");
-                        //Random random = new Random();
-                        //player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
-                        //attacker.playSound(ParryingMod.BLOCK_HIT_EVENT, 1, random.nextFloat() * 2f);
                         player.knockback(0.33f, attackerDir.x, attackerDir.z);
                         player.hurtMarked = true;//this makes knockback work
-                        float damage = event.getAmount();
                         player.causeFoodExhaustion(0.5f);
-                        held.getItem().damageItem(player.getMainHandItem(), (int) damage, null, null);
+                        held.hurtAndBreak(1, player, (playerEntity) ->
+                        {
+                            playerEntity.broadcastBreakEvent(player.getUsedItemHand());
+                        });
 
                         Random random = new Random();
                         double pX = (attacker.getX() + player.getX()) / 2 + (random.nextDouble()-0.5) * 0.2 + (attackerDirNorm.x * 0.2);
@@ -88,9 +86,18 @@ public class CommonEvents
                 Vector3d arrowDirLevel = new Vector3d(arrowDir.x, 0, arrowDir.z);
                 double angle = playerDirLevel.dot(arrowDirLevel);
                 ItemStack held = player.getMainHandItem();
+
                 int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), held);
                 if(level > 0 && player.swinging && angle > 0.5)
                 {
+                    Random random = new Random();
+
+                    player.causeFoodExhaustion(1f);
+                    held.hurtAndBreak(1, player, (playerEntity) ->
+                    {
+                        playerEntity.broadcastBreakEvent(player.getUsedItemHand());
+                    });
+
                     float power = (float)(projectile.getDeltaMovement().normalize().length() / 5f) * level;
                     projectile.setDeltaMovement(playerDir.x * power, playerDir.y * power, playerDir.z * power);
                     projectile.yRot = (float)(MathHelper.atan2(playerDir.x, playerDir.z) * (double)(180F / (float)Math.PI));
@@ -98,7 +105,7 @@ public class CommonEvents
                     projectile.yRotO = projectile.yRot;
                     projectile.xRotO = projectile.xRot;
                     projectile.hasImpulse = true;
-                    Random random = new Random();
+
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
                     Vector3d particlePos = projectile.position();
                     ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
