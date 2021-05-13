@@ -1,3 +1,4 @@
 {
-  "enchantment.parrying.deflection": "Deflection"
+  "enchantment.parrying.deflection": "Deflection",
+  "enchantment.parrying.deflection.desc": "Allows you to parry arrows. Arrows will lose some speed when parried, higher levels reduce this effect."
 }

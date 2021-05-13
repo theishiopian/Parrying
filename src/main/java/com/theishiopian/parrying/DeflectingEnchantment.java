@@ -8,6 +8,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 
+import java.util.Random;
+
 public class DeflectingEnchantment extends Enchantment
 {
     protected DeflectingEnchantment()
