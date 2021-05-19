@@ -38,7 +38,7 @@ public class CommonEvents
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
-                if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE))
+                if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && !player.hasEffect(ModEffects.STUNNED.get()))
                 {
                     Entity attacker = source.getEntity();
 

@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -73,8 +75,9 @@ public class BashPacket
                     {
                         playerEntity.broadcastBreakEvent(lHand);
                     });
-
+                    EffectInstance instance = new EffectInstance(ModEffects.STUNNED.get(), 60);
                     target.hurt(source, 1);
+                    ((LivingEntity)target).addEffect(instance);
                     ((LivingEntity)target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
                     target.hurtMarked = true;
                 }

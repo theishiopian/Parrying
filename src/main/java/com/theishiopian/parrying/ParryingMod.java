@@ -49,6 +49,7 @@ public class ParryingMod
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
+        ModEffects.EFFECTS.register(bus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
