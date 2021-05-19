@@ -25,7 +25,6 @@ import java.util.Random;
 
 public class CommonEvents
 {
-    static boolean isFalling, isGrounded, isClimbing, isInWater, isBlind, isSlowFalling, isRiding, isSprinting, isFlying, isStrongAttack;
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
         DamageSource source = event.getSource();
@@ -57,40 +56,7 @@ public class CommonEvents
 
                         if(level > 0)
                         {
-                            int power = 0;
-                            if(attacker instanceof PlayerEntity)
-                            {
-                                PlayerEntity ePlayer = (PlayerEntity) attacker;
-                                isFalling = ePlayer.fallDistance > 0;
-                                isGrounded = ePlayer.isOnGround();
-                                isClimbing = ePlayer.onClimbable();
-                                isInWater = ePlayer.isInWater();
-                                isBlind = ePlayer.hasEffect(Effects.BLINDNESS);
-                                isSlowFalling = ePlayer.hasEffect(Effects.SLOW_FALLING);
-                                isRiding = ePlayer.isPassenger();
-                                isSprinting = ePlayer.isSprinting();
-                                isFlying = ePlayer.isFallFlying();
-                                isStrongAttack = ePlayer.getAttackStrengthScale(0.5f) > 0.9f;
-
-                                if
-                                (
-                                    isFalling &&
-                                    !isGrounded &&
-                                    !isClimbing &&
-                                    !isInWater &&
-                                    !isBlind &&
-                                    !isSlowFalling &&
-                                    !isRiding &&
-                                    !isSprinting &&
-                                    !isFlying &&
-                                    isStrongAttack
-                                )
-                                {
-                                    power = 1;
-                                }
-                            }
-
-                            EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60, power);
+                            EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60);
                             player.addEffect(instance);
                         }
 

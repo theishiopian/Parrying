@@ -2,5 +2,5 @@
   "enchantment.parrying.deflection": "Deflection",
   "enchantment.parrying.deflection.desc": "Allows you to parry arrows. Arrows will lose some speed when parried, higher levels reduce this effect.",
   "enchantment.parrying.riposte": "Riposte",
-  "enchantment.parrying.riposte.desc": "Grants Strength briefly after parrying an attack. Critical hits grant Strength II"
+  "enchantment.parrying.riposte.desc": "Grants strength briefly after parrying an attack."
 }
