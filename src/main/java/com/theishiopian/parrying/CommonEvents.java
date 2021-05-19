@@ -8,6 +8,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -15,11 +18,14 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.Random;
 
 public class CommonEvents
 {
+    static boolean isFalling, isGrounded, isClimbing, isInWater, isBlind, isSlowFalling, isRiding, isSprinting, isFlying, isStrongAttack;
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
         DamageSource source = event.getSource();
@@ -29,6 +35,7 @@ public class CommonEvents
             PlayerEntity player = (PlayerEntity) event.getEntity();
             ItemStack held = player.getMainHandItem();
             Vector3d playerDir = player.getViewVector(1);
+            int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held);
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
@@ -47,6 +54,46 @@ public class CommonEvents
                         player.knockback(0.33f, attackerDir.x, attackerDir.z);
                         player.hurtMarked = true;//this makes knockback work
                         player.causeFoodExhaustion(0.5f);
+
+                        if(level > 0)
+                        {
+                            int power = 0;
+                            if(attacker instanceof PlayerEntity)
+                            {
+                                PlayerEntity ePlayer = (PlayerEntity) attacker;
+                                isFalling = ePlayer.fallDistance > 0;
+                                isGrounded = ePlayer.isOnGround();
+                                isClimbing = ePlayer.onClimbable();
+                                isInWater = ePlayer.isInWater();
+                                isBlind = ePlayer.hasEffect(Effects.BLINDNESS);
+                                isSlowFalling = ePlayer.hasEffect(Effects.SLOW_FALLING);
+                                isRiding = ePlayer.isPassenger();
+                                isSprinting = ePlayer.isSprinting();
+                                isFlying = ePlayer.isFallFlying();
+                                isStrongAttack = ePlayer.getAttackStrengthScale(0.5f) > 0.9f;
+
+                                if
+                                (
+                                    isFalling &&
+                                    !isGrounded &&
+                                    !isClimbing &&
+                                    !isInWater &&
+                                    !isBlind &&
+                                    !isSlowFalling &&
+                                    !isRiding &&
+                                    !isSprinting &&
+                                    !isFlying &&
+                                    isStrongAttack
+                                )
+                                {
+                                    power = 1;
+                                }
+                            }
+
+                            EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60, power);
+                            player.addEffect(instance);
+                        }
+
                         held.hurtAndBreak(1, player, (playerEntity) ->
                         {
                             playerEntity.broadcastBreakEvent(player.getUsedItemHand());
@@ -111,5 +158,4 @@ public class CommonEvents
             }
         }
     }
-
 }

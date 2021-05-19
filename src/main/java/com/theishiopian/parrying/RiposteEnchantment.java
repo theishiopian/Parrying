@@ -2,36 +2,33 @@ package com.theishiopian.parrying;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.MendingEnchantment;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 
-import java.util.Random;
-
-public class DeflectingEnchantment extends Enchantment
+public class RiposteEnchantment extends Enchantment
 {
-    protected DeflectingEnchantment()
+    protected RiposteEnchantment()
     {
-        super(Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
+        super(Rarity.VERY_RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
     }
 
     public int getMinCost(int in) {
-        return 5 + (in - 1) * 9;
+        return 25;
     }
 
     public int getMaxCost(int in) {
-        return this.getMinCost(in) + 15;
+        return 45;
     }
 
     public int getMaxLevel() {
-        return 3;
+        return 1;
     }
-    
+
     public boolean checkCompatibility(Enchantment toCheck)
     {
-        return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof RiposteEnchantment) && super.checkCompatibility(toCheck);
+        return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof DeflectingEnchantment) && super.checkCompatibility(toCheck);
     }
 
     @Override
