@@ -11,6 +11,7 @@ public class ModSoundEvents
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ParryingMod.MOD_ID);
 
     public static final  RegistryObject<SoundEvent> BLOCK_HIT = registerSoundEvent("block_hit");
+    public static final  RegistryObject<SoundEvent> SHIELD_BASH = registerSoundEvent("shield_bash");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name)
     {

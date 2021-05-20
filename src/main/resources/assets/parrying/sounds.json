@@ -9,5 +9,16 @@
         "stream": false
       }
     ]
+  },
+  "shield_bash":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:shield_bash",
+        "stream": false
+      }
+    ]
   }
 }

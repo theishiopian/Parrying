@@ -67,11 +67,11 @@ public class BashPacket
                 {
                     DamageSource source = new DamageSource("generic");
 
-                    player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundCategory.PLAYERS, 1,1);
                     player.swing(hand);
                     player.getCooldowns().addCooldown(shield.getItem(), 100);
                     player.stopUsingItem();
                     player.causeFoodExhaustion(0.5f);
+                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, 1);
 
                     shield.hurtAndBreak(1, player, (playerEntity) ->
                     {
