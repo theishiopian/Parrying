@@ -130,7 +130,7 @@ public class CommonEvents
         {
             LivingEntity entity = event.getEntityLiving();
 
-            if(entity.hasEffect(ModEffects.STUNNED.get()))
+            if((!(entity instanceof PlayerEntity)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
             }
