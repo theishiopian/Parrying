@@ -1,6 +1,5 @@
 package com.theishiopian.parrying;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

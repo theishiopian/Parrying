@@ -3,7 +3,6 @@ package com.theishiopian.parrying;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class ClientEvents
 {
