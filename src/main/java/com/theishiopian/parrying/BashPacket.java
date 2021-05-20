@@ -20,6 +20,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class BashPacket
@@ -71,7 +72,8 @@ public class BashPacket
                     player.getCooldowns().addCooldown(shield.getItem(), 100);
                     player.stopUsingItem();
                     player.causeFoodExhaustion(0.5f);
-                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, 1);
+                    Random random = new Random();
+                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
 
                     shield.hurtAndBreak(1, player, (playerEntity) ->
                     {
