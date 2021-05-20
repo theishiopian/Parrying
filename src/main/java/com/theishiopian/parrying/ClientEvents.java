@@ -6,12 +6,12 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 
 public class ClientEvents
 {
-    public static void OnRegisterParticles(ParticleFactoryRegisterEvent event)
+    public static void OnRegisterParticlesEvent(ParticleFactoryRegisterEvent event)
     {
         Minecraft.getInstance().particleEngine.register(ModParticles.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
     }
 
-    public static void OnLeftClick(InputEvent.MouseInputEvent event)
+    public static void OnLeftClickEvent(InputEvent.MouseInputEvent event)
     {
         if(Minecraft.getInstance().options.keyAttack.isDown())
         {
