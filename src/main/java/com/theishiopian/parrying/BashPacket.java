@@ -34,7 +34,7 @@ public class BashPacket
         if(player != null)
         {
             //ParryingMod.LOGGER.info();
-            Entity target = RayTracer.getFistEntityInLine(player.level, player.getEyePosition(1), player.getEyePosition(1).add(player.getViewVector(1).scale(1)), player);
+            Entity target = RayTracer.getFistEntityInLine(player.level, player.getEyePosition(1), player.getEyePosition(1).add(player.getViewVector(1).scale(2)), player);
             ParryingMod.LOGGER.info(player.isBlocking());
            if(target != null && player.isBlocking())
            {
