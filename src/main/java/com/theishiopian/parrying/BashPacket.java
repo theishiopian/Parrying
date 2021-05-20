@@ -10,8 +10,11 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -31,14 +34,15 @@ public class BashPacket
     {
         ServerPlayerEntity player = context.get().getSender();
 
-        if(player != null)
+        if(player != null && player.isBlocking())
         {
-            //ParryingMod.LOGGER.info();
-            Entity target = RayTracer.getFistEntityInLine(player.level, player.getEyePosition(1), player.getEyePosition(1).add(player.getViewVector(1).scale(2)), player);
-            ParryingMod.LOGGER.info(player.isBlocking());
-           if(target != null && player.isBlocking())
-           {
-                ParryingMod.LOGGER.info("Bashing");
+            List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.position().x + 1.5, player.position().y + 1.5, player.position().z + 1.5,player.position().x - 1.5, player.position().y - 1.5, player.position().z - 1.5));
+
+            if(list.contains(player))list.remove(player);
+
+            if(list.size() > 0)
+            {
+                Random random = new Random();
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
                 ItemStack shield = null;
@@ -56,29 +60,40 @@ public class BashPacket
 
                 final Hand lHand = hand;
 
-                if(shield != null)
+                for(LivingEntity target : list)
                 {
-                    DamageSource source = new DamageSource("generic");
-
-                    player.swing(hand);
-                    player.getCooldowns().addCooldown(shield.getItem(), 120);
-                    player.stopUsingItem();
-                    player.causeFoodExhaustion(0.5f);
-                    Random random = new Random();
-                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
-
-                    shield.hurtAndBreak(1, player, (playerEntity) ->
+                    ParryingMod.LOGGER.info(target);
+                    Vector3d dir = (target.position().subtract(player.position())).normalize();
+                    double dot = dir.dot(player.getViewVector(1));
+                    if(dot > 0.65)
                     {
-                        playerEntity.broadcastBreakEvent(lHand);
-                    });
+                        ParryingMod.LOGGER.info("Bashing");
 
-                    EffectInstance instance = new EffectInstance(ModEffects.STUNNED.get(), 60);
-                    target.hurt(source, 2);
-                    ((LivingEntity)target).addEffect(instance);
-                    ((LivingEntity)target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
-                    target.hurtMarked = true;
+                        if(shield != null)
+                        {
+                            DamageSource source = new DamageSource("generic");
+
+                            player.causeFoodExhaustion(0.5f);
+
+
+                            shield.hurtAndBreak(1, player, (playerEntity) ->
+                            {
+                                playerEntity.broadcastBreakEvent(lHand);
+                            });
+
+                            EffectInstance instance = new EffectInstance(ModEffects.STUNNED.get(), 60);
+                            target.hurt(source, 2);
+                            (target).addEffect(instance);
+                            (target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
+                            target.hurtMarked = true;
+                        }
+                    }
                 }
-           }
+                player.stopUsingItem();
+                player.swing(hand);
+                player.getCooldowns().addCooldown(shield.getItem(), 120);
+                player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
+            }
         }
 
         context.get().setPacketHandled(true);
