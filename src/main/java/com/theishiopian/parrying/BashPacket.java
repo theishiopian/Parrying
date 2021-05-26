@@ -65,7 +65,7 @@ public class BashPacket
                 return Double.compare(distA, distB);
             };
 
-            if(list.size() > 0 && shield != null)
+            if(list.size() > 0)
             {
                 list.sort(distCompare);
                 Vector3d pDir = player.getViewVector(1);
@@ -88,12 +88,12 @@ public class BashPacket
                 player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                 player.stopUsingItem();
                 player.swing(hand);
-                player.getCooldowns().addCooldown(shield.getItem(), 80 + 20 * bashes);
+                player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? 20 : 80 + 20 * bashes);
 
                 double pX = player.position().x + pDir.x;
                 double pY = player.position().y + 1.5f + pDir.y;
                 double pZ = player.position().z + pDir.z;
-                ((ServerWorld) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+                if(bashes > 0)((ServerWorld) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
 
             }
             else
