@@ -56,6 +56,7 @@ public class BashPacket
                 hand = Hand.OFF_HAND;
             }
 
+            //sort by distance
             Comparator<LivingEntity> distCompare = (o1, o2) ->
             {
                 double distA = o1.position().distanceTo(player.position());
@@ -89,8 +90,6 @@ public class BashPacket
                 player.swing(hand);
                 player.getCooldowns().addCooldown(shield.getItem(), 80 + 20 * bashes);
 
-
-
                 double pX = player.position().x + pDir.x;
                 double pY = player.position().y + 1.5f + pDir.y;
                 double pZ = player.position().z + pDir.z;
@@ -115,7 +114,6 @@ public class BashPacket
         DamageSource source = new DamageSource("generic");
 
         player.causeFoodExhaustion(0.5f);
-
 
         shield.hurtAndBreak(1, player, (playerEntity) ->
         {
