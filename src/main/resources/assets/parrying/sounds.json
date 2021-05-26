@@ -20,5 +20,16 @@
         "stream": false
       }
     ]
+  },
+  "shield_bash_miss":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:woosh",
+        "stream": false
+      }
+    ]
   }
 }

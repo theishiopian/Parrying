@@ -9,6 +9,7 @@ public class ClientEvents
     public static void OnRegisterParticlesEvent(ParticleFactoryRegisterEvent event)
     {
         Minecraft.getInstance().particleEngine.register(ModParticles.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.BASH_PARTICLE.get(), BashParticle.Factory::new);
     }
 
     public static void OnLeftClickEvent(InputEvent.MouseInputEvent event)

@@ -13,6 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.*;
@@ -66,14 +67,15 @@ public class BashPacket
             if(list.size() > 0 && shield != null)
             {
                 list.sort(distCompare);
+                Vector3d pDir = player.getViewVector(1);
                 int bashes = 0;
                 int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield);
                 for (int i = 0; i < list.size(); i++)
                 {
                     LivingEntity target = list.get(i);
                     Vector3d dir = (target.position().subtract(player.position())).normalize();
-                    double dot = dir.dot(player.getViewVector(1));
-                    if(dot > 0.75 && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
+                    double dot = dir.dot(pDir);
+                    if(dot > 0.85 && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
                     {
                         BashEntity(target, player, shield, hand);
                         bashes++;
@@ -82,13 +84,22 @@ public class BashPacket
                     if(bashes >= 3 + level)break;
                 }
 
-                player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
+                player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                 player.stopUsingItem();
                 player.swing(hand);
                 player.getCooldowns().addCooldown(shield.getItem(), 80 + 20 * bashes);
+
+
+
+                double pX = player.position().x + pDir.x;
+                double pY = player.position().y + 1.5f + pDir.y;
+                double pZ = player.position().z + pDir.z;
+                ((ServerWorld) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+
             }
             else
             {
+                player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                 player.stopUsingItem();
                 player.swing(hand);
                 player.getCooldowns().addCooldown(shield.getItem(), 20);
