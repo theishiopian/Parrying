@@ -76,19 +76,20 @@ public class BashPacket
                     LivingEntity target = list.get(i);
                     Vector3d dir = (target.position().subtract(player.position())).normalize();
                     double dot = dir.dot(pDir);
-                    if(dot > 0.85 && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
+                    //default 0.85
+                    if(dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
                     {
                         BashEntity(target, player, shield, hand);
                         bashes++;
                     }
 
-                    if(bashes >= 3 + level)break;
+                    if(bashes >= Config.bashTargets.get() + level)break;
                 }
 
                 player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                 player.stopUsingItem();
                 player.swing(hand);
-                player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? 20 : 80 + 20 * bashes);
+                player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? Config.bashMissCooldown.get() : Config.bashBaseCooldown.get() + 20 * bashes);
 
                 double pX = player.position().x + pDir.x;
                 double pY = player.position().y + 1.5f + pDir.y;
@@ -101,7 +102,7 @@ public class BashPacket
                 player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                 player.stopUsingItem();
                 player.swing(hand);
-                player.getCooldowns().addCooldown(shield.getItem(), 20);
+                player.getCooldowns().addCooldown(shield.getItem(), Config.bashMissCooldown.get());
             }
         }
 

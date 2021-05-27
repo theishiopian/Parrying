@@ -49,7 +49,8 @@ public class CommonEvents
 
                     double angle = playerDir.dot(attackerDirNorm);
                     Random random = new Random();
-                    if(angle > 0.95 && player.swinging)
+                    //default 0.95
+                    if(angle > Config.parryAngle.get() && player.swinging)
                     {
                         if(phasLevel == 0 || random.nextInt(3) != 0)
                         {

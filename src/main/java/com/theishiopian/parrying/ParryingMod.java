@@ -5,7 +5,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -42,6 +44,7 @@ public class ParryingMod
 
     public ParryingMod()
     {
+        //Config.
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttackedEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::ArrowParryEvent);
@@ -51,6 +54,8 @@ public class ParryingMod
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
         ModEffects.EFFECTS.register(bus);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
