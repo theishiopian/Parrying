@@ -5,6 +5,10 @@
   "enchantment.parrying.riposte.desc": "Grants strength briefly after parrying an attack.",
   "enchantment.parrying.bashing": "Bashing",
   "enchantment.parrying.bashing.desc": "Increases the number of targets a shield bash can hit.",
+  "enchantment.parrying.phasing": "Curse of Phasing",
+  "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
+  "enchantment.parrying.fragile": "Curse of Fragility",
+  "enchantment.parrying.fragile.desc": "Parrying severely damages your weapon",
 
   "effect.parrying.stunned": "Stunned"
 }

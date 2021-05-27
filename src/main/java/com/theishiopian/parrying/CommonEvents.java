@@ -33,7 +33,9 @@ public class CommonEvents
             PlayerEntity player = (PlayerEntity) event.getEntity();
             ItemStack held = player.getMainHandItem();
             Vector3d playerDir = player.getViewVector(1);
-            int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held);
+            int ripLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held);
+            int fragLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FRAGILE.get(), held);
+            int phasLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held);
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
@@ -46,31 +48,37 @@ public class CommonEvents
                     Vector3d attackerDirNorm = attackerDir.normalize();
 
                     double angle = playerDir.dot(attackerDirNorm);
-
+                    Random random = new Random();
                     if(angle > 0.95 && player.swinging)
                     {
-                        player.knockback(0.33f, attackerDir.x, attackerDir.z);
-                        player.hurtMarked = true;//this makes knockback work
-                        player.causeFoodExhaustion(0.5f);
-
-                        if(level > 0)
+                        if(phasLevel == 0 || random.nextInt(3) != 0)
                         {
-                            EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60);
-                            player.addEffect(instance);
+                            player.knockback(0.33f, attackerDir.x, attackerDir.z);
+                            player.hurtMarked = true;//this makes knockback work
+                            player.causeFoodExhaustion(0.5f);
+
+                            if(ripLevel > 0)
+                            {
+                                EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60);
+                                player.addEffect(instance);
+                            }
+
+                            held.hurtAndBreak(fragLevel > 0 ? 3 : 1, player, (playerEntity) ->
+                            {
+                                playerEntity.broadcastBreakEvent(player.getUsedItemHand());
+                            });
+
+                            double pX = (attacker.getX() + player.getX()) / 2 + (random.nextDouble()-0.5) * 0.2 + (attackerDirNorm.x * 0.2);
+                            double pY = ((attacker.getY() + player.getY()) / 2) + 1.45 + (random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.y * 0.2);
+                            double pZ = (attacker.getZ() + player.getZ()) / 2 + (random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
+                            player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
+                            ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+                            event.setCanceled(true);
                         }
-
-                        held.hurtAndBreak(1, player, (playerEntity) ->
+                        else
                         {
-                            playerEntity.broadcastBreakEvent(player.getUsedItemHand());
-                        });
-
-                        Random random = new Random();
-                        double pX = (attacker.getX() + player.getX()) / 2 + (random.nextDouble()-0.5) * 0.2 + (attackerDirNorm.x * 0.2);
-                        double pY = ((attacker.getY() + player.getY()) / 2) + 1.45 + (random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.y * 0.2);
-                        double pZ = (attacker.getZ() + player.getZ()) / 2 + (random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
-                        player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
-                        ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
-                        event.setCanceled(true);
+                            player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
+                        }
                     }
                 }
             }
