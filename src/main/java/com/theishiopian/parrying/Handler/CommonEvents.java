@@ -1,5 +1,10 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Handler;
 
+import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -35,7 +40,7 @@ public class CommonEvents
             Vector3d playerDir = player.getViewVector(1);
             int ripLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held);
             int fragLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FRAGILE.get(), held);
-            int phasLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held);
+            int phaseLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held);
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
@@ -52,7 +57,7 @@ public class CommonEvents
                     //default 0.95
                     if(angle > Config.parryAngle.get() && player.swinging)
                     {
-                        if(phasLevel == 0 || random.nextInt(3) != 0)
+                        if(phaseLevel == 0 || random.nextInt(3) != 0)
                         {
                             player.knockback(0.33f, attackerDir.x, attackerDir.z);
                             player.hurtMarked = true;//this makes knockback work

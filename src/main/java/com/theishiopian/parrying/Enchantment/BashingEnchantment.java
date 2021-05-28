@@ -1,16 +1,14 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Enchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.item.SwordItem;
 
 public class BashingEnchantment extends Enchantment
 {
-    protected BashingEnchantment()
+    public  BashingEnchantment()
     {
         super(Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
     }

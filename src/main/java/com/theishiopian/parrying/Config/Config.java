@@ -1,7 +1,6 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class Config
 {

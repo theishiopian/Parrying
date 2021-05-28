@@ -1,18 +1,15 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Enchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.MendingEnchantment;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 
-import java.util.Random;
-
 public class DeflectingEnchantment extends Enchantment
 {
-    protected DeflectingEnchantment()
+    public DeflectingEnchantment()
     {
         super(Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
     }

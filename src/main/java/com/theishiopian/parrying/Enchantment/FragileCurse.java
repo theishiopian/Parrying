@@ -1,12 +1,12 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Enchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 
-public class PhasingCurse extends Enchantment
+public class FragileCurse extends Enchantment
 {
-    protected PhasingCurse()
+    public FragileCurse()
     {
         super(Rarity.VERY_RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
     }
@@ -29,9 +29,9 @@ public class PhasingCurse extends Enchantment
     {
         return true;
     }
-    
+
     public boolean checkCompatibility(Enchantment toCheck)
     {
-        return !(toCheck instanceof FragileCurse);
+        return !(toCheck instanceof PhasingCurse);
     }
 }

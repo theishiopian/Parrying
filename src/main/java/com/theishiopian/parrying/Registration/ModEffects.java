@@ -1,5 +1,7 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Registration;
 
+import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Effects.StunnedEffect;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

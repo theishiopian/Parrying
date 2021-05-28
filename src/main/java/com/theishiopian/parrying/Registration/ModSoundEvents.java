@@ -1,5 +1,6 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Registration;
 
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.RegistryObject;

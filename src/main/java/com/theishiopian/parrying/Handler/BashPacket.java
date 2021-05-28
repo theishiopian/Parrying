@@ -1,5 +1,11 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Handler;
 
+import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -111,7 +117,6 @@ public class BashPacket
 
     private static void BashEntity(LivingEntity target, PlayerEntity player, ItemStack shield, Hand hand)
     {
-        ParryingMod.LOGGER.info("Bashing: " + target);
         DamageSource source = new DamageSource("generic");
 
         player.causeFoodExhaustion(0.5f);

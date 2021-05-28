@@ -1,6 +1,5 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Client;
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
@@ -32,7 +31,6 @@ public class ParryParticle extends SpriteTexturedParticle
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        //ParryingMod.LOGGER.info("ticking particle");
         if (this.age++ >= this.lifetime)
         {
             this.remove();

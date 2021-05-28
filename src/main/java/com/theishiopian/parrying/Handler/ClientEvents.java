@@ -1,5 +1,9 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Handler;
 
+import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.*;
+import com.theishiopian.parrying.Client.BashParticle;
+import com.theishiopian.parrying.Client.ParryParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;

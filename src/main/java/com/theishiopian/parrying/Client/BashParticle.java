@@ -1,4 +1,4 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Client;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;

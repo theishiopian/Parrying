@@ -1,4 +1,4 @@
-package com.theishiopian.parrying;
+package com.theishiopian.parrying.Enchantment;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
@@ -10,7 +10,7 @@ import net.minecraft.item.SwordItem;
 
 public class RiposteEnchantment extends Enchantment
 {
-    protected RiposteEnchantment()
+    public RiposteEnchantment()
     {
         super(Rarity.VERY_RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
     }

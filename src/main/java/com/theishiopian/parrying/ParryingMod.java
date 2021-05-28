@@ -1,5 +1,13 @@
 package com.theishiopian.parrying;
 
+import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Handler.ClientEvents;
+import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Handler.BashPacket;
+import com.theishiopian.parrying.Handler.CommonEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,16 +24,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(ParryingMod.MOD_ID)
 public class ParryingMod
 {
-    // Directly reference a log4j logger.
     public static final String MOD_ID = "parrying";
     public static final Logger LOGGER = LogManager.getLogger();
-    private static final ResourceLocation netName = new ResourceLocation("parrying", "network");
+    private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static SimpleChannel channel;
-    private static final int VERSION = 1;
+    private static final int VERSION = 1;//protocol version
 
     static
     {
@@ -44,7 +50,6 @@ public class ParryingMod
 
     public ParryingMod()
     {
-        //Config.
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttackedEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::ArrowParryEvent);
