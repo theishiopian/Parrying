@@ -3,7 +3,7 @@ loaderVersion="[36,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="1.8"
+version="1.8.1"
 displayName="Parrying"
 authors="theishiopian"
 description='''

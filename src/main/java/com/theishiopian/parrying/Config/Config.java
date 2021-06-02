@@ -13,6 +13,14 @@ public class Config
     public static final ForgeConfigSpec.IntValue bashMissCooldown;
     public static final ForgeConfigSpec.IntValue bashTargets;
 
+    public static final ForgeConfigSpec.BooleanValue deflectionEnabled;
+    public static final ForgeConfigSpec.BooleanValue riposteEnabled;
+    public static final ForgeConfigSpec.BooleanValue bashingEnabled;
+    public static final ForgeConfigSpec.BooleanValue fragileEnabled;
+    public static final ForgeConfigSpec.BooleanValue phasingEnabled;
+    public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
+    public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
+
     static
     {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -36,6 +44,14 @@ public class Config
 
         bashTargets = builder.comment("The number of targets a shield bash can hit. Each level of Bashing adds 1 to this number")
                 .defineInRange("bash_targets", 3, 1, Integer.MAX_VALUE);
+
+        deflectionEnabled = builder.comment("Whether or not the deflection enchantment is enabled").define("deflection_enabled", true);
+        riposteEnabled = builder.comment("Whether or not the riposte enchantment is enabled").define("riposte_enabled", true);
+        bashingEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
+        fragileEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
+        phasingEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);
+        isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
+        isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
 
         COMMON = builder.build();
     }

@@ -1,8 +1,10 @@
 package com.theishiopian.parrying.Enchantment;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
 
 public class PhasingCurse extends Enchantment
 {
@@ -33,5 +35,14 @@ public class PhasingCurse extends Enchantment
     public boolean checkCompatibility(Enchantment toCheck)
     {
         return !(toCheck instanceof FragileCurse);
+    }
+
+    public boolean isTreasureOnly() {
+        return true;
+    }
+
+    public boolean canEnchant(ItemStack p_92089_1_)
+    {
+        return Config.phasingEnabled.get();
     }
 }

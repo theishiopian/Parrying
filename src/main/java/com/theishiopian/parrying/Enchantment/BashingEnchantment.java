@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Enchantment;
 
+import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -10,7 +12,7 @@ public class BashingEnchantment extends Enchantment
 {
     public  BashingEnchantment()
     {
-        super(Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
+        super(Rarity.RARE, EnchantmentType.BREAKABLE, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND});
     }
 
     public int getMinCost(int in)
@@ -31,9 +33,13 @@ public class BashingEnchantment extends Enchantment
         return true;
     }
 
-    @Override
-    public boolean canEnchant(ItemStack stack)
+    public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return stack.getItem() instanceof ShieldItem;
+        return p_92089_1_.getItem() instanceof ShieldItem && Config.bashingEnabled.get();
+    }
+
+    public boolean canApplyAtEnchantingTable(ItemStack p_92089_1_)
+    {
+        return canEnchant(p_92089_1_);
     }
 }

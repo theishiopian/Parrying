@@ -1,11 +1,13 @@
 package com.theishiopian.parrying.Enchantment;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
 
 public class RiposteEnchantment extends Enchantment
@@ -32,9 +34,8 @@ public class RiposteEnchantment extends Enchantment
         return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof DeflectingEnchantment) && super.checkCompatibility(toCheck);
     }
 
-    @Override
-    public boolean canEnchant(ItemStack stack)
+    public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return stack.getItem() instanceof SwordItem || stack.getItem() instanceof AxeItem;
+        return Config.riposteEnabled.get();
     }
 }

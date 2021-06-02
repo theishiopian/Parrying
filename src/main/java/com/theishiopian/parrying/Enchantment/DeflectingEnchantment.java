@@ -1,10 +1,12 @@
 package com.theishiopian.parrying.Enchantment;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
 
 public class DeflectingEnchantment extends Enchantment
@@ -31,9 +33,13 @@ public class DeflectingEnchantment extends Enchantment
         return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof RiposteEnchantment) && super.checkCompatibility(toCheck);
     }
 
-    @Override
-    public boolean canEnchant(ItemStack stack)
+    public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return stack.getItem() instanceof SwordItem;
+        return p_92089_1_.getItem() instanceof SwordItem && Config.deflectionEnabled.get();
+    }
+
+    public boolean canApplyAtEnchantingTable(ItemStack p_92089_1_)
+    {
+        return canEnchant(p_92089_1_);
     }
 }
