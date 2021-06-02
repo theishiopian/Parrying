@@ -38,7 +38,7 @@ public class PhasingCurse extends Enchantment
     }
 
     public boolean isTreasureOnly() {
-        return true;
+        return Config.isPhasingTreasure.get();
     }
 
     public boolean canEnchant(ItemStack p_92089_1_)

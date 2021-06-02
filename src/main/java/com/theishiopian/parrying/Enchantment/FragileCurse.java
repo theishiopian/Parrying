@@ -38,7 +38,7 @@ public class FragileCurse extends Enchantment
     }
 
     public boolean isTreasureOnly() {
-        return true;
+        return Config.isFragileTreasure.get();
     }
 
     public boolean canEnchant(ItemStack p_92089_1_)
