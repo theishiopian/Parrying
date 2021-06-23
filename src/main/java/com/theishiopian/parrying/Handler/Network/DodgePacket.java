@@ -1,8 +1,11 @@
 package com.theishiopian.parrying.Handler.Network;
 
 import com.ibm.icu.impl.coll.UVector32;
+import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -42,38 +45,45 @@ public class DodgePacket
         boolean canDodge = false;
         ServerPlayerEntity player = context.get().getSender();
 
-        if(dodgeCooldown.containsKey(player.getUUID()))return;
-
-        Vector3d playerDir = player.getViewVector(1);
-        Vector3d playerDirLevel = new Vector3d(playerDir.x, 0, playerDir.z);
-        playerDirLevel = playerDirLevel.normalize();
-        Vector3d right = playerDirLevel.cross(new Vector3d(0,1,0));
-
-        switch (packet.direction)
+        if(!player.isFallFlying() && player.isOnGround())
         {
-            case 1:
-            {
-                player.knockback(0.5f, right.x, right.z);
-                player.hurtMarked = true;//this makes knockback work
-            }
-            break;
+            if(dodgeCooldown.containsKey(player.getUUID()))return;
 
-            case 2:
-            {
-                player.knockback(0.5f, playerDirLevel.x, playerDirLevel.z);
-                player.hurtMarked = true;//this makes knockback work
-            }
-            break;
+            Vector3d playerDir = player.getViewVector(1);
+            Vector3d playerDirLevel = new Vector3d(playerDir.x, 0, playerDir.z);
+            playerDirLevel = playerDirLevel.normalize();
+            Vector3d cross = playerDirLevel.cross(new Vector3d(0,1,0));
 
-            case 3:
+            EffectInstance jumpBoost = player.getEffect(Effects.JUMP.getEffect());
+
+            int level = (jumpBoost == null) ? 0 : jumpBoost.getAmplifier() + 1;
+
+            switch (packet.direction)
             {
-                player.knockback(0.5f, -right.x, -right.z);
-                player.hurtMarked = true;//this makes knockback work
+                case 1:
+                {
+                    player.knockback(0.5f + (0.15f * level), cross.x, cross.z);
+                    player.hurtMarked = true;//this makes knockback work
+                }
+                break;
+
+                case 2:
+                {
+                    player.knockback(0.5f + (0.15f * level), playerDirLevel.x, playerDirLevel.z);
+                    player.hurtMarked = true;//this makes knockback work
+                }
+                break;
+
+                case 3:
+                {
+                    player.knockback(0.5f + (0.15f * level), -cross.x, -cross.z);
+                    player.hurtMarked = true;//this makes knockback work
+                }
+                break;
             }
-            break;
+
+            dodgeCooldown.put(player.getUUID(), 2 * 120);//replace "2" with config
         }
-
-        dodgeCooldown.put(player.getUUID(), 2 * 120);//replace "2" with config
     }
 
     //used for cooldowns

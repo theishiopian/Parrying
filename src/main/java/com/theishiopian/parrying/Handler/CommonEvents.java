@@ -52,7 +52,7 @@ public class CommonEvents
 
                     Vector3d attackerDirNorm = attackerDir.normalize();
 
-                    double angle = playerDir.dot(attackerDirNorm);
+                    double angle = new Vector3d(playerDir.x, 0, playerDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
                     Random random = new Random();
                     //default 0.95
                     if(angle > Config.parryAngle.get() && player.swinging)
@@ -129,6 +129,7 @@ public class CommonEvents
                     projectile.hasImpulse = true;
 
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
+
                     Vector3d particlePos = projectile.position();
                     ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
 
@@ -142,11 +143,32 @@ public class CommonEvents
     {
         if(event.getEntity() instanceof LivingEntity)
         {
+            Random random = new Random();
             LivingEntity entity = event.getEntityLiving();
 
             if((!(entity instanceof PlayerEntity)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
+            }
+
+            Entity attacker = event.getSource().getEntity();
+
+            if(attacker instanceof  LivingEntity && entity.getMaxHealth() <= 20)
+            {
+                Vector3d attackerDir = attacker.getViewVector(1);
+                Vector3d defenderDir = entity.getViewVector(1);
+
+                double angle = (new Vector3d(attackerDir.x, 0, attackerDir.z)).dot(new Vector3d(defenderDir.x, 0, defenderDir.z));
+
+                if(angle > 0.9)
+                {
+                    event.setAmount(event.getAmount()* 3f);
+
+                    Vector3d pos = entity.position();
+
+                    ((ServerWorld) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
+                    attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundCategory.PLAYERS, 2, 1);
+                }
             }
         }
     }

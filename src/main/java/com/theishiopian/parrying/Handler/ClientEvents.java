@@ -17,6 +17,7 @@ public class ClientEvents
     public static void OnRegisterParticlesEvent(ParticleFactoryRegisterEvent event)
     {
         Minecraft.getInstance().particleEngine.register(ModParticles.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.STAB_PARTICLE.get(), ParryParticle.Factory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.BASH_PARTICLE.get(), BashParticle.Factory::new);
     }
 
@@ -39,12 +40,11 @@ public class ClientEvents
         {
             if(dodgeBackTime <= 0)
             {
-                dodgeBackTime = 10;
+                dodgeBackTime = 9;
             }
             else
             {
                 dodgeBackTime = 0;
-                ParryingMod.LOGGER.info("backpedal");
                 ParryingMod.channel.sendToServer(new DodgePacket(2));
             }
         }
@@ -53,12 +53,11 @@ public class ClientEvents
         {
             if(dodgeLeftTime <= 0)
             {
-                dodgeLeftTime = 10;
+                dodgeLeftTime = 9;
             }
             else
             {
                 dodgeLeftTime = 0;
-                ParryingMod.LOGGER.info("dodge left");
                 ParryingMod.channel.sendToServer(new DodgePacket(1));
             }
         }
@@ -67,12 +66,11 @@ public class ClientEvents
         {
             if(dodgeRightTime <= 0)
             {
-                dodgeRightTime = 10;
+                dodgeRightTime = 9;
             }
             else
             {
                 dodgeRightTime = 0;
-                ParryingMod.LOGGER.info("dodge right");
                 ParryingMod.channel.sendToServer(new DodgePacket(3));
             }
         }
