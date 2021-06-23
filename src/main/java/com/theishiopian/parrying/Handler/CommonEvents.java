@@ -127,6 +127,9 @@ public class CommonEvents
                     projectile.yRotO = projectile.yRot;
                     projectile.xRotO = projectile.xRot;
                     projectile.hasImpulse = true;
+                    Vector3d arrowMovement = projectile.getDeltaMovement();
+                    projectile.setPos(projectile.getX() + arrowMovement.x, projectile.getY() + arrowMovement.y, projectile.getZ() + arrowMovement.z);
+
 
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
 
