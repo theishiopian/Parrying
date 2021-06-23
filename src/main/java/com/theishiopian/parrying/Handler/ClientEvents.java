@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Handler;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Handler.Network.BashPacket;
 import com.theishiopian.parrying.Handler.Network.DodgePacket;
 import com.theishiopian.parrying.Registration.ModParticles;
@@ -40,7 +41,7 @@ public class ClientEvents
         {
             if(dodgeBackTime <= 0)
             {
-                dodgeBackTime = 9;
+                dodgeBackTime = Config.dodgeTriggerDelay.get();
             }
             else
             {
@@ -53,7 +54,7 @@ public class ClientEvents
         {
             if(dodgeLeftTime <= 0)
             {
-                dodgeLeftTime = 9;
+                dodgeLeftTime = Config.dodgeTriggerDelay.get();
             }
             else
             {
@@ -66,7 +67,7 @@ public class ClientEvents
         {
             if(dodgeRightTime <= 0)
             {
-                dodgeRightTime = 9;
+                dodgeRightTime = Config.dodgeTriggerDelay.get();
             }
             else
             {

@@ -38,76 +38,79 @@ public class BashPacket
 
     public static void handle(BashPacket packet, Supplier<NetworkEvent.Context> context)
     {
-        ServerPlayerEntity player = context.get().getSender();
-
-        if(player != null && player.isBlocking())
+        if(Config.bashEnabled.get())
         {
-            List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
+            ServerPlayerEntity player = context.get().getSender();
 
-            list.remove(player);
-            Random random = new Random();
-            ItemStack main = player.getMainHandItem();
-            ItemStack off = player.getOffhandItem();
-            ItemStack shield = null;
-            Hand hand = Hand.OFF_HAND;
-            if(main.getItem() instanceof ShieldItem)
+            if(player != null && player.isBlocking())
             {
-                shield = main;
-                hand = Hand.MAIN_HAND;
-            }
-            else if(off.getItem() instanceof ShieldItem)
-            {
-                shield = off;
-                hand = Hand.OFF_HAND;
-            }
+                List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
 
-            //sort by distance
-            Comparator<LivingEntity> distCompare = (o1, o2) ->
-            {
-                double distA = o1.position().distanceTo(player.position());
-                double distB = o2.position().distanceTo(player.position());
-
-                return Double.compare(distA, distB);
-            };
-
-            if(list.size() > 0)
-            {
-                list.sort(distCompare);
-                Vector3d pDir = player.getViewVector(1);
-                int bashes = 0;
-                int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield);
-                for (int i = 0; i < list.size(); i++)
+                list.remove(player);
+                Random random = new Random();
+                ItemStack main = player.getMainHandItem();
+                ItemStack off = player.getOffhandItem();
+                ItemStack shield = null;
+                Hand hand = Hand.OFF_HAND;
+                if(main.getItem() instanceof ShieldItem)
                 {
-                    LivingEntity target = list.get(i);
-                    Vector3d dir = (target.position().subtract(player.position())).normalize();
-                    double dot = dir.dot(pDir);
-                    //default 0.85
-                    if(dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
-                    {
-                        BashEntity(target, player, shield, hand);
-                        bashes++;
-                    }
-
-                    if(bashes >= Config.bashTargets.get() + level)break;
+                    shield = main;
+                    hand = Hand.MAIN_HAND;
+                }
+                else if(off.getItem() instanceof ShieldItem)
+                {
+                    shield = off;
+                    hand = Hand.OFF_HAND;
                 }
 
-                player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
-                player.stopUsingItem();
-                player.swing(hand);
-                player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? Config.bashMissCooldown.get() : Config.bashBaseCooldown.get() + 20 * bashes);
+                //sort by distance
+                Comparator<LivingEntity> distCompare = (o1, o2) ->
+                {
+                    double distA = o1.position().distanceTo(player.position());
+                    double distB = o2.position().distanceTo(player.position());
 
-                double pX = player.position().x + pDir.x;
-                double pY = player.position().y + 1.5f + pDir.y;
-                double pZ = player.position().z + pDir.z;
-                if(bashes > 0)((ServerWorld) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+                    return Double.compare(distA, distB);
+                };
 
-            }
-            else
-            {
-                player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
-                player.stopUsingItem();
-                player.swing(hand);
-                player.getCooldowns().addCooldown(shield.getItem(), Config.bashMissCooldown.get());
+                if(list.size() > 0)
+                {
+                    list.sort(distCompare);
+                    Vector3d pDir = player.getViewVector(1);
+                    int bashes = 0;
+                    int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield);
+                    for (int i = 0; i < list.size(); i++)
+                    {
+                        LivingEntity target = list.get(i);
+                        Vector3d dir = (target.position().subtract(player.position())).normalize();
+                        double dot = dir.dot(pDir);
+                        //default 0.85
+                        if(dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
+                        {
+                            BashEntity(target, player, shield, hand);
+                            bashes++;
+                        }
+
+                        if(bashes >= Config.bashTargets.get() + level)break;
+                    }
+
+                    player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
+                    player.stopUsingItem();
+                    player.swing(hand);
+                    player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? Config.bashMissCooldown.get() : Config.bashBaseCooldown.get() + 20 * bashes);
+
+                    double pX = player.position().x + pDir.x;
+                    double pY = player.position().y + 1.5f + pDir.y;
+                    double pZ = player.position().z + pDir.z;
+                    if(bashes > 0)((ServerWorld) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+
+                }
+                else
+                {
+                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
+                    player.stopUsingItem();
+                    player.swing(hand);
+                    player.getCooldowns().addCooldown(shield.getItem(), Config.bashMissCooldown.get());
+                }
             }
         }
 

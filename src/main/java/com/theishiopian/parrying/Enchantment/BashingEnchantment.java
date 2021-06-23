@@ -1,7 +1,6 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -35,7 +34,7 @@ public class BashingEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return p_92089_1_.getItem() instanceof ShieldItem && Config.bashingEnabled.get();
+        return p_92089_1_.getItem() instanceof ShieldItem && Config.bashingEnchantEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(ItemStack p_92089_1_)

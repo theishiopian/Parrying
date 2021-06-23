@@ -43,6 +43,6 @@ public class FragileCurse extends Enchantment
 
     public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return Config.fragileEnabled.get();
+        return Config.fragileCurseEnabled.get();
     }
 }

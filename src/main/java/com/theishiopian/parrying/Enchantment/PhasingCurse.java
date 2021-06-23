@@ -43,6 +43,6 @@ public class PhasingCurse extends Enchantment
 
     public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return Config.phasingEnabled.get();
+        return Config.phasingCurseEnabled.get();
     }
 }

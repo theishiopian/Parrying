@@ -5,10 +5,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
-import net.minecraft.item.SwordItem;
 
 public class RiposteEnchantment extends Enchantment
 {
@@ -36,6 +33,6 @@ public class RiposteEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack p_92089_1_)
     {
-        return Config.riposteEnabled.get();
+        return Config.riposteEnchantEnabled.get();
     }
 }
