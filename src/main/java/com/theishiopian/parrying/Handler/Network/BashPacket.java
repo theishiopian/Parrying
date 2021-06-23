@@ -1,11 +1,10 @@
-package com.theishiopian.parrying.Handler;
+package com.theishiopian.parrying.Handler.Network;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
-import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

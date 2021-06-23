@@ -1,12 +1,13 @@
 package com.theishiopian.parrying;
 
+import com.theishiopian.parrying.Handler.Network.DodgePacket;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Handler.BashPacket;
+import com.theishiopian.parrying.Handler.Network.BashPacket;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,7 +32,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static SimpleChannel channel;
-    private static final int VERSION = 1;//protocol version
+    private static final int VERSION = 2;//protocol version
 
     static
     {
@@ -46,6 +47,12 @@ public class ParryingMod
                 .encoder(BashPacket::toBytes)
                 .consumer(BashPacket::handle)
                 .add();
+
+        channel.messageBuilder(DodgePacket.class, 2)
+                .decoder(DodgePacket::fromBytes)
+                .encoder(DodgePacket::toBytes)
+                .consumer(DodgePacket::handle)
+                .add();
     }
 
     public ParryingMod()
@@ -54,7 +61,8 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttackedEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::ArrowParryEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
-        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftClickEvent);
+        MinecraftForge.EVENT_BUS.addListener(DodgePacket::OnWorldTick);
+
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
@@ -65,6 +73,9 @@ public class ParryingMod
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
+            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
+            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
+            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
         });
     }
 }
