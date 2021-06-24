@@ -83,7 +83,7 @@ public class DodgePacket
                     }
                     break;
                 }
-
+                player.causeFoodExhaustion(0.5f);
                 dodgeCooldown.put(player.getUUID(), (int)(Config.dodgeCooldown.get() * 120));//replace "2" with config
             }
         }
