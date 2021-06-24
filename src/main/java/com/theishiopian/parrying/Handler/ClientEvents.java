@@ -1,8 +1,8 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Handler.Network.BashPacket;
-import com.theishiopian.parrying.Handler.Network.DodgePacket;
+import com.theishiopian.parrying.Network.BashPacket;
+import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.*;
 import com.theishiopian.parrying.Client.BashParticle;

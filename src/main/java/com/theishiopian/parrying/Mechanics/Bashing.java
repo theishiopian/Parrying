@@ -1,8 +1,8 @@
-package com.theishiopian.parrying.Handler.Network;
+package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -19,29 +18,17 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
-public class BashPacket
+public abstract class Bashing
 {
-    public void toBytes(PacketBuffer buffer)
-    {
-
-    }
-
-    public static BashPacket fromBytes(PacketBuffer buffer)
-    {
-        return new BashPacket();
-    }
-
-    public static void handle(BashPacket packet, Supplier<NetworkEvent.Context> context)
+    public static void Bash(ServerPlayerEntity player)
     {
         if(Config.bashEnabled.get())
         {
-            ServerPlayerEntity player = context.get().getSender();
-
             if(player != null && player.isBlocking())
             {
                 List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
@@ -77,20 +64,20 @@ public class BashPacket
                     list.sort(distCompare);
                     Vector3d pDir = player.getViewVector(1);
                     int bashes = 0;
+                    assert shield != null : "How";
                     int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield);
-                    for (int i = 0; i < list.size(); i++)
+                    for (LivingEntity target : list)
                     {
-                        LivingEntity target = list.get(i);
                         Vector3d dir = (target.position().subtract(player.position())).normalize();
                         double dot = dir.dot(pDir);
                         //default 0.85
-                        if(dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
+                        if (dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
                         {
                             BashEntity(target, player, shield, hand);
                             bashes++;
                         }
 
-                        if(bashes >= Config.bashTargets.get() + level)break;
+                        if (bashes >= Config.bashTargets.get() + level) break;
                     }
 
                     player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
@@ -109,12 +96,11 @@ public class BashPacket
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                     player.stopUsingItem();
                     player.swing(hand);
+                    assert shield != null : "U what m8";
                     player.getCooldowns().addCooldown(shield.getItem(), Config.bashMissCooldown.get());
                 }
             }
         }
-
-        context.get().setPacketHandled(true);
     }
 
     private static void BashEntity(LivingEntity target, PlayerEntity player, ItemStack shield, Hand hand)
@@ -124,9 +110,7 @@ public class BashPacket
         player.causeFoodExhaustion(0.5f);
 
         shield.hurtAndBreak(1, player, (playerEntity) ->
-        {
-            playerEntity.broadcastBreakEvent(hand);
-        });
+                playerEntity.broadcastBreakEvent(hand));
 
         EffectInstance instance = new EffectInstance(ModEffects.STUNNED.get(), 60);
         target.hurt(source, 2);

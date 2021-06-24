@@ -1,52 +1,23 @@
-package com.theishiopian.parrying.Handler.Network;
+package com.theishiopian.parrying.Mechanics;
 
-import com.ibm.icu.impl.coll.UVector32;
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
-public class DodgePacket
+public abstract class Dodging
 {
-    //0=none
-    //1=left
-    //2=back
-    //3=right
-    public int direction = 0;
-
-    public void toBytes(PacketBuffer buffer)
-    {
-        buffer.writeInt(direction);
-    }
-
-    public static DodgePacket fromBytes(PacketBuffer buffer)
-    {
-        return new DodgePacket(buffer.readInt());
-    }
-
-    public DodgePacket(int dir)
-    {
-        direction = dir;
-    }
-
-    private static final Map<UUID, Integer> dodgeCooldown = new HashMap<>();
-
-    public static void handle(DodgePacket packet, Supplier<NetworkEvent.Context> context)
+    public static final Map<UUID, Integer> dodgeCooldown = new HashMap<>();
+    public static void Dodge(ServerPlayerEntity player, int direction)
     {
         if(Config.dodgeEnabled.get())
         {
-            ServerPlayerEntity player = context.get().getSender();
-
+            assert player != null : "If this is null something is horribly wrong";
             if(!player.isFallFlying() && player.isOnGround() && !player.onClimbable() && !player.isInWater())
             {
                 if(dodgeCooldown.containsKey(player.getUUID()))return;
@@ -60,7 +31,7 @@ public class DodgePacket
 
                 int level = (jumpBoost == null) ? 0 : jumpBoost.getAmplifier() + 1;
 
-                switch (packet.direction)
+                switch (direction)
                 {
                     case 1:
                     {
@@ -87,17 +58,5 @@ public class DodgePacket
                 dodgeCooldown.put(player.getUUID(), (int)(Config.dodgeCooldown.get() * 120));//replace "2" with config
             }
         }
-
-        context.get().setPacketHandled(true);
-    }
-
-    //used for cooldowns
-    // todo: move to class if needed
-    public static void OnWorldTick(TickEvent.WorldTickEvent event)
-    {
-        if(event.world.isClientSide)return;
-
-        dodgeCooldown.replaceAll((k, v) -> v - 1);
-        dodgeCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
     }
 }
