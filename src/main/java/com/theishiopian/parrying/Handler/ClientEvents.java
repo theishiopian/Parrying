@@ -24,7 +24,7 @@ public class ClientEvents
 
     public static void OnClick(InputEvent.MouseInputEvent event)
     {
-        if(Minecraft.getInstance().options.keyAttack.isDown())
+        if(Minecraft.getInstance().screen == null && Minecraft.getInstance().options.keyAttack.isDown())
         {
             ParryingMod.channel.sendToServer(new BashPacket());
         }
@@ -32,47 +32,50 @@ public class ClientEvents
 
     public static void OnKeyPressed(InputEvent.KeyInputEvent event)
     {
-        if(event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
+        if(Minecraft.getInstance().screen == null)
         {
-            ParryingMod.channel.sendToServer(new BashPacket());
-        }
+            if(event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
+            {
+                ParryingMod.channel.sendToServer(new BashPacket());
+            }
 
-        if(event.getKey() == Minecraft.getInstance().options.keyDown.getKey().getValue() && event.getAction() == 1)
-        {
-            if(dodgeBackTime <= 0)
+            if(event.getKey() == Minecraft.getInstance().options.keyDown.getKey().getValue() && event.getAction() == 1)
             {
-                dodgeBackTime = Config.dodgeTriggerDelay.get();
+                if(dodgeBackTime <= 0)
+                {
+                    dodgeBackTime = Config.dodgeTriggerDelay.get();
+                }
+                else
+                {
+                    dodgeBackTime = 0;
+                    ParryingMod.channel.sendToServer(new DodgePacket(2));
+                }
             }
-            else
-            {
-                dodgeBackTime = 0;
-                ParryingMod.channel.sendToServer(new DodgePacket(2));
-            }
-        }
 
-        if(event.getKey() == Minecraft.getInstance().options.keyLeft.getKey().getValue() && event.getAction() == 1)
-        {
-            if(dodgeLeftTime <= 0)
+            if(event.getKey() == Minecraft.getInstance().options.keyLeft.getKey().getValue() && event.getAction() == 1)
             {
-                dodgeLeftTime = Config.dodgeTriggerDelay.get();
+                if(dodgeLeftTime <= 0)
+                {
+                    dodgeLeftTime = Config.dodgeTriggerDelay.get();
+                }
+                else
+                {
+                    dodgeLeftTime = 0;
+                    ParryingMod.channel.sendToServer(new DodgePacket(1));
+                }
             }
-            else
-            {
-                dodgeLeftTime = 0;
-                ParryingMod.channel.sendToServer(new DodgePacket(1));
-            }
-        }
 
-        if(event.getKey() == Minecraft.getInstance().options.keyRight.getKey().getValue() && event.getAction() == 1)
-        {
-            if(dodgeRightTime <= 0)
+            if(event.getKey() == Minecraft.getInstance().options.keyRight.getKey().getValue() && event.getAction() == 1)
             {
-                dodgeRightTime = Config.dodgeTriggerDelay.get();
-            }
-            else
-            {
-                dodgeRightTime = 0;
-                ParryingMod.channel.sendToServer(new DodgePacket(3));
+                if(dodgeRightTime <= 0)
+                {
+                    dodgeRightTime = Config.dodgeTriggerDelay.get();
+                }
+                else
+                {
+                    dodgeRightTime = 0;
+                    ParryingMod.channel.sendToServer(new DodgePacket(3));
+                }
             }
         }
     }
