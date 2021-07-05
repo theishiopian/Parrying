@@ -3,8 +3,8 @@ loaderVersion="[36,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.0.0"
-displayName="Parry This!"
+version="1.10.0"
+displayName="Parrying"
 authors="theishiopian"
 description='''
 Improving Minecraft combat with new mechanics

@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '2.0.0'
+version = '1.10.0'
 group = 'com.theishiopian.parrying' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'parrying'
 
@@ -126,6 +126,8 @@ repositories
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.

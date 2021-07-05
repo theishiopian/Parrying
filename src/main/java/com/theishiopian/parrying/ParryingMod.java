@@ -1,10 +1,7 @@
 package com.theishiopian.parrying;
 
 import com.theishiopian.parrying.Network.DodgePacket;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Network.BashPacket;

@@ -32,7 +32,7 @@ public class ClientEvents
 
     public static void OnKeyPressed(InputEvent.KeyInputEvent event)
     {
-        if(Minecraft.getInstance().screen == null)
+        if(Minecraft.getInstance().screen == null && !Minecraft.getInstance().isPaused() && Minecraft.getInstance().player != null)
         {
             if(event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
             {
