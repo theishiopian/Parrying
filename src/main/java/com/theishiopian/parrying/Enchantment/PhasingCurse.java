@@ -4,7 +4,10 @@ import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
+import net.minecraft.item.TieredItem;
 
 public class PhasingCurse extends Enchantment
 {
@@ -37,12 +40,12 @@ public class PhasingCurse extends Enchantment
         return !(toCheck instanceof FragileCurse);
     }
 
-    public boolean isTreasureOnly() {
-        return Config.isPhasingTreasure.get();
+    public boolean canEnchant(ItemStack toEnchant)
+    {
+        return toEnchant.getItem() instanceof TieredItem && !(toEnchant.getItem() instanceof ArmorItem) && Config.phasingCurseEnabled.get();
     }
 
-    public boolean canEnchant(ItemStack p_92089_1_)
-    {
-        return Config.phasingCurseEnabled.get();
+    public boolean isTreasureOnly() {
+        return Config.isPhasingTreasure.get();
     }
 }

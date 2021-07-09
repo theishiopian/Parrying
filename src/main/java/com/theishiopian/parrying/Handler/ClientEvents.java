@@ -44,11 +44,17 @@ public class ClientEvents
                 if(dodgeBackTime <= 0)
                 {
                     dodgeBackTime = Config.dodgeTriggerDelay.get();
+                    dbc++;
+                }
+                else if(dbc < 2)
+                {
+                    dbc++;
                 }
                 else
                 {
                     dodgeBackTime = 0;
                     ParryingMod.channel.sendToServer(new DodgePacket(2));
+                    dbc = 0;
                 }
             }
 
@@ -57,11 +63,17 @@ public class ClientEvents
                 if(dodgeLeftTime <= 0)
                 {
                     dodgeLeftTime = Config.dodgeTriggerDelay.get();
+                    dlc++;
+                }
+                else if(dlc < 2)
+                {
+                    dlc++;
                 }
                 else
                 {
                     dodgeLeftTime = 0;
                     ParryingMod.channel.sendToServer(new DodgePacket(1));
+                    dlc = 0;
                 }
             }
 
@@ -70,19 +82,32 @@ public class ClientEvents
                 if(dodgeRightTime <= 0)
                 {
                     dodgeRightTime = Config.dodgeTriggerDelay.get();
+                    drc++;
+                }
+                else if(drc < 2)
+                {
+                    drc++;
                 }
                 else
                 {
                     dodgeRightTime = 0;
                     ParryingMod.channel.sendToServer(new DodgePacket(3));
+                    drc = 0;
                 }
             }
         }
     }
 
     public static int dodgeBackTime = 0;
+    public static int dbc = 0;
+
     public static int dodgeLeftTime = 0;
+    public static int dlc = 0;
+
     public static int dodgeRightTime = 0;
+    public static int drc = 0;
+
+
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {

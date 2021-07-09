@@ -4,7 +4,7 @@ import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 
 public class FragileCurse extends Enchantment
 {
@@ -41,8 +41,8 @@ public class FragileCurse extends Enchantment
         return Config.isFragileTreasure.get();
     }
 
-    public boolean canEnchant(ItemStack p_92089_1_)
+    public boolean canEnchant(ItemStack toEnchant)
     {
-        return Config.fragileCurseEnabled.get();
+        return toEnchant.getItem() instanceof TieredItem && !(toEnchant.getItem() instanceof ArmorItem) && Config.fragileCurseEnabled.get();
     }
 }

@@ -10,5 +10,21 @@
   "enchantment.parrying.fragile": "Curse of Fragility",
   "enchantment.parrying.fragile.desc": "Parrying severely damages your weapon",
 
-  "effect.parrying.stunned": "Stunned"
+  "effect.parrying.stunned": "Stunned",
+
+  "attribute.name.parrying.armor_pen": "Armor Penetration",
+
+  "item.parrying.wooden_mace": "Wooden Mace",
+  "item.parrying.stone_mace": "Stone Mace",
+  "item.parrying.iron_mace": "Iron Mace",
+  "item.parrying.golden_mace": "Golden Mace",
+  "item.parrying.diamond_mace": "Diamond Mace",
+  "item.parrying.netherite_mace": "Netherite Mace",
+
+  "item.parrying.wooden_hammer": "Wooden Hammer",
+  "item.parrying.stone_hammer": "Stone Hammer",
+  "item.parrying.iron_hammer": "Iron Hammer",
+  "item.parrying.golden_hammer": "Golden Hammer",
+  "item.parrying.diamond_hammer": "Diamond Hammer",
+  "item.parrying.netherite_hammer": "Netherite Hammer"
 }

@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
 
 public class DeflectingEnchantment extends Enchantment
@@ -32,13 +33,13 @@ public class DeflectingEnchantment extends Enchantment
         return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof RiposteEnchantment) && super.checkCompatibility(toCheck);
     }
 
-    public boolean canEnchant(ItemStack p_92089_1_)
+    public boolean canEnchant(ItemStack toEnchant)
     {
-        return p_92089_1_.getItem() instanceof SwordItem && Config.deflectionEnchantEnabled.get();
+        return toEnchant.getItem() instanceof SwordItem && Config.deflectionEnchantEnabled.get();
     }
 
-    public boolean canApplyAtEnchantingTable(ItemStack p_92089_1_)
+    public boolean canApplyAtEnchantingTable(ItemStack toEnchant)
     {
-        return canEnchant(p_92089_1_);
+        return canEnchant(toEnchant);
     }
 }

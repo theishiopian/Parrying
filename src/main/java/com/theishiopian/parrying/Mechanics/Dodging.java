@@ -18,7 +18,7 @@ public abstract class Dodging
         if(Config.dodgeEnabled.get())
         {
             assert player != null : "If this is null something is horribly wrong";
-            if(!player.isFallFlying() && player.isOnGround() && !player.onClimbable() && !player.isInWater())
+            if(!player.isFallFlying() && player.isOnGround() && !player.onClimbable() && !player.isInWater() && !player.isCrouching())
             {
                 if(dodgeCooldown.containsKey(player.getUUID()))return;
 

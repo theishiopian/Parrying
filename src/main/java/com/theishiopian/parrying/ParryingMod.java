@@ -64,6 +64,8 @@ public class ParryingMod
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
         ModEffects.EFFECTS.register(bus);
+        ModItems.ITEMS.register(bus);
+        ModAttributes.ATTRIBUTES.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
 

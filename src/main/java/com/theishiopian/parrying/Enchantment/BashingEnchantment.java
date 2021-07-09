@@ -32,13 +32,13 @@ public class BashingEnchantment extends Enchantment
         return true;
     }
 
-    public boolean canEnchant(ItemStack p_92089_1_)
+    public boolean canEnchant(ItemStack toEnchant)
     {
-        return p_92089_1_.getItem() instanceof ShieldItem && Config.bashingEnchantEnabled.get();
+        return toEnchant.getItem() instanceof ShieldItem && Config.bashingEnchantEnabled.get();
     }
 
-    public boolean canApplyAtEnchantingTable(ItemStack p_92089_1_)
+    public boolean canApplyAtEnchantingTable(ItemStack toEnchant)
     {
-        return canEnchant(p_92089_1_);
+        return canEnchant(toEnchant);
     }
 }

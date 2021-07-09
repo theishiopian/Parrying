@@ -6,6 +6,8 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
+import net.minecraft.item.SwordItem;
 
 public class RiposteEnchantment extends Enchantment
 {
@@ -31,8 +33,13 @@ public class RiposteEnchantment extends Enchantment
         return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof DeflectingEnchantment) && super.checkCompatibility(toCheck);
     }
 
-    public boolean canEnchant(ItemStack p_92089_1_)
+    public boolean canEnchant(ItemStack toEnchant)
     {
-        return Config.riposteEnchantEnabled.get();
+        return toEnchant.getItem() instanceof SwordItem && Config.riposteEnchantEnabled.get();
+    }
+
+    public boolean canApplyAtEnchantingTable(ItemStack toEnchant)
+    {
+        return canEnchant(toEnchant);
     }
 }

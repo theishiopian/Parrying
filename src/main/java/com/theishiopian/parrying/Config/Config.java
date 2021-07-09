@@ -91,7 +91,7 @@ public class Config
         dodgeTriggerDelay = builder.comment("How many game ticks can you wait before pressing the button a second time")
                 .defineInRange("dodge_trigger_delay", 9, 1, 10);
 
-        dodgeCooldown = builder.comment("The time in seconds before you can dodge again").defineInRange("dodge_cooldown", 2, 0, 99999d);
+        dodgeCooldown = builder.comment("The time in seconds before you can dodge again").defineInRange("dodge_cooldown", 1.5, 0, 99999d);
 
         //ENCHANT
         deflectionEnchantEnabled = builder.comment("Whether or not the deflection enchantment is enabled").define("deflection_enabled", true);
