@@ -16,5 +16,5 @@ public class ModAttributes
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, ParryingMod.MOD_ID);
 
     public static final UUID AP_UUID = UUID.fromString("42f502a6-5bd5-4c7b-9043-3cf5d484b049");
-    public static final RegistryObject<Attribute> AP = ATTRIBUTES.register("armor_pen", () -> new RangedAttribute("attribute.name.parrying.armor_pen", 0, 0, 1).setSyncable(true));
+    public static final RegistryObject<Attribute> AP = ATTRIBUTES.register("armor_pen", () -> new RangedAttribute("attribute.name.parrying.armor_pen", 0, 0, 100).setSyncable(true));
 }
