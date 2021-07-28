@@ -26,7 +26,6 @@ public class Config
     //dodge
     public static final ForgeConfigSpec.BooleanValue dodgeEnabled;
     public static final ForgeConfigSpec.DoubleValue dodgePower;
-    public static final ForgeConfigSpec.IntValue dodgeTriggerDelay;
     public static final ForgeConfigSpec.DoubleValue dodgeCooldown;
 
     //enchants
@@ -87,9 +86,6 @@ public class Config
         dodgeEnabled = builder.comment("Whether dodging is enabled or not.").define("dodge_enabled", true);
 
         dodgePower = builder.comment("How much power does the dodge have?").defineInRange("dodge_power", 0.5, 0, 99999);
-
-        dodgeTriggerDelay = builder.comment("How many game ticks can you wait before pressing the button a second time")
-                .defineInRange("dodge_trigger_delay", 9, 1, 10);
 
         dodgeCooldown = builder.comment("The time in seconds before you can dodge again").defineInRange("dodge_cooldown", 1.5, 0, 99999d);
 

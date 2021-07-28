@@ -10,7 +10,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -39,12 +38,14 @@ public abstract class Bashing
                 ItemStack off = player.getOffhandItem();
                 ItemStack shield = null;
                 Hand hand = Hand.OFF_HAND;
-                if(main.getItem() instanceof ShieldItem)
+
+
+                if(main.isShield(null))
                 {
                     shield = main;
                     hand = Hand.MAIN_HAND;
                 }
-                else if(off.getItem() instanceof ShieldItem)
+                else if(off.isShield(null))
                 {
                     shield = off;
                     hand = Hand.OFF_HAND;

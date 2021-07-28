@@ -74,7 +74,7 @@ public class ParryingMod
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
-            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
+            MinecraftForge.EVENT_BUS.addListener(ClientEvents::ClientSetup);
         });
     }
 }

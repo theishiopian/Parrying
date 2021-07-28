@@ -5,7 +5,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 
 public class BashingEnchantment extends Enchantment
 {
@@ -34,7 +33,7 @@ public class BashingEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof ShieldItem && Config.bashingEnchantEnabled.get();
+        return toEnchant.isShield(null) && Config.bashingEnchantEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(ItemStack toEnchant)

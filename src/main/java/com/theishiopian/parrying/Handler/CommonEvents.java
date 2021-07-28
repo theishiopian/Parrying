@@ -59,7 +59,6 @@ public class CommonEvents
                    entity.invulnerableTime = 0;
                    entity.hurt(new EntityDamageSource("bludgeoning", attacker).bypassArmor(), dmgAP);
 
-                   ParryingMod.LOGGER.info("Total: " + (dmgAP + dmgNAP));
                    smashing = false;
 
                    event.setCanceled(true);
@@ -77,7 +76,7 @@ public class CommonEvents
 
     public static void OnHurtEvent(LivingHurtEvent event)
     {
-        ParryingMod.LOGGER.info("Entity " + event.getEntity().getName().getString() + " took " + event.getAmount() + " damage");
+        //ParryingMod.LOGGER.info("Entity " + event.getEntity().getName().getString() + " took " + event.getAmount() + " damage");
         if(event.getEntity() instanceof LivingEntity)
         {
             LivingEntity entity = event.getEntityLiving();
