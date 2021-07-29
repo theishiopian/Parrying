@@ -47,21 +47,24 @@ public class CommonEvents
 
                if(weapon != null && !smashing)
                {
-                   float amount = event.getAmount();
-                   //ParryingMod.LOGGER.info(amount);
+                    float amount = event.getAmount();
+                    //ParryingMod.LOGGER.info(amount);
 
-                   smashing = true;
-                   float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
-                   float nonAP = 1 - ap;
-                   float dmgAP = amount * ap;
-                   float dmgNAP = amount * nonAP;
-                   entity.hurt(new EntityDamageSource("bludgeoning", attacker), dmgNAP);
-                   entity.invulnerableTime = 0;
-                   entity.hurt(new EntityDamageSource("bludgeoning", attacker).bypassArmor(), dmgAP);
+                    smashing = true;
+                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
+                    float nonAP = 1 - ap;
+                    float dmgAP = amount * ap;
+                    float dmgNAP = amount * nonAP;
 
-                   smashing = false;
+                    String damageSrc = "bludgeoning.player";
 
-                   event.setCanceled(true);
+                    entity.hurt(new EntityDamageSource(damageSrc, attacker), dmgNAP);
+                    entity.invulnerableTime = 0;
+                    entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), dmgAP);
+
+                    smashing = false;
+
+                    event.setCanceled(true);
                }
            }
        }
@@ -71,8 +74,6 @@ public class CommonEvents
     {
         Deflection.Deflect(event);
     }
-
-
 
     public static void OnHurtEvent(LivingHurtEvent event)
     {

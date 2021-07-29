@@ -28,6 +28,7 @@
   "item.parrying.diamond_hammer": "Diamond Hammer",
   "item.parrying.netherite_hammer": "Netherite Hammer",
 
-  "death.attack.bludgeoning": "%1s was crushed",
-  "death.attack.bludgeoning.player": "%1s was crushed by %2s"
+  "death.attack.bludgeoning": "%1$s was crushed",
+  "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
+  "death.attack.bludgeoning.player.item": "%1$s was crushed by %2$s using %3$s"
 }
