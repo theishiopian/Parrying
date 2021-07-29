@@ -26,5 +26,8 @@
   "item.parrying.iron_hammer": "Iron Hammer",
   "item.parrying.golden_hammer": "Golden Hammer",
   "item.parrying.diamond_hammer": "Diamond Hammer",
-  "item.parrying.netherite_hammer": "Netherite Hammer"
+  "item.parrying.netherite_hammer": "Netherite Hammer",
+
+  "death.attack.bludgeoning": "%1s was crushed",
+  "death.attack.bludgeoning.player": "%1s was crushed by %2s"
 }

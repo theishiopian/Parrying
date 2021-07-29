@@ -48,7 +48,7 @@ public class CommonEvents
                if(weapon != null && !smashing)
                {
                    float amount = event.getAmount();
-                   ParryingMod.LOGGER.info(amount);
+                   //ParryingMod.LOGGER.info(amount);
 
                    smashing = true;
                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
