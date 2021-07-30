@@ -7,7 +7,6 @@ import com.theishiopian.parrying.Mechanics.Dodging;
 import com.theishiopian.parrying.Mechanics.Parrying;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -80,6 +79,18 @@ public class CommonEvents
             Backstab.DoBackstab(event, entity);
         }
     }
+
+//    public static void OnTick(TickEvent.PlayerTickEvent event)
+//    {
+//        float swing = event.player.attackAnim;
+//        int swingT = event.player.swingTime;
+//
+//       if(event.player instanceof ServerPlayerEntity)
+//       {
+//           ParryingMod.LOGGER.info("Anim: " + swing);
+//           ParryingMod.LOGGER.info("Time: " + swingT);
+//       }
+//    }
 
     public static void OnWorldTick(TickEvent.WorldTickEvent event)
     {

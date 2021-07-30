@@ -1,11 +1,11 @@
 package com.theishiopian.parrying.Handler;
 
-import com.theishiopian.parrying.Network.BashPacket;
-import com.theishiopian.parrying.Network.DodgePacket;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.*;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
+import com.theishiopian.parrying.Network.BashPacket;
+import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Registration.ModParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
@@ -13,7 +13,6 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientEvents

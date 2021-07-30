@@ -22,10 +22,10 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_MACE = ITEMS.register("diamond_mace", () -> new APItem(ItemTier.DIAMOND, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new APItem(ItemTier.NETHERITE, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
-    public static final RegistryObject<Item> WOODEN_HAMMER = ITEMS.register("wooden_hammer", () -> new APItem(ItemTier.WOOD, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> STONE_HAMMER = ITEMS.register("stone_hammer", () -> new APItem(ItemTier.STONE, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> IRON_HAMMER = ITEMS.register("iron_hammer", () -> new APItem(ItemTier.IRON, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 5, -3.25f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> WOODEN_HAMMER = ITEMS.register("wooden_hammer", () -> new APItem(ItemTier.WOOD, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> STONE_HAMMER = ITEMS.register("stone_hammer", () -> new APItem(ItemTier.STONE, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> IRON_HAMMER = ITEMS.register("iron_hammer", () -> new APItem(ItemTier.IRON, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 }

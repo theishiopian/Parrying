@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -46,10 +48,14 @@ public abstract class Parrying
 
                     Vector3d attackerDirNorm = attackerDir.normalize();
 
+                    double attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED).getValue();
+
                     double angle = new Vector3d(playerDir.x, 0, playerDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
+                    double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - (attackSpeed - 1.6) * 0.05, 0, 1);
+                    ParryingMod.LOGGER.info(surfaceAngle);
                     Random random = new Random();
                     //default 0.95
-                    if(angle > Config.parryAngle.get() && player.swinging)
+                    if(angle > surfaceAngle && player.swinging)
                     {
                         if(phaseLevel == 0 || random.nextInt(3) != 0)
                         {

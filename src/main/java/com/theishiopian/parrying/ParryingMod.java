@@ -1,12 +1,11 @@
 package com.theishiopian.parrying;
 
+import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Handler.ClientEvents;
+import com.theishiopian.parrying.Handler.CommonEvents;
+import com.theishiopian.parrying.Network.BashPacket;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Handler.ClientEvents;
-import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Network.BashPacket;
-import com.theishiopian.parrying.Handler.CommonEvents;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -60,6 +59,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::ArrowParryEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
+        //MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTick);
 
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
