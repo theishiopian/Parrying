@@ -6,6 +6,7 @@ import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Network.BashPacket;
 import com.theishiopian.parrying.Handler.CommonEvents;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,7 +75,6 @@ public class ParryingMod
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
-            MinecraftForge.EVENT_BUS.addListener(ClientEvents::ClientSetup);
         });
     }
 }
