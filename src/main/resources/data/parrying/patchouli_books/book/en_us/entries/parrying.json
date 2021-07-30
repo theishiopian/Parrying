@@ -14,6 +14,10 @@
     {
       "type": "text",
       "text": "so I recommend using rapid strikes for parrying. This will drastically reduce your damage output, so be ready to switch between rapid, light strikes and heavy, well timed blows. $(br2) Being able to switch between offense and defense is key to winning an engagement. Keep up a solid defense, but when the enemy gives you an opening, don't be afraid to strike!"
+    },
+    {
+      "type": "text",
+      "text": "An important thing to keep in mind with parrying is that it relies on being able to move a weapon into a defensive position quickly. As such, heavier weapons, such as maces, axes, and hammers are more difficult to use for parrying. Lighter weapons, such as swords, are much more effective in this role."
     }
   ]
 }

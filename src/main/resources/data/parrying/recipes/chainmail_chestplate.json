@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n n",
+    "nnn",
+    "nnn"
+  ],
+  "key": {
+    "n": {
+      "tag": "forge:nuggets"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:chainmail_chestplate",
+    "count": 1
+  }
+}
