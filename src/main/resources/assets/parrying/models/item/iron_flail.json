@@ -1,0 +1,33 @@
+{
+  "parent": "item/handheld",
+  "textures":
+  {
+    "layer0": "parrying:item/iron_flail_0"
+  },
+  "overrides":
+  [
+    {
+      "predicate":
+      {
+        "swinging": 1
+      },
+      "model": "parrying:item/iron_flail_1"
+    },
+    {
+      "predicate":
+      {
+        "swinging": 1,
+        "swing": 0.125
+      },
+      "model": "parrying:item/iron_flail_2"
+    },
+    {
+      "predicate":
+      {
+        "swinging": 1,
+        "swing": 0.25
+      },
+      "model": "parrying:item/iron_flail_3"
+    }
+  ]
+}

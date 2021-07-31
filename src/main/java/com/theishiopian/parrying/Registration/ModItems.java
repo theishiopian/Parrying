@@ -1,10 +1,13 @@
 package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.APItem;
+import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemTier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,6 +17,7 @@ public class ModItems
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ParryingMod.MOD_ID);
     public static final float MACE_AP = 0.35f;
     public static final float HAMMER_AP = 0.65f;
+    public static final float FLAIL_AP = 0.25f;
 
     public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new APItem(ItemTier.WOOD, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new APItem(ItemTier.STONE, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
@@ -28,4 +32,19 @@ public class ModItems
     public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
+    private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, 2, -2, FLAIL_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem GoldFlail = new FlailItem(ItemTier.GOLD, 2, -2, FLAIL_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+
+    public static final RegistryObject<Item> IRON_FLAIL = ITEMS.register("iron_flail", () -> IronFlail);
+    public static final RegistryObject<Item> GOLD_FLAIL = ITEMS.register("gold_flail", () -> GoldFlail);
+
+    static
+    {
+        ItemModelsProperties.register(IronFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(IronFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+
+        ItemModelsProperties.register(GoldFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(GoldFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+    }
 }
