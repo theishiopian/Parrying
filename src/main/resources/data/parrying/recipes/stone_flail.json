@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " i ",
+        " n ",
+        " / "
+    ],
+    "key": {
+        "i":
+        {
+            "tag": "minecraft:stone_tool_materials"
+        },
+        "n":
+        {
+            "tag": "forge:nuggets"
+        },
+        "/":
+        {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:stone_flail",
+        "count": 1
+    }
+}

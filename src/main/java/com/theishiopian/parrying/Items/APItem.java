@@ -2,7 +2,6 @@ package com.theishiopian.parrying.Items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.IVanishable;
@@ -10,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
@@ -18,17 +16,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TieredItem;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class APItem extends TieredItem implements IVanishable
 {
     //protected static final UUID AP_UUID = UUID.fromString("42f502a6-5bd5-4c7b-9043-3cf5d484b049");
 
-    private float attackDamage, attackSpeed, armorPenetration;
-    private Multimap<Attribute, AttributeModifier> defaultModifiers;
+    protected float attackDamage, attackSpeed, armorPenetration;
+    protected Multimap<Attribute, AttributeModifier> defaultModifiers;
 
     public APItem(IItemTier itemTier, int baseDamage, float baseSpeed, float baseAP, Item.Properties properties)
     {
@@ -77,7 +72,7 @@ public class APItem extends TieredItem implements IVanishable
     }
 
     //shockingly lazy
-    private void LazyModifiers()
+    protected void LazyModifiers()
     {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));

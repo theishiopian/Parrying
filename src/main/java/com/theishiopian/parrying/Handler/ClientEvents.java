@@ -2,8 +2,8 @@ package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
-import com.theishiopian.parrying.Network.BashPacket;
 import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModParticles;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class ClientEvents
     {
         if (Minecraft.getInstance().screen == null && Minecraft.getInstance().options.keyAttack.isDown())
         {
-            ParryingMod.channel.sendToServer(new BashPacket());
+            ParryingMod.channel.sendToServer(new LeftClickPacket());
         }
     }
 
@@ -45,7 +45,7 @@ public class ClientEvents
         {
             if (event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
             {
-                ParryingMod.channel.sendToServer(new BashPacket());
+                ParryingMod.channel.sendToServer(new LeftClickPacket());
             }
 
             if (event.getKey() == Minecraft.getInstance().options.keyDown.getKey().getValue() && event.getAction() == 1)

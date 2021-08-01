@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " i ",
+        " n ",
+        " / "
+    ],
+    "key": {
+        "i":
+        {
+            "tag": "minecraft:planks"
+        },
+        "n":
+        {
+            "tag": "forge:nuggets"
+        },
+        "/":
+        {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:wooden_flail",
+        "count": 1
+    }
+}

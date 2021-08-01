@@ -31,5 +31,16 @@
         "stream": false
       }
     ]
-  }
+  },
+  "flail_swing":
+{
+  "category": "player",
+  "sounds":
+  [
+    {
+      "name": "parrying:flail_swing",
+      "stream": false
+    }
+  ]
+}
 }

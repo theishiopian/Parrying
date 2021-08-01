@@ -13,6 +13,7 @@
   "effect.parrying.stunned": "Stunned",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
+  "attribute.name.parrying.shield_pen": "Shield Ignorance",
 
   "item.parrying.wooden_mace": "Wooden Mace",
   "item.parrying.stone_mace": "Stone Mace",
@@ -28,7 +29,12 @@
   "item.parrying.diamond_hammer": "Diamond Hammer",
   "item.parrying.netherite_hammer": "Netherite Hammer",
 
+  "item.parrying.wood_flail": "Wood Flail",
+  "item.parrying.stone_flail": "Stone Flail",
   "item.parrying.iron_flail": "Iron Flail",
+  "item.parrying.gold_flail": "Gold Flail",
+  "item.parrying.diamond_flail": "Diamond Flail",
+  "item.parrying.netherite_flail": "Netherite Flail",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",

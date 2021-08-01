@@ -17,7 +17,7 @@ public class ModItems
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ParryingMod.MOD_ID);
     public static final float MACE_AP = 0.35f;
     public static final float HAMMER_AP = 0.65f;
-    public static final float FLAIL_AP = 0.25f;
+    public static final float FLAIL_AP = 0.15f;
 
     public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new APItem(ItemTier.WOOD, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new APItem(ItemTier.STONE, 3, -3, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
@@ -33,18 +33,38 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 5, -3.5f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
-    private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, 2, -2, FLAIL_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem GoldFlail = new FlailItem(ItemTier.GOLD, 2, -2, FLAIL_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem WoodFlail = new FlailItem(ItemTier.WOOD, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem StoneFlail = new FlailItem(ItemTier.STONE, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem GoldFlail = new FlailItem(ItemTier.GOLD, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem DiamondFlail = new FlailItem(ItemTier.DIAMOND, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem NetheriteFlail = new FlailItem(ItemTier.NETHERITE, 2, -2.2f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
 
+    public static final RegistryObject<Item> WOOD_FLAIL = ITEMS.register("wood_flail", () -> WoodFlail);
+    public static final RegistryObject<Item> STONE_FLAIL = ITEMS.register("stone_flail", () -> StoneFlail);
     public static final RegistryObject<Item> IRON_FLAIL = ITEMS.register("iron_flail", () -> IronFlail);
     public static final RegistryObject<Item> GOLD_FLAIL = ITEMS.register("gold_flail", () -> GoldFlail);
+    public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
+    public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
     static
     {
+        ItemModelsProperties.register(WoodFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(WoodFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+
+        ItemModelsProperties.register(StoneFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(StoneFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+
         ItemModelsProperties.register(IronFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
         ItemModelsProperties.register(IronFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
 
         ItemModelsProperties.register(GoldFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
         ItemModelsProperties.register(GoldFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+
+        ItemModelsProperties.register(DiamondFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(DiamondFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+
+        ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swing"), (stack, world, user)-> user.attackAnim);
+        ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swinging"), (stack, world, user)-> user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
     }
 }

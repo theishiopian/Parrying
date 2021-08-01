@@ -3,8 +3,8 @@ package com.theishiopian.parrying;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
-import com.theishiopian.parrying.Network.BashPacket;
 import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,10 +39,10 @@ public class ParryingMod
                 .networkProtocolVersion(() -> String.valueOf(VERSION))
                 .simpleChannel();
 
-        channel.messageBuilder(BashPacket.class, 1)
-                .decoder(BashPacket::fromBytes)
-                .encoder(BashPacket::toBytes)
-                .consumer(BashPacket::handle)
+        channel.messageBuilder(LeftClickPacket.class, 1)
+                .decoder(LeftClickPacket::fromBytes)
+                .encoder(LeftClickPacket::toBytes)
+                .consumer(LeftClickPacket::handle)
                 .add();
 
         channel.messageBuilder(DodgePacket.class, 2)

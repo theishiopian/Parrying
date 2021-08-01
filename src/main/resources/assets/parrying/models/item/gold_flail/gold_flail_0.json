@@ -1,0 +1,6 @@
+{
+  "parent": "parrying:item/gold_flail",
+  "textures": {
+    "layer0": "parrying:item/gold_flail/gold_flail_0"
+  }
+}

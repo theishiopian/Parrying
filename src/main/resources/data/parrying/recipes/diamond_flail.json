@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " i ",
+        " n ",
+        " / "
+    ],
+    "key": {
+        "i":
+        {
+            "item": "minecraft:diamond"
+        },
+        "n":
+        {
+            "tag": "forge:nuggets"
+        },
+        "/":
+        {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:diamond_flail",
+        "count": 1
+    }
+}

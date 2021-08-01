@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " i ",
+        " n ",
+        " / "
+    ],
+    "key": {
+        "i":
+        {
+            "item": "minecraft:gold_ingot"
+        },
+        "n":
+        {
+            "tag": "forge:nuggets"
+        },
+        "/":
+        {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:gold_flail",
+        "count": 1
+    }
+}

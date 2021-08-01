@@ -1,6 +1,6 @@
 {
   "parent": "parrying:item/iron_flail",
   "textures": {
-    "layer0": "parrying:item/iron_flail_1"
+    "layer0": "parrying:item/iron_flail/iron_flail_2"
   }
 }

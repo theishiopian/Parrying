@@ -1,0 +1,6 @@
+{
+  "parent": "parrying:item/wood_flail",
+  "textures": {
+    "layer0": "parrying:item/stone_flail/stone_flail_0"
+  }
+}

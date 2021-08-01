@@ -1,0 +1,6 @@
+{
+  "parent": "parrying:item/netherite_flail",
+  "textures": {
+    "layer0": "parrying:item/netherite_flail/netherite_flail_1"
+  }
+}
