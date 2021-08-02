@@ -49,6 +49,7 @@ public class ModItems
 
     static
     {
+        //if null pointers get thrown in the item render, look at these rascals
         ItemModelsProperties.register(WoodFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
         ItemModelsProperties.register(WoodFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
 
@@ -67,9 +68,4 @@ public class ModItems
         ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
         ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
     }
-
-//    static boolean GetInScreen()
-//    {
-//        return Minecraft.getInstance().screen != null;
-//    }
 }
