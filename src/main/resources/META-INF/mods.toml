@@ -1,14 +1,12 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[35,36,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.0"
+version="2.0.0"
 displayName="Parrying"
 authors="theishiopian"
-description='''
-Improving Minecraft combat with new mechanics
-'''
+description='''Improving Minecraft combat with new mechanics!'''
 [[dependencies.parrying]]
 modId = "patchouli"
 mandatory = false

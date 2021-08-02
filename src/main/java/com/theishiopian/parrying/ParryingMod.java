@@ -72,6 +72,7 @@ public class ParryingMod
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
+            ModItems.RegisterFlailOverrides();
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);

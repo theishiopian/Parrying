@@ -106,7 +106,7 @@ public abstract class Bashing
 
     private static void BashEntity(LivingEntity target, PlayerEntity player, ItemStack shield, Hand hand)
     {
-        DamageSource source = new DamageSource("generic");
+        DamageSource source = new DamageSource("bludgeoning");
 
         player.causeFoodExhaustion(0.5f);
 

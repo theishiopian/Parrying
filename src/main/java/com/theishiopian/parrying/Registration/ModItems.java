@@ -47,7 +47,7 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
-    static
+    public static void RegisterFlailOverrides()
     {
         //if null pointers get thrown in the item render, look at these rascals
         ItemModelsProperties.register(WoodFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);

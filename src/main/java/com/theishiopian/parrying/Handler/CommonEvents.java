@@ -11,9 +11,15 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -35,10 +41,10 @@ public class CommonEvents
 
            if(attacker != null)
            {
-               APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
+                APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
 
-               if(weapon != null && !smashing)
-               {
+                if(weapon != null && !smashing)
+                {
                     float amount = event.getAmount();
                     //ParryingMod.LOGGER.info(amount);
 
@@ -62,14 +68,20 @@ public class CommonEvents
                         //thus, I need to do all this math AGAIN
                         float d = amount/2;
                         float da = CombatRules.getDamageAfterAbsorb(d, (float)entity.getArmorValue(), (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-
+                        //TODO: add shield effects
                         entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), d * ap);
                         entity.invulnerableTime = 0;
                         entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), da * nonAP);
+
+                        BlockHelper(attacker, entity, amount / 2);
+                    }
+                    else
+                    {
+                        BlockHelper(attacker, entity, amount);
                     }
 
-                   attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) ->
-                           playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
+                    attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
+
 
                     smashing = false;
 
@@ -136,5 +148,46 @@ public class CommonEvents
         }
 
         return false;
+    }
+
+    private static void BlockHelper(LivingEntity toBlock, LivingEntity blocker, float blockedDMG)
+    {
+        toBlock.knockback(0.5F, toBlock.getX() - blocker.getX(), toBlock.getZ() - blocker.getZ());
+        blocker.playSound(SoundEvents.SHIELD_BLOCK, 1.0F, 0.8F + blocker.level.random.nextFloat() * 0.4F);
+
+        if(blocker instanceof ServerPlayerEntity)
+        {
+            ItemStack shield = blocker.getUseItem();
+            ((ServerPlayerEntity)blocker).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(blockedDMG * 10.0F));
+            ((ServerPlayerEntity)blocker).awardStat(Stats.ITEM_USED.get(shield.getItem()));
+
+            if (blockedDMG >= 3.0F)
+            {
+                int i = 1 + MathHelper.floor(blockedDMG);
+                Hand hand = blocker.getUsedItemHand();
+                blocker.getUseItem().hurtAndBreak(i, blocker, (entity) ->
+                {
+                    entity.broadcastBreakEvent(hand);
+                    net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((PlayerEntity) blocker, shield, hand);
+                });
+                if (shield.isEmpty())
+                {
+                    if (hand == Hand.MAIN_HAND)
+                    {
+                        blocker.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+                    }
+                    else
+                    {
+                        blocker.setItemSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
+                    }
+
+                    blocker.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + blocker.level.random.nextFloat() * 0.4F);
+                }
+            }
+        }
+
+
+
+
     }
 }
