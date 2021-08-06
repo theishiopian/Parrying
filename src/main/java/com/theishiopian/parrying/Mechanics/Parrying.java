@@ -6,6 +6,8 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.ModStats;
+
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -59,6 +61,8 @@ public abstract class Parrying
                     {
                         if(phaseLevel == 0 || random.nextInt(3) != 0)
                         {
+                            player.awardStat(ModStats.parry);
+                            
                             player.knockback(0.33f, attackerDir.x, attackerDir.z);
                             player.hurtMarked = true;//this makes knockback work
                             player.causeFoodExhaustion(0.5f);
