@@ -1,0 +1,46 @@
+{
+  "enchantment.parrying.deflection": "反转",
+  "enchantment.parrying.deflection.desc": "允许你格挡箭矢。箭被翻转后会减速，附魔等级速度越快",
+  "enchantment.parrying.riposte": "还击",
+  "enchantment.parrying.riposte.desc": "在格挡攻击后短暂获得力量。",
+  "enchantment.parrying.bashing": "群击",
+  "enchantment.parrying.bashing.desc": "增加盾击的攻击数量。",
+  "enchantment.parrying.phasing": "失效诅咒",
+  "enchantment.parrying.phasing.desc": "导致格挡攻击有几率失败",
+  "enchantment.parrying.fragile": "脆弱诅咒",
+  "enchantment.parrying.fragile.desc": "格挡攻击会使武器严重掉耐久",
+
+  "effect.parrying.stunned": "眩晕",
+
+  "attribute.name.parrying.armor_pen": "护甲穿透",
+  "attribute.name.parrying.shield_pen": "盾牌穿透",
+
+  "item.parrying.wooden_mace": "木狼牙棒",
+  "item.parrying.stone_mace": "石狼牙棒",
+  "item.parrying.iron_mace": "铁狼牙棒",
+  "item.parrying.golden_mace": "金狼牙棒",
+  "item.parrying.diamond_mace": "钻石狼牙棒",
+  "item.parrying.netherite_mace": "下界合金狼牙棒",
+
+  "item.parrying.wooden_hammer": "木锤",
+  "item.parrying.stone_hammer": "石锤",
+  "item.parrying.iron_hammer": "铁锤",
+  "item.parrying.golden_hammer": "金锤",
+  "item.parrying.diamond_hammer": "钻石锤",
+  "item.parrying.netherite_hammer": "下界合金锤",
+
+  "item.parrying.wood_flail": "木梿枷",
+  "item.parrying.stone_flail": "石梿枷",
+  "item.parrying.iron_flail": "铁梿枷",
+  "item.parrying.gold_flail": "金梿枷",
+  "item.parrying.diamond_flail": "钻石梿枷",
+  "item.parrying.netherite_flail": "下界合金梿枷",
+
+  "death.attack.bludgeoning": "%1$s 被粉碎了",
+  "death.attack.bludgeoning.player": "%1$s 被粉碎了 %2$s",
+  "death.attack.bludgeoning.player.item": "%1$s 被 %2$s 用 %3$s 粉碎了",
+
+  "key.parrying.dodge": "闪避",
+
+  "stat.parrying.parry": "Parry Count"
+}
