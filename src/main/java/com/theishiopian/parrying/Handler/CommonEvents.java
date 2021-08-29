@@ -113,6 +113,7 @@ public class CommonEvents
         }
     }
 
+    //debugging code, pls ignore
 //    public static void OnTick(TickEvent.PlayerTickEvent event)
 //    {
 //        float swing = event.player.attackAnim;
@@ -141,10 +142,7 @@ public class CommonEvents
             Vector3d defenderLook = defender.getViewVector(1.0F);
             Vector3d vector3d1 = attackPos.vectorTo(defender.position()).normalize();
             vector3d1 = new Vector3d(vector3d1.x, 0.0D, vector3d1.z);
-            if (vector3d1.dot(defenderLook) < 0.0D)
-            {
-                return true;
-            }
+            return vector3d1.dot(defenderLook) < 0.0D;
         }
 
         return false;
