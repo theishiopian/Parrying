@@ -40,5 +40,7 @@
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
   "death.attack.bludgeoning.player.item": "%1$s was crushed by %2$s using %3$s",
 
-  "key.parrying.dodge": "Dodge"
+  "key.parrying.dodge": "Dodge",
+
+  "stat.parrying.parry": "Parry Count"
 }
