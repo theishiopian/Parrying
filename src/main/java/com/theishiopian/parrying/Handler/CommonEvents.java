@@ -12,19 +12,26 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.SpectralArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import java.util.List;
 
 public class CommonEvents
 {
@@ -91,9 +98,23 @@ public class CommonEvents
        }
     }
 
-    public static void ArrowParryEvent(ProjectileImpactEvent.Arrow event)
+    public static void OnArrowImpact(ProjectileImpactEvent.Arrow event)
     {
-        Deflection.Deflect(event);
+        if(!Deflection.Deflect(event))
+        {
+            //spectral arrow
+            AbstractArrowEntity arrow = event.getArrow();
+            if(arrow instanceof SpectralArrowEntity)
+            {
+                Vector3d pos = arrow.position();
+                List<LivingEntity> entities = event.getArrow().level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos.x + 5, pos.y+5, pos.z+5, pos.x-5, pos.y-5, pos.z - 5));
+
+                for(LivingEntity entity : entities)
+                {
+                    entity.addEffect(new EffectInstance(Effects.GLOWING, 100));
+                }
+            }
+        }
     }
 
     public static void OnHurtEvent(LivingHurtEvent event)
@@ -183,9 +204,5 @@ public class CommonEvents
                 }
             }
         }
-
-
-
-
     }
 }

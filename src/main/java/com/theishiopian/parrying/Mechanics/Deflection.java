@@ -19,13 +19,12 @@ import java.util.Random;
 
 public abstract class Deflection
 {
-    public static void Deflect(ProjectileImpactEvent.Arrow event)
+    public static boolean Deflect(ProjectileImpactEvent.Arrow event)
     {
         final AbstractArrowEntity projectile = event.getArrow();
 
-        if(!projectile.level.isClientSide)
+        if(!projectile.level.isClientSide && event.getRayTraceResult() instanceof EntityRayTraceResult)
         {
-            if (!(event.getRayTraceResult() instanceof EntityRayTraceResult))return;
             Entity entity = ((EntityRayTraceResult)event.getRayTraceResult()).getEntity();
             if(event.getEntity() != null && entity instanceof PlayerEntity)
             {
@@ -63,8 +62,11 @@ public abstract class Deflection
                     ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
 
                     event.setCanceled(true);
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 }
