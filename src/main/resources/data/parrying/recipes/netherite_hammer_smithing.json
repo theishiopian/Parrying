@@ -1,5 +1,11 @@
 {
   "type": "minecraft:smithing",
+  "conditions":
+  [
+    {
+      "type": "parrying:hammers_enabled"
+    }
+  ],
   "base": {
     "item": "parrying:diamond_hammer"
   },

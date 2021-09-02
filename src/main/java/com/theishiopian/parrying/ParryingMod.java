@@ -5,15 +5,18 @@ import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
+import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -72,10 +75,22 @@ public class ParryingMod
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
-            ModItems.RegisterFlailOverrides();
+            if(Config.flailEnabled.get())ModItems.RegisterFlailOverrides();
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
             MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
         });
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+    }
+
+    public void Setup(FMLCommonSetupEvent event)
+    {
+        //here, I am registering new crafting conditions
+        //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
+        //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally
+        CraftingHelper.register(new EnabledCondition("maces_enabled", Config.maceEnabled::get).new Serializer());
+        CraftingHelper.register(new EnabledCondition("hammers_enabled", Config.hammerEnabled::get).new Serializer());
+        CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());
     }
 }

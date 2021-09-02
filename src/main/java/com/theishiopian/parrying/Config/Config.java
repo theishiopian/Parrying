@@ -6,6 +6,11 @@ public class Config
 {
     public static final ForgeConfigSpec COMMON;
 
+    //weapon
+    public static final ForgeConfigSpec.BooleanValue maceEnabled;
+    public static final ForgeConfigSpec.BooleanValue hammerEnabled;
+    public static final ForgeConfigSpec.BooleanValue flailEnabled;
+
     //parrying
     public static final ForgeConfigSpec.BooleanValue parryEnabled;
     public static final ForgeConfigSpec.DoubleValue parryAngle;
@@ -42,6 +47,13 @@ public class Config
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.push("common");
+
+        //TODO these 1st four entries are getting delet, whyyyyyyy
+
+        //WEAPONS
+        maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
+        hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);
+        flailEnabled = builder.comment("Whether or not the flail is craftable.").define("flail_enabled", true);
 
         //PARRY
         parryEnabled = builder.comment("Whether parrying is enabled or not.").define("parry_enabled", true);
