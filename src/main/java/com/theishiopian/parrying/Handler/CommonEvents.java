@@ -62,7 +62,8 @@ public class CommonEvents
                if(e instanceof  AbstractArrowEntity)
                {
                    pAmount = amount;
-                   return;
+
+                   entity.invulnerableTime = 0;
                }
            }
 
@@ -127,8 +128,8 @@ public class CommonEvents
     {
         if(!Deflection.Deflect(event))
         {
-            //spectral arrow
             AbstractArrowEntity arrow = event.getArrow();
+            //ParryingMod.LOGGER.info(event.getEntity());
             if(arrow instanceof SpectralArrowEntity)
             {
                 Vector3d pos = arrow.position();
