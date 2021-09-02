@@ -11,6 +11,7 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,10 +24,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.CombatRules;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -42,7 +40,10 @@ import java.util.List;
 
 public class CommonEvents
 {
-    static boolean smashing = false;
+    //may want to make these some form of public, or make getters, for mod compat
+    static boolean bypassing = false;
+    static boolean piercing = false;
+    static float pAmount = 0;
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
        if(!event.getEntity().level.isClientSide)
@@ -50,58 +51,76 @@ public class CommonEvents
            LivingEntity entity = event.getEntityLiving();
            LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
            Parrying.Parry(event);
+           float amount = event.getAmount();
 
-           //ParryingMod.LOGGER.info(smashing);
+           if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
+           {
+               IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
+
+               Entity e = src.getDirectEntity();
+
+               if(e instanceof  AbstractArrowEntity)
+               {
+                   pAmount = amount;
+                   return;
+               }
+           }
 
            if(attacker != null)
            {
                 APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
 
-                if(weapon != null && !smashing)
+                if(weapon != null)
                 {
-                    float amount = event.getAmount();
-                    //ParryingMod.LOGGER.info(amount);
-
-                    smashing = true;
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
-                    float nonAP = 1 - ap;
-                    float dmgAP = amount * ap;
-                    float dmgNAP = amount * nonAP;
-
-                    String damageSrc = "bludgeoning.player";
-                    entity.hurt(new EntityDamageSource(damageSrc, attacker), dmgNAP);
-                    entity.invulnerableTime = 0;
-                    if(!IsBlocked(entity, attacker))
-                    {
-                        entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), dmgAP);
-                    }
-                    else if(weapon instanceof  FlailItem)
-                    {
-                        //this is stupid
-                        //minecraft apparently has decided that armor and shields are the same thing, so bypassArmor is also used to bypass shields.
-                        //thus, I need to do all this math AGAIN
-                        float d = amount/2;
-                        float da = CombatRules.getDamageAfterAbsorb(d, (float)entity.getArmorValue(), (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-                        //TODO: add shield effects
-                        entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), d * ap);
-                        entity.invulnerableTime = 0;
-                        entity.hurt(new EntityDamageSource(damageSrc, attacker).bypassArmor(), da * nonAP);
-
-                        BlockHelper(attacker, entity, amount / 2);
-                    }
-                    else
-                    {
-                        BlockHelper(attacker, entity, amount);
-                    }
-
-                    attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
-
-                    smashing = false;
-
+                    DoAPDamage(amount, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
-               }
+                }
            }
        }
+    }
+
+    private static void DoAPDamage(float amount, float ap, LivingEntity entity, LivingEntity attacker, boolean bypassShield, String src)
+    {
+        if(!bypassing)
+        {
+            //ParryingMod.LOGGER.info("piercing");
+            bypassing = true;
+            float nonAP = 1 - ap;
+            float dmgAP = amount * ap;
+            float dmgNAP = amount * nonAP;
+
+            entity.hurt(new EntityDamageSource(src, attacker), dmgNAP);
+            entity.invulnerableTime = 0;
+            if(!IsBlocked(entity, attacker))
+            {
+                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), dmgAP);
+            }
+            else if(bypassShield)
+            {
+                //this is stupid
+                //minecraft apparently has decided that armor and shields are the same thing, so bypassArmor is also used to bypass shields.
+                //thus, I need to do all this math AGAIN
+                float d = amount/2;
+                float da = CombatRules.getDamageAfterAbsorb(d, (float)entity.getArmorValue(), (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+                //TODO: add shield effects
+                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
+                entity.invulnerableTime = 0;
+                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), da * nonAP);
+
+                BlockHelper(attacker, entity, amount / 2);
+            }
+            else
+            {
+                BlockHelper(attacker, entity, amount);
+            }
+
+            attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
+
+            bypassing = false;
+
+
+        }
     }
 
     public static void OnArrowImpact(ProjectileImpactEvent.Arrow event)
@@ -151,10 +170,37 @@ public class CommonEvents
     public static void OnHurtEvent(LivingHurtEvent event)
     {
         //ParryingMod.LOGGER.info("Entity " + event.getEntity().getName().getString() + " took " + event.getAmount() + " damage");
-        if(event.getEntity() instanceof LivingEntity)
+
+        LivingEntity entity = event.getEntityLiving();
+        LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+        float amount = event.getAmount();
+
+        if(entity != null)
         {
-            LivingEntity entity = event.getEntityLiving();
-            //LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+            if(!piercing)
+            {
+                if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
+                {
+                    IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
+
+                    Entity e = src.getDirectEntity();
+
+                    if(e instanceof  AbstractArrowEntity)
+                    {
+                        AbstractArrowEntity arrow = (AbstractArrowEntity)e;
+
+                        int pLevel = arrow.getPierceLevel();
+
+                        if(pLevel > 0)
+                        {
+                            //it actually will bypass the shield, this is just to trick the helper method
+                            piercing = true;
+                            DoAPDamage(pAmount, 0.2f * pLevel, entity, attacker, false, "piercing.player");
+                            piercing = false;
+                        }
+                    }
+                }
+            }
 
             if((!(entity instanceof PlayerEntity)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
