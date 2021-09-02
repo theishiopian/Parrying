@@ -8,6 +8,9 @@ import com.theishiopian.parrying.Mechanics.Dodging;
 import com.theishiopian.parrying.Mechanics.Parrying;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
+import net.minecraft.block.AbstractFireBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,14 +21,18 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -89,7 +96,6 @@ public class CommonEvents
 
                     attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
 
-
                     smashing = false;
 
                     event.setCanceled(true);
@@ -112,6 +118,31 @@ public class CommonEvents
                 for(LivingEntity entity : entities)
                 {
                     entity.addEffect(new EffectInstance(Effects.GLOWING, 100));
+                }
+            }
+
+            if(arrow.isOnFire())
+            {
+                World world = arrow.level;
+                BlockPos blockPos = arrow.blockPosition();
+                BlockState blockState = world.getBlockState(blockPos);
+
+                if(CampfireBlock.canLight(blockState))
+                {
+                    world.setBlock(blockPos, blockState.setValue(BlockStateProperties.LIT, Boolean.TRUE), 11);
+                }
+                else
+                {
+                    if(event.getRayTraceResult() instanceof BlockRayTraceResult)
+                    {
+                        BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
+
+                        BlockPos pos = hit.getBlockPos().relative(hit.getDirection());
+
+                        BlockState fireState = AbstractFireBlock.getState(world, pos);
+
+                        world.setBlock(pos, fireState, 11);
+                    }
                 }
             }
         }
