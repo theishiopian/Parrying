@@ -48,8 +48,6 @@ public class Config
 
         builder.push("common");
 
-        //TODO these 1st four entries are getting delet, whyyyyyyy
-
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
         hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);
