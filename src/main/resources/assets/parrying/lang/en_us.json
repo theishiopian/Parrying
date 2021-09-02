@@ -40,6 +40,10 @@
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
   "death.attack.bludgeoning.player.item": "%1$s was crushed by %2$s using %3$s",
 
+  "death.attack.piercing": "%1$s was pierced",
+  "death.attack.piercing.player": "%1$s was pierced by %2$s",
+  "death.attack.piercing.player.item": "%1$s was pierced by %2$s using %3$s",
+
   "key.parrying.dodge": "Dodge",
 
   "stat.parrying.parry": "Parry Count"
