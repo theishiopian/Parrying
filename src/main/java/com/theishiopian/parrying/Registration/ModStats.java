@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @EventBusSubscriber(bus = Bus.MOD, modid = ParryingMod.MOD_ID)
 public class ModStats
 {
-
     public static ResourceLocation parry;
 
     @SubscribeEvent
