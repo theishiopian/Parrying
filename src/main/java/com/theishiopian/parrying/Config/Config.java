@@ -12,6 +12,10 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue hammerEnabled;
     public static final ForgeConfigSpec.BooleanValue flailEnabled;
 
+    public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
+    public static final ForgeConfigSpec.BooleanValue apPiercing;
+    public static final ForgeConfigSpec.BooleanValue sonicSpectralArrow;
+
     //parrying
     public static final ForgeConfigSpec.BooleanValue parryEnabled;
     public static final ForgeConfigSpec.DoubleValue parryAngle;
@@ -53,6 +57,10 @@ public class Config
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
         hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);
         flailEnabled = builder.comment("Whether or not the flail is craftable.").define("flail_enabled", true);
+
+        flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
+        apPiercing = builder.comment("Does the piercing enchant cause armor penetrating damage?").define("ap_piercing", true);
+        sonicSpectralArrow = builder.comment("Can spectral arrows reveal mobs around their impact point?").define("sonic_spectral_arrows", true);
 
         //PARRY
         parryEnabled = builder.comment("Whether parrying is enabled or not.").define("parry_enabled", true);

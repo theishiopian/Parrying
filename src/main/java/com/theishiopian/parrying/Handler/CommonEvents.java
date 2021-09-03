@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Handler;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
@@ -77,7 +78,7 @@ public class CommonEvents
         {
             AbstractArrowEntity arrow = event.getArrow();
 
-            if(arrow instanceof SpectralArrowEntity)
+            if(arrow instanceof SpectralArrowEntity && Config.sonicSpectralArrow.get())
             {
                 Vector3d pos = arrow.position();
                 List<LivingEntity> entities = event.getArrow().level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos.x + 5, pos.y+5, pos.z+5, pos.x-5, pos.y-5, pos.z - 5));
@@ -88,7 +89,7 @@ public class CommonEvents
                 }
             }
 
-            if(arrow.isOnFire())
+            if(arrow.isOnFire() && Config.flamingArrowGriefing.get())
             {
                 World world = arrow.level;
                 BlockPos blockPos = arrow.blockPosition();
@@ -122,7 +123,7 @@ public class CommonEvents
 
         if(entity != null)
         {
-            if(ArmorPenetration.IsNotBypassing())
+            if(ArmorPenetration.IsNotBypassing() && Config.apPiercing.get())
             {
                 if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
                 {
@@ -140,6 +141,10 @@ public class CommonEvents
                         {
                             //it actually will bypass the shield, this is just to trick the helper method
                             ArmorPenetration.DoAPDamage(pAmount, 0.2f * pLevel, entity, attacker, false, "piercing.player");
+                            event.setAmount(0);//prevent extra damage
+
+                            //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
+                            //hence the need for a check if the system is doing AP
                         }
                     }
                 }
