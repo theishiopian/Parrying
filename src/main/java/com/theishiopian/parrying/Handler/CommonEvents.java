@@ -15,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.SpectralArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
@@ -149,6 +150,29 @@ public class CommonEvents
 
                             //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
                             //hence the need for a check if the system is doing AP
+                        }
+
+                        if(arrow instanceof ArrowEntity)
+                        {
+                            List<EffectInstance> effects = ((ArrowEntity)arrow).potion.getEffects();
+
+                            if(effects.size() > 0)
+                            {
+                                boolean hasHarm = false;
+                                for (EffectInstance i : effects)
+                                {
+                                    if(!i.getEffect().isBeneficial())
+                                    {
+                                        hasHarm = true;
+                                        break;
+                                    }
+                                }
+
+                                if(!hasHarm)
+                                {
+                                    event.setAmount(0);
+                                }
+                            }
                         }
                     }
                 }
