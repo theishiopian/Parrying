@@ -15,6 +15,7 @@ public class EnabledCondition implements ICondition
     private final ResourceLocation name;//the name of the condition, eg "parrying:flails_enabled"
     private final Supplier<Boolean> condition;//the condition to evaluate
 
+    @SuppressWarnings("unused")
     public EnabledCondition(String name, Supplier<Boolean> condition)
     {
         this.name = new ResourceLocation(ParryingMod.MOD_ID, name);

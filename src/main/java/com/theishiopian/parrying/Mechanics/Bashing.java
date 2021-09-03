@@ -48,7 +48,6 @@ public abstract class Bashing
                 else if(off.isShield(null))
                 {
                     shield = off;
-                    hand = Hand.OFF_HAND;
                 }
 
                 //sort by distance

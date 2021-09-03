@@ -12,9 +12,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public abstract class Backstab
 {
-    public static boolean DoBackstab(LivingHurtEvent event, LivingEntity entity)
+    public static void DoBackstab(LivingHurtEvent event, LivingEntity entity)
     {
-        boolean stab = false;
         if(Config.backStabEnabled.get())
         {
             Entity attacker = event.getSource().getEntity();
@@ -34,10 +33,8 @@ public abstract class Backstab
 
                     ((ServerWorld) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
                     attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundCategory.PLAYERS, 2, 1);
-                    stab = true;
                 }
             }
         }
-        return stab;
     }
 }

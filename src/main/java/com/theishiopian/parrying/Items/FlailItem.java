@@ -9,7 +9,7 @@ import net.minecraft.item.IItemTier;
 
 public class FlailItem extends APItem
 {
-    private float shieldPen;
+    private final float shieldPen;
 
     public FlailItem(IItemTier itemTier, int baseDamage, float baseSpeed, float baseAP, float baseSP, Properties properties)
     {
@@ -17,6 +17,7 @@ public class FlailItem extends APItem
         shieldPen = baseSP;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void LazyModifiers()
     {

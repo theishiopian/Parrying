@@ -6,8 +6,8 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.item.TieredItem;
+import org.jetbrains.annotations.NotNull;
 
 public class PhasingCurse extends Enchantment
 {
@@ -35,7 +35,7 @@ public class PhasingCurse extends Enchantment
         return true;
     }
     
-    public boolean checkCompatibility(Enchantment toCheck)
+    public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
         return !(toCheck instanceof FragileCurse);
     }

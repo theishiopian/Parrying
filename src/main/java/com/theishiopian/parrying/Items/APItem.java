@@ -17,12 +17,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.TieredItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings({"deprecation", "unused"})//it's not deprecated if vanilla uses it
 public class APItem extends TieredItem implements IVanishable
 {
-    //protected static final UUID AP_UUID = UUID.fromString("42f502a6-5bd5-4c7b-9043-3cf5d484b049");
-
-    protected float attackDamage, attackSpeed, armorPenetration;
+    protected final float attackDamage, attackSpeed, armorPenetration;
     protected Multimap<Attribute, AttributeModifier> defaultModifiers;
 
     public APItem(IItemTier itemTier, int baseDamage, float baseSpeed, float baseAP, Item.Properties properties)
@@ -39,19 +39,19 @@ public class APItem extends TieredItem implements IVanishable
         return this.attackDamage;
     }
 
-    public boolean canAttackBlock(BlockState state, World world, BlockPos pos, PlayerEntity player)
+    public boolean canAttackBlock(@NotNull BlockState state, @NotNull World world, @NotNull BlockPos pos, PlayerEntity player)
     {
         return !player.isCreative();
     }
 
-    public boolean hurtEnemy(ItemStack stack, LivingEntity enemy, LivingEntity player)
+    public boolean hurtEnemy(ItemStack stack, @NotNull LivingEntity enemy, @NotNull LivingEntity player)
     {
         stack.hurtAndBreak(1, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
 
         return true;
     }
 
-    public boolean mineBlock(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity player)
+    public boolean mineBlock(@NotNull ItemStack stack, @NotNull World world, BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity player)
     {
         if (state.getDestroySpeed(world, pos) != 0.0F)
         {
@@ -61,7 +61,7 @@ public class APItem extends TieredItem implements IVanishable
         return true;
     }
 
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlotType slotType)
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlotType slotType)
     {
         if(this.defaultModifiers == null)
         {

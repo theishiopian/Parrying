@@ -5,6 +5,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class BashingEnchantment extends Enchantment
 {
@@ -26,7 +27,7 @@ public class BashingEnchantment extends Enchantment
         return 3;
     }
     
-    public boolean checkCompatibility(Enchantment toCheck)
+    public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
         return true;
     }
@@ -36,7 +37,7 @@ public class BashingEnchantment extends Enchantment
         return toEnchant.isShield(null) && Config.bashingEnchantEnabled.get();
     }
 
-    public boolean canApplyAtEnchantingTable(ItemStack toEnchant)
+    public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
     {
         return canEnchant(toEnchant);
     }

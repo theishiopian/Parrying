@@ -4,7 +4,10 @@ import com.theishiopian.parrying.Config.Config;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.TieredItem;
+import org.jetbrains.annotations.NotNull;
 
 public class FragileCurse extends Enchantment
 {
@@ -32,7 +35,7 @@ public class FragileCurse extends Enchantment
         return true;
     }
 
-    public boolean checkCompatibility(Enchantment toCheck)
+    public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
         return !(toCheck instanceof PhasingCurse);
     }

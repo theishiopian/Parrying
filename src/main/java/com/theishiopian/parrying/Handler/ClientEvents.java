@@ -17,7 +17,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class ClientEvents
 {
-    public static KeyBinding dodgeKey = new KeyBinding("key.parrying.dodge", KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.movement");
+    public static final KeyBinding dodgeKey = new KeyBinding("key.parrying.dodge", KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.movement");
 
     static
     {

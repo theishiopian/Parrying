@@ -5,6 +5,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -13,6 +14,7 @@ public class StabParticle extends SpriteTexturedParticle
 {
     private final IAnimatedSprite sprites;
 
+    @SuppressWarnings("unused")
     protected StabParticle(ClientWorld world, double posX, double posY, double posZ, IAnimatedSprite sprites)
     {
         super(world, posX, posY, posZ, 0, 0, 0);
@@ -52,6 +54,7 @@ public class StabParticle extends SpriteTexturedParticle
         return 15728880;
     }
 
+    @SuppressWarnings("unused")
     @OnlyIn(Dist.CLIENT)
     public static class Factory implements IParticleFactory<BasicParticleType>
     {
@@ -62,7 +65,7 @@ public class StabParticle extends SpriteTexturedParticle
             this.sprites = sprites;
         }
 
-        public Particle createParticle(BasicParticleType particle, ClientWorld world, double x, double y, double z, double vx, double vy, double vz)
+        public Particle createParticle(@NotNull BasicParticleType particle, @NotNull ClientWorld world, double x, double y, double z, double vx, double vy, double vz)
         {
             return new StabParticle(world, x, y, z, this.sprites);
         }

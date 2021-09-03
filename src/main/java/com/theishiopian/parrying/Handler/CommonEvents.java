@@ -32,9 +32,7 @@ import java.util.List;
 
 public class CommonEvents
 {
-    //may want to make these some form of public, or make getters, for mod compat
-
-    static float pAmount = 0;
+    static float pAmount = 0;//this is dumb, TODO: maybe put this in ArmorPenetration.java
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
        if(!event.getEntity().level.isClientSide)
@@ -62,8 +60,9 @@ public class CommonEvents
            {
                 APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
 
-                if(weapon != null)
+                if(weapon != null && ArmorPenetration.IsNotBypassing())
                 {
+                    //noinspection OptionalGetWithoutIsPresent
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
                     ArmorPenetration.DoAPDamage(amount, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
@@ -77,7 +76,7 @@ public class CommonEvents
         if(!Deflection.Deflect(event))
         {
             AbstractArrowEntity arrow = event.getArrow();
-            //ParryingMod.LOGGER.info(event.getEntity());
+
             if(arrow instanceof SpectralArrowEntity)
             {
                 Vector3d pos = arrow.position();
@@ -118,15 +117,12 @@ public class CommonEvents
 
     public static void OnHurtEvent(LivingHurtEvent event)
     {
-        //ParryingMod.LOGGER.info("Entity " + event.getEntity().getName().getString() + " took " + event.getAmount() + " damage");
-
         LivingEntity entity = event.getEntityLiving();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
-        float amount = event.getAmount();
 
         if(entity != null)
         {
-            if(!ArmorPenetration.IsBypassing())
+            if(ArmorPenetration.IsNotBypassing())
             {
                 if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
                 {
@@ -157,19 +153,6 @@ public class CommonEvents
             Backstab.DoBackstab(event, entity);
         }
     }
-
-    //debugging code, pls ignore
-//    public static void OnTick(TickEvent.PlayerTickEvent event)
-//    {
-//        float swing = event.player.attackAnim;
-//        int swingT = event.player.swingTime;
-//
-//       if(event.player instanceof ServerPlayerEntity)
-//       {
-//           ParryingMod.LOGGER.info("Anim: " + swing);
-//           ParryingMod.LOGGER.info("Time: " + swingT);
-//       }
-//    }
 
     public static void OnWorldTick(TickEvent.WorldTickEvent event)
     {

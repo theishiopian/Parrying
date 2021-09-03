@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 
 public class LeftClickPacket
 {
+    @SuppressWarnings("EmptyMethod")
     public void toBytes(PacketBuffer buffer)
     {
 
@@ -28,6 +29,7 @@ public class LeftClickPacket
         ServerPlayerEntity player = context.get().getSender();
         Bashing.Bash(player);
 
+        assert player != null;
         if(player.getMainHandItem().getItem() instanceof FlailItem)
         {
             player.level.playSound(null, player.blockPosition(), ModSoundEvents.FLAIL_SWING.get(), SoundCategory.PLAYERS, 1, 1);

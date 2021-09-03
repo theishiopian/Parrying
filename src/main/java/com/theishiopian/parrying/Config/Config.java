@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
+@SuppressWarnings("ALL")
 public class Config
 {
     public static final ForgeConfigSpec COMMON;

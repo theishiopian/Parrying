@@ -6,8 +6,8 @@ import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
+import org.jetbrains.annotations.NotNull;
 
 public class RiposteEnchantment extends Enchantment
 {
@@ -28,7 +28,7 @@ public class RiposteEnchantment extends Enchantment
         return 1;
     }
 
-    public boolean checkCompatibility(Enchantment toCheck)
+    public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
         return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof DeflectingEnchantment) && super.checkCompatibility(toCheck);
     }
@@ -38,7 +38,7 @@ public class RiposteEnchantment extends Enchantment
         return toEnchant.getItem() instanceof SwordItem && Config.riposteEnchantEnabled.get();
     }
 
-    public boolean canApplyAtEnchantingTable(ItemStack toEnchant)
+    public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
     {
         return canEnchant(toEnchant);
     }

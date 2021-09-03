@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,16 +18,15 @@ public abstract class ArmorPenetration
 {
     static boolean bypassing = false;
 
-    public static boolean IsBypassing()
+    public static boolean IsNotBypassing()
     {
-        return bypassing;
+        return !bypassing;
     }
 
     public static void DoAPDamage(float amount, float ap, LivingEntity entity, LivingEntity attacker, boolean bypassShield, String src)
     {
         if(!bypassing)
         {
-            ParryingMod.LOGGER.info("piercing");
             bypassing = true;
             float nonAP = 1 - ap;
             float dmgAP = amount * ap;
@@ -47,7 +45,6 @@ public abstract class ArmorPenetration
                 //thus, I need to do all this math AGAIN
                 float d = amount/2;
                 float da = CombatRules.getDamageAfterAbsorb(d, (float)entity.getArmorValue(), (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-                //TODO: add shield effects
                 entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
                 entity.invulnerableTime = 0;
                 entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), da * nonAP);

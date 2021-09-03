@@ -31,8 +31,8 @@ public class ParryingMod
     public static final String MOD_ID = "parrying";
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
-    public static SimpleChannel channel;
-    private static final int VERSION = 2;//protocol version
+    public static final SimpleChannel channel;
+    private static final int VERSION = 2;//protocol version, bump whenever adding new network packets
 
     static
     {
@@ -62,7 +62,6 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
-        //MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTick);
 
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);

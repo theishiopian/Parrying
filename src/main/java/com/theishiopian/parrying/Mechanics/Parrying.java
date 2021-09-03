@@ -2,12 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
-import com.theishiopian.parrying.Registration.ModStats;
-
+import com.theishiopian.parrying.Registration.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -23,6 +18,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class Parrying
@@ -50,7 +46,7 @@ public abstract class Parrying
 
                     Vector3d attackerDirNorm = attackerDir.normalize();
 
-                    double attackSpeed = player.getAttribute(Attributes.ATTACK_SPEED).getValue();
+                    double attackSpeed = Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).getValue();
 
                     double angle = new Vector3d(playerDir.x, 0, playerDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
                     double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - (attackSpeed - 1.6) * 0.05, 0, 1);

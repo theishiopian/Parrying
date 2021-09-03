@@ -12,7 +12,7 @@ public class DodgePacket
     //1=left
     //2=back
     //3=right
-    public int direction;
+    public final int direction;
 
     public void toBytes(PacketBuffer buffer)
     {
