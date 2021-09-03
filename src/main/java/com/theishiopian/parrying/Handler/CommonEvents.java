@@ -32,7 +32,7 @@ import java.util.List;
 
 public class CommonEvents
 {
-    static float pAmount = 0;//this is dumb, TODO: maybe put this in ArmorPenetration.java
+    static float pAmount = 0;
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
        if(!event.getEntity().level.isClientSide)
