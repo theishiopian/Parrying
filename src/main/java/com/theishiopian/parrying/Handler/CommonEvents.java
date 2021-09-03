@@ -152,7 +152,7 @@ public class CommonEvents
                             //hence the need for a check if the system is doing AP
                         }
 
-                        if(arrow instanceof ArrowEntity)
+                        if(arrow instanceof ArrowEntity && Config.pickyPotionArrows.get())
                         {
                             List<EffectInstance> effects = ((ArrowEntity)arrow).potion.getEffects();
 

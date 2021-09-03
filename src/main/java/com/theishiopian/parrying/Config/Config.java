@@ -15,6 +15,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
     public static final ForgeConfigSpec.BooleanValue apPiercing;
     public static final ForgeConfigSpec.BooleanValue sonicSpectralArrow;
+    public static final ForgeConfigSpec.BooleanValue pickyPotionArrows;
 
     //parrying
     public static final ForgeConfigSpec.BooleanValue parryEnabled;
@@ -61,6 +62,7 @@ public class Config
         flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
         apPiercing = builder.comment("Does the piercing enchant cause armor penetrating damage?").define("ap_piercing", true);
         sonicSpectralArrow = builder.comment("Can spectral arrows reveal mobs around their impact point?").define("sonic_spectral_arrows", true);
+        pickyPotionArrows = builder.comment("When enabled, potion arrows with no negative effects deal 0 damage").define("picky_potion_arrows", true);
 
         //PARRY
         parryEnabled = builder.comment("Whether parrying is enabled or not.").define("parry_enabled", true);
