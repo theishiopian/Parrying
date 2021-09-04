@@ -12,7 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance>
 {
-    private static final ResourceLocation ID = new ResourceLocation(ParryingMod.MOD_ID, "basic_trigger");
+    private static ResourceLocation ID;
+
+    public BasicTrigger(String name)
+    {
+        ID = new ResourceLocation(ParryingMod.MOD_ID, name);
+    }
+
     @Override
     protected @NotNull Instance createInstance(@NotNull JsonObject fromJson, EntityPredicate.@NotNull AndPredicate predicate, @NotNull ConditionArrayParser conditionsParser)
     {

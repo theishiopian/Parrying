@@ -7,11 +7,15 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModTriggers;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.SpectralArrowEntity;
@@ -109,6 +113,11 @@ public class CommonEvents
                         BlockState fireState = AbstractFireBlock.getState(world, posToIgnite);
 
                         world.setBlock(posToIgnite, fireState, 11);
+                    }
+
+                    if(toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT) && arrow.getOwner() instanceof ServerPlayerEntity)
+                    {
+                        ModTriggers.campfireLight.trigger((ServerPlayerEntity) arrow.getOwner());
                     }
                 }
             }
