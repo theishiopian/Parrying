@@ -4,7 +4,6 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
-import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModTriggers;
@@ -93,32 +92,23 @@ public class CommonEvents
                 }
             }
 
-            if(arrow.isOnFire() && Config.flamingArrowGriefing.get())
+            if(arrow.isOnFire() && Config.flamingArrowGriefing.get() && event.getRayTraceResult() instanceof BlockRayTraceResult)
             {
                 World world = arrow.level;
-                BlockPos blockPos = arrow.blockPosition();
-                BlockState blockState = world.getBlockState(blockPos);
+                BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
+                BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
+                BlockState toBurn = world.getBlockState(hit.getBlockPos());
 
-                if(event.getRayTraceResult() instanceof BlockRayTraceResult)
+                if(toBurn.isFlammable(world, posToIgnite, hit.getDirection()))
                 {
-                    BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
+                    BlockState fireState = AbstractFireBlock.getState(world, posToIgnite);
 
-                    BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
+                    world.setBlock(posToIgnite, fireState, 11);
+                }
 
-                    BlockState toBurn = world.getBlockState(hit.getBlockPos());
-
-                    if(toBurn.isFlammable(world, posToIgnite, hit.getDirection()))
-                    {
-                        ParryingMod.LOGGER.info("ignite");
-                        BlockState fireState = AbstractFireBlock.getState(world, posToIgnite);
-
-                        world.setBlock(posToIgnite, fireState, 11);
-                    }
-
-                    if(toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT) && arrow.getOwner() instanceof ServerPlayerEntity)
-                    {
-                        ModTriggers.campfireLight.trigger((ServerPlayerEntity) arrow.getOwner());
-                    }
+                if(arrow.getOwner() instanceof ServerPlayerEntity && toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT))
+                {
+                    ModTriggers.campfireLight.trigger((ServerPlayerEntity) arrow.getOwner());
                 }
             }
         }
