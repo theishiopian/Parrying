@@ -6,27 +6,14 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModTriggers;
-import net.minecraft.block.AbstractFireBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.SpectralArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -36,7 +23,8 @@ import java.util.List;
 
 public class CommonEvents
 {
-    static float pAmount = 0;
+    static float pAmount = 0;//this is dumb
+
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
        if(!event.getEntity().level.isClientSide)
@@ -79,38 +67,8 @@ public class CommonEvents
     {
         if(!Deflection.Deflect(event))
         {
-            AbstractArrowEntity arrow = event.getArrow();
-
-            if(arrow instanceof SpectralArrowEntity && Config.sonicSpectralArrow.get())
-            {
-                Vector3d pos = arrow.position();
-                List<LivingEntity> entities = event.getArrow().level.getEntitiesOfClass(LivingEntity.class, new AxisAlignedBB(pos.x + 5, pos.y+5, pos.z+5, pos.x-5, pos.y-5, pos.z - 5));
-
-                for(LivingEntity entity : entities)
-                {
-                    entity.addEffect(new EffectInstance(Effects.GLOWING, 100));
-                }
-            }
-
-            if(arrow.isOnFire() && Config.flamingArrowGriefing.get() && event.getRayTraceResult() instanceof BlockRayTraceResult)
-            {
-                World world = arrow.level;
-                BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
-                BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
-                BlockState toBurn = world.getBlockState(hit.getBlockPos());
-
-                if(toBurn.isFlammable(world, posToIgnite, hit.getDirection()))
-                {
-                    BlockState fireState = AbstractFireBlock.getState(world, posToIgnite);
-
-                    world.setBlock(posToIgnite, fireState, 11);
-                }
-
-                if(arrow.getOwner() instanceof ServerPlayerEntity && toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT))
-                {
-                    ModTriggers.campfireLight.trigger((ServerPlayerEntity) arrow.getOwner());
-                }
-            }
+            Arrows.DoSonicArrow(event.getArrow());
+            Arrows.DoBurningArrow(event.getArrow(), event.getRayTraceResult());
         }
     }
 
@@ -121,7 +79,7 @@ public class CommonEvents
 
         if(entity != null)
         {
-            if(ArmorPenetration.IsNotBypassing() && Config.apPiercing.get())
+            if(Config.apPiercing.get() && ArmorPenetration.IsNotBypassing())
             {
                 if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
                 {
