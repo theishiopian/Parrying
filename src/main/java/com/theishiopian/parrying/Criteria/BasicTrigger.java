@@ -10,9 +10,9 @@ import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class CampfireLightTrigger extends AbstractCriterionTrigger<CampfireLightTrigger.Instance>
+public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance>
 {
-    private static final ResourceLocation ID = new ResourceLocation(ParryingMod.MOD_ID, "campfire_light");
+    private static final ResourceLocation ID = new ResourceLocation(ParryingMod.MOD_ID, "basic_trigger");
     @Override
     protected @NotNull Instance createInstance(@NotNull JsonObject fromJson, EntityPredicate.@NotNull AndPredicate predicate, @NotNull ConditionArrayParser conditionsParser)
     {

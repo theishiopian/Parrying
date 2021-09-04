@@ -4,23 +4,20 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
+import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import com.theishiopian.parrying.Registration.ModCriteria;
 import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.SpectralArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -98,23 +95,20 @@ public class CommonEvents
                 BlockPos blockPos = arrow.blockPosition();
                 BlockState blockState = world.getBlockState(blockPos);
 
-                if(CampfireBlock.canLight(blockState))
+                if(event.getRayTraceResult() instanceof BlockRayTraceResult)
                 {
-                    world.setBlock(blockPos, blockState.setValue(BlockStateProperties.LIT, Boolean.TRUE), 11);
-                }
-                else
-                {
-                    if(event.getRayTraceResult() instanceof BlockRayTraceResult)
+                    BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
+
+                    BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
+
+                    BlockState toBurn = world.getBlockState(hit.getBlockPos());
+
+                    if(toBurn.isFlammable(world, posToIgnite, hit.getDirection()))
                     {
-                        BlockRayTraceResult hit = ((BlockRayTraceResult)event.getRayTraceResult());
+                        ParryingMod.LOGGER.info("ignite");
+                        BlockState fireState = AbstractFireBlock.getState(world, posToIgnite);
 
-                        BlockPos pos = hit.getBlockPos().relative(hit.getDirection());
-
-                        BlockState fireState = AbstractFireBlock.getState(world, pos);
-
-                        world.setBlock(pos, fireState, 11);
-
-                        if(arrow.getOwner() instanceof ServerPlayerEntity)ModCriteria.campfireLight.trigger((ServerPlayerEntity) arrow.getOwner());
+                        world.setBlock(posToIgnite, fireState, 11);
                     }
                 }
             }
