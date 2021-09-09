@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
+import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -47,6 +48,8 @@ public class ModItems
     public static final RegistryObject<Item> GOLD_FLAIL = ITEMS.register("gold_flail", () -> GoldFlail);
     public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
+
+    public static final RegistryObject<SpearItem> TEST_SPEAR = ITEMS.register("test_spear", () -> new SpearItem(ItemTier.IRON, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT))));
 
     public static void RegisterFlailOverrides()
     {

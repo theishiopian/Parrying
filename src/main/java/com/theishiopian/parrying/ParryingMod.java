@@ -1,6 +1,7 @@
 package com.theishiopian.parrying;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.DodgePacket;
@@ -9,13 +10,16 @@ import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -69,26 +73,37 @@ public class ParryingMod
         ModEnchantments.ENCHANTMENTS.register(bus);
         ModEffects.EFFECTS.register(bus);
         ModItems.ITEMS.register(bus);
+        ModEntities.ENTITY_TYPES.register(bus);
         ModAttributes.ATTRIBUTES.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {
-            if(Config.flailEnabled.get())ModItems.RegisterFlailOverrides();
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
-            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
-            MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
         });
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CommonSetup);
     }
 
-    public void Setup(FMLCommonSetupEvent event)
+    @OnlyIn(Dist.CLIENT)
+    public void ClientSetup(FMLClientSetupEvent event)
+    {
+        if(Config.flailEnabled.get())ModItems.RegisterFlailOverrides();
+
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
+
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
+    }
+
+    public void CommonSetup(FMLCommonSetupEvent event)
     {
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally
+        //todo spears
         CraftingHelper.register(new EnabledCondition("maces_enabled", Config.maceEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("hammers_enabled", Config.hammerEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());

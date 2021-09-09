@@ -54,6 +54,7 @@ public class CommonEvents
 
                 if(weapon != null && ArmorPenetration.IsNotBypassing())
                 {
+                    //yes, the attribute is there, I put it there
                     //noinspection OptionalGetWithoutIsPresent
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
                     ArmorPenetration.DoAPDamage(amount, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
