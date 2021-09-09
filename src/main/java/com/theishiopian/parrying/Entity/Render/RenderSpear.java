@@ -18,7 +18,7 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
         super(manager);
     }
 
-    //TODO this isnt getting called aaaaaaaaaah
+    //TODO this isn't getting called aaaaaaaaaah
     @Override
     public void render(SpearEntity spearEntity, float yaw, float partialTicks, MatrixStack matrix, @NotNull IRenderTypeBuffer buffer, int light)
     {

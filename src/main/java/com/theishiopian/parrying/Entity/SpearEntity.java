@@ -48,7 +48,7 @@ public class SpearEntity extends AbstractArrowEntity
     @OnlyIn(Dist.CLIENT)
     public SpearEntity(World world, double x, double y, double z)
     {
-        super(EntityType.TRIDENT, x, y, z, world);
+        super(ModEntities.SPEAR.get(), x, y, z, world);
     }
 
     protected void defineSynchedData()
