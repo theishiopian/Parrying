@@ -18,11 +18,9 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
         super(manager);
     }
 
-    //TODO this isn't getting called aaaaaaaaaah
     @Override
     public void render(SpearEntity spearEntity, float yaw, float partialTicks, MatrixStack matrix, @NotNull IRenderTypeBuffer buffer, int light)
     {
-        System.out.println("the funny dad was here");
         matrix.pushPose();
         //todo: translate/rotate/scale matrix
         Minecraft mc = Minecraft.getInstance();
