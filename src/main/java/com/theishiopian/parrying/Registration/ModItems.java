@@ -49,7 +49,7 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
-    public static final RegistryObject<SpearItem> TEST_SPEAR = ITEMS.register("test_spear", () -> new SpearItem(ItemTier.IRON, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> IRON_SPEAR = ITEMS.register("iron_spear", () -> new SpearItem(ItemTier.IRON, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron"));
 
     public static void RegisterFlailOverrides()
     {

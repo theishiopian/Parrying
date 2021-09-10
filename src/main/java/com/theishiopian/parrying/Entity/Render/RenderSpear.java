@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Entity.Render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.theishiopian.parrying.Entity.SpearEntity;
 import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -38,23 +39,23 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
         matrix.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, spearEntity.xRotO, spearEntity.xRot) - 135));
 
         matrix.translate(0,-0.2f,0);
+        matrix.scale(2.5f,2.5f,1.5f);
 
-        Minecraft mc = Minecraft.getInstance();
-        mc.getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, getSpearModel(spearEntity.spearItem, spearEntity.level, null));
+        Minecraft.getInstance().getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, getSpearModel(spearEntity.spearItem, spearEntity.level, null));
         matrix.popPose();
     }
 
-    @Override
-    public ResourceLocation getTextureLocation(@NotNull SpearEntity entity)
+    @Override//it works, trust me
+    public @SuppressWarnings("all") ResourceLocation getTextureLocation(@NotNull SpearEntity entity)
     {
         return null;
     }
 
     public IBakedModel getSpearModel(ItemStack stack, @Nullable World world, @Nullable LivingEntity entity)
     {
-        SpearItem item = (SpearItem) stack.getItem();
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation("parrying:test_spear_handheld#inventory"));
-
+        String namespace = ParryingMod.MOD_ID;
+        String material = ((SpearItem)stack.getItem()).getMaterialID();
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(namespace + ":" + material +"_spear_handheld#inventory"));
         ClientWorld clientworld = world instanceof ClientWorld ? (ClientWorld)world : null;
         IBakedModel toReturn = model.getOverrides().resolve(model, stack, clientworld, entity);
         return toReturn == null ? Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getMissingModel() : toReturn;

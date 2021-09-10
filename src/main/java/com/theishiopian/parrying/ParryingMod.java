@@ -112,7 +112,7 @@ public class ParryingMod
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.TEST_SPEAR.get().getRegistryName() + "_handheld", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_handheld", "inventory"));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -121,7 +121,7 @@ public class ParryingMod
         //TODO foreach
         Map<ResourceLocation, IBakedModel> map = event.getModelRegistry();
 
-        ResourceLocation spear = ModItems.TEST_SPEAR.get().getRegistryName();
+        ResourceLocation spear = ModItems.IRON_SPEAR.get().getRegistryName();
         assert spear != null;
         ResourceLocation spearInventory = new ModelResourceLocation(spear, "inventory");
         ResourceLocation spearHand = new ModelResourceLocation(spear + "_handheld", "inventory");

@@ -30,14 +30,21 @@ import org.jetbrains.annotations.NotNull;
 public class SpearItem extends TieredItem implements IVanishable
 {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final String materialID;//this is stupid
 
-    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, Properties properties)
+    public String getMaterialID()
+    {
+        return materialID;
+    }
+
+    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, Properties properties, String materialID)
     {
         super(itemTier, properties);
         Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", baseDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", baseSpeed, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
+        this.materialID = materialID;
     }
 
     public boolean canAttackBlock(@NotNull BlockState state, @NotNull World world, @NotNull BlockPos pos, PlayerEntity player)
@@ -61,10 +68,7 @@ public class SpearItem extends TieredItem implements IVanishable
             {
                 if (!world.isClientSide)
                 {
-                    stack.hurtAndBreak(1, player, (playerEntity) ->
-                    {
-                        playerEntity.broadcastBreakEvent(entity.getUsedItemHand());
-                    });
+                    stack.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(entity.getUsedItemHand()));
 
                     SpearEntity spearEntity = new SpearEntity(world, player, stack);
 

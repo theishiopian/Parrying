@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 public class SpearEntity extends AbstractArrowEntity
 {
-    public ItemStack spearItem = new ItemStack(ModItems.TEST_SPEAR.get());//TODO item
+    public ItemStack spearItem = new ItemStack(ModItems.IRON_SPEAR.get());
     private static final DataParameter<Boolean> ID_FOIL = EntityDataManager.defineId(SpearEntity.class, DataSerializers.BOOLEAN);
     private boolean hasImpacted;
 
