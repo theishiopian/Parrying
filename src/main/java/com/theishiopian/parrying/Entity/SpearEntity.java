@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Entity;
 
-import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModEntities;
 import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -64,7 +63,6 @@ public class SpearEntity extends AbstractArrowEntity
         if (this.inGroundTime > 4 && !hasImpacted)
         {
             this.hasImpacted = true;
-            ParryingMod.LOGGER.info("impact");
         }
 
         Entity owner = this.getOwner();//may be unneeded
