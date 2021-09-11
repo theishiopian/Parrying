@@ -4,7 +4,6 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
-import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
@@ -33,7 +32,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.Objects;
 
 @Mod(ParryingMod.MOD_ID)
-@SuppressWarnings("deprecation")
 public class ParryingMod
 {
     public static final String MOD_ID = "parrying";
@@ -86,7 +84,6 @@ public class ParryingMod
         {
             bus.addListener(ClientEvents::OnRegisterParticlesEvent);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(SpearItem::OnModelBake);
         });
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CommonSetup);

@@ -3,12 +3,8 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.theishiopian.parrying.Entity.SpearEntity;
-import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.*;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -22,19 +18,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.TieredItem;
 import net.minecraft.item.UseAction;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.ModelBakeEvent;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 @SuppressWarnings({"deprecation"})
 public class SpearItem extends TieredItem implements IVanishable
@@ -143,73 +133,4 @@ public class SpearItem extends TieredItem implements IVanishable
     public int getUseDuration(@NotNull ItemStack stack) {
         return 72000;
     }//item right click use time
-
-    //TODO this shit isn't working. investigate using item overrides for GUI model?
-    @OnlyIn(Dist.CLIENT)
-    public static void OnModelBake(ModelBakeEvent event)
-    {
-        //TODO foreach with array
-        Map<ResourceLocation, IBakedModel> map = event.getModelRegistry();
-
-        ResourceLocation spear = ModItems.IRON_SPEAR.get().getRegistryName();
-        assert spear != null;
-        ResourceLocation spearInventory = new ModelResourceLocation(spear, "inventory");
-        ResourceLocation spearHand = new ModelResourceLocation(spear + "_handheld", "inventory");
-
-        IBakedModel spearModelInventory = map.get(spearInventory);
-        IBakedModel spearModelHand = map.get(spearHand);
-
-        IBakedModel spearModelWrapper = new IBakedModel()
-        {
-            @Override
-            public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, @NotNull Random random)
-            {
-                return spearModelInventory.getQuads(state, direction, random);
-            }
-
-            @Override
-            public boolean useAmbientOcclusion()
-            {
-                return spearModelInventory.useAmbientOcclusion();
-            }
-
-            @Override
-            public boolean isGui3d()
-            {
-                return spearModelInventory.isGui3d();
-            }
-
-            @Override
-            public boolean usesBlockLight()
-            {
-                return spearModelInventory.usesBlockLight();
-            }
-
-            @Override
-            public boolean isCustomRenderer()
-            {
-                return spearModelInventory.isCustomRenderer();
-            }
-
-            @Override
-            public @NotNull TextureAtlasSprite getParticleIcon()
-            {
-                return spearModelInventory.getParticleIcon();
-            }
-
-            @Override
-            public @NotNull ItemOverrideList getOverrides()
-            {
-                return spearModelInventory.getOverrides();
-            }
-
-            @Override
-            public IBakedModel handlePerspective(ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack)
-            {
-                return ForgeHooksClient.handlePerspective(transformType == ItemCameraTransforms.TransformType.GUI ? spearModelInventory : spearModelHand, transformType, matrixStack);
-            }
-        };
-
-        map.put(spearInventory, spearModelWrapper);
-    }
 }

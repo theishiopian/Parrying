@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.theishiopian.parrying.Mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "parrying.refmap.json",
+  "plugin": "com.theishiopian.parrying.Mixin.ParryingMixinPlugin",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8.2",
+  "client": [
+    "ItemRendererMixin"
+  ]
+}
