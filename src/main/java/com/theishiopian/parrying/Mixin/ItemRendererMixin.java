@@ -2,6 +2,8 @@ package com.theishiopian.parrying.Mixin;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
+import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -32,9 +34,17 @@ public class ItemRendererMixin
         boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;
         String invModelPath = "parrying:iron_spear_gui#inventory";//todo custom path
         String modelPath = "parrying:iron_spear#inventory";//todo custom path
+        String throwModelPath = "parrying:iron_spear_throwing#inventory";//todo custom path
+
+        boolean isThrowing = SpearItem.throwingSpears.contains(stack);
 
         IBakedModel invModel = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(invModelPath));
         IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(modelPath));
+        IBakedModel throwModel = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(throwModelPath));
+
+        model = isThrowing ? throwModel : model;
+
+        ParryingMod.LOGGER.info(SpearItem.throwingSpears);
 
         return isSpear ? (isGui ? invModel : model) : originalModel;//yes this is stupid. ideas are appreciated
     }

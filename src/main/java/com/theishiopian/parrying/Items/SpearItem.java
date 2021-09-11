@@ -26,6 +26,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 @SuppressWarnings({"deprecation"})
 public class SpearItem extends TieredItem implements IVanishable
 {
@@ -36,6 +38,8 @@ public class SpearItem extends TieredItem implements IVanishable
     {
         return materialID;
     }
+
+    public static ArrayList<ItemStack> throwingSpears = new ArrayList<>();
 
     public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, Properties properties, String materialID)
     {
@@ -91,6 +95,8 @@ public class SpearItem extends TieredItem implements IVanishable
 
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
+
+            if(world.isClientSide)throwingSpears.remove(stack);
         }
     }
 
@@ -105,6 +111,7 @@ public class SpearItem extends TieredItem implements IVanishable
         else
         {
             player.startUsingItem(hand);
+            if(world.isClientSide)throwingSpears.add(stack);
             return ActionResult.consume(stack);
         }
     }

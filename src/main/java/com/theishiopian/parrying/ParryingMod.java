@@ -100,6 +100,7 @@ public class ParryingMod
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
         ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)
