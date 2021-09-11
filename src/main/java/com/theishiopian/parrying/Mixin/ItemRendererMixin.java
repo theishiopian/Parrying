@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Mixin;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -27,10 +28,14 @@ public class ItemRendererMixin
             transformType == ItemCameraTransforms.TransformType.GUI ||
             transformType == ItemCameraTransforms.TransformType.GROUND ||
             transformType == ItemCameraTransforms.TransformType.FIXED;
-        boolean isGui = stack.getItem() == ModItems.IronSpear && isGuiTransform;
-        String model = "parrying:iron_spear_gui#inventory";//todo custom path
-        //if(isGui)ParryingMod.LOGGER.info(model);
-        return isGui ? Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(model)) : originalModel;//yes this is stupid. ideas are appreciated
-        //return null;
+        boolean isSpear = stack.getItem() == ModItems.IronSpear;
+        boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;
+        String invModelPath = "parrying:iron_spear_gui#inventory";//todo custom path
+        String modelPath = "parrying:iron_spear#inventory";//todo custom path
+
+        IBakedModel invModel = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(invModelPath));
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(modelPath));
+
+        return isSpear ? (isGui ? invModel : model) : originalModel;//yes this is stupid. ideas are appreciated
     }
 }

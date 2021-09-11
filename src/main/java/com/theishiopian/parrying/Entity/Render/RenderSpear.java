@@ -25,6 +25,7 @@ import javax.annotation.Nullable;
 
 public class RenderSpear extends EntityRenderer<SpearEntity>
 {
+    public static boolean renderingSpear = false;
     public RenderSpear(EntityRendererManager manager)
     {
         super(manager);
@@ -34,7 +35,7 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
     public void render(SpearEntity spearEntity, float yaw, float partialTicks, MatrixStack matrix, @NotNull IRenderTypeBuffer buffer, int light)
     {
         matrix.pushPose();
-
+        renderingSpear = true;
         matrix.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, spearEntity.yRotO, spearEntity.yRot) - 90.0F));
         matrix.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, spearEntity.xRotO, spearEntity.xRot) - 135));
 
@@ -42,6 +43,7 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
         matrix.scale(2.5f,2.5f,1.5f);
 
         Minecraft.getInstance().getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, getSpearModel(spearEntity.spearItem, spearEntity.level, null));
+        renderingSpear = false;
         matrix.popPose();
     }
 
@@ -55,12 +57,12 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
     {
         String namespace = ParryingMod.MOD_ID;
         String material = ((SpearItem)stack.getItem()).getMaterialID();
-        //String path = namespace + ":" + material +"_spear";
-        //ParryingMod.LOGGER.info(path);
+
+
         IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation("parrying:iron_spear"));
-        ParryingMod.LOGGER.info(model);
         ClientWorld clientworld = world instanceof ClientWorld ? (ClientWorld)world : null;
         IBakedModel toReturn = model.getOverrides().resolve(model, stack, clientworld, entity);
+
         return toReturn == null ? Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getMissingModel() : toReturn;
     }
 }

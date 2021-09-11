@@ -43,6 +43,7 @@ public class SpearEntity extends AbstractArrowEntity
     {
         super(ModEntities.SPEAR.get(), owner, world);
         this.spearItem = item.copy();
+
         this.entityData.set(ID_FOIL, item.hasFoil());
     }
 
