@@ -8,11 +8,9 @@ import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -99,7 +97,7 @@ public class ParryingMod
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_handheld", "inventory"));
+//        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_handheld", "inventory"));
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)

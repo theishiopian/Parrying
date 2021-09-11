@@ -3,7 +3,6 @@
   "package": "com.theishiopian.parrying.Mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "parrying.refmap.json",
-  "plugin": "com.theishiopian.parrying.Mixin.ParryingMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   },

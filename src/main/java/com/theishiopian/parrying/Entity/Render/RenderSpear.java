@@ -55,7 +55,7 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
     {
         String namespace = ParryingMod.MOD_ID;
         String material = ((SpearItem)stack.getItem()).getMaterialID();
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(namespace + ":" + material +"_spear_handheld#inventory"));
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(namespace + ":" + material +"_spear#inventory"));
         ClientWorld clientworld = world instanceof ClientWorld ? (ClientWorld)world : null;
         IBakedModel toReturn = model.getOverrides().resolve(model, stack, clientworld, entity);
         return toReturn == null ? Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getMissingModel() : toReturn;
