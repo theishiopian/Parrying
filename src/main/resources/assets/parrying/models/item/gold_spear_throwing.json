@@ -1,0 +1,77 @@
+{
+  "parent": "item/generated",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        225
+      ],
+      "translation": [
+        0,
+        -5,
+        2.2
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        0.975
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -225
+      ],
+      "translation": [
+        0,
+        -5,
+        2.2
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        0.975
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        60
+      ],
+      "translation": [
+        1.13,
+        0,
+        -2
+      ],
+      "scale": [
+        1.02,
+        1.02,
+        0.525
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -60
+      ],
+      "translation": [
+        1.13,
+        0,
+        -2
+      ],
+      "scale": [
+        1.02,
+        1.02,
+        0.525
+      ]
+    }
+  },
+  "textures":
+  {
+    "layer0": "parrying:item/gold_spear_big"
+  }
+}

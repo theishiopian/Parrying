@@ -22,6 +22,11 @@ public class ItemRendererMixin
         at = @At(value = "HEAD", target = "net/minecraftforge/client/ForgeHooksClient.handleCameraTransforms(Lcom/mojang/blaze3d/matrix/MatrixStack;Lnet/minecraft/client/renderer/model/IBakedModel;Lnet/minecraft/client/renderer/model/ItemCameraTransforms$TransformType;Z)Lnet/minecraft/client/renderer/model/IBakedModel;"),
         index = 8
     )
+    /*
+     * this mixin is a travesty against the machine spirit, but minecraft has forced my hand, as there's
+     * no other way to change the model in the hand with data from the actual entity, AND be able to give the inventory a separate model.
+     * if you have an idea that works, go ahead and open a PR.
+     */
     private IBakedModel render(IBakedModel originalModel, ItemStack stack, ItemCameraTransforms.TransformType transformType, boolean flag, MatrixStack matrixStack, IRenderTypeBuffer buffer, int i, int j, IBakedModel original)
     {
         boolean isGuiTransform =
@@ -29,13 +34,13 @@ public class ItemRendererMixin
             transformType == ItemCameraTransforms.TransformType.GROUND ||
             transformType == ItemCameraTransforms.TransformType.FIXED;
         boolean isSpear = stack.getItem() instanceof SpearItem;
-        boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;
-        String mat = isSpear ? ((SpearItem)stack.getItem().asItem()).getMaterialID() : "not_a_spear_please_report";
-        String invModelPath = "parrying:" + mat + "_spear_gui#inventory";//todo custom path
-        String modelPath = "parrying:" + mat + "_spear#inventory";//todo custom path
-        String throwModelPath = "parrying:" + mat + "_spear_throwing#inventory";//todo custom path
+        boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;//very dumb
+        String mat = isSpear ? ((SpearItem)stack.getItem().asItem()).getMaterialID() : "not_a_spear_please_report";//not sure how this could possibly not be a spear and still get used, but this should at least indicate where the problem is if it does happen
+        String invModelPath = "parrying:" + mat + "_spear_gui#inventory";
+        String modelPath = "parrying:" + mat + "_spear#inventory";
+        String throwModelPath = "parrying:" + mat + "_spear_throwing#inventory";
 
-        boolean isThrowing = SpearItem.throwingSpears.contains(stack);
+        boolean isThrowing = SpearItem.throwingSpears.contains(stack);//this is dumb, this needs to be replaced with something less pasta-like at some point
 
         IBakedModel invModel = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(invModelPath));
         IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(modelPath));
@@ -43,8 +48,6 @@ public class ItemRendererMixin
 
         model = isThrowing ? throwModel : model;
 
-        //ParryingMod.LOGGER.info(SpearItem.throwingSpears);
-
-        return isSpear ? (isGui ? invModel : model) : originalModel;//yes this is stupid. ideas are appreciated
+        return isSpear ? (isGui ? invModel : model) : originalModel;//yes, this is stupid
     }
 }

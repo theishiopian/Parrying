@@ -3,6 +3,9 @@ package com.theishiopian.parrying.Config;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 @SuppressWarnings("ALL")
+/**
+ * this class exists to generate a config file for the mod. The config specs are used both to define and get their respective values
+ */
 public class Config
 {
     public static final ForgeConfigSpec COMMON;
@@ -11,6 +14,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue maceEnabled;
     public static final ForgeConfigSpec.BooleanValue hammerEnabled;
     public static final ForgeConfigSpec.BooleanValue flailEnabled;
+    public static final ForgeConfigSpec.BooleanValue spearEnabled;
 
     public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
     public static final ForgeConfigSpec.BooleanValue apPiercing;
@@ -58,6 +62,7 @@ public class Config
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
         hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);
         flailEnabled = builder.comment("Whether or not the flail is craftable.").define("flail_enabled", true);
+        spearEnabled = builder.comment("Whether or not the spear is craftable.").define("spear_enabled", true);
 
         flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
         apPiercing = builder.comment("Does the piercing enchant cause armor penetrating damage?").define("ap_piercing", true);

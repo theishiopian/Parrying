@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"deprecation"})
+@SuppressWarnings({"deprecation"})//it's not deprecated if vanilla uses it
 public class SpearItem extends TieredItem implements IVanishable
 {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
@@ -39,7 +39,7 @@ public class SpearItem extends TieredItem implements IVanishable
         return materialID;
     }
 
-    public static ArrayList<ItemStack> throwingSpears = new ArrayList<>();
+    public static ArrayList<ItemStack> throwingSpears = new ArrayList<>();//this is even more stupid, but minecraft has forced my hand. I need to find a more native solution at some point
 
     public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, Properties properties, String materialID)
     {

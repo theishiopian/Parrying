@@ -99,8 +99,24 @@ public class ParryingMod
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
+        //todo: clean this section up a bit
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.WOOD_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.WOOD_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.STONE_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.STONE_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+
         ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_gui", "inventory"));
         ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.GOLD_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.GOLD_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.DIAMOND_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.DIAMOND_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.NETHERITE_SPEAR.get().getRegistryName() + "_gui", "inventory"));
+        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.NETHERITE_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)
@@ -112,5 +128,6 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("maces_enabled", Config.maceEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("hammers_enabled", Config.hammerEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());
+        CraftingHelper.register(new EnabledCondition("spears_enabled", Config.spearEnabled::get).new Serializer());
     }
 }
