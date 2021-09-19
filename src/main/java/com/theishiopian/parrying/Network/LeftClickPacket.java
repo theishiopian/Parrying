@@ -27,9 +27,9 @@ public class LeftClickPacket
     public static void handle(LeftClickPacket packet, Supplier<NetworkEvent.Context> context)
     {
         ServerPlayerEntity player = context.get().getSender();
+        assert player != null;//how would this be null?
         Bashing.Bash(player);
 
-        assert player != null;
         if(player.getMainHandItem().getItem() instanceof FlailItem)
         {
             player.level.playSound(null, player.blockPosition(), ModSoundEvents.FLAIL_SWING.get(), SoundCategory.PLAYERS, 1, 1);

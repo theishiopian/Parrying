@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Entity;
 
+import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Registration.ModEntities;
-import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,6 +11,7 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -23,14 +24,15 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class SpearEntity extends AbstractArrowEntity
+public class SpearEntity extends AbstractArrowEntity implements IEntityAdditionalSpawnData
 {
-    public ItemStack spearItem = new ItemStack(ModItems.IRON_SPEAR.get());
+    public ItemStack spearItem;
     private static final DataParameter<Boolean> ID_FOIL = EntityDataManager.defineId(SpearEntity.class, DataSerializers.BOOLEAN);
     private boolean hasImpacted;
 
@@ -43,14 +45,7 @@ public class SpearEntity extends AbstractArrowEntity
     {
         super(ModEntities.SPEAR.get(), owner, world);
         this.spearItem = item.copy();
-
         this.entityData.set(ID_FOIL, item.hasFoil());
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public SpearEntity(World world, double x, double y, double z)
-    {
-        super(ModEntities.SPEAR.get(), x, y, z, world);
     }
 
     protected void defineSynchedData()
@@ -66,7 +61,7 @@ public class SpearEntity extends AbstractArrowEntity
             this.hasImpacted = true;
         }
 
-        Entity owner = this.getOwner();//may be unneeded
+        //ParryingMod.LOGGER.info(spearItem);
 
         super.tick();
     }
@@ -92,7 +87,7 @@ public class SpearEntity extends AbstractArrowEntity
     {
         Entity entity = p_213868_1_.getEntity();
         LivingEntity living = entity instanceof LivingEntity ? (LivingEntity)entity : null;
-        float damage = 8.0F;//alter for enchants
+        float damage = ((SpearItem)spearItem.getItem()).getDamage() * 1.5f;//todo add config
 
         Entity owner = this.getOwner();
         DamageSource src = owner == null ? new DamageSource("spear") : new EntityDamageSource("spear.player", owner);
@@ -138,10 +133,6 @@ public class SpearEntity extends AbstractArrowEntity
     public void readAdditionalSaveData(@NotNull CompoundNBT tag)
     {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("Spear", 10))
-        {
-            this.spearItem = ItemStack.of(tag.getCompound("Spear"));
-        }
 
         this.hasImpacted = tag.getBoolean("DealtDamage");
     }
@@ -149,7 +140,6 @@ public class SpearEntity extends AbstractArrowEntity
     public void addAdditionalSaveData(@NotNull CompoundNBT tag)
     {
         super.addAdditionalSaveData(tag);
-        tag.put("Spear", this.spearItem.save(new CompoundNBT()));
         tag.putBoolean("DealtDamage", this.hasImpacted);
     }
 
@@ -171,5 +161,17 @@ public class SpearEntity extends AbstractArrowEntity
     public boolean shouldRender(double x, double y, double z)
     {
         return true;
+    }
+
+    @Override
+    public void writeSpawnData(PacketBuffer buffer)
+    {
+        buffer.writeItem(this.spearItem);
+    }
+
+    @Override
+    public void readSpawnData(PacketBuffer additionalData)
+    {
+        this.spearItem = additionalData.readItem();
     }
 }

@@ -19,7 +19,7 @@ public class FlailItem extends APItem
 
     @SuppressWarnings("unused")
     @Override
-    protected void LazyModifiers()
+    public void LazyModifiers()
     {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));

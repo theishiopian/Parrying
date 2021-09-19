@@ -50,12 +50,12 @@ public class ModItems
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
     //I wish I could make these private, but the model loader needs them public for some reason. is .get() not good enough for you?! shameful
-    public static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "wood");
-    public static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "stone");
-    public static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron");
-    public static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "gold");
-    public static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "diamond");
-    public static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, 2, -3, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "netherite");
+    public static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, 2, -3, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "wood");
+    public static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, 2, -3, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "stone");
+    public static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, 2, -3, 1,  (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron");
+    public static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, 2, -3, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "gold");
+    public static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, 2, -3, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "diamond");
+    public static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, 2, -3, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "netherite");
 
     public static final RegistryObject<SpearItem> WOOD_SPEAR = ITEMS.register("wood_spear", () -> WoodSpear);
     public static final RegistryObject<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear", () -> StoneSpear);

@@ -1,9 +1,8 @@
 package com.theishiopian.parrying.Items;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableMultimap.Builder;
-import com.google.common.collect.Multimap;
 import com.theishiopian.parrying.Entity.SpearEntity;
+import com.theishiopian.parrying.Registration.ModAttributes;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.IVanishable;
 import net.minecraft.entity.LivingEntity;
@@ -15,7 +14,6 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.TieredItem;
 import net.minecraft.item.UseAction;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
@@ -28,10 +26,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"deprecation"})//it's not deprecated if vanilla uses it
-public class SpearItem extends TieredItem implements IVanishable
+public class SpearItem extends LazyItem implements IVanishable
 {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     private final String materialID;//this is stupid
 
     public String getMaterialID()
@@ -41,19 +37,23 @@ public class SpearItem extends TieredItem implements IVanishable
 
     public static ArrayList<ItemStack> throwingSpears = new ArrayList<>();//this is even more stupid, but minecraft has forced my hand. I need to find a more native solution at some point
 
-    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, Properties properties, String materialID)
+    private final float reach;
+
+    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, float reach, Properties properties, String materialID)
     {
-        super(itemTier, properties);
-        Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", baseDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", baseSpeed, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
+        super(itemTier, properties, baseDamage, baseSpeed);
         this.materialID = materialID;
+        this.reach = reach;
     }
 
     public boolean canAttackBlock(@NotNull BlockState state, @NotNull World world, @NotNull BlockPos pos, PlayerEntity player)
     {
         return !player.isCreative();
+    }
+
+    public float getDamage()
+    {
+        return this.attackDamage;
     }
 
     public @NotNull UseAction getUseAnimation(@NotNull ItemStack stack)
@@ -74,7 +74,7 @@ public class SpearItem extends TieredItem implements IVanishable
                 {
                     stack.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(entity.getUsedItemHand()));
 
-                    SpearEntity spearEntity = new SpearEntity(world, player, stack);
+                    SpearEntity spearEntity = new SpearEntity(world, player, stack.copy());
 
                     spearEntity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 3F, 1.0F);
 
@@ -132,9 +132,15 @@ public class SpearItem extends TieredItem implements IVanishable
         return true;
     }
 
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlotType slotType)
+    @Override
+    //may not be needed, but I don't trust forge to register their attribute at the right time
+    protected void LazyModifiers()
     {
-        return slotType == EquipmentSlotType.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slotType);
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+        builder.put(net.minecraftforge.common.ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(ModAttributes.RD_UUID,"Tool Modifier", reach,  AttributeModifier.Operation.ADDITION));
+        this.defaultModifiers = builder.build();
     }
 
     public int getUseDuration(@NotNull ItemStack stack) {

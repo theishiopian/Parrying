@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
@@ -32,8 +33,12 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
 
         matrix.translate(0,-0.2f,0);
         matrix.scale(2.5f,2.5f,1.5f);
+        //ItemStack spearStack = spearEntity.spearItem;ParryingMod.LOGGER.info(spearStack);
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(spearEntity.spearItem);
 
-        Minecraft.getInstance().getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, Minecraft.getInstance().getItemRenderer().getModel(spearEntity.spearItem, spearEntity.level, null));
+        //ParryingMod.LOGGER.info(spearEntity.readAdditionalSaveData());
+
+        Minecraft.getInstance().getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, model);
         renderingSpear = false;
         matrix.popPose();
     }
