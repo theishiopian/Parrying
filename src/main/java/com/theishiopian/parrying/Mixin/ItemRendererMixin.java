@@ -3,7 +3,6 @@ package com.theishiopian.parrying.Mixin;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Items.SpearItem;
-import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -29,11 +28,12 @@ public class ItemRendererMixin
             transformType == ItemCameraTransforms.TransformType.GUI ||
             transformType == ItemCameraTransforms.TransformType.GROUND ||
             transformType == ItemCameraTransforms.TransformType.FIXED;
-        boolean isSpear = stack.getItem() == ModItems.IronSpear;
+        boolean isSpear = stack.getItem() instanceof SpearItem;
         boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;
-        String invModelPath = "parrying:iron_spear_gui#inventory";//todo custom path
-        String modelPath = "parrying:iron_spear#inventory";//todo custom path
-        String throwModelPath = "parrying:iron_spear_throwing#inventory";//todo custom path
+        String mat = ((SpearItem)stack.getItem().asItem()).getMaterialID();
+        String invModelPath = "parrying:" + mat + "_spear_gui#inventory";//todo custom path
+        String modelPath = "parrying:" + mat + "_spear#inventory";//todo custom path
+        String throwModelPath = "parrying:" + mat + "_spear_throwing#inventory";//todo custom path
 
         boolean isThrowing = SpearItem.throwingSpears.contains(stack);
 
