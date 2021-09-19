@@ -30,7 +30,7 @@ public class ItemRendererMixin
             transformType == ItemCameraTransforms.TransformType.FIXED;
         boolean isSpear = stack.getItem() instanceof SpearItem;
         boolean isGui = isGuiTransform && !RenderSpear.renderingSpear;
-        String mat = ((SpearItem)stack.getItem().asItem()).getMaterialID();
+        String mat = isSpear ? ((SpearItem)stack.getItem().asItem()).getMaterialID() : "not_a_spear_please_report";
         String invModelPath = "parrying:" + mat + "_spear_gui#inventory";//todo custom path
         String modelPath = "parrying:" + mat + "_spear#inventory";//todo custom path
         String throwModelPath = "parrying:" + mat + "_spear_throwing#inventory";//todo custom path
