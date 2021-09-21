@@ -1,11 +1,9 @@
 package com.theishiopian.parrying.Mechanics;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -34,17 +32,28 @@ public class DualWielding
      */
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
-        float range = 2.5f;
-        //ItemStack handItem = player.getItemInHand(currentHand);
-
-
-        Vector3d eyePos = player.getEyePosition(1);
-        Vector3d lookVector = player.getViewVector(1.0F);
-        Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
-        AxisAlignedBB axisalignedbb = player.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityRayTraceResult entityraytraceresult = ProjectileHelper.getEntityHitResult(player, eyePos, projection, axisalignedbb, (entity) -> !entity.isSpectator() && entity.isPickable(), range);
-
         //todo attack here
+        Entity target = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
+
+        if(target != null)
+        {
+            if(currentHand == Hand.MAIN_HAND)
+            {
+                player.attack(target);
+            }
+            else
+            {
+                ItemStack itemstack = player.getItemInHand(Hand.OFF_HAND);
+                player.setItemInHand(Hand.OFF_HAND, player.getItemInHand(Hand.MAIN_HAND));
+                player.setItemInHand(Hand.MAIN_HAND, itemstack);
+
+                player.attack(target);
+                itemstack = player.getItemInHand(Hand.OFF_HAND);
+                player.setItemInHand(Hand.OFF_HAND, player.getItemInHand(Hand.MAIN_HAND));
+                player.setItemInHand(Hand.MAIN_HAND, itemstack);
+            }
+
+        }
 
         player.resetAttackStrengthTicker();
     }
