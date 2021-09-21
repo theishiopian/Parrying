@@ -94,8 +94,10 @@ public class ParryingMod
     {
         if(Config.flailEnabled.get())ModItems.RegisterFlailOverrides();
 
-        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
