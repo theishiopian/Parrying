@@ -1,8 +1,11 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -31,8 +34,19 @@ public class DualWielding
      */
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
+        float range = 2.5f;
+        //ItemStack handItem = player.getItemInHand(currentHand);
+
+
+        Vector3d eyePos = player.getEyePosition(1);
+        Vector3d lookVector = player.getViewVector(1.0F);
+        Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
+        AxisAlignedBB axisalignedbb = player.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
+        EntityRayTraceResult entityraytraceresult = ProjectileHelper.getEntityHitResult(player, eyePos, projection, axisalignedbb, (entity) -> !entity.isSpectator() && entity.isPickable(), range);
+
         //todo attack here
-        ParryingMod.LOGGER.info(currentHand);
+
+        player.resetAttackStrengthTicker();
     }
     //endregion
 }

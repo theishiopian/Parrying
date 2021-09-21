@@ -14,6 +14,8 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -82,9 +84,14 @@ public class ClientEvents
             assert Minecraft.getInstance().player != null;
             PlayerEntity player = Minecraft.getInstance().player;
 
+            RayTraceResult hit = Minecraft.getInstance().hitResult;
+
+            EntityRayTraceResult target = hit instanceof EntityRayTraceResult ? (EntityRayTraceResult) hit : null;
+
             if(DualWielding.CurrentHand == Hand.OFF_HAND)
             {
                 player.swing(Hand.OFF_HAND);
+
                 ParryingMod.channel.sendToServer(new SwingPacket(false));
                 DualWielding.CurrentHand = Hand.MAIN_HAND;
             }

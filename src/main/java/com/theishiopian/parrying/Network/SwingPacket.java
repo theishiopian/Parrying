@@ -5,6 +5,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -26,7 +27,7 @@ public class SwingPacket
 
     public static void handle(SwingPacket packet, Supplier<NetworkEvent.Context> context)
     {
-        DualWielding.DoDualWield(context.get().getSender(), packet.mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
+        DualWielding.DoDualWield(Objects.requireNonNull(context.get().getSender()), packet.mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
 
         context.get().setPacketHandled(true);
     }
