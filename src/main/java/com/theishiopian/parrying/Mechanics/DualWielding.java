@@ -10,6 +10,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * Which hand a player attacks with is handled by the client, the actual
  * attack logic is handled by the server. Communication between the two is
  * handled via SwingPacket.
+ *
+ * NOTE: all fields in the client region are CLIENT ONLY. They cannot be accessed from the server
+ * It may be prudent to develop a system that lets the server ask the client if the player is dual wielding in the future...
  */
 public class DualWielding
 {
@@ -27,7 +30,7 @@ public class DualWielding
      */
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
-        //attack here
+        //todo attack here
     }
     //endregion
 }
