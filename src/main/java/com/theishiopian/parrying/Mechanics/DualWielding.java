@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,6 +32,7 @@ public class DualWielding
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
         //todo attack here
+        ParryingMod.LOGGER.info(currentHand);
     }
     //endregion
 }

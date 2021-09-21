@@ -6,6 +6,7 @@ import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
+import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -38,7 +39,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 2;//protocol version, bump whenever adding new network packets
+    private static final int VERSION = 3;//protocol version, bump whenever adding new network packets
 
     static
     {
@@ -58,6 +59,12 @@ public class ParryingMod
                 .decoder(DodgePacket::fromBytes)
                 .encoder(DodgePacket::toBytes)
                 .consumer(DodgePacket::handle)
+                .add();
+
+        channel.messageBuilder(SwingPacket.class, 3)
+                .decoder(SwingPacket::fromBytes)
+                .encoder(SwingPacket::toBytes)
+                .consumer(SwingPacket::handle)
                 .add();
     }
 
