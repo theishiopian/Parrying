@@ -1,25 +1,16 @@
 package com.theishiopian.parrying.Items;
 
 import com.google.common.collect.ImmutableMultimap;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
 
-public class DaggerItem extends LazyItem //todo may want a superclass for dual wield-able items
+public class DaggerItem extends LazyItem
 {
     public DaggerItem(IItemTier tier, Properties properties, int baseDamage, float baseSpeed)
     {
         super(tier, properties, baseDamage, baseSpeed);
-    }
-
-    @Override
-    public boolean onEntitySwing(ItemStack stack, LivingEntity entity)
-    {
-        //todo check for item in other hand
-        return super.onEntitySwing(stack, entity);
     }
 
     @Override

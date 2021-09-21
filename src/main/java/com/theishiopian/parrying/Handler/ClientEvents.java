@@ -74,9 +74,6 @@ public class ClientEvents
 
     public static void OnClick(InputEvent.ClickInputEvent event)
     {
-        //todo: send packet to server to do attack from appropriate hand
-        //todo: move all dual wield stuff to its own class
-        //todo: perhaps this system can be used for more than just daggers...
         if(IsGameplayInProgress() && DualWielding.IsDualWielding)
         {
             event.setSwingHand(false);
