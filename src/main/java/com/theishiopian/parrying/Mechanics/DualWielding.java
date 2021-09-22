@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Utility.Debug;
+import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -34,9 +36,10 @@ public class DualWielding
     {
         //todo attack here
         Entity target = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
-
+        //player.resetAttackStrengthTicker();
         if(target != null)
         {
+
             if(currentHand == Hand.MAIN_HAND)
             {
                 player.attack(target);
@@ -55,7 +58,16 @@ public class DualWielding
 
         }
 
-        player.resetAttackStrengthTicker();
+        Debug.log("Begin Log -------------------------------------------------");
+        Debug.log("Target: " + target);
+        Debug.log("Main Hand: " + player.getMainHandItem());
+        Debug.log("Off Hand: " + player.getOffhandItem());
+        Debug.log("Attack strength: " + player.getAttackStrengthScale(1));
+        Debug.log("Swinging: " + player.swinging);
+        Debug.log("Swing arm: " + player.swingingArm);
+        Debug.log("End Log -------------------------------------------------");
+
+        //player.resetAttackStrengthTicker();
     }
     //endregion
 }

@@ -3,12 +3,13 @@ package com.theishiopian.parrying.Handler;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Mechanics.DualWielding;
-import com.theishiopian.parrying.Mechanics.Util;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.Utility.Debug;
+import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
@@ -20,6 +21,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
@@ -48,6 +50,11 @@ public class ClientEvents
         }
     }
 
+    public static void OnMiss(PlayerInteractEvent.LeftClickEmpty event)
+    {
+        Debug.log("miss");
+    }
+
     //used to register a player as dual wielding
     //may want to put in an event here
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
@@ -61,7 +68,7 @@ public class ClientEvents
             else
             {
                 DualWielding.IsDualWielding = false;
-                DualWielding.CurrentHand =Hand.MAIN_HAND;//reset hand
+                DualWielding.CurrentHand = Hand.MAIN_HAND;//reset hand
             }
         }
     }
@@ -90,14 +97,14 @@ public class ClientEvents
 
             if(DualWielding.CurrentHand == Hand.OFF_HAND)
             {
-                player.swing(Hand.OFF_HAND);
+                player.swing(Hand.OFF_HAND, false);
 
                 ParryingMod.channel.sendToServer(new SwingPacket(false));
                 DualWielding.CurrentHand = Hand.MAIN_HAND;
             }
             else
             {
-                player.swing(Hand.MAIN_HAND);
+                player.swing(Hand.MAIN_HAND, false);
                 ParryingMod.channel.sendToServer(new SwingPacket(true));
                 DualWielding.CurrentHand = Hand.OFF_HAND;
             }

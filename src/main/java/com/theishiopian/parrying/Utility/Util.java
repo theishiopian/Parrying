@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Mechanics;
+package com.theishiopian.parrying.Utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
