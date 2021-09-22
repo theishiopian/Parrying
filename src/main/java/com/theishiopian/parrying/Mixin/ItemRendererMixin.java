@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(net.minecraft.client.renderer.ItemRenderer.class)
-public class ItemRendererMixin
+public abstract class ItemRendererMixin
 {
     @ModifyVariable
     (

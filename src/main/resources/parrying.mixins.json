@@ -8,6 +8,8 @@
   },
   "minVersion": "0.8.2",
   "client": [
+    "FirstPersonRendererAccessor",
+    "FirstPersonRendererMixin",
     "ItemRendererMixin"
   ]
 }
