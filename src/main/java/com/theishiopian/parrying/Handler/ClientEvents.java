@@ -108,6 +108,8 @@ public class ClientEvents
                 ParryingMod.channel.sendToServer(new SwingPacket(true));
                 DualWielding.CurrentHand = Hand.OFF_HAND;
             }
+
+            player.resetAttackStrengthTicker();
         }
     }
 

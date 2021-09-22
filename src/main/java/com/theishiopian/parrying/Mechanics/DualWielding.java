@@ -36,7 +36,7 @@ public class DualWielding
     {
         //todo attack here
         Entity target = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
-        //player.resetAttackStrengthTicker();
+
         if(target != null)
         {
 
@@ -67,7 +67,7 @@ public class DualWielding
         Debug.log("Swing arm: " + player.swingingArm);
         Debug.log("End Log -------------------------------------------------");
 
-        //player.resetAttackStrengthTicker();
+        player.resetAttackStrengthTicker();
     }
     //endregion
 }
