@@ -8,7 +8,6 @@ import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -21,7 +20,6 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
@@ -48,11 +46,6 @@ public class ClientEvents
         {
             ParryingMod.channel.sendToServer(new LeftClickPacket());
         }
-    }
-
-    public static void OnMiss(PlayerInteractEvent.LeftClickEmpty event)
-    {
-        Debug.log("miss");
     }
 
     //used to register a player as dual wielding
