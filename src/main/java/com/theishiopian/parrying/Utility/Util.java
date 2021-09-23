@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Utility;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -22,22 +21,33 @@ public class Util
 
     //todo use this with spears
     @Nullable
-    public static Entity GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
+    public static EntityRayTraceResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
     {
-        float range = 5f;
-        if(toAttackWith != null && toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE))
+        float range = 2.5f;
+
+        if(toAttackWith != null)
         {
-            range += toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
+            boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
+            if(hasRange)
+            {
+                range += toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
+            }
         }
+
+        //Debug.log(range);
 
         Vector3d eyePos = toAttackFrom.getEyePosition(1);
         Vector3d lookVector = toAttackFrom.getViewVector(1.0F);
         Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
         AxisAlignedBB axisalignedbb = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityRayTraceResult potentialTarget = ProjectileHelper.getEntityHitResult(toAttackFrom, eyePos, projection, axisalignedbb, (entity) -> !entity.isSpectator() && entity.isPickable(), range);
-        if(potentialTarget != null && toAttackFrom.canSee(potentialTarget.getEntity()) /*&& potentialObstruction.getBlockPos().distSqr(toAttackFrom.position(), true) > potentialTarget.distanceTo(toAttackFrom)*/)
+        EntityRayTraceResult potentialTarget = ProjectileHelper.getEntityHitResult(toAttackFrom, eyePos, projection, axisalignedbb, ((entity) -> !entity.isSpectator() && entity.isPickable()), range * range);
+
+        if(potentialTarget != null)
         {
-            return potentialTarget.getEntity();
+            boolean unobstructed = toAttackFrom.canSee(potentialTarget.getEntity());
+            //Debug.log(unobstructed);
+
+            if(unobstructed)return potentialTarget;
         }
 
         return null;

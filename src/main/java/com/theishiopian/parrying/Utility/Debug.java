@@ -13,4 +13,9 @@ public class Debug
     {
         ParryingMod.LOGGER.info(message);
     }
+
+    public static void log(Object message)
+    {
+        ParryingMod.LOGGER.info(String.valueOf(message));
+    }
 }

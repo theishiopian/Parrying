@@ -13,12 +13,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -76,33 +77,40 @@ public class ClientEvents
 
     public static void OnClick(InputEvent.ClickInputEvent event)
     {
-        if(IsGameplayInProgress() && DualWielding.IsDualWielding)
+        if(IsGameplayInProgress())
         {
-            event.setSwingHand(false);
-            event.setCanceled(true);
-
             assert Minecraft.getInstance().player != null;
             PlayerEntity player = Minecraft.getInstance().player;
 
-            RayTraceResult hit = Minecraft.getInstance().hitResult;
-
-            EntityRayTraceResult target = hit instanceof EntityRayTraceResult ? (EntityRayTraceResult) hit : null;
-
-            if(DualWielding.CurrentHand == Hand.OFF_HAND)
+            if(DualWielding.IsDualWielding)
             {
-                player.swing(Hand.OFF_HAND, false);
+                event.setSwingHand(false);
+                event.setCanceled(true);
 
-                ParryingMod.channel.sendToServer(new SwingPacket(false));
-                DualWielding.CurrentHand = Hand.MAIN_HAND;
+                if(DualWielding.CurrentHand == Hand.OFF_HAND)
+                {
+                    player.swing(Hand.OFF_HAND, false);
+
+                    ParryingMod.channel.sendToServer(new SwingPacket(false));
+                    DualWielding.CurrentHand = Hand.MAIN_HAND;
+                }
+                else
+                {
+                    player.swing(Hand.MAIN_HAND, false);
+                    ParryingMod.channel.sendToServer(new SwingPacket(true));
+                    DualWielding.CurrentHand = Hand.OFF_HAND;
+                }
+
+                player.resetAttackStrengthTicker();
             }
             else
             {
-                player.swing(Hand.MAIN_HAND, false);
-                ParryingMod.channel.sendToServer(new SwingPacket(true));
-                DualWielding.CurrentHand = Hand.OFF_HAND;
+                if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
+                {
+                    EntityRayTraceResult target = Util.GetAttackTargetWithRange(player.getMainHandItem(), player);
+                    if(target != null)Minecraft.getInstance().hitResult = target;
+                }
             }
-
-            player.resetAttackStrengthTicker();
         }
     }
 

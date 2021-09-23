@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -34,11 +35,12 @@ public class DualWielding
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
         //todo attack here
-        Entity target = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
+        EntityRayTraceResult potentialTarget = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
 
-        if(target != null)
+
+        if(potentialTarget != null)
         {
-
+            Entity target = potentialTarget.getEntity();
             if(currentHand == Hand.MAIN_HAND)
             {
                 player.attack(target);
