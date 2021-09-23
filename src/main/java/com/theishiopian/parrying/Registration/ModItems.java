@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemTier;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -67,23 +68,32 @@ public class ModItems
     //spears may be able to use this system too, investigate in the future
     public static void RegisterFlailOverrides()
     {
+        FlailItem[] flails =
+        {
+            WoodFlail,
+            StoneFlail,
+            IronFlail,
+            GoldFlail,
+            DiamondFlail,
+            NetheriteFlail
+        };
+
         //if null pointers get thrown in the item render, look at these rascals
-        ItemModelsProperties.register(WoodFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(WoodFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+        for (FlailItem flail:flails)
+        {
+            ItemModelsProperties.register(flail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
+            ItemModelsProperties.register(flail, new ResourceLocation("swinging"), (stack, world, user)->
+            {
+                boolean mainHand = false;
+                boolean offHand = false;
 
-        ItemModelsProperties.register(StoneFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(StoneFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
-
-        ItemModelsProperties.register(IronFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(IronFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
-
-        ItemModelsProperties.register(GoldFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(GoldFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
-
-        ItemModelsProperties.register(DiamondFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(DiamondFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
-
-        ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swing"), (stack, world, user)-> user != null ? user.attackAnim : 0);
-        ItemModelsProperties.register(NetheriteFlail, new ResourceLocation("swinging"), (stack, world, user)-> user != null && user.attackAnim > 0 && user.getMainHandItem().equals(stack) ? 1 : 0);
+                if(user != null)
+                {
+                    mainHand = user.getMainHandItem().equals(stack) && user.swingingArm == Hand.MAIN_HAND;
+                    offHand = user.getOffhandItem().equals(stack) && user.swingingArm == Hand.OFF_HAND;
+                }
+                return (user != null && user.attackAnim > 0 && (mainHand || offHand)) ? 1 : 0;
+            });
+        }
     }
 }

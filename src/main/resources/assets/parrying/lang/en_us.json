@@ -29,12 +29,19 @@
   "item.parrying.diamond_hammer": "Diamond Hammer",
   "item.parrying.netherite_hammer": "Netherite Hammer",
 
-  "item.parrying.wood_flail": "Wood Flail",
+  "item.parrying.wood_flail": "Wooden Flail",
   "item.parrying.stone_flail": "Stone Flail",
   "item.parrying.iron_flail": "Iron Flail",
-  "item.parrying.gold_flail": "Gold Flail",
+  "item.parrying.gold_flail": "Golden Flail",
   "item.parrying.diamond_flail": "Diamond Flail",
   "item.parrying.netherite_flail": "Netherite Flail",
+
+  "item.parrying.wood_spear": "Wooden Spear",
+  "item.parrying.stone_spear": "Stone Spear",
+  "item.parrying.iron_spear": "Iron Spear",
+  "item.parrying.gold_spear": "Golden Spear",
+  "item.parrying.diamond_spear": "Diamond Spear",
+  "item.parrying.netherite_spear": "Netherite Spear",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",

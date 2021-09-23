@@ -40,11 +40,5 @@
   "death.attack.bludgeoning.player": "%1$s 被粉碎了 %2$s",
   "death.attack.bludgeoning.player.item": "%1$s 被 %2$s 用 %3$s 粉碎了",
 
-  "death.attack.piercing": "%1$s was pierced",
-  "death.attack.piercing.player": "%1$s was pierced by %2$s",
-  "death.attack.piercing.player.item": "%1$s was pierced by %2$s using %3$s",
-
-  "key.parrying.dodge": "闪避",
-
-  "stat.parrying.parry": "Parry Count"
+  "key.parrying.dodge": "闪避"
 }
