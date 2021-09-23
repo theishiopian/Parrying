@@ -18,21 +18,12 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.LogicalSide;
 
 import java.util.List;
 
 public class CommonEvents
 {
     static float pAmount = 0;//this is dumb
-
-    public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
-    {
-        if(event.side != LogicalSide.CLIENT)
-        {
-            //Debug.log(String.valueOf(event.player.getAttackStrengthScale(1)));
-        }
-    }
 
     public static void OnAttackedEvent(LivingAttackEvent event)
     {

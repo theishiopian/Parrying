@@ -33,10 +33,8 @@ public class RenderSpear extends EntityRenderer<SpearEntity>
 
         matrix.translate(0,-0.2f,0);
         matrix.scale(2.5f,2.5f,1.5f);
-        //ItemStack spearStack = spearEntity.spearItem;ParryingMod.LOGGER.info(spearStack);
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(spearEntity.spearItem);
 
-        //ParryingMod.LOGGER.info(spearEntity.readAdditionalSaveData());
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(spearEntity.spearItem);
 
         Minecraft.getInstance().getItemRenderer().render(spearEntity.spearItem, ItemCameraTransforms.TransformType.FIXED, false, matrix, buffer, light, OverlayTexture.NO_OVERLAY, model);
         renderingSpear = false;

@@ -61,8 +61,6 @@ public class SpearEntity extends AbstractArrowEntity implements IEntityAdditiona
             this.hasImpacted = true;
         }
 
-        //ParryingMod.LOGGER.info(spearItem);
-
         super.tick();
     }
 

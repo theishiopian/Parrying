@@ -11,12 +11,17 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+/**
+ * Used to tell the server a left click happened. Used to bypass the normal attack logic.
+ * This is necessary because Minecraft disables the normal attack logic while a shield is raised,
+ * as such this is needed to perform a shield bash.
+ */
 public class LeftClickPacket
 {
     @SuppressWarnings("EmptyMethod")
     public void toBytes(PacketBuffer buffer)
     {
-
+        //needed by the implementation
     }
 
     public static LeftClickPacket fromBytes(PacketBuffer buffer)

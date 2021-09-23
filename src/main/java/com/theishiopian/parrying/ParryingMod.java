@@ -4,6 +4,7 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
+import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
@@ -32,6 +33,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
+/**
+ * This is the main mod class. There's not much to say about it.
+ */
 @Mod(ParryingMod.MOD_ID)
 public class ParryingMod
 {
@@ -39,7 +43,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 3;//protocol version, bump whenever adding new network packets
+    private static final int VERSION = 3;//protocol version, bump whenever adding new network packets or changing existing ones
 
     static
     {
@@ -75,7 +79,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
+        //if you need a player tick event, put it here
 
         ModTriggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);
@@ -109,24 +113,22 @@ public class ParryingMod
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
 
-        //todo: clean this section up a bit
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.WOOD_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.WOOD_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+        //todo: a similar pattern is used in ModItems for flail overrides. perhaps an iterator lambda system could be useful in some way in both cases?
+        SpearItem[] spears =
+        {
+                ModItems.WOOD_SPEAR.get(),
+                ModItems.STONE_SPEAR.get(),
+                ModItems.IRON_SPEAR.get(),
+                ModItems.GOLD_SPEAR.get(),
+                ModItems.DIAMOND_SPEAR.get(),
+                ModItems.NETHERITE_SPEAR.get()
+        };
 
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.STONE_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.STONE_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
-
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.IRON_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
-
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.GOLD_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.GOLD_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
-
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.DIAMOND_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.DIAMOND_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
-
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.NETHERITE_SPEAR.get().getRegistryName() + "_gui", "inventory"));
-        ModelLoader.addSpecialModel(new ModelResourceLocation(ModItems.NETHERITE_SPEAR.get().getRegistryName() + "_throwing", "inventory"));
+        for(SpearItem spear : spears)
+        {
+            ModelLoader.addSpecialModel(new ModelResourceLocation(spear.getRegistryName() + "_gui", "inventory"));
+            ModelLoader.addSpecialModel(new ModelResourceLocation(spear.getRegistryName() + "_throwing", "inventory"));
+        }
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)
@@ -134,7 +136,6 @@ public class ParryingMod
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally
-        //todo spears
         CraftingHelper.register(new EnabledCondition("maces_enabled", Config.maceEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("hammers_enabled", Config.hammerEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());

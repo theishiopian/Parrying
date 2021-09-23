@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * this class defines a packet that is used
- * to tell the server to do a dual wield attack
+ * This class defines a packet that is used
+ * to tell the server to do a dual wield attack.
  */
 public class SwingPacket
 {

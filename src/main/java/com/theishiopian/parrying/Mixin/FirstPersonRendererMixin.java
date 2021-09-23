@@ -10,6 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(net.minecraft.client.renderer.FirstPersonRenderer.class)
+/*
+This Mixin is used to allow the off hand to swing and animate just like the main hand. This is used for dual wielding.
+ */
 public abstract class FirstPersonRendererMixin
 {
     @ModifyArg(method = {"tick()V"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(FFF)F", ordinal = 3), index = 0)

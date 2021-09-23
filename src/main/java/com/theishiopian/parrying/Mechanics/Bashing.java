@@ -39,7 +39,6 @@ public abstract class Bashing
                 ItemStack shield = null;
                 Hand hand = Hand.OFF_HAND;
 
-
                 if(main.isShield(null))
                 {
                     shield = main;

@@ -14,6 +14,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+/**
+ * This class is used to register custom items. Mostly weapons.
+ */
 @SuppressWarnings("unused")//yes, they are, just not here. trust me
 public class ModItems
 {

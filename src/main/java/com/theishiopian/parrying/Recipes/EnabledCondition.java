@@ -8,8 +8,10 @@ import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
 import java.util.function.Supplier;
 
-//this class defines an object that in turn defines a recipe condition with a simple boolean value. the exact value is defined via supplier
-//see ParryingMod.java for registration
+/**
+ * This class defines an object that in turn defines a recipe condition with a simple boolean value. The exact value is defined via supplier.
+ * See ParryingMod.java for registration.
+ */
 public class EnabledCondition implements ICondition
 {
     private final ResourceLocation name;//the name of the condition, eg "parrying:flails_enabled"

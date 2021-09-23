@@ -51,6 +51,9 @@
   "death.attack.piercing.player": "%1$s was pierced by %2$s",
   "death.attack.piercing.player.item": "%1$s was pierced by %2$s using %3$s",
 
+  "death.attack.spear": "%1$s was finished off by a thrown spear",
+  "death.attack.spear.player": "%1$s was finished off by %2$s's thrown spear",
+
   "key.parrying.dodge": "Dodge",
 
   "stat.parrying.parry": "Parry Count",

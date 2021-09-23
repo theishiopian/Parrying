@@ -26,7 +26,6 @@ public class DualWielding
     //endregion
 
     //region SERVER
-
     /**
      * This method handles attacking while dual wielding.
      * @param player the player doing the dual wielding attack
@@ -58,15 +57,6 @@ public class DualWielding
             }
 
         }
-
-//        Debug.log("Begin Log -------------------------------------------------");
-//        Debug.log("Target: " + target);
-//        Debug.log("Main Hand: " + player.getMainHandItem());
-//        Debug.log("Off Hand: " + player.getOffhandItem());
-//        Debug.log("Attack strength: " + player.getAttackStrengthScale(1));
-//        Debug.log("Swinging: " + player.swinging);
-//        Debug.log("Swing arm: " + player.swingingArm);
-//        Debug.log("End Log -------------------------------------------------");
 
         player.resetAttackStrengthTicker();
     }

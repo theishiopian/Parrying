@@ -11,6 +11,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+/**
+ * This class registers custom statistics.
+ * TODO: see if the annotations can be replaced with the proper registration system.
+ */
 @EventBusSubscriber(bus = Bus.MOD, modid = ParryingMod.MOD_ID)
 public class ModStats
 {

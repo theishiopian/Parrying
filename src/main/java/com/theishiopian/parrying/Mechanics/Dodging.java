@@ -55,7 +55,7 @@ public abstract class Dodging
                     break;
                 }
                 player.causeFoodExhaustion(0.5f);
-                dodgeCooldown.put(player.getUUID(), (int)(Config.dodgeCooldown.get() * 120));//replace "2" with config
+                dodgeCooldown.put(player.getUUID(), (int)(Config.dodgeCooldown.get() * 120));
             }
         }
     }

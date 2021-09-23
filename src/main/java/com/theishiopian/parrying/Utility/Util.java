@@ -12,6 +12,10 @@ import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
 
+/**
+ * This class contains misc methods that I have found to be useful in multiple places.
+ * If a method is useful in several unrelated places, it goes in here.
+ */
 public class Util
 {
     public static boolean IsWeapon(ItemStack stack)
@@ -19,7 +23,6 @@ public class Util
         return stack.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
     }
 
-    //todo use this with spears
     @Nullable
     public static EntityRayTraceResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
     {
@@ -34,8 +37,6 @@ public class Util
             }
         }
 
-        //Debug.log(range);
-
         Vector3d eyePos = toAttackFrom.getEyePosition(1);
         Vector3d lookVector = toAttackFrom.getViewVector(1.0F);
         Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
@@ -45,7 +46,6 @@ public class Util
         if(potentialTarget != null)
         {
             boolean unobstructed = toAttackFrom.canSee(potentialTarget.getEntity());
-            //Debug.log(unobstructed);
 
             if(unobstructed)return potentialTarget;
         }

@@ -9,7 +9,7 @@ import net.minecraft.item.TieredItem;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This class defines an item that only builds its attribute modifiers at runtime.
+ * This class defines an item that only builds its attribute modifiers "just in time".
  * This is a workaround for the registration order of attributes in forge.
  */
 @SuppressWarnings("deprecation")//it's not deprecated if vanilla still uses it

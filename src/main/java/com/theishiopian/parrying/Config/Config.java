@@ -16,6 +16,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue flailEnabled;
     public static final ForgeConfigSpec.BooleanValue spearEnabled;
 
+    //arrow tweaks
     public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
     public static final ForgeConfigSpec.BooleanValue apPiercing;
     public static final ForgeConfigSpec.BooleanValue sonicSpectralArrow;

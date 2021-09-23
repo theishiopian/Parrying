@@ -143,7 +143,9 @@ public class SpearItem extends LazyItem implements IVanishable
         this.defaultModifiers = builder.build();
     }
 
-    public int getUseDuration(@NotNull ItemStack stack) {
+    //item right click use time in ticks, NOT durability
+    public int getUseDuration(@NotNull ItemStack stack)
+    {
         return 72000;
-    }//item right click use time
+    }
 }

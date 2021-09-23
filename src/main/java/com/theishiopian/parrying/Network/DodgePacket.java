@@ -6,6 +6,10 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+/**
+ * Used to tell the server to dodge.
+ * Encodes the direction of the dodge using an integer.
+ */
 public class DodgePacket
 {
     //0=none
