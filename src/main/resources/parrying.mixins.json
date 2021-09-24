@@ -11,5 +11,8 @@
     "FirstPersonRendererAccessor",
     "FirstPersonRendererMixin",
     "ItemRendererMixin"
+  ],
+  "mixins": [
+    "PlayerEntityMixin"
   ]
 }

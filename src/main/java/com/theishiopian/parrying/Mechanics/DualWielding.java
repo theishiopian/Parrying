@@ -9,6 +9,9 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 /**
  * This class is a container for all dual wielding mechanics.
  * Which hand a player attacks with is handled by the client, the actual
@@ -26,6 +29,9 @@ public class DualWielding
     //endregion
 
     //region SERVER
+
+    public static HashMap<UUID, Hand> dualWielders = new HashMap<>();
+
     /**
      * This method handles attacking while dual wielding.
      * @param player the player doing the dual wielding attack
@@ -35,11 +41,12 @@ public class DualWielding
     {
         //todo attack here
         EntityRayTraceResult potentialTarget = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
-
+        dualWielders.put(player.getUUID(), currentHand);
 
         if(potentialTarget != null)
         {
             Entity target = potentialTarget.getEntity();
+
             if(currentHand == Hand.MAIN_HAND)
             {
                 player.attack(target);
