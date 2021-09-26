@@ -8,7 +8,7 @@ import net.minecraft.item.IItemTier;
 
 public class DaggerItem extends LazyItem
 {
-    public DaggerItem(IItemTier tier, Properties properties, int baseDamage, float baseSpeed)
+    public DaggerItem(IItemTier tier, int baseDamage, float baseSpeed, Properties properties)
     {
         super(tier, properties, baseDamage, baseSpeed);
     }

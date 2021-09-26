@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.APItem;
+import com.theishiopian.parrying.Items.DaggerItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.ParryingMod;
@@ -38,6 +39,14 @@ public class ModItems
     public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, 6, -3f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 6, -3f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 6, -3f, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
+    //TODO make models/textures
+    public static final RegistryObject<Item> WOODEN_DAGGER = ITEMS.register("wooden_dagger", () -> new DaggerItem(ItemTier.WOOD, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DAGGER = ITEMS.register("stone_dagger", () -> new DaggerItem(ItemTier.STONE, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> IRON_DAGGER = ITEMS.register("iron_dagger", () -> new DaggerItem(ItemTier.IRON, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> GOLDEN_DAGGER = ITEMS.register("golden_dagger", () -> new DaggerItem(ItemTier.GOLD, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DIAMOND_DAGGER = ITEMS.register("diamond_dagger", () -> new DaggerItem(ItemTier.DIAMOND, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> NETHERITE_DAGGER = ITEMS.register("netherite_dagger", () -> new DaggerItem(ItemTier.NETHERITE, 2, -1f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
     private static final FlailItem WoodFlail = new FlailItem(ItemTier.WOOD, 2, -2.3f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
     private static final FlailItem StoneFlail = new FlailItem(ItemTier.STONE, 2, -2.3f, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
