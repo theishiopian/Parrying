@@ -2,7 +2,6 @@ package com.theishiopian.parrying.Entity;
 
 import com.theishiopian.parrying.Items.DaggerItem;
 import com.theishiopian.parrying.Registration.ModEntities;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -46,7 +45,6 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     {
         super(ModEntities.DAGGER.get(), owner, world);
         this.daggerItem = item.copy();
-        Debug.log(daggerItem);
         this.entityData.set(ID_FOIL, item.hasFoil());
     }
 
@@ -92,6 +90,11 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     protected EntityRayTraceResult findHitEntity(@NotNull Vector3d position, @NotNull Vector3d projection)
     {
         return this.hasImpacted ? null : super.findHitEntity(position, projection);
+    }
+
+    public boolean GetHasImpacted()
+    {
+        return hasImpacted;
     }
 
     protected void onHitEntity(EntityRayTraceResult p_213868_1_)
@@ -182,7 +185,6 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     @Override
     public void writeSpawnData(PacketBuffer buffer)
     {
-        Debug.log(this.daggerItem);
         buffer.writeItem(this.daggerItem);
     }
 

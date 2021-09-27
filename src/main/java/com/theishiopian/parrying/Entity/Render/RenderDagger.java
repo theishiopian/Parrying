@@ -26,7 +26,7 @@ public class RenderDagger extends EntityRenderer<DaggerEntity>
     {
         matrix.pushPose();
         matrix.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, daggerEntity.yRotO, daggerEntity.yRot) - 90.0F));
-        matrix.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, daggerEntity.xRot, daggerEntity.xRot) - 135 + ((float)daggerEntity.GetSpinTicks() * 20f)));
+        matrix.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, daggerEntity.xRot, daggerEntity.xRot) - 135 + (!daggerEntity.GetHasImpacted() ? ((float)daggerEntity.GetSpinTicks() * -50f) : 0)));
 
         //matrix.translate(0,-0.2f,0);
 

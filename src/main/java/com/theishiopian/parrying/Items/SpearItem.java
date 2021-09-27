@@ -89,7 +89,7 @@ public class SpearItem extends LazyItem implements IVanishable
 
                     if (!player.abilities.instabuild)
                     {
-                        player.inventory.removeItem(stack);
+                        stack.shrink(1);
                     }
                 }
 

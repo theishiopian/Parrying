@@ -77,7 +77,7 @@ public class DaggerItem extends LazyItem
 
             if (!player.abilities.instabuild)
             {
-                player.inventory.removeItem(stack);
+                stack.shrink(1);
             }
         }
 
