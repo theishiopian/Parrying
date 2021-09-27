@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:spears_enabled"
+        }
+    ],
+    "pattern": [
+        "  i",
+        " / ",
+        "/  "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:iron_spear",
+        "count": 1
+    }
+}

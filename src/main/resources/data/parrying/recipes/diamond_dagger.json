@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:daggers_enabled"
+        }
+    ],
+    "pattern": [
+        "  i",
+        " / ",
+        "   "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:diamond"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:diamond_dagger",
+        "count": 1
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:spears_enabled"
+        }
+    ],
+    "pattern": [
+        "  i",
+        " / ",
+        "/  "
+    ],
+    "key": {
+        "i": {
+            "tag": "minecraft:stone_tool_materials"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:stone_spear",
+        "count": 1
+    }
+}

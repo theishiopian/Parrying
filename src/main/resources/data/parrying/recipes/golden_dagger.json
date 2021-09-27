@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:daggers_enabled"
+        }
+    ],
+    "pattern": [
+        "  i",
+        " / ",
+        "   "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:gold_ingot"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:golden_dagger",
+        "count": 1
+    }
+}

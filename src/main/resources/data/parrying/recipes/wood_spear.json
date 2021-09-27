@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:spears_enabled"
+        }
+    ],
+    "pattern": [
+        "  i",
+        " / ",
+        "/  "
+    ],
+    "key": {
+        "i": {
+            "tag": "minecraft:planks"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:wood_spear",
+        "count": 1
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smithing",
+  "conditions":
+  [
+    {
+      "type": "parrying:spears_enabled"
+    }
+  ],
+  "base": {
+    "item": "parrying:diamond_spear"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "parrying:netherite_spear"
+  }
+}
