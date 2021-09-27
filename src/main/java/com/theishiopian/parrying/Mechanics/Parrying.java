@@ -1,7 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -50,7 +49,6 @@ public abstract class Parrying
 
                     double angle = new Vector3d(playerDir.x, 0, playerDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
                     double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - (attackSpeed - 1.6) * 0.05, 0, 1);
-                    ParryingMod.LOGGER.info(surfaceAngle);
                     Random random = new Random();
                     //default 0.95
                     if(angle > surfaceAngle && player.swinging)

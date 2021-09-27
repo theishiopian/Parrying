@@ -70,8 +70,6 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
             ticksSpinning++;
         }
 
-        //Debug.log(ticksSpinning);
-
         super.tick();
     }
 
