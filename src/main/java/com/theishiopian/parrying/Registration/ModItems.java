@@ -32,33 +32,39 @@ public class ModItems
     public static final float SPEAR_SPEED = -2.8f;
     public static final float DAGGER_SPEED = -1.4f;
 
-    public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new APItem(ItemTier.WOOD, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new APItem(ItemTier.STONE, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> IRON_MACE = ITEMS.register("iron_mace", () -> new APItem(ItemTier.IRON, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> GOLDEN_MACE = ITEMS.register("golden_mace", () -> new APItem(ItemTier.GOLD, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> DIAMOND_MACE = ITEMS.register("diamond_mace", () -> new APItem(ItemTier.DIAMOND, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new APItem(ItemTier.NETHERITE, 3, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final int MACE_DMG = 3;
+    public static final int HAMMER_DMG = 6;
+    public static final int FLAIL_DMG = 2;
+    public static final int SPEAR_DMG = 2;
+    public static final int DAGGER_DMG = 1;
 
-    public static final RegistryObject<Item> WOODEN_HAMMER = ITEMS.register("wooden_hammer", () -> new APItem(ItemTier.WOOD, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> STONE_HAMMER = ITEMS.register("stone_hammer", () -> new APItem(ItemTier.STONE, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> IRON_HAMMER = ITEMS.register("iron_hammer", () -> new APItem(ItemTier.IRON, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, 6, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new APItem(ItemTier.WOOD, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new APItem(ItemTier.STONE, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> IRON_MACE = ITEMS.register("iron_mace", () -> new APItem(ItemTier.IRON, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> GOLDEN_MACE = ITEMS.register("golden_mace", () -> new APItem(ItemTier.GOLD, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DIAMOND_MACE = ITEMS.register("diamond_mace", () -> new APItem(ItemTier.DIAMOND, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> NETHERITE_MACE = ITEMS.register("netherite_mace", () -> new APItem(ItemTier.NETHERITE, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
-    public static final RegistryObject<Item> WOODEN_DAGGER = ITEMS.register("wooden_dagger", () -> new DaggerItem(ItemTier.WOOD, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> STONE_DAGGER = ITEMS.register("stone_dagger", () -> new DaggerItem(ItemTier.STONE, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> IRON_DAGGER = ITEMS.register("iron_dagger", () -> new DaggerItem(ItemTier.IRON, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> GOLDEN_DAGGER = ITEMS.register("golden_dagger", () -> new DaggerItem(ItemTier.GOLD, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> DIAMOND_DAGGER = ITEMS.register("diamond_dagger", () -> new DaggerItem(ItemTier.DIAMOND, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
-    public static final RegistryObject<Item> NETHERITE_DAGGER = ITEMS.register("netherite_dagger", () -> new DaggerItem(ItemTier.NETHERITE, 1, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> WOODEN_HAMMER = ITEMS.register("wooden_hammer", () -> new APItem(ItemTier.WOOD, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> STONE_HAMMER = ITEMS.register("stone_hammer", () -> new APItem(ItemTier.STONE, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> IRON_HAMMER = ITEMS.register("iron_hammer", () -> new APItem(ItemTier.IRON, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> GOLDEN_HAMMER = ITEMS.register("golden_hammer", () -> new APItem(ItemTier.GOLD, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DIAMOND_HAMMER = ITEMS.register("diamond_hammer", () -> new APItem(ItemTier.DIAMOND, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> NETHERITE_HAMMER = ITEMS.register("netherite_hammer", () -> new APItem(ItemTier.NETHERITE, HAMMER_DMG, HAMMER_SPEED, HAMMER_AP, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
 
-    private static final FlailItem WoodFlail = new FlailItem(ItemTier.WOOD, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem StoneFlail = new FlailItem(ItemTier.STONE, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem GoldFlail = new FlailItem(ItemTier.GOLD, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem DiamondFlail = new FlailItem(ItemTier.DIAMOND, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
-    private static final FlailItem NetheriteFlail = new FlailItem(ItemTier.NETHERITE, 2, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    public static final RegistryObject<Item> WOODEN_DAGGER = ITEMS.register("wooden_dagger", () -> new DaggerItem(ItemTier.WOOD, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> STONE_DAGGER = ITEMS.register("stone_dagger", () -> new DaggerItem(ItemTier.STONE, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> IRON_DAGGER = ITEMS.register("iron_dagger", () -> new DaggerItem(ItemTier.IRON, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> GOLDEN_DAGGER = ITEMS.register("golden_dagger", () -> new DaggerItem(ItemTier.GOLD, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> DIAMOND_DAGGER = ITEMS.register("diamond_dagger", () -> new DaggerItem(ItemTier.DIAMOND, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+    public static final RegistryObject<Item> NETHERITE_DAGGER = ITEMS.register("netherite_dagger", () -> new DaggerItem(ItemTier.NETHERITE, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
+
+    private static final FlailItem WoodFlail = new FlailItem(ItemTier.WOOD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem StoneFlail = new FlailItem(ItemTier.STONE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem GoldFlail = new FlailItem(ItemTier.GOLD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem DiamondFlail = new FlailItem(ItemTier.DIAMOND, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
+    private static final FlailItem NetheriteFlail = new FlailItem(ItemTier.NETHERITE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
 
     public static final RegistryObject<Item> WOOD_FLAIL = ITEMS.register("wood_flail", () -> WoodFlail);
     public static final RegistryObject<Item> STONE_FLAIL = ITEMS.register("stone_flail", () -> StoneFlail);
@@ -68,12 +74,12 @@ public class ModItems
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
     //I wish I could make these private, but the model loader needs them public for some reason. is .get() not good enough for you?! shameful
-    public static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, 2, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "wood");
-    public static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, 2, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "stone");
-    public static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, 2, SPEAR_SPEED, 1,  (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron");
-    public static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, 2, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "gold");
-    public static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, 2, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "diamond");
-    public static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, 2, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "netherite");
+    public static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "wood");
+    public static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "stone");
+    public static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, SPEAR_DMG, SPEAR_SPEED, 1,  (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron");
+    public static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "gold");
+    public static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "diamond");
+    public static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "netherite");
 
     public static final RegistryObject<SpearItem> WOOD_SPEAR = ITEMS.register("wood_spear", () -> WoodSpear);
     public static final RegistryObject<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear", () -> StoneSpear);
