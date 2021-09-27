@@ -14,6 +14,7 @@
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
+  "attribute.name.parrying.inv_reduction": "Invulnerability Reduction",
 
   "item.parrying.wooden_mace": "Wooden Mace",
   "item.parrying.stone_mace": "Stone Mace",
@@ -42,6 +43,13 @@
   "item.parrying.gold_spear": "Golden Spear",
   "item.parrying.diamond_spear": "Diamond Spear",
   "item.parrying.netherite_spear": "Netherite Spear",
+
+  "item.parrying.wooden_dagger": "Wooden Dagger",
+  "item.parrying.stone_dagger": "Stone Dagger",
+  "item.parrying.iron_dagger": "Iron Dagger",
+  "item.parrying.golden_dagger": "Golden Dagger",
+  "item.parrying.diamond_dagger": "Diamond Dagger",
+  "item.parrying.netherite_dagger": "Netherite Dagger",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",

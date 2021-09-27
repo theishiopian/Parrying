@@ -77,9 +77,9 @@ public class ClientEvents
 
     public static void OnClick(InputEvent.ClickInputEvent event)
     {
-        if(IsGameplayInProgress())
+        if(IsGameplayInProgress() && event.isAttack())
         {
-            assert Minecraft.getInstance().player != null;
+            assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
             PlayerEntity player = Minecraft.getInstance().player;
 
             if(DualWielding.IsDualWielding)
