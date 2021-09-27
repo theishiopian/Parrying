@@ -1,6 +1,7 @@
 package com.theishiopian.parrying;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Entity.Render.RenderDagger;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
@@ -112,6 +113,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.DAGGER.get(), RenderDagger::new);
 
         //todo: a similar pattern is used in ModItems for flail overrides. perhaps an iterator lambda system could be useful in some way in both cases?
         SpearItem[] spears =
