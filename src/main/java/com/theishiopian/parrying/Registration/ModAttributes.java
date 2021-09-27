@@ -23,5 +23,5 @@ public class ModAttributes
 
     public static final RegistryObject<Attribute> AP = ATTRIBUTES.register("armor_pen", () -> new RangedAttribute("attribute.name.parrying.armor_pen", 0, 0, 100).setSyncable(true));
     public static final RegistryObject<Attribute> SP = ATTRIBUTES.register("shield_pen", () -> new RangedAttribute("attribute.name.parrying.shield_pen", 0, 0, 100).setSyncable(true));
-    public static final RegistryObject<Attribute> IR = ATTRIBUTES.register("inv_reduction", () -> new RangedAttribute("attribute.name.parrying.inv_reduction", 0, 0, 20).setSyncable(true));
+    public static final RegistryObject<Attribute> IR = ATTRIBUTES.register("inv_reduction", () -> new RangedAttribute("attribute.name.parrying.inv_reduction", 0, 0, 10).setSyncable(true));
 }
