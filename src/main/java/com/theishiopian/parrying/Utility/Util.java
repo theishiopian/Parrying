@@ -41,7 +41,7 @@ public class Util
         Vector3d lookVector = toAttackFrom.getViewVector(1.0F);
         Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
         AxisAlignedBB axisalignedbb = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityRayTraceResult potentialTarget = ProjectileHelper.getEntityHitResult(toAttackFrom, eyePos, projection, axisalignedbb, ((entity) -> !entity.isSpectator() && entity.isPickable()), range * range);
+        EntityRayTraceResult potentialTarget = ProjectileHelper.getEntityHitResult(toAttackFrom.level, toAttackFrom, eyePos, projection, axisalignedbb, ((entity) -> !entity.isSpectator() && entity.isPickable()));
 
         if(potentialTarget != null)
         {

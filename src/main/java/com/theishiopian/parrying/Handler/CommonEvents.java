@@ -6,6 +6,7 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -145,5 +146,16 @@ public class CommonEvents
 
         Dodging.dodgeCooldown.replaceAll((k, v) -> v - 1);
         Dodging.dodgeCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
+    }
+
+    public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
+    {
+        if(!event.player.level.isClientSide())
+        {
+            if(!Util.IsWeapon(event.player.getMainHandItem()) && Util.IsWeapon(event.player.getOffhandItem()))
+            {
+                DualWielding.dualWielders.remove(event.player.getUUID());
+            }
+        }
     }
 }

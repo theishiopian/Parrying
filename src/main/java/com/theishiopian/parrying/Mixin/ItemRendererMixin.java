@@ -5,6 +5,7 @@ import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Items.SpearItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(net.minecraft.client.renderer.ItemRenderer.class)
+@Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin
 {
     @ModifyVariable

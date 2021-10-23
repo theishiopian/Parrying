@@ -16,12 +16,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 
@@ -51,9 +52,10 @@ public class ClientEvents
 
     //used to register a player as dual wielding
     //may want to put in an event here
+    @OnlyIn(Dist.CLIENT)
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if(event.side == LogicalSide.CLIENT)
+        if(event.player.level.isClientSide())
         {
             if(Util.IsWeapon(event.player.getMainHandItem()) && Util.IsWeapon(event.player.getOffhandItem()))
             {
@@ -75,13 +77,14 @@ public class ClientEvents
         return Minecraft.getInstance().screen == null && !Minecraft.getInstance().isPaused() && Minecraft.getInstance().player != null;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void OnClick(InputEvent.ClickInputEvent event)
     {
         if(IsGameplayInProgress() && event.isAttack())
         {
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
             PlayerEntity player = Minecraft.getInstance().player;
-
+            //Debug.log("this should not be on the server");
             if(DualWielding.IsDualWielding)
             {
                 event.setSwingHand(false);

@@ -4,7 +4,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 @SuppressWarnings("ALL")
 /**
- * this class exists to generate a config file for the mod. The config specs are used both to define and get their respective values
+ * This class exists to generate a config file for the mod. The config specs are used both to define and get their respective values.
  */
 public class Config
 {

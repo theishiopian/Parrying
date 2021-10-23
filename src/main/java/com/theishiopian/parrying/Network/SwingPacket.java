@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -27,6 +28,7 @@ public class SwingPacket
 
     public static void handle(SwingPacket packet, Supplier<NetworkEvent.Context> context)
     {
+        Debug.log("packet received");
         DualWielding.DoDualWield(Objects.requireNonNull(context.get().getSender()), packet.mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
 
         context.get().setPacketHandled(true);
