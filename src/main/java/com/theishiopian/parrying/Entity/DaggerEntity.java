@@ -15,7 +15,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -101,7 +101,8 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
         float damage = ((DaggerItem)daggerItem.getItem()).getDamage() * 1.5f;//todo add config
 
         Entity owner = this.getOwner();
-        DamageSource src = owner == null ? new DamageSource("dagger") : new EntityDamageSource("dagger.player", owner);
+        DamageSource src = owner == null ? new IndirectEntityDamageSource("dagger", this, this.getOwner()).setProjectile(): new IndirectEntityDamageSource("dagger.player", this, this.getOwner()).setProjectile();
+
         this.hasImpacted = true;
         if (entity.hurt(src, damage))
         {
