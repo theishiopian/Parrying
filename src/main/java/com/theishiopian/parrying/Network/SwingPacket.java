@@ -28,7 +28,7 @@ public class SwingPacket
 
     public static void handle(SwingPacket packet, Supplier<NetworkEvent.Context> context)
     {
-        Debug.log("packet received");
+        Debug.log("packet received from: " + context.get().getSender());
         DualWielding.DoDualWield(Objects.requireNonNull(context.get().getSender()), packet.mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
 
         context.get().setPacketHandled(true);

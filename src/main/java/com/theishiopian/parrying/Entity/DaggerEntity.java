@@ -6,7 +6,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -131,15 +130,6 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent()
     {
         return SoundEvents.TRIDENT_HIT_GROUND;
-    }
-
-    public void playerTouch(@NotNull PlayerEntity player)
-    {
-        Entity owner = this.getOwner();
-        if (owner == null || owner.getUUID() == player.getUUID())
-        {
-            super.playerTouch(player);
-        }
     }
 
     public void readAdditionalSaveData(@NotNull CompoundNBT tag)
