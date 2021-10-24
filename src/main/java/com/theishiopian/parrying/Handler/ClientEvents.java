@@ -22,7 +22,6 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 
@@ -50,25 +49,6 @@ public class ClientEvents
         }
     }
 
-    //used to register a player as dual wielding
-    //may want to put in an event here
-    @OnlyIn(Dist.CLIENT)
-    public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
-    {
-        if(event.player.level.isClientSide())
-        {
-            if(Util.IsWeapon(event.player.getMainHandItem()) && Util.IsWeapon(event.player.getOffhandItem()))
-            {
-                DualWielding.IsDualWielding = true;
-            }
-            else
-            {
-                DualWielding.IsDualWielding = false;
-                DualWielding.CurrentHand = Hand.MAIN_HAND;//reset hand
-            }
-        }
-    }
-
     /*
      *this method is used to ensure that things like dodging and dual wield don't occur when, say, the inventory is open
      */
@@ -85,7 +65,7 @@ public class ClientEvents
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
             PlayerEntity player = Minecraft.getInstance().player;
             //Debug.log("this should not be on the server");
-            if(DualWielding.IsDualWielding)
+            if(DualWielding.IsDualWielding(player))
             {
                 event.setSwingHand(false);
                 event.setCanceled(true);

@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.Util;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -22,7 +23,6 @@ import java.util.UUID;
 public class DualWielding
 {
     //region CLIENT
-    public static boolean IsDualWielding = false;
     public static Hand CurrentHand = Hand.MAIN_HAND;
     //endregion
 
@@ -58,7 +58,9 @@ public class DualWielding
         player.resetAttackStrengthTicker();
     }
 
-
-
+    public static boolean IsDualWielding(PlayerEntity player)
+    {
+        return Util.IsWeapon(player.getMainHandItem()) && Util.IsWeapon(player.getOffhandItem());
+    }
     //endregion
 }

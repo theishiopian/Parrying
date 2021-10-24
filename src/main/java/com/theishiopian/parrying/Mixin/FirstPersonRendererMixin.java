@@ -27,6 +27,6 @@ public abstract class FirstPersonRendererMixin
 
         float f = player.getAttackStrengthScale(1);
         //Debug.log("you better not be on a server here");
-        return (DualWielding.IsDualWielding ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((FirstPersonRendererAccessor)(thisRenderer)).getOffHandHeight();
+        return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((FirstPersonRendererAccessor)(thisRenderer)).getOffHandHeight();
     }
 }

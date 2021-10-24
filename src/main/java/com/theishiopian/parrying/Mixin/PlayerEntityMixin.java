@@ -19,7 +19,7 @@ public class PlayerEntityMixin
     {
         PlayerEntity player = ((PlayerEntity)(Object)this);
         boolean client = player.isLocalPlayer();
-        boolean hasPlayer = client ? DualWielding.IsDualWielding : DualWielding.dualWielders.containsKey(player.getUUID());
+        boolean hasPlayer = client ? DualWielding.IsDualWielding(player) : DualWielding.dualWielders.containsKey(player.getUUID());
         boolean usingOffHand = client ? DualWielding.CurrentHand != Hand.OFF_HAND : (DualWielding.dualWielders.get(player.getUUID()) != Hand.OFF_HAND);
         boolean hasSpeed = player.getOffhandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_SPEED);
         //Debug.log("mixin");

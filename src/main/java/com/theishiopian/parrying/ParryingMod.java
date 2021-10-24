@@ -111,7 +111,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
-        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
+        //MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.DAGGER.get(), RenderDagger::new);
