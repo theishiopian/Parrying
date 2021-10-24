@@ -2,12 +2,12 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -24,9 +24,11 @@ public abstract class Parrying
 {
     public static void Parry(LivingAttackEvent event)
     {
+        Debug.log("Method called");
         DamageSource source = event.getSource();
         if(Config.parryEnabled.get() && event.getEntity() instanceof ServerPlayerEntity)
         {
+            Debug.log("can technically parry");
             PlayerEntity player = (PlayerEntity) event.getEntity();
             ItemStack held = player.getMainHandItem();
             Vector3d playerDir = player.getViewVector(1);
@@ -36,8 +38,11 @@ public abstract class Parrying
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
-                if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && !player.hasEffect(ModEffects.STUNNED.get()))
+                Debug.log("dmg src");
+                if(com.theishiopian.parrying.Utility.Util.IsWeapon(player.getMainHandItem()) && !player.hasEffect(ModEffects.STUNNED.get()))
                 {
+                    Debug.log("can actually parry");
+                    //AFTER THIS
                     Entity attacker = source.getEntity();
 
                     assert attacker != null : "How the hell did this throw null???";
@@ -51,10 +56,17 @@ public abstract class Parrying
                     double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - (attackSpeed - 1.6) * 0.05, 0, 1);
                     Random random = new Random();
                     //default 0.95
+
+                    Debug.log(angle);
+                    Debug.log(surfaceAngle);
+                    Debug.log(player.swinging);
+
                     if(angle > surfaceAngle && player.swinging)
                     {
+                        Debug.log("angle");
                         if(phaseLevel == 0 || random.nextInt(3) != 0)
                         {
+                            Debug.log("doing");
                             player.awardStat(ModStats.parry);
                             
                             player.knockback(0.33f, attackerDir.x, attackerDir.z);
