@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
@@ -64,34 +65,37 @@ public class ClientEvents
         {
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
             PlayerEntity player = Minecraft.getInstance().player;
-            //Debug.log("this should not be on the server");
-            if(DualWielding.IsDualWielding(player))
+
+            if(Config.dualWieldEnabled.get())
             {
-                event.setSwingHand(false);
-                event.setCanceled(true);
-
-                if(DualWielding.CurrentHand == Hand.OFF_HAND)
+                if(DualWielding.IsDualWielding(player))
                 {
-                    player.swing(Hand.OFF_HAND, false);
+                    event.setSwingHand(false);
+                    event.setCanceled(true);
 
-                    ParryingMod.channel.sendToServer(new SwingPacket(false));
-                    DualWielding.CurrentHand = Hand.MAIN_HAND;
+                    if(DualWielding.CurrentHand == Hand.OFF_HAND)
+                    {
+                        player.swing(Hand.OFF_HAND, false);
+
+                        ParryingMod.channel.sendToServer(new SwingPacket(false));
+                        DualWielding.CurrentHand = Hand.MAIN_HAND;
+                    }
+                    else
+                    {
+                        player.swing(Hand.MAIN_HAND, false);
+                        ParryingMod.channel.sendToServer(new SwingPacket(true));
+                        DualWielding.CurrentHand = Hand.OFF_HAND;
+                    }
+
+                    player.resetAttackStrengthTicker();
                 }
                 else
                 {
-                    player.swing(Hand.MAIN_HAND, false);
-                    ParryingMod.channel.sendToServer(new SwingPacket(true));
-                    DualWielding.CurrentHand = Hand.OFF_HAND;
-                }
-
-                player.resetAttackStrengthTicker();
-            }
-            else
-            {
-                if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
-                {
-                    EntityRayTraceResult target = Util.GetAttackTargetWithRange(player.getMainHandItem(), player);
-                    if(target != null)Minecraft.getInstance().hitResult = target;
+                    if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
+                    {
+                        EntityRayTraceResult target = Util.GetAttackTargetWithRange(player.getMainHandItem(), player);
+                        if(target != null)Minecraft.getInstance().hitResult = target;
+                    }
                 }
             }
         }

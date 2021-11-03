@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -35,28 +36,31 @@ public class DualWielding
      */
     public static void DoDualWield(ServerPlayerEntity player, Hand currentHand)
     {
-        //Debug.log("dual wield init");
-        EntityRayTraceResult potentialTarget = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
-        dualWielders.put(player.getUUID(), currentHand);
-        //Debug.log(currentHand);
-        if(currentHand == Hand.MAIN_HAND)
+        if(Config.dualWieldEnabled.get())
         {
-            if(potentialTarget != null)player.attack(potentialTarget.getEntity());
-            player.swing(Hand.MAIN_HAND, true);
-        }
-        else
-        {
-            ItemStack offhand = player.getItemInHand(Hand.OFF_HAND);
-            ItemStack mainhand = player.getItemInHand(Hand.MAIN_HAND);
-            player.setItemInHand(Hand.MAIN_HAND, offhand);
-            player.setItemInHand(Hand.OFF_HAND, mainhand);
-            if(potentialTarget != null)player.attack(potentialTarget.getEntity());
-            player.swing(Hand.OFF_HAND, true);
-            player.setItemInHand(Hand.MAIN_HAND, mainhand);
-            player.setItemInHand(Hand.OFF_HAND, offhand);
-        }
+            //Debug.log("dual wield init");
+            EntityRayTraceResult potentialTarget = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
+            dualWielders.put(player.getUUID(), currentHand);
+            //Debug.log(currentHand);
+            if(currentHand == Hand.MAIN_HAND)
+            {
+                if(potentialTarget != null)player.attack(potentialTarget.getEntity());
+                player.swing(Hand.MAIN_HAND, true);
+            }
+            else
+            {
+                ItemStack offhand = player.getItemInHand(Hand.OFF_HAND);
+                ItemStack mainhand = player.getItemInHand(Hand.MAIN_HAND);
+                player.setItemInHand(Hand.MAIN_HAND, offhand);
+                player.setItemInHand(Hand.OFF_HAND, mainhand);
+                if(potentialTarget != null)player.attack(potentialTarget.getEntity());
+                player.swing(Hand.OFF_HAND, true);
+                player.setItemInHand(Hand.MAIN_HAND, mainhand);
+                player.setItemInHand(Hand.OFF_HAND, offhand);
+            }
 
-        player.resetAttackStrengthTicker();
+            player.resetAttackStrengthTicker();
+        }
     }
 
     public static boolean IsDualWielding(PlayerEntity player)

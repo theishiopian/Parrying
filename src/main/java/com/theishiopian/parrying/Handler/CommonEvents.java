@@ -6,7 +6,6 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -33,7 +32,6 @@ public class CommonEvents
        {
            LivingEntity entity = event.getEntityLiving();
            LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
-           Debug.log("Attack Event");
            Parrying.Parry(event);
            float amount = event.getAmount();
 

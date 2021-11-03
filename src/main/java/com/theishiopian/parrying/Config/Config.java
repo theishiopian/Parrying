@@ -27,6 +27,9 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue parryEnabled;
     public static final ForgeConfigSpec.DoubleValue parryAngle;
 
+    //dual wielding
+    public static final ForgeConfigSpec.BooleanValue dualWieldEnabled;
+
     //bashing
     public static final ForgeConfigSpec.BooleanValue bashEnabled;
     public static final ForgeConfigSpec.DoubleValue bashAngle;
@@ -78,6 +81,8 @@ public class Config
         parryAngle = builder.comment("The maximum angle that you can be aiming relative to the attacker. " +
                 "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
                 .defineInRange("parry_angle", 0.95, -1,1);
+
+        dualWieldEnabled = builder.comment("Whether dual wielding is enabled or not.").define("dual_wielding_enabled", true);
 
         //BASH
 
