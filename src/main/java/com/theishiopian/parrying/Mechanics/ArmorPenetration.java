@@ -1,11 +1,14 @@
 package com.theishiopian.parrying.Mechanics;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EntityDamageSource;
@@ -13,6 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 
 public abstract class ArmorPenetration
 {
@@ -23,20 +27,23 @@ public abstract class ArmorPenetration
         return !bypassing;
     }
 
-    public static void DoAPDamage(float amount, float ap, LivingEntity entity, LivingEntity attacker, boolean bypassShield, String src)
+    public static void DoAPDamage(float amount, float ap, LivingEntity target, LivingEntity attacker, boolean bypassShield, String src)
     {
         if(!bypassing)
         {
             bypassing = true;
+            float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
             float nonAP = 1 - ap;
-            float dmgAP = amount * ap;
-            float dmgNAP = amount * nonAP;
+            float dmgAP = (amount * ap) + boost/2;
+            float dmgNAP = (amount * nonAP) + boost/2;
 
-            entity.hurt(new EntityDamageSource(src, attacker), dmgNAP);
-            entity.invulnerableTime = 0;
-            if(!IsBlocked(entity, attacker))
+            float healthBefore = target.getHealth();
+
+            target.hurt(new EntityDamageSource(src, attacker), dmgNAP);
+            target.invulnerableTime = 0;
+            if(!IsBlocked(target, attacker))
             {
-                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), dmgAP);
+                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), dmgAP);
             }
             else if(bypassShield)
             {
@@ -44,19 +51,24 @@ public abstract class ArmorPenetration
                 //minecraft apparently has decided that armor and shields are the same thing, so bypassArmor is also used to bypass shields.
                 //thus, I need to do all this math AGAIN
                 float d = amount/2;
-                float da = CombatRules.getDamageAfterAbsorb(d, (float)entity.getArmorValue(), (float)entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
-                entity.invulnerableTime = 0;
-                entity.hurt(new EntityDamageSource(src, attacker).bypassArmor(), da * nonAP);
+                float da = CombatRules.getDamageAfterAbsorb(d, (float)target.getArmorValue(), (float)target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
+                target.invulnerableTime = 0;
+                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), da * nonAP);
 
-                BlockHelper(attacker, entity, amount / 2);
+                BlockHelper(attacker, target, amount / 2);
             }
             else
             {
-                BlockHelper(attacker, entity, amount);
+                BlockHelper(attacker, target, amount);
             }
 
             attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
+
+
+            float healthAfter = target.getHealth();
+
+            if(attacker instanceof PlayerEntity)PostAttackHelper(boost, (PlayerEntity) attacker, target, attacker.getMainHandItem(), healthBefore - healthAfter);
 
             bypassing = false;
         }
@@ -110,5 +122,52 @@ public abstract class ArmorPenetration
                 }
             }
         }
+    }
+
+    private static void PostAttackHelper(float boost, PlayerEntity player, Entity target, ItemStack held, float damageDone)
+    {
+        if (boost > 0.0F)
+        {
+            player.magicCrit(target);
+        }
+
+        player.setLastHurtMob(target);
+
+        if (target instanceof LivingEntity)
+        {
+            EnchantmentHelper.doPostHurtEffects((LivingEntity)target, player);
+        }
+
+        EnchantmentHelper.doPostDamageEffects(player, target);
+        Entity entity = target;
+        if (target instanceof net.minecraftforge.entity.PartEntity)
+        {
+            entity = ((net.minecraftforge.entity.PartEntity<?>) target).getParent();
+        }
+
+        if (!player.level.isClientSide && entity instanceof LivingEntity)
+        {
+            ItemStack copy = held.copy();
+            held.hurtEnemy((LivingEntity)entity, player);
+
+            if (held.isEmpty())
+            {
+                net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, Hand.MAIN_HAND);
+                player.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+            }
+        }
+
+        if (target instanceof LivingEntity)
+        {
+            player.awardStat(Stats.DAMAGE_DEALT, Math.round(damageDone));
+
+            if (player.level instanceof ServerWorld && damageDone > 2.0F)
+            {
+                int k = (int) ((double) damageDone * 0.5D);
+                ((ServerWorld) player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5D), target.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+            }
+        }
+
+        player.causeFoodExhaustion(0.1F);
     }
 }

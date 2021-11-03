@@ -20,9 +20,10 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "ItemRendererMixin"
     };
 
-    private static final String[] MAIN_MIXINS = new String[]
+    private static final String[] COMMON_MIXINS = new String[]
     {
-        "PlayerEntityMixin"
+        "PlayerEntityMixin",
+        "DamageEnchantmentMixin"
     };
 
     @Override
@@ -58,7 +59,7 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         {
             mixins.addAll(Arrays.asList(CLIENT_MIXINS));
         }
-        mixins.addAll(Arrays.asList(MAIN_MIXINS));
+        mixins.addAll(Arrays.asList(COMMON_MIXINS));
 
         return mixins;
     }
