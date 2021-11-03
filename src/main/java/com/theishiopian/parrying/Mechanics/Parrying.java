@@ -73,7 +73,7 @@ public abstract class Parrying
 
                                 player.knockback(0.33f, attackerDir.x, attackerDir.z);
                                 player.hurtMarked = true;//this makes knockback work
-                                player.causeFoodExhaustion(0.5f);
+                                player.causeFoodExhaustion(0.5f);//exhaust player
 
                                 //add strength for riposte
                                 if(ripLevel > 0)
