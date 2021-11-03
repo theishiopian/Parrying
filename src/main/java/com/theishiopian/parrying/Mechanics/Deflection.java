@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Mechanics;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,8 +15,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
-
-import java.util.Random;
 
 public abstract class Deflection
 {
@@ -39,8 +38,6 @@ public abstract class Deflection
                 int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), held);
                 if(level > 0 && player.swinging && angle > 0.5)
                 {
-                    Random random = new Random();
-
                     player.causeFoodExhaustion(1f);
                     held.hurtAndBreak(1, player, (playerEntity) ->
                             playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
@@ -55,8 +52,7 @@ public abstract class Deflection
                     Vector3d arrowMovement = projectile.getDeltaMovement();
                     projectile.setPos(projectile.getX() + arrowMovement.x, projectile.getY() + arrowMovement.y, projectile.getZ() + arrowMovement.z);
 
-
-                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, random.nextFloat() * 2f);
+                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
 
                     Vector3d particlePos = projectile.position();
                     ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);

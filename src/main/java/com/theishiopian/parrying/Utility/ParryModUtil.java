@@ -11,13 +11,16 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 /**
  * This class contains misc methods that I have found to be useful in multiple places.
  * If a method is useful in several unrelated places, it goes in here.
  */
-public class Util
+public class ParryModUtil
 {
+    public static final Random random = new Random();
+
     public static boolean IsWeapon(ItemStack stack)
     {
         return stack.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);

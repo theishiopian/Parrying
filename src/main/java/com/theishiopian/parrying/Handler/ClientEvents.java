@@ -9,7 +9,7 @@ import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Utility.Util;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
@@ -93,7 +93,7 @@ public class ClientEvents
                 {
                     if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
                     {
-                        EntityRayTraceResult target = Util.GetAttackTargetWithRange(player.getMainHandItem(), player);
+                        EntityRayTraceResult target = ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
                         if(target != null)Minecraft.getInstance().hitResult = target;
                     }
                 }

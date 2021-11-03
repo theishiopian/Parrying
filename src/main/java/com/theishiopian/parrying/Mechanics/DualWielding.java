@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Utility.Util;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,9 +16,6 @@ import java.util.UUID;
  * Which hand a player attacks with is handled by the client, the actual
  * attack logic is handled by the server. Communication between the two is
  * handled via SwingPacket.
- *
- * NOTE: all fields in the client region are CLIENT ONLY. They cannot be accessed from the server
- * It may be prudent to develop a system that lets the server ask the client if the player is dual wielding in the future...
  */
 public class DualWielding
 {
@@ -39,7 +36,7 @@ public class DualWielding
         if(Config.dualWieldEnabled.get())
         {
             //Debug.log("dual wield init");
-            EntityRayTraceResult potentialTarget = Util.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
+            EntityRayTraceResult potentialTarget = ParryModUtil.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
             dualWielders.put(player.getUUID(), currentHand);
             //Debug.log(currentHand);
             if(currentHand == Hand.MAIN_HAND)
@@ -65,7 +62,7 @@ public class DualWielding
 
     public static boolean IsDualWielding(PlayerEntity player)
     {
-        return Util.IsWeapon(player.getMainHandItem()) && Util.IsWeapon(player.getOffhandItem());
+        return ParryModUtil.IsWeapon(player.getMainHandItem()) && ParryModUtil.IsWeapon(player.getOffhandItem());
     }
     //endregion
 }

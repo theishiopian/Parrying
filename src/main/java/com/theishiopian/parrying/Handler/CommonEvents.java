@@ -6,7 +6,7 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Utility.Util;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -152,7 +152,7 @@ public class CommonEvents
     {
         if(!event.player.level.isClientSide())
         {
-            if(!Util.IsWeapon(event.player.getMainHandItem()) && Util.IsWeapon(event.player.getOffhandItem()))
+            if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))
             {
                 DualWielding.dualWielders.remove(event.player.getUUID());
             }
