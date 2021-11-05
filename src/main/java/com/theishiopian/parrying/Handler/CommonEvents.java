@@ -6,7 +6,9 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +16,7 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -134,6 +137,16 @@ public class CommonEvents
             if((!(entity instanceof PlayerEntity)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
+            }
+
+            if(Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
+            {
+                float chance = ParryModUtil.random.nextFloat();
+
+                if(chance <= 0.25)
+                {
+                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4)));
+                }
             }
 
             Backstab.DoBackstab(event, entity);

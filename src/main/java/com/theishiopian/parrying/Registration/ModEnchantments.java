@@ -16,6 +16,7 @@ public class ModEnchantments
 
     public static final RegistryObject<Enchantment> DEFLECTING = ENCHANTMENTS.register("deflection", DeflectingEnchantment::new);
     public static final RegistryObject<Enchantment> RIPOSTE = ENCHANTMENTS.register("riposte", RiposteEnchantment::new);
+    public static final RegistryObject<Enchantment> CRIPPLING = ENCHANTMENTS.register("crippling", CripplingEnchantment::new);
     public static final RegistryObject<Enchantment> BASHING = ENCHANTMENTS.register("bashing", BashingEnchantment::new);
     public static final RegistryObject<Enchantment> FRAGILE = ENCHANTMENTS.register("fragile", FragileCurse::new);
     public static final RegistryObject<Enchantment> PHASING = ENCHANTMENTS.register("phasing", PhasingCurse::new);

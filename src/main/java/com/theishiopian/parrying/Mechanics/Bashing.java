@@ -64,7 +64,7 @@ public abstract class Bashing
                     Vector3d pDir = player.getViewVector(1);
                     int bashes = 0;
                     assert shield != null : "How";
-                    int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield);
+                    int level = Config.bashingEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield) : 0;
                     for (LivingEntity target : list)
                     {
                         Vector3d dir = (target.position().subtract(player.position())).normalize();

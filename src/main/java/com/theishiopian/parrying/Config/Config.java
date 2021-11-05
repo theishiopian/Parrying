@@ -51,6 +51,7 @@ public class Config
     //enchants
     public static final ForgeConfigSpec.BooleanValue deflectionEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue riposteEnchantEnabled;
+    public static final ForgeConfigSpec.BooleanValue cripplingEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue fragileCurseEnabled;
     public static final ForgeConfigSpec.BooleanValue phasingCurseEnabled;
     public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
@@ -126,6 +127,8 @@ public class Config
         //ENCHANT
         deflectionEnchantEnabled = builder.comment("Whether or not the deflection enchantment is enabled").define("deflection_enabled", true);
         riposteEnchantEnabled = builder.comment("Whether or not the riposte enchantment is enabled").define("riposte_enabled", true);
+
+        cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
         fragileCurseEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
         phasingCurseEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);

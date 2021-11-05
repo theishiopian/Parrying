@@ -46,9 +46,9 @@ public abstract class Parrying
                         Vector3d playerLookDir = player.getViewVector(1);//the direction the player is looking
 
                         //enchantment levels
-                        int ripLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held);
-                        int fragLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FRAGILE.get(), held);
-                        int phaseLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held);
+                        int ripLevel = Config.riposteEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held) : 0;
+                        int fragLevel = Config.fragileCurseEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FRAGILE.get(), held) : 0;
+                        int phaseLevel = Config.phasingCurseEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held) : 0;
 
                         assert attacker != null : "How the hell did this throw null???";
                         Vector3d attackerDir = attacker.position().subtract(player.position());
@@ -76,10 +76,9 @@ public abstract class Parrying
                                 player.causeFoodExhaustion(0.5f);//exhaust player
 
                                 //add strength for riposte
-                                if(ripLevel > 0)
+                                if(Config.riposteEnchantEnabled.get() && ripLevel > 0)
                                 {
-                                    EffectInstance instance = new EffectInstance(Effects.DAMAGE_BOOST, 60);
-                                    player.addEffect(instance);
+                                    player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 60));
                                 }
 
                                 //damage weapon

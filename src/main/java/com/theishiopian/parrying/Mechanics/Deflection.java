@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
@@ -25,6 +26,8 @@ public abstract class Deflection
 {
     public static boolean Deflect(ProjectileImpactEvent.Arrow event)
     {
+        if(Config.deflectionEnchantEnabled.get())return false;
+
         final AbstractArrowEntity projectile = event.getArrow();//get our projectile
 
         //make sure we are on the server and the projectile hit an entity
