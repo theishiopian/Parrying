@@ -139,7 +139,7 @@ public class CommonEvents
                 event.setAmount(event.getAmount() * 1.5f);
             }
 
-            if(Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
+            if(attacker != null && Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
             {
                 float chance = ParryModUtil.random.nextFloat();
 
