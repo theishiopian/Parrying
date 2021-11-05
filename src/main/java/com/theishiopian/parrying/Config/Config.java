@@ -57,6 +57,8 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
     public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
     public static final ForgeConfigSpec.BooleanValue bashingEnchantEnabled;
+    public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
+    public static final ForgeConfigSpec.BooleanValue venomousEnabled;
 
     static
     {
@@ -130,6 +132,8 @@ public class Config
 
         cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
+        treacheryEnabled = builder.comment("Whether or not the treachery enchantment is enabled").define("treachery_enabled", true);
+        venomousEnabled = builder.comment("Whether or not the venomous enchantment is enabled").define("venomous_enabled", true);
         fragileCurseEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
         phasingCurseEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);
         isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
