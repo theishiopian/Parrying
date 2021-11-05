@@ -145,7 +145,7 @@ public class CommonEvents
 
                 if(chance <= 0.25)
                 {
-                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4)));
+                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
                 }
             }
 
