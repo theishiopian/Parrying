@@ -19,7 +19,7 @@ public class PlayerEntityMixin
         if(Config.dualWieldEnabled.get())
         {
             PlayerEntity player = ((PlayerEntity)(Object)this);
-            boolean client = player.isLocalPlayer();
+            //boolean client = player.isLocalPlayer();
             if(DualWielding.IsDualWielding(player))
             {
                 float mainSpeed = (float) player.getMainHandItem().
@@ -31,8 +31,9 @@ public class PlayerEntityMixin
                         get(Attributes.ATTACK_SPEED).stream().findFirst().get().getAmount();
 
                 float speedMod = (mainSpeed + offSpeed) / 2;
+                float diff = Math.abs(mainSpeed - offSpeed);
 
-                cir.setReturnValue((float)((1.0D / (Attributes.ATTACK_SPEED.getDefaultValue() + speedMod)) * 20.0D));
+                cir.setReturnValue((float)((1.0D / (Attributes.ATTACK_SPEED.getDefaultValue() + speedMod + 0.2f - diff)) * 20.0D));
             }
         }
     }
