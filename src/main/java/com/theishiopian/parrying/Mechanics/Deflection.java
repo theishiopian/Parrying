@@ -4,12 +4,14 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
@@ -26,9 +28,10 @@ public abstract class Deflection
 {
     public static boolean Deflect(ProjectileImpactEvent.Arrow event)
     {
-        if(Config.deflectionEnchantEnabled.get())return false;
+        if(!Config.deflectionEnchantEnabled.get())return false;
 
         final AbstractArrowEntity projectile = event.getArrow();//get our projectile
+        Debug.log(projectile);
 
         //make sure we are on the server and the projectile hit an entity
         if(!projectile.level.isClientSide && event.getRayTraceResult() instanceof EntityRayTraceResult)
@@ -42,17 +45,30 @@ public abstract class Deflection
                 playerLookDir.subtract(0,playerLookDir.y,0);//remove y difference
                 arrowDir.subtract(0,arrowDir.y,0);//remove y difference
                 double angle = playerLookDir.dot(arrowDir);//get angle between player and projectile
-                ItemStack held = player.getMainHandItem();//get player item
+                ItemStack mainHandItem = player.getMainHandItem();//get player item
+                ItemStack offHandItem = player.getOffhandItem();//get player item
 
-                int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), held);//deflecting enchant level
+                int mainLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), mainHandItem);
+                int offLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), offHandItem);
+
+                int level = Math.min(mainLevel + offLevel, 3);//deflecting enchant level
 
                 if(level > 0 && player.swinging && angle > 0.5)
                 {
                     player.causeFoodExhaustion(1f);//exhaust player
 
                     //hurt item used
-                    held.hurtAndBreak(1, player, (playerEntity) ->
-                            playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
+                    if(mainLevel > 0)
+                    {
+                        mainHandItem.hurtAndBreak(1, player, (playerEntity) ->
+                                playerEntity.broadcastBreakEvent(Hand.MAIN_HAND));
+                    }
+
+                    if(offLevel > 0)
+                    {
+                        offHandItem.hurtAndBreak(1, player, (playerEntity) ->
+                                playerEntity.broadcastBreakEvent(Hand.OFF_HAND));
+                    }
 
                     float power = (float)(projectile.getDeltaMovement().length() / 5f) * level;//get power to deflect with
                     projectile.setDeltaMovement(playerLookDir.x * power, playerLookDir.y * power, playerLookDir.z * power);//set projectile speed
