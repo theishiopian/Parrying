@@ -5,11 +5,11 @@
   "pages": [
     {
       "type": "text",
-      "text": "Sometimes, one weapon just isn't enough. Fortunately, for times like these, we can use a revolutionary new invention; your other hand! $(br2) Dual wielding techniques generally revolve around balancing a pair of weapons to attack faster. The closer together in speed the weapons are, the faster you will be able to attack. With 2 near-identical weapons, you will be able to attack slightly faster than with just one of them."
+      "text": "Sometimes, one weapon just isn't enough. Fortunately, for times like these, we can use a revolutionary new invention; your other hand! $(br2) Dual wielding techniques generally revolve around balancing a pair of weapons to attack faster. The closer together in speed the weapons are, the faster you will be able to attack. With 2 near-identical weapons, "
     },
     {
       "type": "text",
-      "text": "Weapons cannot be swung at the same time, as this is generally awkward and tends to throw you off balance. To dual wield, simply place a weapon in both hands, and repeatedly attack. The hand you are using will alternate automatically with each swing as long as you are holding both weapons."
+      "text": "you will be able to attack slightly faster than with just one of them. Weapons cannot be swung at the same time, as this is generally awkward and tends to throw you off balance. To dual wield, simply place a weapon in both hands, and repeatedly attack. The hand you are using will alternate automatically with each swing as long as you are holding both weapons. Most enchantments will work when dual wielding, though some may become confused by the use of your off hand."
     }
   ]
 }
