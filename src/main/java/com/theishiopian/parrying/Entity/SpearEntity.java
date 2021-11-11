@@ -69,6 +69,7 @@ public class SpearEntity extends AbstractArrowEntity implements IEntityAdditiona
     }
 
     @OnlyIn(Dist.CLIENT)
+    @SuppressWarnings("unused")
     public boolean isFoil()
     {
         return this.entityData.get(ID_FOIL);

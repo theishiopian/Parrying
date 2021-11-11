@@ -78,6 +78,7 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     }
 
     @OnlyIn(Dist.CLIENT)
+    @SuppressWarnings("unused")
     public boolean isFoil()
     {
         return this.entityData.get(ID_FOIL);

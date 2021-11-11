@@ -38,12 +38,12 @@ public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance
 
     public static class Instance extends  CriterionInstance
     {
-
         public Instance(EntityPredicate.AndPredicate predicate)
         {
             super(ID, predicate);
         }
 
+        @SuppressWarnings("unused")
         public static Instance create()
         {
             return new Instance(EntityPredicate.AndPredicate.ANY);
