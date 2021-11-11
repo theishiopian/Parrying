@@ -1,10 +1,13 @@
 package com.theishiopian.parrying.Utility;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -20,6 +23,24 @@ import java.util.Random;
 public class ParryModUtil
 {
     public static final Random random = new Random();
+
+    public static boolean PlayerCritical(PlayerEntity player, Entity target, float cacheStrength)
+    {
+        boolean attackPowerFull = cacheStrength > 0.9f;
+        boolean hasFallen = player.fallDistance > 0;
+        boolean inAir = !player.isOnGround();
+        boolean notClimbing = !player.onClimbable();
+        boolean notWet = !player.isInWater();
+        boolean notBlind = !player.hasEffect(Effects.BLINDNESS);
+        boolean notRiding = !player.isPassenger();
+        boolean targetValid = target instanceof LivingEntity;
+        boolean walking = !player.isSprinting();
+        Debug.log("checking");
+
+        Debug.log("Results: ", attackPowerFull, hasFallen, inAir, notClimbing, notWet, notBlind, notRiding, targetValid, walking);
+
+        return attackPowerFull && hasFallen && inAir && notClimbing && notWet && notBlind && notRiding && targetValid && walking;
+    }
 
     public static boolean IsWeapon(ItemStack stack)
     {

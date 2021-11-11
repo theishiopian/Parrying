@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Utility.Debug;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -9,6 +11,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.Effects;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.EntityDamageSource;
@@ -27,15 +30,21 @@ public abstract class ArmorPenetration
         return !bypassing;
     }
 
-    public static void DoAPDamage(float amount, float ap, LivingEntity target, LivingEntity attacker, boolean bypassShield, String src)
+    public static void DoAPDamage(float amount, float attackStrength, float ap, LivingEntity target, LivingEntity attacker, boolean bypassShield, String src)
     {
         if(!bypassing)
         {
             bypassing = true;
             float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
+            int strLevel = attacker.hasEffect(Effects.DAMAGE_BOOST) ? attacker.getEffect(Effects.DAMAGE_BOOST).getAmplifier() : 0;
+            amount += strLevel * 3;
+            Debug.log("passing in str: " + attackStrength);
+            boolean critical = attacker instanceof PlayerEntity && ParryModUtil.PlayerCritical((PlayerEntity) attacker, target, attackStrength);
+            if(critical)amount *= 1.5f;
+            amount += boost;
             float nonAP = 1 - ap;
-            float dmgAP = (amount * ap) + boost/2;
-            float dmgNAP = (amount * nonAP) + boost/2;
+            float dmgAP = (amount * ap);
+            float dmgNAP = (amount * nonAP);
 
             float healthBefore = target.getHealth();
 
@@ -50,7 +59,7 @@ public abstract class ArmorPenetration
                 //this is stupid
                 //minecraft apparently has decided that armor and shields are the same thing, so bypassArmor is also used to bypass shields.
                 //thus, I need to do all this math AGAIN
-                float d = amount/2;
+                float d = amount / 2;
                 float da = CombatRules.getDamageAfterAbsorb(d, (float)target.getArmorValue(), (float)target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
                 target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
                 target.invulnerableTime = 0;
@@ -68,7 +77,10 @@ public abstract class ArmorPenetration
 
             float healthAfter = target.getHealth();
 
-            if(attacker instanceof PlayerEntity)PostAttackHelper(boost, (PlayerEntity) attacker, target, attacker.getMainHandItem(), healthBefore - healthAfter);
+            if(attacker instanceof PlayerEntity)
+            {
+                PostAttackHelper((PlayerEntity) attacker, boost, attackStrength, critical, target, attacker.getMainHandItem(), healthBefore - healthAfter);
+            }
 
             bypassing = false;
         }
@@ -124,8 +136,40 @@ public abstract class ArmorPenetration
         }
     }
 
-    private static void PostAttackHelper(float boost, PlayerEntity player, Entity target, ItemStack held, float damageDone)
+    private static void PostAttackHelper(PlayerEntity player, float boost, float attackStrength, boolean critical, Entity target, ItemStack held, float damageDone)
     {
+        boolean attackScale = attackStrength > 0.9f;
+        if(critical)
+        {
+            player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_CRIT, player.getSoundSource(), 1.0F, 1.0F);
+            player.crit(target);
+        }
+
+        boolean knockbackAttack = attackScale && player.isSprinting();
+
+        if(knockbackAttack)
+        {
+            if(target instanceof LivingEntity)
+            {
+                ((LivingEntity) target).knockback(1, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), (-MathHelper.cos(player.yRot * ((float)Math.PI / 180F))));
+                player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
+            }
+        }
+
+        float delta = player.walkDist - player.walkDistO;
+
+        if (!critical && player.isOnGround() && delta < player.getSpeed())
+        {
+            if (attackScale)
+            {
+                player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_STRONG, player.getSoundSource(), 1.0F, 1.0F);
+            }
+            else
+            {
+                player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_WEAK, player.getSoundSource(), 1.0F, 1.0F);
+            }
+        }
+
         if (boost > 0.0F)
         {
             player.magicCrit(target);

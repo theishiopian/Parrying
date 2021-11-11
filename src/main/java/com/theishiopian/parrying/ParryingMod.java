@@ -77,6 +77,7 @@ public class ParryingMod
     {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttackedEvent);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerAttackTarget);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);

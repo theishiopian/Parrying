@@ -7,6 +7,7 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -22,38 +23,46 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
 import java.util.List;
 
 public class CommonEvents
 {
     static float pAmount = 0;//this is dumb
+    static float strength = 0;
+
+    public static void OnPlayerAttackTarget(AttackEntityEvent event)
+    {
+        strength = event.getPlayer().getAttackStrengthScale(0.5f);
+    }
 
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
-       if(!event.getEntity().level.isClientSide)
-       {
-           LivingEntity entity = event.getEntityLiving();
-           LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
-           Parrying.Parry(event);
-           float amount = event.getAmount();
+        if(event.getSource().getEntity() instanceof PlayerEntity)Debug.log(strength);
+        if(!event.getEntity().level.isClientSide)
+        {
+            LivingEntity entity = event.getEntityLiving();
+            LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+            Parrying.Parry(event);
+            float amount = event.getAmount();
 
-           if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
-           {
-               IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
+            if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
+            {
+                IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
 
-               Entity e = src.getDirectEntity();
+                Entity e = src.getDirectEntity();
 
-               if(e instanceof  AbstractArrowEntity)
-               {
-                   pAmount = amount;
+                if(e instanceof  AbstractArrowEntity)
+                {
+                    pAmount = amount;
 
-                   entity.invulnerableTime = 0;
-               }
-           }
+                    entity.invulnerableTime = 0;
+                }
+            }
 
-           if(attacker != null)
-           {
+            if(attacker != null)
+            {
                 APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
 
                 if(weapon != null && ArmorPenetration.IsNotBypassing())
@@ -61,11 +70,11 @@ public class CommonEvents
                     //yes, the attribute is there, I put it there
                     //noinspection OptionalGetWithoutIsPresent
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
-                    ArmorPenetration.DoAPDamage(amount, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
+                    ArmorPenetration.DoAPDamage(amount, strength, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
                 }
-           }
-       }
+            }
+        }
     }
 
     public static void OnArrowImpact(ProjectileImpactEvent.Arrow event)
@@ -101,7 +110,7 @@ public class CommonEvents
                         if(pLevel > 0)
                         {
                             //it actually will bypass the shield, this is just to trick the helper method
-                            ArmorPenetration.DoAPDamage(pAmount, 0.2f * pLevel, entity, attacker, false, "piercing.player");
+                            ArmorPenetration.DoAPDamage(pAmount,strength, 0.2f * pLevel, entity, attacker, false, "piercing.player");
                             event.setAmount(0);//prevent extra damage
 
                             //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage

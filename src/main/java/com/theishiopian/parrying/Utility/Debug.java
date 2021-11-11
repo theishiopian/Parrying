@@ -10,7 +10,12 @@ public class Debug
 {
     public static void log(String message, Object... params)
     {
-        ParryingMod.LOGGER.info(message, params);
+        ParryingMod.LOGGER.info(message);
+
+        for (Object o : params)
+        {
+            Debug.log(o);
+        }
     }
 
     public static void log(String message)
