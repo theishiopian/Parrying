@@ -30,7 +30,10 @@ import java.util.List;
 public class CommonEvents
 {
     static float pAmount = 0;//this is dumb
-    static float strength = 0;
+    static float strength = 0;//so is this
+    //these static fields transfer information between layers of method calls, in between which this information is altered or destroyed. The only other way of ensuring access
+    //is to restructure the logic of the minecraft combat system, which would cause innumerable problems for compatibility im sure.
+    //Why do you do this to me mojang?
 
     public static void OnPlayerAttackTarget(AttackEntityEvent event)
     {
