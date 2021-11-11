@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -62,7 +63,10 @@ public class DualWielding
 
     public static boolean IsDualWielding(PlayerEntity player)
     {
-        return ParryModUtil.IsWeapon(player.getMainHandItem()) && ParryModUtil.IsWeapon(player.getOffhandItem());
+        boolean main = ParryModUtil.IsWeapon(player.getMainHandItem()) && !player.getMainHandItem().getItem().is(ModTags.TWO_HANDED_WEAPONS);
+        boolean off = ParryModUtil.IsWeapon(player.getOffhandItem()) && !player.getOffhandItem().getItem().is(ModTags.TWO_HANDED_WEAPONS);
+
+        return main && off;
     }
     //endregion
 }

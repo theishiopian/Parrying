@@ -82,7 +82,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
-        //if you need a player tick event, put it here
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTooltip);
 
         ModTriggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);

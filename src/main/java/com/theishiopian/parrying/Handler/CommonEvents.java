@@ -7,6 +7,7 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,11 +20,16 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.IndirectEntityDamageSource;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 import java.util.List;
 
@@ -181,6 +187,14 @@ public class CommonEvents
             {
                 DualWielding.dualWielders.remove(event.player.getUUID());
             }
+        }
+    }
+
+    public static void OnTooltip(ItemTooltipEvent event)
+    {
+        if(event.getItemStack().getItem().is(ModTags.TWO_HANDED_WEAPONS))
+        {
+            event.getToolTip().add(new TranslationTextComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor(Color.fromLegacyFormat(TextFormatting.RED))));
         }
     }
 }
