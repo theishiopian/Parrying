@@ -2,9 +2,12 @@ package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.Bashing;
+import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -35,12 +38,34 @@ public class LeftClickPacket
         assert player != null;//how would this be null?
         Bashing.Bash(player);
 
-        if(player.getMainHandItem().getItem() instanceof FlailItem)
+        if(DualWielding.IsDualWielding(player))
         {
-            player.level.playSound(null, player.blockPosition(), ModSoundEvents.FLAIL_SWING.get(), SoundCategory.PLAYERS, 1, 1);
-            player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 1, 1);
+            Hand hand = DualWielding.dualWielders.get(player.getUUID());
+
+            //DON'T ASK
+            if(hand != Hand.MAIN_HAND && player.getMainHandItem().getItem() instanceof FlailItem)
+            {
+                PlaySound(player);
+            }
+
+            if(hand != Hand.OFF_HAND && player.getOffhandItem().getItem() instanceof FlailItem)
+            {
+                PlaySound(player);
+            }
+        }
+        else if(player.getMainHandItem().getItem() instanceof FlailItem)
+        {
+            PlaySound(player);
         }
 
+
+
         context.get().setPacketHandled(true);
+    }
+
+    private static void PlaySound(PlayerEntity player)
+    {
+        player.level.playSound(null, player.blockPosition(), ModSoundEvents.FLAIL_SWING.get(), SoundCategory.PLAYERS, 1, 1);
+        player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 1, 1);
     }
 }
