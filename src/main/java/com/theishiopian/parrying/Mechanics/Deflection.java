@@ -4,7 +4,6 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -31,7 +30,6 @@ public abstract class Deflection
         if(!Config.deflectionEnchantEnabled.get())return false;
 
         final AbstractArrowEntity projectile = event.getArrow();//get our projectile
-        Debug.log(projectile);
 
         //make sure we are on the server and the projectile hit an entity
         if(!projectile.level.isClientSide && event.getRayTraceResult() instanceof EntityRayTraceResult)

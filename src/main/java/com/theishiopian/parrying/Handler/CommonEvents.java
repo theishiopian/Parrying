@@ -7,7 +7,6 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -42,7 +41,6 @@ public class CommonEvents
 
     public static void OnAttackedEvent(LivingAttackEvent event)
     {
-        if(event.getSource().getEntity() instanceof PlayerEntity)Debug.log(strength);
         if(!event.getEntity().level.isClientSide)
         {
             LivingEntity entity = event.getEntityLiving();

@@ -35,9 +35,6 @@ public class ParryModUtil
         boolean notRiding = !player.isPassenger();
         boolean targetValid = target instanceof LivingEntity;
         boolean walking = !player.isSprinting();
-        Debug.log("checking");
-
-        Debug.log("Results: ", attackPowerFull, hasFallen, inAir, notClimbing, notWet, notBlind, notRiding, targetValid, walking);
 
         return attackPowerFull && hasFallen && inAir && notClimbing && notWet && notBlind && notRiding && targetValid && walking;
     }

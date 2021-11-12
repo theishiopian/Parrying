@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -38,7 +37,6 @@ public abstract class ArmorPenetration
             float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
             int strLevel = attacker.hasEffect(Effects.DAMAGE_BOOST) ? attacker.getEffect(Effects.DAMAGE_BOOST).getAmplifier() : 0;
             amount += strLevel * 3;
-            Debug.log("passing in str: " + attackStrength);
             boolean critical = attacker instanceof PlayerEntity && ParryModUtil.PlayerCritical((PlayerEntity) attacker, target, attackStrength);
             if(critical)amount *= 1.5f;
             amount += boost;
