@@ -44,7 +44,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 3;//protocol version, bump whenever adding new network packets or changing existing ones
+    private static final int VERSION = 4;//protocol version, bump whenever adding new network packets or changing existing ones
 
     static
     {
