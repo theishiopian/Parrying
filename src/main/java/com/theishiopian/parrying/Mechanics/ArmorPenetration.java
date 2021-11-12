@@ -151,7 +151,8 @@ public abstract class ArmorPenetration
         {
             if(target instanceof LivingEntity)
             {
-                ((LivingEntity) target).knockback(1, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), (-MathHelper.cos(player.yRot * ((float)Math.PI / 180F))));
+                ((LivingEntity) target).knockback(0.5f, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), (-MathHelper.cos(player.yRot * ((float)Math.PI / 180F))));
+                target.hurtMarked = true;
                 player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
             }
         }
