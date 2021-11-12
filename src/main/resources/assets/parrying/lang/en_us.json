@@ -71,7 +71,7 @@
   "death.attack.spear.player": "%1$s was finished off by %2$s's thrown spear",
 
   "death.attack.dagger": "%1$s was finished off by a thrown dagger",
-  "death.attack.spear.dagger": "%1$s was finished off by %2$s's thrown dagger",
+  "death.attack.dagger.player": "%1$s was finished off by %2$s's thrown dagger",
 
   "key.parrying.dodge": "Dodge",
 
