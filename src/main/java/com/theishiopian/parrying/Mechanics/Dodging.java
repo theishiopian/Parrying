@@ -13,7 +13,7 @@ import java.util.UUID;
 public abstract class Dodging
 {
     public static final Map<UUID, Integer> dodgeCooldown = new HashMap<>();
-    public static void Dodge(ServerPlayerEntity player, int direction)
+    public static void Dodge(ServerPlayerEntity player, boolean left, boolean right, boolean back)
     {
         if(Config.dodgeEnabled.get())
         {
@@ -29,31 +29,13 @@ public abstract class Dodging
 
                 EffectInstance jumpBoost = player.getEffect(Effects.JUMP.getEffect());
 
+                Vector3d dir = playerDir.scale(back ? 1 : 0).add(cross.scale(left ? 1 : 0).add(cross.scale(right ? -1 : 0)));
+
                 int level = (jumpBoost == null) ? 0 : jumpBoost.getAmplifier() + 1;
 
-                switch (direction)
-                {
-                    case 1:
-                    {
-                        player.knockback((float) (Config.dodgePower.get() + (0.15f * level)), cross.x, cross.z);
-                        player.hurtMarked = true;//this makes knockback work
-                    }
-                    break;
+                player.knockback((float)(Config.dodgePower.get() + (0.15f * level)),  dir.x, dir.z);
+                player.hurtMarked = true;
 
-                    case 2:
-                    {
-                        player.knockback((float) (Config.dodgePower.get() + (0.15f * level)), playerDirLevel.x, playerDirLevel.z);
-                        player.hurtMarked = true;//this makes knockback work
-                    }
-                    break;
-
-                    case 3:
-                    {
-                        player.knockback((float) (Config.dodgePower.get() + (0.15f * level)), -cross.x, -cross.z);
-                        player.hurtMarked = true;//this makes knockback work
-                    }
-                    break;
-                }
                 player.causeFoodExhaustion(0.5f);
                 dodgeCooldown.put(player.getUUID(), (int)(Config.dodgeCooldown.get() * 120));
             }

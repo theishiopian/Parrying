@@ -82,7 +82,6 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTooltip);
 
         ModTriggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);
@@ -112,6 +111,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnTooltip);
         //MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);

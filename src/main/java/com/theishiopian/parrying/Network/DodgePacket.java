@@ -12,30 +12,32 @@ import java.util.function.Supplier;
  */
 public class DodgePacket
 {
-    //0=none
-    //1=left
-    //2=back
-    //3=right
-    public final int direction;
+    public final boolean left;
+    public final boolean right;
+    public final boolean back;
 
     public void toBytes(PacketBuffer buffer)
     {
-        buffer.writeInt(direction);
+        buffer.writeBoolean(left);
+        buffer.writeBoolean(right);
+        buffer.writeBoolean(back);
     }
 
     public static DodgePacket fromBytes(PacketBuffer buffer)
     {
-        return new DodgePacket(buffer.readInt());
+        return new DodgePacket(buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean());
     }
 
-    public DodgePacket(int dir)
+    public DodgePacket(boolean l, boolean r, boolean b)
     {
-        direction = dir;
+        left = l;
+        right = r;
+        back = b;
     }
 
     public static void handle(DodgePacket packet, Supplier<NetworkEvent.Context> context)
     {
-        Dodging.Dodge(context.get().getSender(), packet.direction);
+        Dodging.Dodge(context.get().getSender(), packet.left, packet.right, packet.back);
 
         context.get().setPacketHandled(true);
     }
