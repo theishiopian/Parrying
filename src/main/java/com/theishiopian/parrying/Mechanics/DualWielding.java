@@ -63,8 +63,12 @@ public class DualWielding
 
     public static boolean IsDualWielding(PlayerEntity player)
     {
-        boolean main = ParryModUtil.IsWeapon(player.getMainHandItem()) && !player.getMainHandItem().getItem().is(ModTags.TWO_HANDED_WEAPONS);
-        boolean off = ParryModUtil.IsWeapon(player.getOffhandItem()) && !player.getOffhandItem().getItem().is(ModTags.TWO_HANDED_WEAPONS);
+        boolean twoHanded = Config.dualWieldEnabled.get();
+        ItemStack mainItem = player.getMainHandItem();
+        ItemStack offItem = player.getOffhandItem();
+
+        boolean main = ParryModUtil.IsWeapon(mainItem) && (!mainItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
+        boolean off = ParryModUtil.IsWeapon(offItem) && (!offItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
 
         return main && off;
     }

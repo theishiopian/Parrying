@@ -29,6 +29,7 @@ public class Config
 
     //dual wielding
     public static final ForgeConfigSpec.BooleanValue dualWieldEnabled;
+    public static final ForgeConfigSpec.BooleanValue twoHandedEnabled;
 
     //bashing
     public static final ForgeConfigSpec.BooleanValue bashEnabled;
@@ -85,7 +86,9 @@ public class Config
                 "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
                 .defineInRange("parry_angle", 0.95, -1,1);
 
+        //DUAL WIELD
         dualWieldEnabled = builder.comment("Whether dual wielding is enabled or not.").define("dual_wielding_enabled", true);
+        twoHandedEnabled = builder.comment("Whether certain weapons disable dual wielding").define("two_handed_enabled", true);
 
         //BASH
 
