@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "parrying:gold_spear",
+    "parrying:golden_dagger",
+    "parrying:gold_flail",
+    "parrying:golden_hammer",
+    "parrying:golden_mace"
+  ]
+}
