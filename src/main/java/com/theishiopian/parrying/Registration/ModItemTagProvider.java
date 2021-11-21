@@ -8,6 +8,10 @@ import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
+
+/**
+ * This class is used in the dev environment to generate item tag data on the fly
+ */
 public class ModItemTagProvider extends ItemTagsProvider
 {
     public ModItemTagProvider(DataGenerator generator, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper)
