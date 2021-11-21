@@ -145,5 +145,6 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("spears_enabled", Config.spearEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("daggers_enabled", Config.daggerEnabled::get).new Serializer());
+        CraftingHelper.register(new EnabledCondition("is_chainmail_craftable", Config.isChainmailCraftable::get).new Serializer());
     }
 }

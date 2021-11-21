@@ -1,5 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
+  "conditions":
+  [
+    {
+      "type": "parrying:is_chainmail_craftable"
+    }
+  ],
   "pattern": [
     "nnn",
     "n n",
