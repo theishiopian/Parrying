@@ -61,6 +61,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
 
+    //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
 
     static

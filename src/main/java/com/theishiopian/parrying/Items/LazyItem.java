@@ -16,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 public abstract class LazyItem extends TieredItem
 {
     protected Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected int baseDamage;
-    protected float baseSpeed;
+    protected final int baseDamage;
+    protected final float baseSpeed;
     protected final float attackDamage, attackSpeed;
     public LazyItem(IItemTier tier, Properties properties, int baseDamage, float baseSpeed)
     {

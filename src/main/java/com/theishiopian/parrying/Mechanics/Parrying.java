@@ -59,8 +59,11 @@ public abstract class Parrying
                         //the angle from player look direction to the direction from the player to the enemy
                         double angle = new Vector3d(playerLookDir.x, 0, playerLookDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
 
+                        float dualWield = DualWielding.IsDualWielding(player) ? 0.1f : 0;
+
                         //the minimum angle for a successful parry, determined by the attack speed. based around the speed of a sword (1.6)
-                        double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - (attackSpeed - 1.6) * 0.05, 0, 1);
+                        //granted a small bonus by dual wielding
+                        double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - ((attackSpeed - 1.6)) - dualWield * 0.05, 0, 1);
 
                         //default 0.95
                         if(angle >= surfaceAngle && player.swinging)

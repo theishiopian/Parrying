@@ -24,25 +24,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class SpearItem extends LazyItem implements IVanishable
 {
-    private final String materialID;//this is stupid
-
-    public String getMaterialID()
-    {
-        return materialID;
-    }
-
-    public static ArrayList<ItemStack> throwingSpears = new ArrayList<>();//this is even more stupid, but minecraft has forced my hand. I need to find a more native solution at some point
 
     private final float reach;
 
-    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, float reach, Properties properties, String materialID)
+    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, float reach, Properties properties)
     {
         super(itemTier, properties, baseDamage, baseSpeed);
-        this.materialID = materialID;
         this.reach = reach;
     }
 
@@ -95,8 +84,6 @@ public class SpearItem extends LazyItem implements IVanishable
 
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
-
-            if(world.isClientSide)throwingSpears.remove(stack);
         }
     }
 
@@ -111,7 +98,6 @@ public class SpearItem extends LazyItem implements IVanishable
         else
         {
             player.startUsingItem(hand);
-            if(world.isClientSide)throwingSpears.add(stack);
             return ActionResult.consume(stack);
         }
     }

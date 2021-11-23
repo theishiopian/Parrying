@@ -59,6 +59,7 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_DAGGER = ITEMS.register("diamond_dagger", () -> new DaggerItem(ItemTier.DIAMOND, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_DAGGER = ITEMS.register("netherite_dagger", () -> new DaggerItem(ItemTier.NETHERITE, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).fireResistant().tab(ItemGroup.TAB_COMBAT)));
 
+    //initialized separately for item override purposes
     private static final FlailItem WoodFlail = new FlailItem(ItemTier.WOOD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
     private static final FlailItem StoneFlail = new FlailItem(ItemTier.STONE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
     private static final FlailItem IronFlail = new FlailItem(ItemTier.IRON, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(ItemGroup.TAB_COMBAT));
@@ -73,13 +74,13 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
     public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
 
-    //I wish I could make these private, but the model loader needs them public for some reason. is .get() not good enough for you?! shameful
-    public static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "wood");
-    public static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "stone");
-    public static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, SPEAR_DMG, SPEAR_SPEED, 1,  (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "iron");
-    public static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "gold");
-    public static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)), "diamond");
-    public static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(ItemGroup.TAB_COMBAT)), "netherite");
+    //initialized separately for item override purposes
+    private static final SpearItem WoodSpear = new SpearItem(ItemTier.WOOD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    private static final SpearItem StoneSpear = new SpearItem(ItemTier.STONE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    private static final SpearItem IronSpear = new SpearItem(ItemTier.IRON, SPEAR_DMG, SPEAR_SPEED, 1,  (new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    private static final SpearItem GoldSpear = new SpearItem(ItemTier.GOLD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    private static final SpearItem DiamondSpear = new SpearItem(ItemTier.DIAMOND, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(ItemGroup.TAB_COMBAT)));
+    private static final SpearItem NetheriteSpear = new SpearItem(ItemTier.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(ItemGroup.TAB_COMBAT)));
 
     public static final RegistryObject<SpearItem> WOOD_SPEAR = ITEMS.register("wood_spear", () -> WoodSpear);
     public static final RegistryObject<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear", () -> StoneSpear);
@@ -88,7 +89,10 @@ public class ModItems
     public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> DiamondSpear);
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
 
-    //spears may be able to use this system too, investigate in the future
+    /**
+     * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as
+     * for the flail animation or for spears pointing the right way when about to be thrown.
+     */
     public static void RegisterOverrides()
     {
         FlailItem[] flails =
@@ -115,10 +119,7 @@ public class ModItems
         for (SpearItem spear:spears)
         {
             ItemModelsProperties.register(spear, new ResourceLocation("throwing"), (stack, world, user) ->
-            {
-                //Debug.log("override");
-                return (user != null && user.isUsingItem() && user.getMainHandItem().equals(stack)) ? 1 : 0;
-            });
+                    (user != null && user.isUsingItem() && user.getMainHandItem().equals(stack)) ? 1 : 0);
         }
 
         //if null pointers get thrown in the item render, look at these rascals

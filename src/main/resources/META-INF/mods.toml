@@ -3,7 +3,7 @@ loaderVersion="[35,36,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.2.1"
+version="2.2.2"
 displayName="Parrying"
 authors="theishiopian"
 description='''Improving Minecraft combat with new mechanics and weapons!'''
