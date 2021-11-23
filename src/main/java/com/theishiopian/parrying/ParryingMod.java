@@ -5,17 +5,14 @@ import com.theishiopian.parrying.Entity.Render.RenderDagger;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
-import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -106,7 +103,7 @@ public class ParryingMod
     @OnlyIn(Dist.CLIENT)
     public void ClientSetup(FMLClientSetupEvent event)
     {
-        if(Config.flailEnabled.get())ModItems.RegisterFlailOverrides();
+        if(Config.flailEnabled.get())ModItems.RegisterOverrides();
 
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
@@ -116,23 +113,6 @@ public class ParryingMod
 
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPEAR.get(), RenderSpear::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.DAGGER.get(), RenderDagger::new);
-
-        //todo: a similar pattern is used in ModItems for flail overrides. perhaps an iterator lambda system could be useful in some way in both cases?
-        SpearItem[] spears =
-        {
-                ModItems.WOOD_SPEAR.get(),
-                ModItems.STONE_SPEAR.get(),
-                ModItems.IRON_SPEAR.get(),
-                ModItems.GOLD_SPEAR.get(),
-                ModItems.DIAMOND_SPEAR.get(),
-                ModItems.NETHERITE_SPEAR.get()
-        };
-
-        for(SpearItem spear : spears)
-        {
-            ModelLoader.addSpecialModel(new ModelResourceLocation(spear.getRegistryName() + "_gui", "inventory"));
-            ModelLoader.addSpecialModel(new ModelResourceLocation(spear.getRegistryName() + "_throwing", "inventory"));
-        }
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)

@@ -1,0 +1,81 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:separate-perspective",
+  "base":
+  {
+    "parent": "item/handheld",
+    "textures":
+    {
+      "layer0": "parrying:item/diamond_spear_big"
+    }
+  },
+  "perspectives": {
+    "gui":
+    {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "parrying:item/diamond_spear"
+      }
+    },
+    "ground":
+    {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "parrying:item/diamond_spear"
+      }
+    },
+    "fixed":
+    {
+      "parent": "parrying:item/spear_normal",
+      "textures": {
+        "layer0": "parrying:item/diamond_spear_big"
+      }
+    },
+    "none":
+    {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "parrying:item/diamond_spear"
+      }
+    },
+    "head":
+    {
+      "parent": "minecraft:item/handheld",
+      "textures": {
+        "layer0": "parrying:item/diamond_spear"
+      }
+    },
+    "first_person_right_hand":
+    {
+      "parent": "parrying:item/spear_normal",
+      "textures":
+      {
+        "layer0": "parrying:item/diamond_spear_big"
+      }
+    },
+    "first_person_left_hand":
+    {
+      "parent": "parrying:item/spear_normal",
+      "textures":
+      {
+        "layer0": "parrying:item/diamond_spear_big"
+      }
+    },
+    "third_person_left_hand":
+    {
+      "parent": "parrying:item/spear_normal",
+      "textures":
+      {
+        "layer0": "parrying:item/diamond_spear_big"
+      }
+    },
+    "third_person_right_hand":
+    {
+      "parent": "parrying:item/spear_normal",
+      "textures":
+      {
+        "layer0": "parrying:item/diamond_spear_big"
+      }
+    }
+  }
+}

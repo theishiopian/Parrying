@@ -16,8 +16,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     private static final String[] CLIENT_MIXINS = new String[]
     {
         "FirstPersonRendererAccessor",
-        "FirstPersonRendererMixin",
-        "ItemRendererMixin"
+        "FirstPersonRendererMixin"
+        //"ItemRendererMixin"
     };
 
     private static final String[] COMMON_MIXINS = new String[]

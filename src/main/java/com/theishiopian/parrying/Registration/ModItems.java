@@ -89,7 +89,7 @@ public class ModItems
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
 
     //spears may be able to use this system too, investigate in the future
-    public static void RegisterFlailOverrides()
+    public static void RegisterOverrides()
     {
         FlailItem[] flails =
         {
@@ -101,6 +101,26 @@ public class ModItems
             NetheriteFlail
         };
 
+        SpearItem[] spears =
+        {
+            WoodSpear,
+            StoneSpear,
+            IronSpear,
+            GoldSpear,
+            DiamondSpear,
+            NetheriteSpear
+        };
+
+        //if null pointers get thrown in the item render, look at these rascals
+        for (SpearItem spear:spears)
+        {
+            ItemModelsProperties.register(spear, new ResourceLocation("throwing"), (stack, world, user) ->
+            {
+                //Debug.log("override");
+                return (user != null && user.isUsingItem() && user.getMainHandItem().equals(stack)) ? 1 : 0;
+            });
+        }
+
         //if null pointers get thrown in the item render, look at these rascals
         for (FlailItem flail:flails)
         {
@@ -109,7 +129,6 @@ public class ModItems
             {
                 boolean mainHand = false;
                 boolean offHand = false;
-
                 if(user != null)
                 {
                     mainHand = user.getMainHandItem().equals(stack) && user.swingingArm == Hand.MAIN_HAND;
