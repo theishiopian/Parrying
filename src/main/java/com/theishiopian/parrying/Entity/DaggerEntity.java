@@ -59,7 +59,7 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
 
     public void tick()
     {
-        if (this.inGroundTime > 4 && !hasImpacted)
+        if (this.inGroundTime > 1 && !hasImpacted)
         {
             this.hasImpacted = true;
         }
