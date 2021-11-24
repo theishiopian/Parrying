@@ -1,9 +1,6 @@
 package com.theishiopian.parrying.Registration;
 
-import com.theishiopian.parrying.Items.APItem;
-import com.theishiopian.parrying.Items.DaggerItem;
-import com.theishiopian.parrying.Items.FlailItem;
-import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -88,6 +85,8 @@ public class ModItems
     public static final RegistryObject<SpearItem> GOLD_SPEAR = ITEMS.register("gold_spear", () -> GoldSpear);
     public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> DiamondSpear);
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
+
+    public static final RegistryObject<Item> FIRECRACKER = ITEMS.register("firecracker", () -> new FirecrackerItem(new Item.Properties()));
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as
