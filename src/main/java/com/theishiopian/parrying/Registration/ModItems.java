@@ -2,15 +2,14 @@ package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemModelsProperties;
-import net.minecraft.item.ItemTier;
+import net.minecraft.item.*;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Objects;
 
 /**
  * This class is used to register custom items. Mostly weapons.
@@ -137,5 +136,16 @@ public class ModItems
                 return (user != null && user.attackAnim > 0 && (mainHand || offHand)) ? 1 : 0;
             });
         }
+
+        IItemPropertyGetter spin = (stack, world, user) ->
+        {
+            if(Objects.requireNonNull(stack.getTagElement("Spin")).contains("IsSpinning", 1))
+            {
+                return 1;
+            }
+            return 0;
+        };
+
+        ItemModelsProperties.register(FIRECRACKER.get(), new ResourceLocation("spin"), spin);
     }
 }

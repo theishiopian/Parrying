@@ -156,7 +156,11 @@ public class FirecrackerEntity extends ProjectileItemEntity implements IRendersA
         }
     }
 
-    //TODO: do spinning animation as separate model override, use nbt to determine if in entity
+    /**
+     * This method is used by the client to get the item to render
+     * TODO: do spinning animation as separate model override, use nbt to determine if in entity
+     * @return the item to use
+     */
     @OnlyIn(Dist.CLIENT)
     public @NotNull ItemStack getItem()
     {

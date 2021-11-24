@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures":
+  {
+    "layer0": "parrying:item/firecracker/firecracker"
+  },
+  "overrides":
+  [
+    {
+      "predicate":
+      {
+        "spinning": 1
+      },
+      "model": "parrying:item/firecracker_spin"
+    }
+  ]
+}
