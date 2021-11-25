@@ -91,6 +91,12 @@ public class SpearItem extends LazyItem implements IVanishable
     {
         ItemStack stack = player.getItemInHand(hand);
 
+        if(hand.equals(Hand.MAIN_HAND) && player.isShiftKeyDown())
+        {
+            player.startUsingItem(Hand.OFF_HAND);
+            return ActionResult.fail(stack);
+        }
+
         if (stack.getDamageValue() >= stack.getMaxDamage() - 1)
         {
             return ActionResult.fail(stack);
@@ -99,7 +105,7 @@ public class SpearItem extends LazyItem implements IVanishable
         {
             player.startUsingItem(hand);
             return ActionResult.consume(stack);
-        }
+        }    
     }
 
     public boolean hurtEnemy(ItemStack stack, @NotNull LivingEntity enemy, @NotNull LivingEntity player)
