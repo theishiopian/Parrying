@@ -90,22 +90,24 @@ public class SpearItem extends LazyItem implements IVanishable
     public @NotNull ActionResult<ItemStack> use(@NotNull World world, PlayerEntity player, @NotNull Hand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
-
-        if(hand.equals(Hand.MAIN_HAND) && player.isShiftKeyDown())
+        // check if the player meant to actually throw it, check if the player holds an item in the off hand.
+        if(hand.equals(Hand.MAIN_HAND) && !player.getOffhandItem().isEmpty() && !player.isShiftKeyDown())
         {
             player.startUsingItem(Hand.OFF_HAND);
             return ActionResult.fail(stack);
         }
-
-        if (stack.getDamageValue() >= stack.getMaxDamage() - 1)
-        {
-            return ActionResult.fail(stack);
-        }
         else
         {
-            player.startUsingItem(hand);
-            return ActionResult.consume(stack);
-        }    
+            if (stack.getDamageValue() >= stack.getMaxDamage() - 1)
+            {
+                return ActionResult.fail(stack);
+            }
+            else
+            {
+                player.startUsingItem(hand);
+                return ActionResult.consume(stack);
+            }
+        }  
     }
 
     public boolean hurtEnemy(ItemStack stack, @NotNull LivingEntity enemy, @NotNull LivingEntity player)
