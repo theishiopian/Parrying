@@ -7,6 +7,10 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.TieredItem;
 import org.jetbrains.annotations.NotNull;
+import net.minecraft.item.ItemStack;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
+
 
 /**
  * This class defines an item that only builds its attribute modifiers "just in time".
@@ -27,6 +31,11 @@ public abstract class LazyItem extends TieredItem
         this.attackDamage = (float)baseDamage + tier.getAttackDamageBonus();
         this.attackSpeed = baseSpeed;
 
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category == EnchantmentType.WEAPON || enchantment.category == EnchantmentType.BREAKABLE;
     }
 
     public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlotType slotType)
