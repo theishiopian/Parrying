@@ -145,7 +145,6 @@ public class Config
         isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
         isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
 
-
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
 
         COMMON = builder.build();

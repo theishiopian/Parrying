@@ -1,15 +1,9 @@
 modLoader="javafml"
-loaderVersion="[35,36,)"
+loaderVersion="[39,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.2.2"
+version="2.3"
 displayName="Parrying"
 authors="theishiopian"
 description='''Improving Minecraft combat with new mechanics and weapons!'''
-[[dependencies.parrying]]
-modId = "patchouli"
-mandatory = false
-versionRange = "[1.16.4-53,)"
-ordering = "BEFORE"
-side = "BOTH"
