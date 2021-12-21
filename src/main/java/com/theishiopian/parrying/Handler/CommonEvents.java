@@ -7,7 +7,9 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -174,5 +177,11 @@ public class CommonEvents
                 DualWielding.dualWielders.remove(event.player.getUUID());
             }
         }
+    }
+
+    //this MAY fix the tag issue
+    public static void OnTagsChanged(TagsUpdatedEvent event)
+    {
+        ModTags.TWO_HANDED_WEAPONS = ItemTags.bind("parrying:two_handed_weapons");
     }
 }

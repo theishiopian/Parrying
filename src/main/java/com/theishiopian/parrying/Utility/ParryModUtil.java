@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Utility;
 
+import com.theishiopian.parrying.ParryingMod;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -22,6 +24,7 @@ import java.util.Random;
  */
 public class ParryModUtil
 {
+    public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(ParryingMod.MOD_ID, "textures/gui/general_icons.png");
     public static final Random random = new Random();
 
     public static boolean PlayerCritical(Player player, Entity target, float cacheStrength)

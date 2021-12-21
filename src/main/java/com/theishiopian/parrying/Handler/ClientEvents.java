@@ -1,6 +1,9 @@
 package com.theishiopian.parrying.Handler;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
@@ -27,10 +30,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 public class ClientEvents
 {
@@ -39,6 +44,26 @@ public class ClientEvents
     static
     {
         ClientRegistry.registerKeyBinding(dodgeKey);
+    }
+
+    public static void RenderDefense(RenderGameOverlayEvent.Post event)
+    {
+        if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
+        {
+            Minecraft mc = Minecraft.getInstance();
+            PoseStack stack = event.getMatrixStack();
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
+            RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
+
+            Window window = event.getWindow();
+            int x = window.getGuiScaledWidth() / 2 + 20;
+            int y = window.getGuiScaledHeight() / 2 - 8;
+            int offset = 0;
+            //Screen.blit(stack, x, y, offset * 16, 0, 16, 16, 256, 256);
+            //TODO blit background first, then blit fill. scale fill using uHeight
+        }
     }
 
     public static void OnTooltip(ItemTooltipEvent event)
