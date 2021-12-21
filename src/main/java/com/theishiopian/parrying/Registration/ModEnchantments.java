@@ -2,10 +2,10 @@ package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Enchantment.*;
 import com.theishiopian.parrying.ParryingMod;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 /**
  * This class is used to register custom enchantments.

@@ -1,11 +1,11 @@
 package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.ParryingMod;
-import net.minecraft.stats.IStatFormatter;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -25,6 +25,6 @@ public class ModStats
     {
         parry = new ResourceLocation(ParryingMod.MOD_ID, "parry");
         Registry.register(Registry.CUSTOM_STAT, parry, parry);
-        Stats.CUSTOM.get(parry, IStatFormatter.DEFAULT);
+        Stats.CUSTOM.get(parry, StatFormatter.DEFAULT);
     }
 }

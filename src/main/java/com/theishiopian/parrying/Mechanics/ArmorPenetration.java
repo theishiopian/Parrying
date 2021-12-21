@@ -1,24 +1,23 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Utility.ParryModUtil;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effects;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.CombatRules;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.CombatRules;
+import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class ArmorPenetration
 {
@@ -35,9 +34,9 @@ public abstract class ArmorPenetration
         {
             bypassing = true;
             float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
-            int strLevel = attacker.hasEffect(Effects.DAMAGE_BOOST) ? attacker.getEffect(Effects.DAMAGE_BOOST).getAmplifier() : 0;
+            int strLevel = attacker.hasEffect(MobEffects.DAMAGE_BOOST) ? attacker.getEffect(MobEffects.DAMAGE_BOOST).getAmplifier() : 0;
             amount += strLevel * 3;
-            boolean critical = attacker instanceof PlayerEntity && ParryModUtil.PlayerCritical((PlayerEntity) attacker, target, attackStrength);
+            boolean critical = attacker instanceof Player && ParryModUtil.PlayerCritical((Player) attacker, target, attackStrength);
             if(critical)amount *= 1.5f;
             amount += boost;
             float nonAP = 1 - ap;
@@ -75,9 +74,9 @@ public abstract class ArmorPenetration
 
             float healthAfter = target.getHealth();
 
-            if(attacker instanceof PlayerEntity)
+            if(attacker instanceof Player)
             {
-                PostAttackHelper((PlayerEntity) attacker, boost, attackStrength, critical, target, attacker.getMainHandItem(), healthBefore - healthAfter);
+                PostAttackHelper((Player) attacker, boost, attackStrength, critical, target, attacker.getMainHandItem(), healthBefore - healthAfter);
             }
 
             bypassing = false;
@@ -88,10 +87,10 @@ public abstract class ArmorPenetration
     {
         if (defender.isBlocking())
         {
-            Vector3d attackPos = attacker.position();
-            Vector3d defenderLook = defender.getViewVector(1.0F);
-            Vector3d vector3d1 = attackPos.vectorTo(defender.position()).normalize();
-            vector3d1 = new Vector3d(vector3d1.x, 0.0D, vector3d1.z);
+            Vec3 attackPos = attacker.position();
+            Vec3 defenderLook = defender.getViewVector(1.0F);
+            Vec3 vector3d1 = attackPos.vectorTo(defender.position()).normalize();
+            vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
             return vector3d1.dot(defenderLook) < 0.0D;
         }
 
@@ -102,30 +101,30 @@ public abstract class ArmorPenetration
         toBlock.knockback(0.5F, toBlock.getX() - blocker.getX(), toBlock.getZ() - blocker.getZ());
         blocker.playSound(SoundEvents.SHIELD_BLOCK, 1.0F, 0.8F + blocker.level.random.nextFloat() * 0.4F);
 
-        if(blocker instanceof ServerPlayerEntity)
+        if(blocker instanceof ServerPlayer)
         {
             ItemStack shield = blocker.getUseItem();
-            ((ServerPlayerEntity)blocker).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(blockedDMG * 10.0F));
-            ((ServerPlayerEntity)blocker).awardStat(Stats.ITEM_USED.get(shield.getItem()));
+            ((ServerPlayer)blocker).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(blockedDMG * 10.0F));
+            ((ServerPlayer)blocker).awardStat(Stats.ITEM_USED.get(shield.getItem()));
 
             if (blockedDMG >= 3.0F)
             {
-                int i = 1 + MathHelper.floor(blockedDMG);
-                Hand hand = blocker.getUsedItemHand();
+                int i = (int) (1 + Math.floor(blockedDMG));
+                InteractionHand hand = blocker.getUsedItemHand();
                 blocker.getUseItem().hurtAndBreak(i, blocker, (entity) ->
                 {
                     entity.broadcastBreakEvent(hand);
-                    net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((PlayerEntity) blocker, shield, hand);
+                    net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((Player) blocker, shield, hand);
                 });
                 if (shield.isEmpty())
                 {
-                    if (hand == Hand.MAIN_HAND)
+                    if (hand == InteractionHand.MAIN_HAND)
                     {
-                        blocker.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+                        blocker.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                     }
                     else
                     {
-                        blocker.setItemSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
+                        blocker.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
                     }
 
                     blocker.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + blocker.level.random.nextFloat() * 0.4F);
@@ -134,7 +133,7 @@ public abstract class ArmorPenetration
         }
     }
 
-    private static void PostAttackHelper(PlayerEntity player, float boost, float attackStrength, boolean critical, Entity target, ItemStack held, float damageDone)
+    private static void PostAttackHelper(Player player, float boost, float attackStrength, boolean critical, Entity target, ItemStack held, float damageDone)
     {
         boolean attackScale = attackStrength > 0.9f;
         if(critical)
@@ -149,7 +148,7 @@ public abstract class ArmorPenetration
         {
             if(target instanceof LivingEntity)
             {
-                ((LivingEntity) target).knockback(0.5f, MathHelper.sin(player.yRot * ((float)Math.PI / 180F)), (-MathHelper.cos(player.yRot * ((float)Math.PI / 180F))));
+                ((LivingEntity) target).knockback(0.5f, Math.sin(player.getYRot() * ((float)Math.PI / 180F)), (-Math.cos(player.getYRot() * ((float)Math.PI / 180F))));
                 target.hurtMarked = true;
                 player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, player.getSoundSource(), 1.0F, 1.0F);
             }
@@ -195,8 +194,8 @@ public abstract class ArmorPenetration
 
             if (held.isEmpty())
             {
-                net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, Hand.MAIN_HAND);
-                player.setItemInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
+                net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copy, InteractionHand.MAIN_HAND);
+                player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
             }
         }
 
@@ -204,10 +203,10 @@ public abstract class ArmorPenetration
         {
             player.awardStat(Stats.DAMAGE_DEALT, Math.round(damageDone));
 
-            if (player.level instanceof ServerWorld && damageDone > 2.0F)
+            if (player.level instanceof ServerLevel && damageDone > 2.0F)
             {
                 int k = (int) ((double) damageDone * 0.5D);
-                ((ServerWorld) player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5D), target.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
+                ((ServerLevel) player.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5D), target.getZ(), k, 0.1D, 0.0D, 0.1D, 0.2D);
             }
         }
 

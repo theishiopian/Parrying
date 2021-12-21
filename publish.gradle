@@ -1,0 +1,56 @@
+/*
+ * GradleWorks for ForgeGradle 5
+ * Written by Jonathing
+ * Version 4.1.0
+ *
+ * This gradle file contains additional instructions for publishing builds of this mod to maven repositories.
+ */
+
+// Shoves all of the sources in a JAR file.
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+
+    from sourceSets.main.allSource
+}
+
+// Shoves all of the sources and deobfuscated compiled classes in a JAR file.
+task deobfJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('deobf')
+
+    from sourceSets.main.java.sourceDirectories
+    from sourceSets.main.output
+}
+
+// Generates the javadocs and shoves them in a JAR file.
+task javadocJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+
+    from javadoc
+}
+
+// Ensures that the mod is built before it is published to the maven.
+publish {
+    dependsOn 'build'
+}
+
+publishing {
+    publications {
+        // Get the main jar, sources jar, and javadoc jars for publishing.
+        mavenJava(MavenPublication) {
+            groupId = maven_group
+            artifactId = maven_artifact_id
+            version = String.format('%s-%s', mc_version, version)
+
+            artifact reobfFile // main jar
+            artifact sourcesJar // sources jar
+            artifact javadocJar // javadoc jar
+        }
+    }
+    repositories {
+        // Test Maven repository located in the "mcmodsrepo" folder.
+        maven {
+            name 'TestMaven'
+            url String.format('file:///%s/mcmodsrepo', project.projectDir)
+        }
+    }
+}

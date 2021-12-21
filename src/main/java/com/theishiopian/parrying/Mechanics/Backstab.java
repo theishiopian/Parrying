@@ -4,18 +4,18 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public abstract class Backstab
@@ -32,10 +32,10 @@ public abstract class Backstab
 
                if(entity.getMaxHealth() <= Config.backStabMaxHealth.get())
                {
-                   Vector3d attackerDir = attacker.getViewVector(1);
-                   Vector3d defenderDir = entity.getViewVector(1);
+                   Vec3 attackerDir = attacker.getViewVector(1);
+                   Vec3 defenderDir = entity.getViewVector(1);
 
-                   double angle = (new Vector3d(attackerDir.x, 0, attackerDir.z)).dot(new Vector3d(defenderDir.x, 0, defenderDir.z));
+                   double angle = (new Vec3(attackerDir.x, 0, attackerDir.z)).dot(new Vec3(defenderDir.x, 0, defenderDir.z));
 
                    if(angle > Config.backStabAngle.get())
                    {
@@ -64,18 +64,18 @@ public abstract class Backstab
 
                        if(vLevel > 0)
                        {
-                            entity.addEffect(new EffectInstance(Effects.POISON, 100, vLevel - 1));
+                            entity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, vLevel - 1));
                        }
 
-                       if(attacker instanceof PlayerEntity && tLevel > 0)
+                       if(attacker instanceof Player && tLevel > 0)
                        {
-                           ((PlayerEntity)attacker).magicCrit(entity);
+                           ((Player)attacker).magicCrit(entity);
                        }
 
-                       Vector3d pos = entity.position();
+                       Vec3 pos = entity.position();
 
-                       ((ServerWorld) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
-                       attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundCategory.PLAYERS, 2, 1);
+                       ((ServerLevel) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
+                       attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundSource.PLAYERS, 2, 1);
                    }
                }
            }

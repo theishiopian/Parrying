@@ -8,16 +8,16 @@ import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Utility.ParryModUtil;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.IndirectEntityDamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -48,13 +48,11 @@ public class CommonEvents
             Parrying.Parry(event);
             float amount = event.getAmount();
 
-            if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
+            if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
             {
-                IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
-
                 Entity e = src.getDirectEntity();
 
-                if(e instanceof  AbstractArrowEntity)
+                if(e instanceof AbstractArrow)
                 {
                     pAmount = amount;
 
@@ -69,8 +67,7 @@ public class CommonEvents
                 if(weapon != null && ArmorPenetration.IsNotBypassing())
                 {
                     //yes, the attribute is there, I put it there
-                    //noinspection OptionalGetWithoutIsPresent
-                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlotType.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
+                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlot.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
                     ArmorPenetration.DoAPDamage(amount, strength, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
                 }
@@ -78,12 +75,12 @@ public class CommonEvents
         }
     }
 
-    public static void OnArrowImpact(ProjectileImpactEvent.Arrow event)
+    public static void OnArrowImpact(ProjectileImpactEvent event)
     {
-        if(!Deflection.Deflect(event))
+        if(event.getProjectile() instanceof AbstractArrow arrow && !Deflection.Deflect(event))
         {
-            Arrows.DoSonicArrow(event.getArrow());
-            Arrows.DoBurningArrow(event.getArrow(), event.getRayTraceResult());
+            Arrows.DoSonicArrow(arrow);
+            Arrows.DoBurningArrow(arrow, event.getRayTraceResult());
         }
     }
 
@@ -96,16 +93,13 @@ public class CommonEvents
         {
             if(Config.apPiercing.get() && ArmorPenetration.IsNotBypassing())
             {
-                if(event.getSource() instanceof IndirectEntityDamageSource && event.getSource().isProjectile())
+                if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
                 {
-                    IndirectEntityDamageSource src = (IndirectEntityDamageSource) event.getSource();
 
                     Entity e = src.getDirectEntity();
 
-                    if(e instanceof  AbstractArrowEntity)
+                    if(e instanceof AbstractArrow arrow)
                     {
-                        AbstractArrowEntity arrow = (AbstractArrowEntity)e;
-
                         int pLevel = arrow.getPierceLevel();
 
                         if(pLevel > 0)
@@ -118,14 +112,14 @@ public class CommonEvents
                             //hence the need for a check if the system is doing AP
                         }
 
-                        if(arrow instanceof ArrowEntity && Config.pickyPotionArrows.get())
+                        if(arrow instanceof Arrow && Config.pickyPotionArrows.get())
                         {
-                            List<EffectInstance> effects = ((ArrowEntity)arrow).potion.getEffects();
+                            List<MobEffectInstance> effects = ((Arrow)arrow).potion.getEffects();
 
                             if(effects.size() > 0)
                             {
                                 boolean hasHarm = false;
-                                for (EffectInstance i : effects)
+                                for (MobEffectInstance i : effects)
                                 {
                                     if(!i.getEffect().isBeneficial())
                                     {
@@ -144,7 +138,7 @@ public class CommonEvents
                 }
             }
 
-            if((!(entity instanceof PlayerEntity)) && entity.hasEffect(ModEffects.STUNNED.get()))
+            if((!(entity instanceof Player)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
             }
@@ -155,7 +149,7 @@ public class CommonEvents
 
                 if(chance <= 0.25)
                 {
-                    entity.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
                 }
             }
 

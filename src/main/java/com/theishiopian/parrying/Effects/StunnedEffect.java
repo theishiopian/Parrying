@@ -1,12 +1,12 @@
 package com.theishiopian.parrying.Effects;
 
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
-public class StunnedEffect extends Effect
+public class StunnedEffect extends MobEffect
 {
     public StunnedEffect()
     {
-        super(EffectType.HARMFUL, 3484199);
+        super(MobEffectCategory.HARMFUL, 3484199);
     }
 }

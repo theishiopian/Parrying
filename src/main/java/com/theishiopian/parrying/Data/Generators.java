@@ -3,12 +3,12 @@ package com.theishiopian.parrying.Data;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModItemTagProvider;
 import com.theishiopian.parrying.Utility.Debug;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 /**
  * This class is used to activate data generators. It has no use in build

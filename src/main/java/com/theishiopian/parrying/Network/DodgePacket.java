@@ -1,8 +1,8 @@
 package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Mechanics.Dodging;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -16,14 +16,14 @@ public class DodgePacket
     public final boolean right;
     public final boolean back;
 
-    public void toBytes(PacketBuffer buffer)
+    public void toBytes(FriendlyByteBuf buffer)
     {
         buffer.writeBoolean(left);
         buffer.writeBoolean(right);
         buffer.writeBoolean(back);
     }
 
-    public static DodgePacket fromBytes(PacketBuffer buffer)
+    public static DodgePacket fromBytes(FriendlyByteBuf buffer)
     {
         return new DodgePacket(buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean());
     }

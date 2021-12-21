@@ -2,16 +2,16 @@ package com.theishiopian.parrying.Items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.item.IItemTier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Tier;
 
 public class FlailItem extends APItem
 {
     private final float shieldPen;
 
-    public FlailItem(IItemTier itemTier, int baseDamage, float baseSpeed, float baseAP, float baseSP, Properties properties)
+    public FlailItem(Tier itemTier, int baseDamage, float baseSpeed, float baseAP, float baseSP, Properties properties)
     {
         super(itemTier, baseDamage, baseSpeed, baseAP, properties);
         shieldPen = baseSP;

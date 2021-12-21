@@ -1,19 +1,19 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.SweepingEnchantment;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.SweepingEdgeEnchantment;
 import org.jetbrains.annotations.NotNull;
 
 public class DeflectingEnchantment extends Enchantment
 {
     public DeflectingEnchantment()
     {
-        super(Rarity.RARE, EnchantmentType.WEAPON, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND});
+        super(Rarity.RARE, EnchantmentCategory.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
 
     public int getMinCost(int in) {
@@ -30,7 +30,7 @@ public class DeflectingEnchantment extends Enchantment
     
     public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
-        return !(toCheck instanceof SweepingEnchantment) && !(toCheck instanceof RiposteEnchantment) && super.checkCompatibility(toCheck);
+        return !(toCheck instanceof SweepingEdgeEnchantment) && !(toCheck instanceof RiposteEnchantment) && super.checkCompatibility(toCheck);
     }
 
     public boolean canEnchant(ItemStack toEnchant)

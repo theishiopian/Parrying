@@ -3,26 +3,27 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
+import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class DaggerItem extends LazyItem
 {
-    public DaggerItem(IItemTier tier, int baseDamage, float baseSpeed, Properties properties)
+    public DaggerItem(Tier tier, int baseDamage, float baseSpeed, Properties properties)
     {
         super(tier, properties, baseDamage, baseSpeed);
     }
@@ -41,7 +42,7 @@ public class DaggerItem extends LazyItem
     public boolean hurtEnemy(ItemStack stack, @NotNull LivingEntity enemy, @NotNull LivingEntity player)
     {
         enemy.invulnerableTime = 5;
-        stack.hurtAndBreak(1, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+        stack.hurtAndBreak(1, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return true;
     }
 
@@ -50,11 +51,11 @@ public class DaggerItem extends LazyItem
         return this.attackDamage;
     }
 
-    public @NotNull ActionResult<ItemStack> use(World world, PlayerEntity player, @NotNull Hand hand)
+    public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player player, @NotNull InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
 
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ParryModUtil.random.nextFloat() * 0.4F + 0.8F));
 
         player.getCooldowns().addCooldown(this, 10);
 
@@ -64,18 +65,18 @@ public class DaggerItem extends LazyItem
 
             DaggerEntity daggerEntity = new DaggerEntity(world, player, stack.copy());
 
-            daggerEntity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1F, 1.0F);
+            daggerEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1F, 1.0F);
 
-            if (player.abilities.instabuild)
+            if (player.getAbilities().instabuild)
             {
-                daggerEntity.pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                daggerEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
             }
 
             world.addFreshEntity(daggerEntity);
 
-            world.playSound(null, daggerEntity, SoundEvents.TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            world.playSound(null, daggerEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            if (!player.abilities.instabuild)
+            if (!player.getAbilities().instabuild)
             {
                 stack.shrink(1);
             }
@@ -83,6 +84,6 @@ public class DaggerItem extends LazyItem
 
         player.awardStat(Stats.ITEM_USED.get(this));
 
-        return ActionResult.sidedSuccess(stack, world.isClientSide());
+        return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 }

@@ -2,45 +2,45 @@ package com.theishiopian.parrying.Entity;
 
 import com.theishiopian.parrying.Items.DaggerItem;
 import com.theishiopian.parrying.Registration.ModEntities;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IndirectEntityDamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class DaggerEntity extends AbstractArrowEntity implements IEntityAdditionalSpawnData
+public class DaggerEntity extends AbstractArrow implements IEntityAdditionalSpawnData
 {
     public ItemStack daggerItem;
-    private static final DataParameter<Boolean> ID_FOIL = EntityDataManager.defineId(DaggerEntity.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(DaggerEntity.class, EntityDataSerializers.BOOLEAN);
     private boolean hasImpacted;
 
-    public DaggerEntity(EntityType<? extends DaggerEntity> type, World world)
+    public DaggerEntity(EntityType<? extends DaggerEntity> type, Level world)
     {
         super(type, world);
     }
 
-    public DaggerEntity(World world, LivingEntity owner, ItemStack item)
+    public DaggerEntity(Level world, LivingEntity owner, ItemStack item)
     {
         super(ModEntities.DAGGER.get(), owner, world);
         this.daggerItem = item.copy();
@@ -85,7 +85,7 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     }
 
     @Nullable
-    protected EntityRayTraceResult findHitEntity(@NotNull Vector3d position, @NotNull Vector3d projection)
+    protected EntityHitResult findHitEntity(@NotNull Vec3 position, @NotNull Vec3 projection)
     {
         return this.hasImpacted ? null : super.findHitEntity(position, projection);
     }
@@ -95,9 +95,9 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
         return hasImpacted;
     }
 
-    protected void onHitEntity(EntityRayTraceResult p_213868_1_)
+    protected void onHitEntity(EntityHitResult hitResult)
     {
-        Entity entity = p_213868_1_.getEntity();
+        Entity entity = hitResult.getEntity();
         LivingEntity living = entity instanceof LivingEntity ? (LivingEntity)entity : null;
         float damage = ((DaggerItem)daggerItem.getItem()).getDamage() * 1.5f;//todo add config
 
@@ -134,7 +134,7 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
-    public void readAdditionalSaveData(@NotNull CompoundNBT tag)
+    public void readAdditionalSaveData(@NotNull CompoundTag tag)
     {
         super.readAdditionalSaveData(tag);
         if (tag.contains("Dagger", 10))
@@ -145,23 +145,23 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
         this.hasImpacted = tag.getBoolean("DealtDamage");
     }
 
-    public void addAdditionalSaveData(@NotNull CompoundNBT tag)
+    public void addAdditionalSaveData(@NotNull CompoundTag tag)
     {
         super.addAdditionalSaveData(tag);
-        tag.put("Dagger", this.daggerItem.save(new CompoundNBT()));
+        tag.put("Dagger", this.daggerItem.save(new CompoundTag()));
         tag.putBoolean("DealtDamage", this.hasImpacted);
     }
 
     public void tickDespawn()
     {
-        if (this.pickup != PickupStatus.ALLOWED)
+        if (this.pickup != AbstractArrow.Pickup.ALLOWED)
         {
             super.tickDespawn();
         }
     }
 
     @Override
-    public @NotNull IPacket<?> getAddEntityPacket()
+    public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -173,13 +173,13 @@ public class DaggerEntity extends AbstractArrowEntity implements IEntityAddition
     }
 
     @Override
-    public void writeSpawnData(PacketBuffer buffer)
+    public void writeSpawnData(FriendlyByteBuf buffer)
     {
         buffer.writeItem(this.daggerItem);
     }
 
     @Override
-    public void readSpawnData(PacketBuffer additionalData)
+    public void readSpawnData(FriendlyByteBuf additionalData)
     {
         this.daggerItem = additionalData.readItem();
     }

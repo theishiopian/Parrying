@@ -1,17 +1,18 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.NotNull;
 
 public class BashingEnchantment extends Enchantment
 {
     public  BashingEnchantment()
     {
-        super(Rarity.RARE, EnchantmentType.BREAKABLE, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND, EquipmentSlotType.OFFHAND});
+        super(Rarity.RARE, EnchantmentCategory.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
     }
 
     public int getMinCost(int in)
@@ -34,7 +35,7 @@ public class BashingEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.isShield(null) && Config.bashingEnchantEnabled.get();
+        return toEnchant.getItem() instanceof ShieldItem && Config.bashingEnchantEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)

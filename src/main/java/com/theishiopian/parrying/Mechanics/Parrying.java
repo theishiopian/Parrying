@@ -3,18 +3,22 @@ package com.theishiopian.parrying.Mechanics;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.Objects;
@@ -26,13 +30,13 @@ public abstract class Parrying
 {
     public static void Parry(LivingAttackEvent event)
     {
-        if(Config.parryEnabled.get() && event.getEntity() instanceof ServerPlayerEntity)
+        if(Config.parryEnabled.get() && event.getEntity() instanceof ServerPlayer)
         {
             DamageSource source = event.getSource();//the properties of the damage
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
-                PlayerEntity player = (PlayerEntity) event.getEntity();//the defender
+                Player player = (Player) event.getEntity();//the defender
 
                 //make sure the player isn't stunned
                 if(!player.hasEffect(ModEffects.STUNNED.get()))
@@ -43,7 +47,7 @@ public abstract class Parrying
                     if(ParryModUtil.IsWeapon(held))
                     {
                         Entity attacker = source.getEntity();//the attacking entity
-                        Vector3d playerLookDir = player.getViewVector(1);//the direction the player is looking
+                        Vec3 playerLookDir = player.getViewVector(1);//the direction the player is looking
 
                         //enchantment levels
                         int ripLevel = Config.riposteEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RIPOSTE.get(), held) : 0;
@@ -51,19 +55,19 @@ public abstract class Parrying
                         int phaseLevel = Config.phasingCurseEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held) : 0;
 
                         assert attacker != null : "How the hell did this throw null???";
-                        Vector3d attackerDir = attacker.position().subtract(player.position());
-                        Vector3d attackerDirNorm = attackerDir.normalize();
+                        Vec3 attackerDir = attacker.position().subtract(player.position());
+                        Vec3 attackerDirNorm = attackerDir.normalize();
 
                         double attackSpeed = Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).getValue();//the speed of the weapon in use
 
                         //the angle from player look direction to the direction from the player to the enemy
-                        double angle = new Vector3d(playerLookDir.x, 0, playerLookDir.z).dot(new Vector3d(attackerDirNorm.x, 0, attackerDirNorm.z));
+                        double angle = new Vec3(playerLookDir.x, 0, playerLookDir.z).dot(new Vec3(attackerDirNorm.x, 0, attackerDirNorm.z));
 
                         float dualWield = DualWielding.IsDualWielding(player) ? 0.1f : 0;
 
                         //the minimum angle for a successful parry, determined by the attack speed. based around the speed of a sword (1.6)
                         //granted a small bonus by dual wielding
-                        double surfaceAngle = MathHelper.clamp(Config.parryAngle.get() - ((attackSpeed - 1.6)) - dualWield * 0.05, 0, 1);
+                        double surfaceAngle = Mth.clamp(Config.parryAngle.get() - ((attackSpeed - 1.6)) - dualWield * 0.05, 0, 1);
 
                         //default 0.95
                         if(angle >= surfaceAngle && player.swinging)
@@ -81,7 +85,7 @@ public abstract class Parrying
                                 //add strength for riposte
                                 if(Config.riposteEnchantEnabled.get() && ripLevel > 0)
                                 {
-                                    player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 60));
+                                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60));
                                 }
 
                                 //damage weapon
@@ -94,8 +98,8 @@ public abstract class Parrying
                                 double pZ = (attacker.getZ() + player.getZ()) / 2 + (ParryModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
 
                                 //play particles and sound
-                                player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundCategory.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
-                                ((ServerWorld) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+                                player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                                ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
 
                                 //cancel player damage logic
                                 event.setCanceled(true);
@@ -103,7 +107,7 @@ public abstract class Parrying
                             else
                             {
                                 //called when a player's weapon phases through a clash, caused by the phasing curse
-                                player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                                player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
                             }
                         }
                     }

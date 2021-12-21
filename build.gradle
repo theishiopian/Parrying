@@ -1,205 +1,277 @@
+/*
+ * GradleWorks for ForgeGradle 5
+ * Written by Jonathing
+ * Version 4.1.0
+ *
+ * What was once just an effort to make life easier is now a fully-fledged buildscript that does almost all of the work
+ * for you! The only things you will need to take care of yourself are dependencies, but that shouldn't be too big of a
+ * deal. Anything you'll most likely ever need to change can be found in gradle.properties. Enjoy!
+ */
+
+import net.minecraftforge.gradle.common.util.ModConfig
+import org.apache.tools.ant.taskdefs.condition.Os
+
+// Detects if GradleWorks should use Mixin.
+boolean isUsingMixin() {
+    return project.hasProperty('mixin_version')
+}
+
+// Whether or not to use FML only (REMINDER: YOU ARE GIVEN NO SUPPORT FOR THIS).
+boolean usingFMLOnly() {
+    return project.hasProperty('use_fmlonly') && Boolean.parseBoolean(use_fmlonly)
+}
+
+// Buildscript setup (DO NOT EDIT!!!)
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        // Minecraft Forge Maven
+        maven { url 'https://maven.minecraftforge.net' }
+
+        // SpongePowered Maven
+        maven { url 'https://repo.spongepowered.org/maven' }
+
+        // ParchmentMC Maven
+        maven { url 'https://maven.parchmentmc.org' }
+
+        // Maven Central
         mavenCentral()
     }
-    dependencies
-            {
-                classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-                classpath 'org.spongepowered:mixingradle:0.7.+'
-            }
+    dependencies {
+        // Minecraft Forge ForgeGradle
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+
+        // SpongePowered MixinGradle
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+', changing: true
+
+        // ParchmentMC Librarian
+        classpath group: 'org.parchmentmc', name: 'librarian', version: '1.+', changing: true
+    }
 }
+
+println('GradleWorks for ForgeGradle 5')
+println('Written by Jonathing')
+println('Version 4.1.0')
+
+// ForgeGradle - The heart and soul of the buildscript and the development environment.
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+// MixinGradle - Adds Mixin support to the development environment.
+if (isUsingMixin()) {
+    if (!project.extensions.findByName('eclipse')) {
+        println()
+    }
+    apply plugin: 'org.spongepowered.mixin'
+}
+// Librarian - Adds Parchment support to the development environment.
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+
+// Eclipse - Adds compatibility for Eclipse workspaces.
 apply plugin: 'eclipse'
+// Maven Publishing - Used to be able to publish to maven repositories.
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
 
-version = '2.2.2'
-group = 'com.theishiopian.parrying' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'parrying'
+// Gets a file from a parent directory and folder/file names.
+// Accounts for windows backslashes because I'm paranoid as hell.
+File getFile(File parent, String... paths) {
+    StringBuilder builder = new StringBuilder()
+    builder.append(parent)
+    for (String path : paths) {
+        builder.append('/')
+        builder.append(path)
+    }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+    return file(builder.toString().replace('/', Os.isFamily(Os.FAMILY_WINDOWS) ? '\\' : '/'))
+}
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+// Get the mod version from gradle.properties.
+version = mod_version
+// Get the mod group from gradle.properties.
+group = mod_group
+// Get the archives base name from the mod id and the Minecraft version.
+archivesBaseName = String.format('%s-%s', mod_id, mc_version)
+
+// This variable points to where the latest built file is placed for usage in publish.gradle.
+// Use this when you need to point to a completely built JAR file once it is ready for use.
+project.ext.reobfFile = getFile(buildDir, 'libs', String.format('%s-%s.jar', archivesBaseName, version))
+
+// This file contains additional instructions for publishing builds of this mod to maven repositories (commented out by default, see the file for more details).
+apply from: 'publish.gradle'
+
+// Ensure that the IDE knows that this project is for Java 16 (or at the least, SDK level 16) and nothing else.
+java.toolchain.languageVersion = JavaLanguageVersion.of(Integer.parseInt(java_language_version))
+
+// This section prints out the Java, Minecraft, and Mod info just to double check all the values are correct.
+// It is printed on every build, so make sure you double check!
+println()
+println('Java Information')
+printf('- Java: %s%n', System.getProperty('java.version'))
+printf('- JVM: %s (%s)%n', System.getProperty('java.vm.version'), System.getProperty('java.vendor'))
+printf('- Arch: %s%n', System.getProperty('os.arch'))
+println()
+println('Minecraft Information')
+printf('- Minecraft: %s%n', mc_version)
+printf('- Minecraft Forge: %s%n', forge_version)
+printf('- Mappings: %s %s%n', mappings_version, mappings_channel)
+println()
+println('Mod Information')
+printf('- ID: %s%n', mod_id)
+printf('- Name: %s%n', mod_name)
+printf('- Version: %s%n', version)
+println()
+
+// Any repositories for dependencies go here. Feel free to add to them as needed.
+repositories {
+    // CurseMaven
+    maven {
+        url 'https://www.cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+
+    // Modding Legacy Maven
+    maven {
+        url 'https://maven.moddinglegacy.com/maven'
+    }
+}
+
+// Minecraft setup
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // Channel:   Version:
-    // snapshot   YYYYMMDD   Snapshot are built nightly.
-    // stable     #          Stables are built at the discretion of the MCP team.
-    // official   MCVersion  Official field/method names from Mojang mapping files
-    //
-    // You must be aware of the Mojang license when using the 'official' mappings.
-    // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
-    //
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.16.5'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    // Mappings to use for the project. See default MDK for mappings instructions.
+    mappings channel: mappings_channel, version: mappings_version
 
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    // The access transformer file for the project.
+    // GradleWorks only tells ModDev we're using an AT if the file exists. If you don't need it, don't make it.
+    File atFile = getFile(projectDir, 'src', 'main', 'resources', 'META-INF', 'accesstransformer.cfg')
+    if (atFile.exists()) {
+        accessTransformer = atFile
+    }
 
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+    // Run configurations
     runs {
+        // All run configurations
+        all {
+            // Process non-mod libraries for 1.17.1.
+            lazyToken('minecraft_classpath') {
+                configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+            }
+
+            // The directory for Minecraft to run in.
+            workingDirectory getFile(projectDir, 'run')
+
+            // If we're not using Mixin, then MixinGradle won't do this for us. We have to do this ourselves.
+            // This is logic copied straight from MixinGradle. If we are using Mixin, then MixinGradle does this for us.
+            // https://github.com/SpongePowered/MixinGradle/blob/8118e612547371494be3afbad681ea92e0f2afdb/src/main/groovy/org/spongepowered/asm/gradle/plugins/MixinExtension.groovy#L614
+            if (!isUsingMixin())
+            {
+                def srgToMcpFile = project.tasks.createSrgToMcp.outputs.files[0].path
+
+                property 'net.minecraftforge.gradle.GradleStart.srg.srg-mcp', srgToMcpFile
+                property 'mixin.env.remapRefMap', 'true'
+                property 'mixin.env.refMapRemappingFile', srgToMcpFile
+            }
+
+            // Logging markers for Forge. See default MDK for instructions.
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            // Console logging level (debug by info, change to debug if you need debug logging).
+            property 'forge.logging.console.level', 'info'
+
+            // Tells the mod if it is running in an IDE (must be configured in your project, but not required).
+            property String.format('%s.iside', mod_id), 'true'
+
+            // Add the mod's main source set to the total mods in the run configuration.
+            ModConfig modConfig = new ModConfig(project as Project, mod_id as String)
+            modConfig.source(sourceSets.main as SourceSet)
+            mods.add(modConfig)
+        }
+
+        // Client run configuration
         client {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg".toString()
-
-            arg '-mixin.config=mixins.parrying.json'
-
-            // Recommended logging data for a userdev environment
-            // The markers can be changed as needed.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                parrying {
-                    source sourceSets.main
-                }
-            }
+            // The client run configuration does not need any additional properties.
+            // All of them are defined in the "all" closure. If you'd like to add some of your own, feel free.
         }
 
+        // Server run configuration
         server {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg".toString()
-
-            arg '-mixin.config=mixins.parrying.json'
-
-            // Recommended logging data for a userdev environment
-            // The markers can be changed as needed.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                parrying {
-                    source sourceSets.main
-                }
-            }
+            // Additional arguments exclusive to the server (nogui by default, separated by ",").
+            args 'nogui'
         }
 
+        // Data run configuration
         data {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg".toString()
+            // Additional arguments exclusive to data generation (do NOT change these unless necessary).
+            args '--mod', mod_id, '--all', '--output', getFile(projectDir, 'src', 'generated', 'resources'), '--existing', getFile(projectDir, 'src', 'main', 'resources')
 
-            arg '-mixin.config=mixins.parrying.json'
+            // Tells the mod if it is running datagen (must be configured in your project, but not required).
+            property String.format('%s.datagen', mod_id), 'true'
 
-            // Recommended logging data for a userdev environment
-            // The markers can be changed as needed. 
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'debug'
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'parrying', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                parrying {
-                    source sourceSets.main
-                }
+            // Workaround for https://github.com/MinecraftForge/ForgeGradle/issues/690
+            // Written by Shadew
+            if (Os.isFamily(Os.FAMILY_MAC)) {
+                jvmArg('-XstartOnFirstThread')
             }
         }
     }
 }
 
-// Include resources generated by data generators.
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-repositories
-{
-    maven { url 'https://maven.blamejared.com' }
+// Additional settings for the resources source set.
+sourceSets.main.resources {
+    // Include resources generated by data generators.
+    srcDir getFile(projectDir, 'src', 'generated', 'resources')
 }
 
+if (isUsingMixin()) {
+    // MixinGradle settings
+    mixin {
+        // Add the refmap to the built JAR file.
+        add sourceSets.main, String.format('%s.refmap.json', mod_id)
+
+        // Add the mixin config JSON file to run configs and the built JAR's Manifest.
+        config String.format('%s.mixins.json', mod_id)
+    }
+}
+
+// Additional configuration for non-mod dependencies.
+configurations {
+    library
+    implementation.extendsFrom(library)
+}
+
+// Dependencies to use in this project.
 dependencies {
-    implementation 'org.jetbrains:annotations:20.1.0'
+    // Minecraft Forge
+    String toolchain = 'forge'
+    if (usingFMLOnly()) {
+        toolchain = 'fmlonly'
+    }
+    minecraft String.format('net.minecraftforge:%s:%s-%s', toolchain, mc_version, forge_version)
 
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.4'
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:[1.16.4-53]:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:[1.16.4-53]")
+    // Mixin processor
+    if (isUsingMixin()) {
+        annotationProcessor String.format('org.spongepowered:mixin:%s:processor', mixin_version)
+    }
 
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
+    // LazyDFU
+    if (project.hasProperty('lazydfu_version')) {
+        runtimeOnly fg.deobf(String.format('me.jonathing.minecraft:lazydfu:%s', lazydfu_version))
+    }
 
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // These dependencies get remapped to your current MCP mappings
-    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // For more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:[1.18.1-61]:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:[1.18.1-61]")
 }
 
-mixin {
-    add sourceSets.main, 'parrying.mixins.refmap.json'
-    config 'mixins.parrying.json'
-}
-
-// Example for how to get properties into the manifest for reading by the runtime..
+// Attributes to include in the built jar file.
 jar {
-    manifest {
-        attributes([
-                "Specification-Title": "parrying",
-                "Specification-Vendor": "theishiopian",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"theishiopian",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "mixins.parrying.json"
-        ])
-    }
-}
+    LinkedHashMap<String, Object> attributes = [
+            'Specification-Title'     : mod_id,
+            'Specification-Vendor'    : mod_author,
+            'Specification-Version'   : '1',
+            'Implementation-Title'    : project.name,
+            'Implementation-Version'  : archiveVersion.getOrElse(version),
+            'Implementation-Vendor'   : mod_author,
+            'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ')
+    ]
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
+    manifest.attributes(attributes)
 }

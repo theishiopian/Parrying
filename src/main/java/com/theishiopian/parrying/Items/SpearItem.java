@@ -3,39 +3,39 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.SpearEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.IVanishable;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class SpearItem extends LazyItem implements IVanishable
+public class SpearItem extends LazyItem implements Vanishable
 {
 
     private final float reach;
 
-    public SpearItem(IItemTier itemTier, int baseDamage, float baseSpeed, float reach, Properties properties)
+    public SpearItem(Tiers itemTier, int baseDamage, float baseSpeed, float reach, Properties properties)
     {
         super(itemTier, properties, baseDamage, baseSpeed);
         this.reach = reach;
     }
 
-    public boolean canAttackBlock(@NotNull BlockState state, @NotNull World world, @NotNull BlockPos pos, PlayerEntity player)
+    public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player)
     {
         return !player.isCreative();
     }
@@ -45,16 +45,15 @@ public class SpearItem extends LazyItem implements IVanishable
         return this.attackDamage;
     }
 
-    public @NotNull UseAction getUseAnimation(@NotNull ItemStack stack)
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack)
     {
-        return UseAction.SPEAR;
+        return UseAnim.SPEAR;
     }
 
-    public void releaseUsing(@NotNull ItemStack stack, @NotNull World world, @NotNull LivingEntity entity, int useTicks)
+    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level world, @NotNull LivingEntity entity, int useTicks)
     {
-        if (entity instanceof PlayerEntity)
+        if (entity instanceof Player player)
         {
-            PlayerEntity player = (PlayerEntity)entity;
             int timer = this.getUseDuration(stack) - useTicks;
 
             if (timer >= 10)
@@ -65,18 +64,18 @@ public class SpearItem extends LazyItem implements IVanishable
 
                     SpearEntity spearEntity = new SpearEntity(world, player, stack.copy());
 
-                    spearEntity.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 3F, 1.0F);
+                    spearEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3F, 1.0F);
 
-                    if (player.abilities.instabuild)
+                    if (player.getAbilities().instabuild)
                     {
-                        spearEntity.pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                        spearEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                     }
 
                     world.addFreshEntity(spearEntity);
 
-                    world.playSound(null, spearEntity, SoundEvents.TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    world.playSound(null, spearEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-                    if (!player.abilities.instabuild)
+                    if (!player.getAbilities().instabuild)
                     {
                         stack.shrink(1);
                     }
@@ -87,32 +86,32 @@ public class SpearItem extends LazyItem implements IVanishable
         }
     }
 
-    public @NotNull ActionResult<ItemStack> use(@NotNull World world, PlayerEntity player, @NotNull Hand hand)
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player player, @NotNull InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.getDamageValue() >= stack.getMaxDamage() - 1)
         {
-            return ActionResult.fail(stack);
+            return InteractionResultHolder.fail(stack);
         }
         else
         {
             player.startUsingItem(hand);
-            return ActionResult.consume(stack);
+            return InteractionResultHolder.consume(stack);
         }
     }
 
     public boolean hurtEnemy(ItemStack stack, @NotNull LivingEntity enemy, @NotNull LivingEntity player)
     {
-        stack.hurtAndBreak(1, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+        stack.hurtAndBreak(1, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return true;
     }
 
-    public boolean mineBlock(@NotNull ItemStack stack, @NotNull World world, BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity player)
+    public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level world, BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity player)
     {
         if (state.getDestroySpeed(world, pos) != 0.0F)
         {
-            stack.hurtAndBreak(2, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+            stack.hurtAndBreak(2, player, (playerIn) -> playerIn.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
 
         return true;

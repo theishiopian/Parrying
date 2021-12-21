@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Handler;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
@@ -11,30 +12,29 @@ import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientEvents
 {
-    public static final KeyBinding dodgeKey = new KeyBinding("key.parrying.dodge", KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.movement");
+    public static final KeyMapping dodgeKey = new KeyMapping("key.parrying.dodge", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.movement");
 
     static
     {
@@ -44,9 +44,12 @@ public class ClientEvents
     public static void OnTooltip(ItemTooltipEvent event)
     {
         //this MAY break when reloading resource packs, need more information
-        if(Config.twoHandedEnabled.get() && event.getItemStack().getItem().is(ModTags.TWO_HANDED_WEAPONS))
+        if(Config.twoHandedEnabled.get())
         {
-            event.getToolTip().add(new TranslationTextComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor(Color.fromLegacyFormat(TextFormatting.RED))));
+            if(event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
+            {
+                event.getToolTip().add(new TranslatableComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor((TextColor.fromLegacyFormat(ChatFormatting.RED)))));
+            }
         }
     }
 
@@ -79,7 +82,7 @@ public class ClientEvents
         if(IsGameplayInProgress() && event.isAttack())
         {
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
-            PlayerEntity player = Minecraft.getInstance().player;
+            Player player = Minecraft.getInstance().player;
 
             if(Config.dualWieldEnabled.get())
             {
@@ -88,27 +91,27 @@ public class ClientEvents
                     event.setSwingHand(false);
                     event.setCanceled(true);
 
-                    if(DualWielding.CurrentHand == Hand.OFF_HAND)
+                    if(DualWielding.CurrentHand == InteractionHand.OFF_HAND)
                     {
-                        player.swing(Hand.OFF_HAND, false);
+                        player.swing(InteractionHand.OFF_HAND, false);
 
                         ParryingMod.channel.sendToServer(new SwingPacket(false));
-                        DualWielding.CurrentHand = Hand.MAIN_HAND;
+                        DualWielding.CurrentHand = InteractionHand.MAIN_HAND;
                     }
                     else
                     {
-                        player.swing(Hand.MAIN_HAND, false);
+                        player.swing(InteractionHand.MAIN_HAND, false);
                         ParryingMod.channel.sendToServer(new SwingPacket(true));
-                        DualWielding.CurrentHand = Hand.OFF_HAND;
+                        DualWielding.CurrentHand = InteractionHand.OFF_HAND;
                     }
 
                     player.resetAttackStrengthTicker();
                 }
                 else
                 {
-                    if(player.getMainHandItem().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
+                    if(player.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
                     {
-                        EntityRayTraceResult target = ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
+                        EntityHitResult target = ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
                         if(target != null)Minecraft.getInstance().hitResult = target;
                     }
                 }

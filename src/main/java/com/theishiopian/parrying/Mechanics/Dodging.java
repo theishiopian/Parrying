@@ -1,10 +1,10 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public abstract class Dodging
 {
     public static final Map<UUID, Integer> dodgeCooldown = new HashMap<>();
-    public static void Dodge(ServerPlayerEntity player, boolean left, boolean right, boolean back)
+    public static void Dodge(ServerPlayer player, boolean left, boolean right, boolean back)
     {
         if(Config.dodgeEnabled.get())
         {
@@ -22,14 +22,14 @@ public abstract class Dodging
             {
                 if(dodgeCooldown.containsKey(player.getUUID()))return;
 
-                Vector3d playerDir = player.getViewVector(1);
-                Vector3d playerDirLevel = new Vector3d(playerDir.x, 0, playerDir.z);
+                Vec3 playerDir = player.getViewVector(1);
+                Vec3 playerDirLevel = new Vec3(playerDir.x, 0, playerDir.z);
                 playerDirLevel = playerDirLevel.normalize();
-                Vector3d cross = playerDirLevel.cross(new Vector3d(0,1,0));
+                Vec3 cross = playerDirLevel.cross(new Vec3(0,1,0));
 
-                EffectInstance jumpBoost = player.getEffect(Effects.JUMP.getEffect());
+                MobEffectInstance jumpBoost = player.getEffect(MobEffects.JUMP);
 
-                Vector3d dir = playerDir.scale(back ? 1 : 0).add(cross.scale(left ? 1 : 0).add(cross.scale(right ? -1 : 0)));
+                Vec3 dir = playerDir.scale(back ? 1 : 0).add(cross.scale(left ? 1 : 0).add(cross.scale(right ? -1 : 0)));
 
                 int level = (jumpBoost == null) ? 0 : jumpBoost.getAmplifier() + 1;
 

@@ -2,15 +2,15 @@ package com.theishiopian.parrying.Criteria;
 
 import com.google.gson.JsonObject;
 import com.theishiopian.parrying.ParryingMod;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance>
+public class BasicTrigger extends SimpleCriterionTrigger<BasicTrigger.Instance>
 {
     private static ResourceLocation ID;
 
@@ -20,7 +20,7 @@ public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance
     }
 
     @Override
-    protected @NotNull Instance createInstance(@NotNull JsonObject fromJson, EntityPredicate.@NotNull AndPredicate predicate, @NotNull ConditionArrayParser conditionsParser)
+    protected @NotNull Instance createInstance(@NotNull JsonObject fromJson, EntityPredicate.@NotNull Composite predicate, @NotNull DeserializationContext conditionsParser)
     {
         return new Instance(predicate);
     }
@@ -31,14 +31,14 @@ public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance
         return ID;
     }
 
-    public void trigger(ServerPlayerEntity player)
+    public void trigger(ServerPlayer player)
     {
         this.trigger(player, (instance) -> true);
     }
 
-    public static class Instance extends  CriterionInstance
+    public static class Instance extends AbstractCriterionTriggerInstance
     {
-        public Instance(EntityPredicate.AndPredicate predicate)
+        public Instance(EntityPredicate.Composite predicate)
         {
             super(ID, predicate);
         }
@@ -46,7 +46,7 @@ public class BasicTrigger extends AbstractCriterionTrigger<BasicTrigger.Instance
         @SuppressWarnings("unused")
         public static Instance create()
         {
-            return new Instance(EntityPredicate.AndPredicate.ANY);
+            return new Instance(EntityPredicate.Composite.ANY);
         }
     }
 }

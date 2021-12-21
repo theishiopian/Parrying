@@ -1,11 +1,11 @@
 package com.theishiopian.parrying.Items;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.TieredItem;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TieredItem;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -19,7 +19,7 @@ public abstract class LazyItem extends TieredItem
     protected final int baseDamage;
     protected final float baseSpeed;
     protected final float attackDamage, attackSpeed;
-    public LazyItem(IItemTier tier, Properties properties, int baseDamage, float baseSpeed)
+    public LazyItem(Tier tier, Properties properties, int baseDamage, float baseSpeed)
     {
         super(tier, properties);
         this.baseDamage = baseDamage;
@@ -29,14 +29,14 @@ public abstract class LazyItem extends TieredItem
 
     }
 
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlotType slotType)
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slotType)
     {
         if(this.defaultModifiers == null)
         {
             LazyModifiers();
         }
 
-        return slotType == EquipmentSlotType.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slotType);
+        return slotType == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slotType);
     }
 
     protected abstract void LazyModifiers();

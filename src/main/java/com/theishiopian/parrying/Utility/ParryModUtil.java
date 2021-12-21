@@ -1,16 +1,16 @@
 package com.theishiopian.parrying.Utility;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
@@ -24,14 +24,14 @@ public class ParryModUtil
 {
     public static final Random random = new Random();
 
-    public static boolean PlayerCritical(PlayerEntity player, Entity target, float cacheStrength)
+    public static boolean PlayerCritical(Player player, Entity target, float cacheStrength)
     {
         boolean attackPowerFull = cacheStrength > 0.9f;
         boolean hasFallen = player.fallDistance > 0;
         boolean inAir = !player.isOnGround();
         boolean notClimbing = !player.onClimbable();
         boolean notWet = !player.isInWater();
-        boolean notBlind = !player.hasEffect(Effects.BLINDNESS);
+        boolean notBlind = !player.hasEffect(MobEffects.BLINDNESS);
         boolean notRiding = !player.isPassenger();
         boolean targetValid = target instanceof LivingEntity;
         boolean walking = !player.isSprinting();
@@ -41,32 +41,32 @@ public class ParryModUtil
 
     public static boolean IsWeapon(ItemStack stack)
     {
-        return stack.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
+        return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
     }
 
     @Nullable
-    public static EntityRayTraceResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
+    public static EntityHitResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
     {
         float range = 2.5f;
 
         if(toAttackWith != null)
         {
-            boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
+            boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
             if(hasRange)
             {
-                range += toAttackWith.getAttributeModifiers(EquipmentSlotType.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
+                range += toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
             }
         }
 
-        Vector3d eyePos = toAttackFrom.getEyePosition(1);
-        Vector3d lookVector = toAttackFrom.getViewVector(1.0F);
-        Vector3d projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
-        AxisAlignedBB axisalignedbb = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityRayTraceResult potentialTarget = ProjectileHelper.getEntityHitResult(toAttackFrom.level, toAttackFrom, eyePos, projection, axisalignedbb, ((entity) -> !entity.isSpectator() && entity.isPickable()));
+        Vec3 eyePos = toAttackFrom.getEyePosition();
+        Vec3 lookVector = toAttackFrom.getViewVector(1.0F);
+        Vec3 projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
+        AABB box = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
+        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom.level, toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()));
 
         if(potentialTarget != null)
         {
-            boolean unobstructed = toAttackFrom.canSee(potentialTarget.getEntity());
+            boolean unobstructed = toAttackFrom.hasLineOfSight(potentialTarget.getEntity());
 
             if(unobstructed)return potentialTarget;
         }

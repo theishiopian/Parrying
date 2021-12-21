@@ -2,15 +2,15 @@ package com.theishiopian.parrying.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Mechanics.DualWielding;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public class PlayerEntityMixin
 {
     @Inject(at = @At("HEAD"), method = "getCurrentItemAttackStrengthDelay", cancellable = true)
@@ -18,16 +18,16 @@ public class PlayerEntityMixin
     {
         if(Config.dualWieldEnabled.get())
         {
-            PlayerEntity player = ((PlayerEntity)(Object)this);
+            Player player = ((Player)(Object)this);
 
             if(DualWielding.IsDualWielding(player))
             {
                 float mainSpeed = (float) player.getMainHandItem().
-                        getAttributeModifiers(EquipmentSlotType.MAINHAND).
+                        getAttributeModifiers(EquipmentSlot.MAINHAND).
                         get(Attributes.ATTACK_SPEED).stream().findFirst().get().getAmount();
 
                 float offSpeed = (float) player.getOffhandItem().
-                        getAttributeModifiers(EquipmentSlotType.MAINHAND).
+                        getAttributeModifiers(EquipmentSlot.MAINHAND).
                         get(Attributes.ATTACK_SPEED).stream().findFirst().get().getAmount();
 
                 float speedMod = (mainSpeed + offSpeed) / 2;//average speed
