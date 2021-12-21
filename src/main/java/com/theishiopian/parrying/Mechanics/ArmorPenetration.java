@@ -6,18 +6,22 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.CombatRules;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ToolActions;
 
 public abstract class ArmorPenetration
 {
@@ -69,8 +73,12 @@ public abstract class ArmorPenetration
                 BlockHelper(attacker, target, amount);
             }
 
-            attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
+            if(attacker.getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP) && attacker instanceof Player p)
+            {
+                SweepHelper(p, target, amount);
+            }
 
+            attacker.getMainHandItem().hurtAndBreak(1, attacker, (playerEntity) -> playerEntity.broadcastBreakEvent(attacker.getUsedItemHand()));
 
             float healthAfter = target.getHealth();
 
@@ -131,6 +139,23 @@ public abstract class ArmorPenetration
                 }
             }
         }
+    }
+
+    private static void SweepHelper(Player player, LivingEntity target, float totalDamage)
+    {
+        float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * totalDamage;
+
+        for(LivingEntity e : player.level.getEntitiesOfClass(LivingEntity.class, player.getItemInHand(InteractionHand.MAIN_HAND).getSweepHitBox(player, target)))
+        {
+            if (e != player && e != target && !player.isAlliedTo(e) && (!(e instanceof ArmorStand) || !((ArmorStand)e).isMarker()) && player.distanceToSqr(e) < 9.0D)
+            {
+                e.knockback(0.4F, Mth.sin(player.getYRot() * ((float)Math.PI / 180F)), (-Mth.cos(player.getYRot() * ((float)Math.PI / 180F))));
+                e.hurt(DamageSource.playerAttack(player), f3);
+            }
+        }
+
+        player.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(), 1.0F, 1.0F);
+        player.sweepAttack();
     }
 
     private static void PostAttackHelper(Player player, float boost, float attackStrength, boolean critical, Entity target, ItemStack held, float damageDone)

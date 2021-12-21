@@ -5,7 +5,10 @@ import com.theishiopian.parrying.Registration.ModAttributes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class FlailItem extends APItem
 {
@@ -27,5 +30,16 @@ public class FlailItem extends APItem
         builder.put(ModAttributes.AP.get(), new AttributeModifier(ModAttributes.AP_UUID, "Weapon modifier", this.armorPenetration, AttributeModifier.Operation.MULTIPLY_BASE));
         builder.put(ModAttributes.SP.get(), new AttributeModifier(ModAttributes.SP_UUID, "Weapon modifier", this.shieldPen, AttributeModifier.Operation.MULTIPLY_BASE));
         this.defaultModifiers = builder.build();
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction)
+    {
+        if(toolAction == ToolActions.SWORD_SWEEP)
+        {
+            return true;
+        }
+
+        return super.canPerformAction(stack, toolAction);
     }
 }

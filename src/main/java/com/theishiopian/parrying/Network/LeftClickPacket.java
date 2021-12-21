@@ -6,7 +6,6 @@ import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -66,6 +65,6 @@ public class LeftClickPacket
     private static void PlaySound(Player player)
     {
         player.level.playSound(null, player.blockPosition(), ModSoundEvents.FLAIL_SWING.get(), SoundSource.PLAYERS, 1, 1);
-        player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1, 1);
+        //player.level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 1, 1);
     }
 }
