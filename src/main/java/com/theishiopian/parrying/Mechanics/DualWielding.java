@@ -25,7 +25,7 @@ public class DualWielding
     //endregion
 
     //region SERVER
-    public final static HashMap<UUID, InteractionHand> dualWielders = new HashMap<UUID, InteractionHand>();
+    public final static HashMap<UUID, InteractionHand> dualWielders = new HashMap<>();
 
     /**
      * This method handles attacking while dual wielding.

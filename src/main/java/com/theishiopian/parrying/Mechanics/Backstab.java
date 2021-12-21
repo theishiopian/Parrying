@@ -26,10 +26,8 @@ public abstract class Backstab
         {
             Entity e = event.getSource().getEntity();
 
-           if(e instanceof LivingEntity)
+           if(e instanceof LivingEntity attacker)
            {
-               LivingEntity attacker = (LivingEntity) e;
-
                if(entity.getMaxHealth() <= Config.backStabMaxHealth.get())
                {
                    Vec3 attackerDir = attacker.getViewVector(1);

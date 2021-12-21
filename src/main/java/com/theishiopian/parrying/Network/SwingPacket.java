@@ -12,17 +12,16 @@ import java.util.function.Supplier;
  * This class defines a packet that is used
  * to tell the server to do a dual wield attack.
  */
-public class SwingPacket
+public record SwingPacket(boolean mainHand)
 {
-    public final boolean mainHand;
-
-    public void toBytes(FriendlyByteBuf buffer){buffer.writeBoolean(mainHand);}
-
-    public static SwingPacket fromBytes(FriendlyByteBuf buffer){return new SwingPacket(buffer.readBoolean());}
-
-    public SwingPacket(boolean mainHand)
+    public void toBytes(FriendlyByteBuf buffer)
     {
-        this.mainHand = mainHand;
+        buffer.writeBoolean(mainHand);
+    }
+
+    public static SwingPacket fromBytes(FriendlyByteBuf buffer)
+    {
+        return new SwingPacket(buffer.readBoolean());
     }
 
     public static void handle(SwingPacket packet, Supplier<NetworkEvent.Context> context)

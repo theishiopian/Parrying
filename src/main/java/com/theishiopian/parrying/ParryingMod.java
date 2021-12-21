@@ -10,14 +10,13 @@ import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -42,7 +41,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 4;//protocol version, bump whenever adding new network packets or changing existing ones
+    private static final int VERSION = 5;//protocol version, bump whenever adding new network packets or changing existing ones
 
     static
     {
@@ -110,14 +109,8 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClick);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnTooltip);
-        //MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnPlayerTick);
-    }
-
-    @SubscribeEvent
-    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
-    {
-        event.registerEntityRenderer(ModEntities.SPEAR.get(), RenderSpear::new);
-        event.registerEntityRenderer(ModEntities.DAGGER.get(), RenderDagger::new);
+        EntityRenderers.register(ModEntities.SPEAR.get(), RenderSpear::new);
+        EntityRenderers.register(ModEntities.DAGGER.get(), RenderDagger::new);
     }
 
     public void CommonSetup(FMLCommonSetupEvent event)

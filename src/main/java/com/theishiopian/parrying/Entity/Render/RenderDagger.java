@@ -6,6 +6,7 @@ import com.theishiopian.parrying.Entity.DaggerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -48,5 +49,11 @@ public class RenderDagger extends EntityRenderer<DaggerEntity>
     ResourceLocation getTextureLocation(@NotNull DaggerEntity entity)
     {
         return null;
+    }
+
+    @Override
+    public boolean shouldRender(DaggerEntity pLivingEntity, Frustum pCamera, double pCamX, double pCamY, double pCamZ)
+    {
+        return super.shouldRender(pLivingEntity, pCamera, pCamX, pCamY, pCamZ);
     }
 }

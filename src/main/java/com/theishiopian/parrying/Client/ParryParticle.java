@@ -56,14 +56,8 @@ public class ParryParticle extends TextureSheetParticle
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<SimpleParticleType>
+    public record Factory(SpriteSet sprites) implements ParticleProvider<SimpleParticleType>
     {
-        private final SpriteSet sprites;
-
-        public Factory(SpriteSet sprites)
-        {
-            this.sprites = sprites;
-        }
 
         public Particle createParticle(@NotNull SimpleParticleType particle, @NotNull ClientLevel world, double x, double y, double z, double vx, double vy, double vz)
         {
