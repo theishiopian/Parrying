@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(net.minecraft.client.renderer.ItemInHandRenderer.class)
 /*
-  This interface is used to pull data out of FirstPersonRenderer for dual wielding purposes
+  This interface is used to pull data out of ItemInHandRenderer for dual wielding purposes
  */
-public interface FirstPersonRendererAccessor
+public interface ItemInHandRendererAccessor
 {
     @Accessor float getOffHandHeight();
     @Accessor

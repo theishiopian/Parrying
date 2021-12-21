@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 This Mixin is used to allow the off hand to swing and animate just like the main hand. This is used for dual wielding.
  */
 @Mixin(ItemInHandRenderer.class)
-public abstract class FirstPersonRendererMixin
+public abstract class ItemInHandRendererMixin
 {
     @ModifyArg(method = {"tick()V"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(FFF)F", ordinal = 3), index = 0)
     private float ModifyValueToClamp(float in, float min, float max)
@@ -23,10 +23,10 @@ public abstract class FirstPersonRendererMixin
         ItemInHandRenderer thisRenderer = Minecraft.getInstance().getItemInHandRenderer();
         ItemStack offHandCurrentItemStack = player.getOffhandItem();
 
-        boolean reEquip = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((FirstPersonRendererAccessor)(thisRenderer)).getOffHandItem(), offHandCurrentItemStack, -1);
+        boolean reEquip = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((ItemInHandRendererAccessor)(thisRenderer)).getOffHandItem(), offHandCurrentItemStack, -1);
 
         float f = player.getAttackStrengthScale(1);
         //Debug.log("you better not be on a server here");
-        return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((FirstPersonRendererAccessor)(thisRenderer)).getOffHandHeight();
+        return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
     }
 }
