@@ -16,10 +16,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +86,13 @@ public class SpearItem extends LazyItem implements Vanishable
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player player, @NotNull InteractionHand hand)
     {
         ItemStack stack = player.getItemInHand(hand);
+
+        //thanks k1r0s
+        if(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem && !player.isCrouching())
+        {
+            player.startUsingItem(InteractionHand.OFF_HAND);
+            return InteractionResultHolder.fail(stack);
+        }
 
         if (stack.getDamageValue() >= stack.getMaxDamage() - 1)
         {

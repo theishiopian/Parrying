@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +62,13 @@ public class DaggerItem extends LazyItem
 
         if (!world.isClientSide)
         {
+            //thanks k1r0s
+            if(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem && !player.isCrouching())
+            {
+                player.startUsingItem(InteractionHand.OFF_HAND);
+                return InteractionResultHolder.fail(stack);
+            }
+
             stack.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
 
             DaggerEntity daggerEntity = new DaggerEntity(world, player, stack.copy());
