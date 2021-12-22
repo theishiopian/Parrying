@@ -1,12 +1,10 @@
 package com.theishiopian.parrying.Registration;
 
-import com.theishiopian.parrying.Items.APItem;
-import com.theishiopian.parrying.Items.DaggerItem;
-import com.theishiopian.parrying.Items.FlailItem;
-import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -88,6 +86,8 @@ public class ModItems
     public static final RegistryObject<SpearItem> GOLD_SPEAR = ITEMS.register("gold_spear", () -> GoldSpear);
     public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> DiamondSpear);
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
+
+    public static final RegistryObject<AdvancedBundle> QUIVER = ITEMS.register("quiver", () -> new AdvancedBundle(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as

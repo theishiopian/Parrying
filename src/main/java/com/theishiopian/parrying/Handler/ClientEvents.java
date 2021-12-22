@@ -46,6 +46,10 @@ public class ClientEvents
         ClientRegistry.registerKeyBinding(dodgeKey);
     }
 
+    /**
+     * This code will be used to render the defense meter. It is currently unfinished and will not be called
+     * @param event the render event
+     */
     public static void RenderDefense(RenderGameOverlayEvent.Post event)
     {
         if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
@@ -62,7 +66,7 @@ public class ClientEvents
             int y = window.getGuiScaledHeight() / 2 - 8;
             int offset = 0;
             //Screen.blit(stack, x, y, offset * 16, 0, 16, 16, 256, 256);
-            //TODO blit background first, then blit fill. scale fill using uHeight
+            //TODO blit background first, then blit fill. scale fill using vHeight
         }
     }
 
