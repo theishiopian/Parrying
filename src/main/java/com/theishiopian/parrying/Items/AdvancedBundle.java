@@ -9,7 +9,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
@@ -48,60 +47,56 @@ public class AdvancedBundle extends BundleItem
 
     public boolean overrideStackedOnOther(@NotNull ItemStack pStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
-        if (pAction != ClickAction.SECONDARY)
+        if (pAction == ClickAction.SECONDARY)
         {
-            return false;
-        }
-        else
-        {
-            ItemStack itemstack = pSlot.getItem();
-            if (itemstack.isEmpty()) {
-                this.playRemoveOneSound(pPlayer);
-                removeOne(pStack).ifPresent((p_150740_) ->
-                        add(pStack, pSlot.safeInsert(p_150740_)));
-            }
-            else if (itemstack.getItem().canFitInsideContainerItems())
+            ItemStack itemToPotentiallyAdd = pSlot.getItem();
+            if (itemToPotentiallyAdd.isEmpty())
             {
-                int i = (MAX_WEIGHT - getContentWeight(pStack)) / getWeight(itemstack);
-                int j = add(pStack, pSlot.safeTake(itemstack.getCount(), i, pPlayer));
-                if (j > 0)
+                this.playRemoveOneSound(pPlayer);
+                removeOne(pStack).ifPresent((p_150740_) -> add(pStack, pSlot.safeInsert(p_150740_)));
+            }
+            else if (itemToPotentiallyAdd.getItem().canFitInsideContainerItems())
+            {
+                int i = (MAX_WEIGHT - getContentWeight(pStack)) / getWeight(itemToPotentiallyAdd);
+                Debug.log(i);
+                int addedAmount = add(pStack, pSlot.safeTake(itemToPotentiallyAdd.getCount(), i, pPlayer));
+                if (addedAmount > 0)
                 {
                     this.playInsertSound(pPlayer);
                 }
+                else
+                {
+                    //todo add fail to insert sound
+                    Debug.log("fail");
+                }
             }
-
             return true;
         }
+        return false;
     }
 
-    public boolean overrideOtherStackedOnMe(@NotNull ItemStack bundle, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
+    public static Item GetFirstItem(ItemStack bundle)
     {
-        if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
-        {
-            if (pOther.isEmpty())
-            {
-                removeOne(bundle).ifPresent((p_186347_) ->
-                {
-                    this.playRemoveOneSound(pPlayer);
-                    pAccess.set(p_186347_);
-                });
-            }
-            else
-            {
-                int i = add(bundle, pOther);
-                if (i > 0)
-                {
-                    this.playInsertSound(pPlayer);
-                    pOther.shrink(i);
-                }
-            }
+        return GetItems(bundle).stream().findFirst().get().getItem();
+    }
 
-            return true;
-        }
-        else
+    public static ItemStack TakeFirstItem(ItemStack bundle)
+    {
+        Optional<ItemStack> toRemovePotential = removeOne(bundle);
+        if(toRemovePotential.isPresent())
         {
-            return false;
+            ItemStack removed = toRemovePotential.get();
+            ItemStack oneRemoved = removed.copy();
+            ItemStack remainder = removed.copy();
+
+            oneRemoved.setCount(1);
+            remainder.setCount(removed.getCount() - 1);
+
+            AdvancedBundle.add(bundle, remainder);
+
+            return  oneRemoved;
         }
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -109,6 +104,7 @@ public class AdvancedBundle extends BundleItem
     {
         if(!pPlayer.isCrouching())
         {
+            Debug.log(TakeFirstItem(pPlayer.getItemInHand(pUsedHand)));
             return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
         }
         return super.use(pLevel, pPlayer, pUsedHand);
@@ -119,7 +115,7 @@ public class AdvancedBundle extends BundleItem
         return Math.min(1 + 12 * getContentWeight(pStack) / MAX_WEIGHT, 13);
     }
 
-    protected static int add(@NotNull ItemStack bundle, ItemStack stackToInsert)
+    public static int add(@NotNull ItemStack bundle, ItemStack stackToInsert)
     {
         if (!stackToInsert.isEmpty() && !(stackToInsert.getItem() instanceof BundleItem) && stackToInsert.is(((AdvancedBundle) bundle.getItem()).filterTag) && stackToInsert.getItem().canFitInsideContainerItems())
         {
@@ -139,7 +135,8 @@ public class AdvancedBundle extends BundleItem
 
             if (toAdd == 0)
             {
-                Debug.log("nothing to add");
+                //todo add fail to insert sound
+                Debug.log("fail");
                 return 0;
             }
             else
