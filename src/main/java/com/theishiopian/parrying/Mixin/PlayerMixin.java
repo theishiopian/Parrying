@@ -46,7 +46,7 @@ public class PlayerMixin
 
     //super dumb, but the way minecraft's projectile weapons work has forced me to take excessive measures
     //GetProjectile is used both to check if there IS an arrow AND to take one
-    //the better solution would be to rewrite bundles to use item stacks directly, but frankly that's more work than its worth
+    //the "better" solution would be to rewrite bundles to use item stacks directly, but frankly that's more work than its worth
     private static boolean IsUsingQuiver = false;
 
     @Inject(at = @At("HEAD"), method = "getProjectile", cancellable = true)
