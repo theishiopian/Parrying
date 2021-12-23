@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
 public class AdvancedBundle extends BundleItem
@@ -73,13 +74,13 @@ public class AdvancedBundle extends BundleItem
         }
     }
 
-    public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
+    public boolean overrideOtherStackedOnMe(@NotNull ItemStack bundle, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
             if (pOther.isEmpty())
             {
-                removeOne(pStack).ifPresent((p_186347_) ->
+                removeOne(bundle).ifPresent((p_186347_) ->
                 {
                     this.playRemoveOneSound(pPlayer);
                     pAccess.set(p_186347_);
@@ -87,7 +88,7 @@ public class AdvancedBundle extends BundleItem
             }
             else
             {
-                int i = add(pStack, pOther);
+                int i = add(bundle, pOther);
                 if (i > 0)
                 {
                     this.playInsertSound(pPlayer);
@@ -120,16 +121,17 @@ public class AdvancedBundle extends BundleItem
 
     protected static int add(@NotNull ItemStack bundle, ItemStack stackToInsert)
     {
-        if (!stackToInsert.isEmpty() && stackToInsert.is(((AdvancedBundle)bundle.getItem()).filterTag) && stackToInsert.getItem().canFitInsideContainerItems())
+        if (!stackToInsert.isEmpty() && !(stackToInsert.getItem() instanceof BundleItem) && stackToInsert.is(((AdvancedBundle) bundle.getItem()).filterTag) && stackToInsert.getItem().canFitInsideContainerItems())
         {
             CompoundTag bundleNBT = bundle.getOrCreateTag();
 
             //create inventory list
-            if (!bundleNBT.contains("Items"))bundleNBT.put("Items", new ListTag());
+            if (!bundleNBT.contains("Items")) bundleNBT.put("Items", new ListTag());
 
             int currentWeight = getContentWeight(bundle);
             int insertWeight = getWeight(stackToInsert);
-            int toAdd = Math.min(stackToInsert.getCount(), (GetMaxWeight(bundle) - currentWeight) / insertWeight);
+            int stackSize = stackToInsert.getItem().getMaxStackSize();
+            final int toAdd = Math.min(stackToInsert.getCount(), (GetMaxWeight(bundle) - currentWeight) / insertWeight);
 
             Debug.log("Current Weight: " + currentWeight);
             Debug.log("Insert Weight: " + insertWeight);
@@ -143,6 +145,7 @@ public class AdvancedBundle extends BundleItem
             else
             {
                 ListTag itemsList = bundleNBT.getList("Items", 10);
+
                 Optional<CompoundTag> matchingItem = getMatchingItem(stackToInsert, itemsList);
 
                 if (matchingItem.isPresent())
@@ -150,7 +153,8 @@ public class AdvancedBundle extends BundleItem
                     CompoundTag matchingData = matchingItem.get();
                     ItemStack match = ItemStack.of(matchingData);
                     Debug.log(match);
-                    int stackSize = match.getItem().getMaxStackSize();
+
+                    //use a loop here
                     if(match.getCount() < stackSize)
                     {
                         if(match.getCount() + toAdd <= stackSize)
@@ -200,5 +204,15 @@ public class AdvancedBundle extends BundleItem
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
         pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getContentWeight(pStack), MAX_WEIGHT)).withStyle(ChatFormatting.GRAY));
+    }
+
+    public static boolean ContainsItems(ItemStack bundle)
+    {
+        return getContentWeight(bundle) > 0;
+    }
+
+    public static List<ItemStack> GetItems(ItemStack bundle)
+    {
+        return getContents(bundle).collect(Collectors.toList());
     }
 }

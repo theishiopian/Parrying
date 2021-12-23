@@ -115,6 +115,8 @@ public class ModItems
             NetheriteSpear
         };
 
+        ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AdvancedBundle.ContainsItems(stack) ? 1 : 0);
+
         //if null pointers get thrown in the item render, look at these rascals
         for (SpearItem spear:spears)
         {

@@ -57,6 +57,8 @@
   "item.parrying.diamond_dagger": "Diamond Dagger",
   "item.parrying.netherite_dagger": "Netherite Dagger",
 
+  "item.parrying.quiver" : "Quiver",
+
   "tag.parrying.two_handed": "Two Handed",
 
   "death.attack.bludgeoning": "%1$s was crushed",

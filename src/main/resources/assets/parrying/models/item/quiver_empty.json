@@ -1,0 +1,6 @@
+{
+  "parent": "parrying:item/quiver",
+  "textures": {
+    "layer0": "parrying:item/quiver_empty"
+  }
+}
