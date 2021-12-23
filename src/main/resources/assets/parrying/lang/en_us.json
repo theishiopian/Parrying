@@ -78,6 +78,10 @@
   "key.parrying.dodge": "Dodge",
 
   "stat.parrying.parry": "Parry Count",
+
   "advancements.parrying.campfire_light" : "The beacons are lit!",
-  "advancements.parrying.campfire_light.desc": "Light a campfire by shooting it"
+  "advancements.parrying.campfire_light.desc": "Light a campfire by shooting it",
+
+  "filter.parrying.arrows": "Can only hold arrows",
+  "bundle.parrying.shuffle": "Cycling Items"
 }

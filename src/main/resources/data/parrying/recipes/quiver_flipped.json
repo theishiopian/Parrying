@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:quivers_enabled"
+        }
+    ],
+    "pattern": [
+        "sl ",
+        "lll",
+        " ll"
+    ],
+    "key": {
+        "l":
+        {
+            "item": "minecraft:leather"
+        },
+        "s":
+        {
+            "item": "minecraft:string"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:quiver",
+        "count": 1
+    }
+}

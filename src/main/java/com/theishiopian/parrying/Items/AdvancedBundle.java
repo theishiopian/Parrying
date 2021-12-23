@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings("deprecation")//it's not deprecated if mojang uses it
 public class AdvancedBundle extends BundleItem
 {
     public final Tag.Named<Item> filterTag;
@@ -75,9 +75,15 @@ public class AdvancedBundle extends BundleItem
         return false;
     }
 
-    public static Item GetFirstItem(ItemStack bundle)
+    public static void RoundRobin(ItemStack bundle)
     {
-        return GetItems(bundle).stream().findFirst().get().getItem();
+        ListTag list = bundle.getOrCreateTag().getList("Items", 10);
+        if((long) list.size() > 1)
+        {
+            Optional<net.minecraft.nbt.Tag> tag = Optional.ofNullable(list.get(0));
+            list.remove(0);
+            list.add(list.size(), tag.get());
+        }
     }
 
     public static ItemStack TakeFirstItem(ItemStack bundle)
@@ -102,12 +108,19 @@ public class AdvancedBundle extends BundleItem
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
     {
+        ItemStack bundle = pPlayer.getItemInHand(pUsedHand);
         if(!pPlayer.isCrouching())
         {
-            Debug.log(TakeFirstItem(pPlayer.getItemInHand(pUsedHand)));
-            return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+            RoundRobin(bundle);
+            pPlayer.displayClientMessage(new TranslatableComponent("bundle.parrying.shuffle"), true);
+            return InteractionResultHolder.success(bundle);
         }
         return super.use(pLevel, pPlayer, pUsedHand);
+    }
+
+    public static int getStackCount(ItemStack bundle)
+    {
+        return GetItems(bundle).size();
     }
 
     public int getBarWidth(@NotNull ItemStack pStack)
@@ -129,10 +142,6 @@ public class AdvancedBundle extends BundleItem
             int stackSize = stackToInsert.getItem().getMaxStackSize();
             final int toAdd = Math.min(stackToInsert.getCount(), (GetMaxWeight(bundle) - currentWeight) / insertWeight);
 
-            Debug.log("Current Weight: " + currentWeight);
-            Debug.log("Insert Weight: " + insertWeight);
-            Debug.log("To Add: " + toAdd);
-
             if (toAdd == 0)
             {
                 //todo add fail to insert sound
@@ -149,9 +158,7 @@ public class AdvancedBundle extends BundleItem
                 {
                     CompoundTag matchingData = matchingItem.get();
                     ItemStack match = ItemStack.of(matchingData);
-                    Debug.log(match);
 
-                    //use a loop here
                     if(match.getCount() < stackSize)
                     {
                         if(match.getCount() + toAdd <= stackSize)
@@ -201,6 +208,8 @@ public class AdvancedBundle extends BundleItem
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
         pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getContentWeight(pStack), MAX_WEIGHT)).withStyle(ChatFormatting.GRAY));
+        String filterTag = ((AdvancedBundle)pStack.getItem()).filterTag.getName().getPath();
+        pTooltipComponents.add((new TranslatableComponent("filter.parrying." + filterTag)).withStyle(ChatFormatting.RED));
     }
 
     public static boolean ContainsItems(ItemStack bundle)
