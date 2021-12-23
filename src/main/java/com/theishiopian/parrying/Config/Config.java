@@ -62,6 +62,8 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
 
+    public static final ForgeConfigSpec.BooleanValue quiverMixinEnabled;
+
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
 
@@ -96,7 +98,6 @@ public class Config
         twoHandedEnabled = builder.comment("Whether certain weapons disable dual wielding").define("two_handed_enabled", true);
 
         //BASH
-
         bashEnabled = builder.comment("Whether shield bashing is enabled or not.").define("bash_enabled", true);
 
         bashAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
@@ -114,7 +115,6 @@ public class Config
                 .defineInRange("bash_targets", 3, 1, Integer.MAX_VALUE);
 
         //BACKSTAB
-
         backStabEnabled = builder.comment("Whether backstabbing is enabled or not").define("backstab_enabled", true);
 
         backStabAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
@@ -137,6 +137,9 @@ public class Config
         //ENCHANT
         deflectionEnchantEnabled = builder.comment("Whether or not the deflection enchantment is enabled").define("deflection_enabled", true);
         riposteEnchantEnabled = builder.comment("Whether or not the riposte enchantment is enabled").define("riposte_enabled", true);
+
+        //QUIVER
+        quiverMixinEnabled = builder.comment("Whether or not bows and crossbows draw arrows from quivers. Turn this off in case of mixin conflicts.").define("quiver_mixin_enabled", true);
 
         cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);

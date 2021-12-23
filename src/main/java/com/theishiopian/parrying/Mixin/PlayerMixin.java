@@ -52,7 +52,7 @@ public class PlayerMixin
     @Inject(at = @At("HEAD"), method = "getProjectile", cancellable = true)
     private void InjectIntoGetProjectile(ItemStack weapon, CallbackInfoReturnable<ItemStack> cir)
     {
-        if(!((Player) (Object) this).level.isClientSide())
+        if(Config.quiverMixinEnabled.get() && !((Player) (Object) this).level.isClientSide())
         {
             if(weapon.getItem() instanceof BowItem || weapon.getItem() instanceof CrossbowItem)
             {
