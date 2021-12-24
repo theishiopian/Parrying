@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.AdvancedBundle;
+import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Utility.Debug;
@@ -62,11 +63,11 @@ public class PlayerMixin
 
                     if(potentialQuiver.getItem().equals(ModItems.QUIVER.get()))
                     {
-                        if(AdvancedBundle.getStackCount(potentialQuiver) > 0)
+                        if(AdvancedBundle.getStackCount(potentialQuiver) > 0 && (weapon.is(ModItems.SCOPED_CROSSBOW.get()) && !ScopedCrossbow.isCharged(weapon)))
                         {
                             ItemStack taken = AdvancedBundle.TakeFirstItem(potentialQuiver);
 
-                            if(!IsUsingQuiver)
+                            if(!IsUsingQuiver && !weapon.is(ModItems.SCOPED_CROSSBOW.get()))
                             {
                                 IsUsingQuiver = true;
                                 AdvancedBundle.add(potentialQuiver, taken);
@@ -92,6 +93,18 @@ public class PlayerMixin
                     }
                 }
             }
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "isScoping", cancellable = true)
+    private void InjectIntoIsScoping(CallbackInfoReturnable<Boolean> cir)
+    {
+        Player player = ((Player) (Object) this);
+        boolean isUsingScopedWeapon = player.isUsingItem() && player.getUseItem().is(ModItems.SCOPED_CROSSBOW.get());//todo interface
+        if(isUsingScopedWeapon)
+        {
+            boolean hasProjectile = ScopedCrossbow.isCharged(player.getUseItem());
+            if(hasProjectile)cir.setReturnValue(true);
         }
     }
 }
