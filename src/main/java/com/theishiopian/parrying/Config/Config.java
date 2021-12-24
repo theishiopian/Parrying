@@ -16,7 +16,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue flailEnabled;
     public static final ForgeConfigSpec.BooleanValue spearEnabled;
     public static final ForgeConfigSpec.BooleanValue daggerEnabled;
-    public static final ForgeConfigSpec.BooleanValue quiverEnabled;
+    //public static final ForgeConfigSpec.BooleanValue quiverEnabled;
 
     //arrow tweaks
     public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
@@ -62,7 +62,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
 
-    public static final ForgeConfigSpec.BooleanValue quiverMixinEnabled;
+    //public static final ForgeConfigSpec.BooleanValue quiverMixinEnabled;
 
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
@@ -79,7 +79,7 @@ public class Config
         flailEnabled = builder.comment("Whether or not the flail is craftable.").define("flail_enabled", true);
         spearEnabled = builder.comment("Whether or not the spear is craftable.").define("spear_enabled", true);
         daggerEnabled = builder.comment("Whether or not the dagger is craftable.").define("dagger_enabled", true);
-        quiverEnabled = builder.comment("Whether or not the quiver is craftable.").define("quiver_enabled", true);
+        //quiverEnabled = builder.comment("Whether or not the quiver is craftable.").define("quiver_enabled", true);
 
         flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
         apPiercing = builder.comment("Does the piercing enchant cause armor penetrating damage?").define("ap_piercing", true);
@@ -139,7 +139,7 @@ public class Config
         riposteEnchantEnabled = builder.comment("Whether or not the riposte enchantment is enabled").define("riposte_enabled", true);
 
         //QUIVER
-        quiverMixinEnabled = builder.comment("Whether or not bows and crossbows draw arrows from quivers. Turn this off in case of mixin conflicts.").define("quiver_mixin_enabled", true);
+        //quiverMixinEnabled = builder.comment("Whether or not bows and crossbows draw arrows from quivers. Turn this off in case of mixin conflicts.").define("quiver_mixin_enabled", true);
 
         cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
