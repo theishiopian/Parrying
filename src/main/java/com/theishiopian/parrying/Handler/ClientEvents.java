@@ -73,7 +73,7 @@ public class ClientEvents
     public static void OnTooltip(ItemTooltipEvent event)
     {
         //this MAY break when reloading resource packs, need more information
-        if(Config.twoHandedEnabled.get())
+        if(event.getPlayer() != null && IsGameplayInProgress() && Config.twoHandedEnabled.get())
         {
             if(event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
             {
