@@ -1,15 +1,14 @@
 package com.theishiopian.parrying.Registration;
 
-import com.theishiopian.parrying.Items.APItem;
-import com.theishiopian.parrying.Items.DaggerItem;
-import com.theishiopian.parrying.Items.FlailItem;
-import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -89,9 +88,9 @@ public class ModItems
     public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> DiamondSpear);
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
 
-    //public static final RegistryObject<AdvancedBundle> QUIVER = ITEMS.register("quiver", () -> new AdvancedBundle(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
+    public static final RegistryObject<AdvancedBundle> QUIVER = ITEMS.register("quiver", () -> new AdvancedBundle(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
 
-    //public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as
@@ -119,7 +118,22 @@ public class ModItems
             NetheriteSpear
         };
 
-        //ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AdvancedBundle.ContainsItems(stack) ? 1 : 0);
+        ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AdvancedBundle.ContainsItems(stack) ? 1 : 0);
+
+        ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
+        {
+            if (user == null)
+            {
+                return 0.0F;
+            }
+            else
+            {
+                return ScopedCrossbow.isCharged(stack) ? 0.0F : (float)(stack.getUseDuration() - user.getUseItemRemainingTicks()) / (float)ScopedCrossbow.getChargeDuration(stack);
+            }
+        });
+        ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pulling"), (stack, world, user, seed) -> user != null && user.isUsingItem() && user.getUseItem() == stack && !ScopedCrossbow.isCharged(stack) ? 1.0F : 0.0F);
+        ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("charged"), (stack, world, user, seed) -> user != null && ScopedCrossbow.isCharged(stack) ? 1.0F : 0.0F);
+        ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("firework"), (stack, world, user, seed) -> user != null && ScopedCrossbow.isCharged(stack) && ScopedCrossbow.containsChargedProjectile(stack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F);
 
         //if null pointers get thrown in the item render, look at these rascals
         for (SpearItem spear:spears)
