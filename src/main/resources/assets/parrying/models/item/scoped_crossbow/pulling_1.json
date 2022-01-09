@@ -1,0 +1,6 @@
+{
+  "parent": "parrying:item/scoped_crossbow",
+  "textures": {
+    "layer0": "parrying:item/scoped_crossbow/crossbow_pulling_1"
+  }
+}
