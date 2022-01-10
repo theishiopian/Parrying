@@ -40,13 +40,6 @@ public abstract class ItemInHandRendererMixin
         return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
     }
 
-//use this ONLY if paul's method doesn't work
-//    @Redirect(method = {"renderArmWithItem"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z", ordinal = 1))
-//    private boolean RedirectIsCrossbow(ItemStack instance, Item pItem)
-//    {
-//        return instance.is(Items.CROSSBOW) || instance.is(ModItems.SCOPED_CROSSBOW.get());
-//    }
-
     private static Item inHandItem;
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"))
@@ -56,7 +49,7 @@ public abstract class ItemInHandRendererMixin
     }
 
     //if wierd things start happening, look into replacing ordinal with @Slice
-    @ModifyArg(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z", ordinal = 1))
+    @ModifyArg(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"))
     private Item changeStack(Item item)
     {
         //replaces the item to check for if we are looking for a crossbow and holding a scoped crossbow
