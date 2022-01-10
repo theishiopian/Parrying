@@ -18,6 +18,7 @@ import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -55,17 +56,17 @@ public class ClientEvents
         if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
             Minecraft mc = Minecraft.getInstance();
-            PoseStack stack = event.getMatrixStack();
+            PoseStack matrixStack = event.getMatrixStack();
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
             RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
 
             Window window = event.getWindow();
-            int x = window.getGuiScaledWidth() / 2 + 20;
-            int y = window.getGuiScaledHeight() / 2 - 8;
-            int offset = 0;
-            //Screen.blit(stack, x, y, offset * 16, 0, 16, 16, 256, 256);
+            int x = (window.getGuiScaledWidth() / 2) - 8;
+            int y = (window.getGuiScaledHeight() / 2) + 16;
+            int offset = 0;//change this for bar
+            Screen.blit(matrixStack, x, y, offset * 16, 0, 16, 16, 256, 256);
             //TODO blit background first, then blit fill. scale fill using vHeight
         }
     }
