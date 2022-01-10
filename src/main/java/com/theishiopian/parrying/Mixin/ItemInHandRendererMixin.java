@@ -40,6 +40,16 @@ public abstract class ItemInHandRendererMixin
         return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
     }
 
+    //the following code was created by paulevs, tweaked by theishiopian
+    /**
+     * steps:
+     * 1. check what item the player is holding at the start of the render method
+     * 2. cache in static field
+     * 3. second mixin targets the "is" method from ItemStack
+     * 4. check if the is method is checking for Items.Crossbow
+     * 5. if it is, check if the in hand item is a scoped crossbow
+     * 6. if it is, make the method check for our scoped crossbow instead, which will return true by default
+     */
     private static Item inHandItem;
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"))
