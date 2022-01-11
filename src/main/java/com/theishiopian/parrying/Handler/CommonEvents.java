@@ -4,12 +4,17 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
+import com.theishiopian.parrying.Network.SyncDefPacket;
+import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModTags;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,8 +31,11 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CommonEvents
 {
@@ -48,8 +56,23 @@ public class CommonEvents
         {
             LivingEntity entity = event.getEntityLiving();
             LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
-            Parrying.Parry(event);
             float amount = event.getAmount();
+
+            if(entity instanceof Player player)
+            {
+                if(ParryModUtil.IsBlocked(player, attacker))
+                {
+                    Debug.log("BLOCK REDUCTION");
+                    float shieldAbsorb = 5; //TODO store in shields somehow
+                    float amountPostAbsorb = Mth.clamp(amount - shieldAbsorb, 0, player.getMaxHealth());
+
+                    float reduction = amountPostAbsorb / player.getMaxHealth();
+                    UUID id = player.getUUID();
+                    float oldValue = Parrying.ServerDefenseValues.get(id);
+                    Parrying.ServerDefenseValues.replace(id, oldValue - reduction);
+                }
+                else Parrying.Parry(event, player);
+            }
 
             if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
             {
@@ -160,6 +183,17 @@ public class CommonEvents
         }
     }
 
+    public static void OnPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
+    {
+        Debug.log("adding PLAYER to MAP");
+        if(event.getPlayer() instanceof ServerPlayer player)Parrying.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
+    }
+
+    public static void OnPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event)
+    {
+        if(event.getPlayer() instanceof ServerPlayer player)Parrying.ServerDefenseValues.remove(player.getUUID());
+    }
+
     public static void OnWorldTick(TickEvent.WorldTickEvent event)
     {
         if(event.world.isClientSide)return;
@@ -170,12 +204,39 @@ public class CommonEvents
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
+        float value = event.player.level.isClientSide ? Parrying.ClientDefense : Parrying.ServerDefenseValues.get(event.player.getUUID());
+        if (value < 1)
+        {
+            Debug.log("PLAYER TICK--------------------------------");
+            String side = event.player.level.isClientSide ? "Client " : "Server ";
+            Debug.log(side + " Value for" + event.player.getName().getString() + ":" + value);
+            Debug.log("END TICK------------------------------------");
+        }
         if(!event.player.level.isClientSide())
         {
             if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))
             {
                 DualWielding.dualWielders.remove(event.player.getUUID());
             }
+            float newValue;
+            float v = Parrying.ServerDefenseValues.get(event.player.getUUID());
+            if(v <= 0)
+            {
+                event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
+                newValue = 0.001f;
+            }
+            else if(v < 1)
+            {
+                newValue = v + 0.0075f;
+            }
+            else
+            {
+                newValue = 1f;
+            }
+
+            Parrying.ServerDefenseValues.replace(event.player.getUUID(), newValue);
+
+            ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
         }
     }
 

@@ -8,6 +8,7 @@ import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.Parrying;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
@@ -48,33 +49,39 @@ public class ClientEvents
     }
 
     /**
-     * This code will be used to render the defense meter. It is currently unfinished and will not be called
+     * This code will be used to render the defense meter. TODO: move to custom class for rendering events
      * @param event the render event
      */
     public static void RenderDefense(RenderGameOverlayEvent.Post event)
     {
         if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
-            Minecraft mc = Minecraft.getInstance();
-            PoseStack matrixStack = event.getMatrixStack();
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
-            RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
+            if(Parrying.ClientDefense < 1)
+            {
+                PoseStack matrixStack = event.getMatrixStack();
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
+                RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
 
-            Window window = event.getWindow();
-            int x = (window.getGuiScaledWidth() / 2) - 8;
-            int y = (window.getGuiScaledHeight() / 2) + 16;
-            int offset = 0;//change this for bar
-            Screen.blit(matrixStack, x, y, offset * 16, 0, 16, 16, 256, 256);
-            //TODO blit background first, then blit fill. scale fill using vHeight
+                Window window = event.getWindow();
+                int x = (window.getGuiScaledWidth() / 2) - 8;
+                int y = (window.getGuiScaledHeight() / 2) + 16;
+                int offset = 1;//change this for bar
+                //stack, position, uv, size, texture size
+                Screen.blit(matrixStack, x, y, 0, 0, 16, 16, 256, 256);
+                int posOffset = (int)(16 + y - (16* Parrying.ClientDefense));
+                int uvOffset = (int)(16 * Parrying.ClientDefense);
+                int sizeOffset = (int)(16 * Parrying.ClientDefense) + 1;
+                Screen.blit(matrixStack, x, posOffset, 16, (15 - uvOffset), 16, sizeOffset, 256, 256);
+            }
         }
     }
 
     public static void OnTooltip(ItemTooltipEvent event)
     {
         //this MAY break when reloading resource packs, need more information
-        if(event.getPlayer() != null && IsGameplayInProgress() && Config.twoHandedEnabled.get())
+        if(IsGameplayInProgress() && event.getPlayer() != null && Config.twoHandedEnabled.get())
         {
             if(event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
             {

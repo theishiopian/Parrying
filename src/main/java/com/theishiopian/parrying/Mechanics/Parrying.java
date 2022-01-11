@@ -21,14 +21,19 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * This class is a container for the parrying mechanic. This mechanic is triggered from CommonEvents, within OnAttackedEvent.
  */
 public abstract class Parrying
 {
-    public static void Parry(LivingAttackEvent event)
+    public static float ClientDefense = 1;
+    public static HashMap<UUID, Float> ServerDefenseValues = new HashMap<>();
+
+    public static void Parry(LivingAttackEvent event, Player player)
     {
         if(Config.parryEnabled.get() && event.getEntity() instanceof ServerPlayer)
         {
@@ -36,8 +41,6 @@ public abstract class Parrying
 
             if(source instanceof EntityDamageSource && !(source instanceof IndirectEntityDamageSource))
             {
-                Player player = (Player) event.getEntity();//the defender
-
                 //make sure the player isn't stunned
                 if(!player.hasEffect(ModEffects.STUNNED.get()))
                 {
@@ -77,6 +80,12 @@ public abstract class Parrying
                             {
                                 //successful parry
                                 player.awardStat(ModStats.parry);
+
+                                //reduce defense
+                                float reduction = event.getAmount() / player.getMaxHealth();
+                                UUID id = player.getUUID();
+                                float oldValue = Parrying.ServerDefenseValues.get(id);
+                                Parrying.ServerDefenseValues.replace(id, oldValue - reduction);
 
                                 player.knockback(0.33f, attackerDir.x, attackerDir.z);
                                 player.hurtMarked = true;//this makes knockback work

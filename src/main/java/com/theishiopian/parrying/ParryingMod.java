@@ -8,6 +8,7 @@ import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
+import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +43,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 5;//protocol version, bump whenever adding new network packets or changing existing ones
+    private static final int VERSION = 6;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added defense sync packet
 
     static
     {
@@ -68,6 +70,12 @@ public class ParryingMod
                 .encoder(SwingPacket::toBytes)
                 .consumer(SwingPacket::handle)
                 .add();
+
+        channel.messageBuilder(SyncDefPacket.class, 4, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncDefPacket::fromBytes)
+                .encoder(SyncDefPacket::toBytes)
+                .consumer(SyncDefPacket::handle)
+                .add();
     }
 
     public ParryingMod()
@@ -80,6 +88,8 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTagsChanged);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerJoin);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerLeave);
 
         ModTriggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);

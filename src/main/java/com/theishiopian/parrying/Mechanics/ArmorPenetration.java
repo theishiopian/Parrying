@@ -20,7 +20,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ToolActions;
 
 public abstract class ArmorPenetration
@@ -51,7 +50,7 @@ public abstract class ArmorPenetration
 
             target.hurt(new EntityDamageSource(src, attacker), dmgNAP);
             target.invulnerableTime = 0;
-            if(!IsBlocked(target, attacker))
+            if(!ParryModUtil.IsBlocked(target, attacker))
             {
                 target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), dmgAP);
             }
@@ -91,19 +90,6 @@ public abstract class ArmorPenetration
         }
     }
 
-    private static boolean IsBlocked(LivingEntity defender, LivingEntity attacker)
-    {
-        if (defender.isBlocking())
-        {
-            Vec3 attackPos = attacker.position();
-            Vec3 defenderLook = defender.getViewVector(1.0F);
-            Vec3 vector3d1 = attackPos.vectorTo(defender.position()).normalize();
-            vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
-            return vector3d1.dot(defenderLook) < 0.0D;
-        }
-
-        return false;
-    }
     private static void BlockHelper(LivingEntity toBlock, LivingEntity blocker, float blockedDMG)
     {
         toBlock.knockback(0.5F, toBlock.getX() - blocker.getX(), toBlock.getZ() - blocker.getZ());

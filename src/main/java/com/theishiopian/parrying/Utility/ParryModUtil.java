@@ -24,8 +24,22 @@ import java.util.Random;
  */
 public class ParryModUtil
 {
-    public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(ParryingMod.MOD_ID, "textures/gui/general_icons.png");
+    public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(ParryingMod.MOD_ID, "textures/gui/icons.png");
     public static final Random random = new Random();
+
+    public static boolean IsBlocked(LivingEntity defender, LivingEntity attacker)
+    {
+        if (defender.isBlocking())
+        {
+            Vec3 attackPos = attacker.position();
+            Vec3 defenderLook = defender.getViewVector(1.0F);
+            Vec3 vector3d1 = attackPos.vectorTo(defender.position()).normalize();
+            vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
+            return vector3d1.dot(defenderLook) < 0.0D;
+        }
+
+        return false;
+    }
 
     public static boolean PlayerCritical(Player player, Entity target, float cacheStrength)
     {
