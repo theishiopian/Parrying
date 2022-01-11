@@ -28,7 +28,7 @@ import java.util.UUID;
 /**
  * This class is a container for the parrying mechanic. This mechanic is triggered from CommonEvents, within OnAttackedEvent.
  */
-public abstract class Parrying
+public abstract class ParryingMechanic
 {
     public static float ClientDefense = 1;
     public static HashMap<UUID, Float> ServerDefenseValues = new HashMap<>();
@@ -84,8 +84,8 @@ public abstract class Parrying
                                 //reduce defense
                                 float reduction = event.getAmount() / player.getMaxHealth();
                                 UUID id = player.getUUID();
-                                float oldValue = Parrying.ServerDefenseValues.get(id);
-                                Parrying.ServerDefenseValues.replace(id, oldValue - reduction);
+                                float oldValue = ParryingMechanic.ServerDefenseValues.get(id);
+                                ParryingMechanic.ServerDefenseValues.replace(id, oldValue - reduction);
 
                                 player.knockback(0.33f, attackerDir.x, attackerDir.z);
                                 player.hurtMarked = true;//this makes knockback work

@@ -68,10 +68,10 @@ public class CommonEvents
 
                     float reduction = amountPostAbsorb / player.getMaxHealth();
                     UUID id = player.getUUID();
-                    float oldValue = Parrying.ServerDefenseValues.get(id);
-                    Parrying.ServerDefenseValues.replace(id, oldValue - reduction);
+                    float oldValue = ParryingMechanic.ServerDefenseValues.get(id);
+                    ParryingMechanic.ServerDefenseValues.replace(id, oldValue - reduction);
                 }
-                else Parrying.Parry(event, player);
+                else ParryingMechanic.Parry(event, player);
             }
 
             if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
@@ -186,12 +186,12 @@ public class CommonEvents
     public static void OnPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
         Debug.log("adding PLAYER to MAP");
-        if(event.getPlayer() instanceof ServerPlayer player)Parrying.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
+        if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
     }
 
     public static void OnPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event)
     {
-        if(event.getPlayer() instanceof ServerPlayer player)Parrying.ServerDefenseValues.remove(player.getUUID());
+        if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.remove(player.getUUID());
     }
 
     public static void OnWorldTick(TickEvent.WorldTickEvent event)
@@ -204,7 +204,7 @@ public class CommonEvents
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        float value = event.player.level.isClientSide ? Parrying.ClientDefense : Parrying.ServerDefenseValues.get(event.player.getUUID());
+        float value = event.player.level.isClientSide ? ParryingMechanic.ClientDefense : ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
         if (value < 1)
         {
             Debug.log("PLAYER TICK--------------------------------");
@@ -219,10 +219,11 @@ public class CommonEvents
                 DualWielding.dualWielders.remove(event.player.getUUID());
             }
             float newValue;
-            float v = Parrying.ServerDefenseValues.get(event.player.getUUID());
+            float v = ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
             if(v <= 0)
             {
                 event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
+                //todo: disable current shield
                 newValue = 0.001f;
             }
             else if(v < 1)
@@ -234,7 +235,7 @@ public class CommonEvents
                 newValue = 1f;
             }
 
-            Parrying.ServerDefenseValues.replace(event.player.getUUID(), newValue);
+            ParryingMechanic.ServerDefenseValues.replace(event.player.getUUID(), newValue);
 
             ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
         }

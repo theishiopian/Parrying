@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Network;
 
-import com.theishiopian.parrying.Mechanics.Parrying;
+import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -26,7 +26,7 @@ public record SyncDefPacket(float value)
     public static void handle(SyncDefPacket packet, Supplier<NetworkEvent.Context> context)
     {
         context.get().enqueueWork
-        (() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Parrying.ClientDefense = packet.value));
+        (() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ParryingMechanic.ClientDefense = packet.value));
         context.get().setPacketHandled(true);
     }
 }

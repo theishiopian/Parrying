@@ -8,7 +8,7 @@ import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Mechanics.DualWielding;
-import com.theishiopian.parrying.Mechanics.Parrying;
+import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
@@ -56,7 +56,7 @@ public class ClientEvents
     {
         if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
-            if(Parrying.ClientDefense < 1)
+            if(ParryingMechanic.ClientDefense < 1)
             {
                 PoseStack matrixStack = event.getMatrixStack();
                 RenderSystem.enableBlend();
@@ -70,9 +70,9 @@ public class ClientEvents
                 int offset = 1;//change this for bar
                 //stack, position, uv, size, texture size
                 Screen.blit(matrixStack, x, y, 0, 0, 16, 16, 256, 256);
-                int posOffset = (int)(16 + y - (16* Parrying.ClientDefense));
-                int uvOffset = (int)(16 * Parrying.ClientDefense);
-                int sizeOffset = (int)(16 * Parrying.ClientDefense) + 1;
+                int posOffset = (int)(16 + y - (16* ParryingMechanic.ClientDefense));
+                int uvOffset = (int)(16 * ParryingMechanic.ClientDefense);
+                int sizeOffset = (int)(16 * ParryingMechanic.ClientDefense) + 1;
                 Screen.blit(matrixStack, x, posOffset, 16, (15 - uvOffset), 16, sizeOffset, 256, 256);
             }
         }
