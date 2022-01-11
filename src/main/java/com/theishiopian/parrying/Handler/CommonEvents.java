@@ -204,14 +204,14 @@ public class CommonEvents
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        float value = event.player.level.isClientSide ? ParryingMechanic.ClientDefense : ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
-        if (value < 1)
-        {
-            Debug.log("PLAYER TICK--------------------------------");
-            String side = event.player.level.isClientSide ? "Client " : "Server ";
-            Debug.log(side + " Value for" + event.player.getName().getString() + ":" + value);
-            Debug.log("END TICK------------------------------------");
-        }
+//        float value = event.player.level.isClientSide ? ParryingMechanic.ClientDefense : ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
+//        if (value < 1)
+//        {
+//            Debug.log("PLAYER TICK--------------------------------");
+//            String side = event.player.level.isClientSide ? "Client " : "Server ";
+//            Debug.log(side + " Value for" + event.player.getName().getString() + ":" + value);
+//            Debug.log("END TICK------------------------------------");
+//        }
         if(!event.player.level.isClientSide())
         {
             if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))

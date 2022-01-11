@@ -13,6 +13,7 @@ import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
@@ -63,17 +64,17 @@ public class ClientEvents
                 RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
                 RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
-
                 Window window = event.getWindow();
                 int x = (window.getGuiScaledWidth() / 2) - 8;
                 int y = (window.getGuiScaledHeight() / 2) + 16;
-                int offset = 1;//change this for bar
                 //stack, position, uv, size, texture size
-                Screen.blit(matrixStack, x, y, 0, 0, 16, 16, 256, 256);
+                Player player = Minecraft.getInstance().player;
+                int stunOffset = player != null && player.hasEffect(ModEffects.STUNNED.get()) ? 16 : 0;
+                Screen.blit(matrixStack, x, y, 0, stunOffset, 16, 16, 64, 64);
                 int posOffset = (int)(16 + y - (16* ParryingMechanic.ClientDefense));
                 int uvOffset = (int)(16 * ParryingMechanic.ClientDefense);
                 int sizeOffset = (int)(16 * ParryingMechanic.ClientDefense) + 1;
-                Screen.blit(matrixStack, x, posOffset, 16, (15 - uvOffset), 16, sizeOffset, 256, 256);
+                Screen.blit(matrixStack, x, posOffset, 16, (15 - uvOffset) + stunOffset, 16, sizeOffset, 64, 64);
             }
         }
     }
