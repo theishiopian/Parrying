@@ -22,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.ToolActions;
 
-public abstract class ArmorPenetration
+public abstract class ArmorPenetrationMechanic
 {
     static boolean bypassing = false;
 

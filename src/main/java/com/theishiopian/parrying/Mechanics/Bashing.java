@@ -5,7 +5,7 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
-import com.theishiopian.parrying.Utility.Debug;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -34,7 +34,7 @@ public abstract class Bashing
                 List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
 
                 list.remove(player);
-                Random random = new Random();
+                Random random = ParryModUtil.random;
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
                 ItemStack shield = null;
@@ -43,12 +43,12 @@ public abstract class Bashing
                 if(main.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK))
                 {
                     shield = main;
-                    Debug.log("shield in mainhand");
+                    //Debug.log("shield in mainhand");
                     hand = InteractionHand.MAIN_HAND;
                 }
                 else if(off.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK))
                 {
-                    Debug.log("shield in offhand");
+                    //Debug.log("shield in offhand");
                     shield = off;
                 }
 
@@ -63,11 +63,11 @@ public abstract class Bashing
 
                 if(list.size() > 0)
                 {
-                    Debug.log("begin bash");
+                    //Debug.log("begin bash");
                     list.sort(distCompare);
                     Vec3 pDir = player.getViewVector(1);
                     int bashes = 0;
-                    Debug.log(shield);
+                    //Debug.log(shield);
                     assert shield != null : "How";
                     int level = Config.bashingEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield) : 0;
                     for (LivingEntity target : list)

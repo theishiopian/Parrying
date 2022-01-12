@@ -6,13 +6,13 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Registration.ModAttributes;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
+import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -62,7 +63,6 @@ public class CommonEvents
             {
                 if(ParryModUtil.IsBlocked(player, attacker))
                 {
-                    Debug.log("BLOCK REDUCTION");
                     float shieldAbsorb = 5; //TODO store in shields somehow
                     float amountPostAbsorb = Mth.clamp(amount - shieldAbsorb, 0, player.getMaxHealth());
 
@@ -90,11 +90,11 @@ public class CommonEvents
             {
                 APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
 
-                if(weapon != null && ArmorPenetration.IsNotBypassing())
+                if(weapon != null && ArmorPenetrationMechanic.IsNotBypassing())
                 {
                     //yes, the attribute is there, I put it there
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlot.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
-                    ArmorPenetration.DoAPDamage(amount, strength, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
+                    ArmorPenetrationMechanic.DoAPDamage(amount, strength, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
                 }
             }
@@ -105,8 +105,8 @@ public class CommonEvents
     {
         if(event.getProjectile() instanceof AbstractArrow arrow && !Deflection.Deflect(event))
         {
-            Arrows.DoSonicArrow(arrow);
-            Arrows.DoBurningArrow(arrow, event.getRayTraceResult());
+            ArrowMechanics.DoSonicArrow(arrow);
+            ArrowMechanics.DoBurningArrow(arrow, event.getRayTraceResult());
         }
     }
 
@@ -117,7 +117,7 @@ public class CommonEvents
 
         if(entity != null)
         {
-            if(Config.apPiercing.get() && ArmorPenetration.IsNotBypassing())
+            if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing())
             {
                 if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
                 {
@@ -131,7 +131,7 @@ public class CommonEvents
                         if(pLevel > 0)
                         {
                             //it actually will bypass the shield, this is just to trick the helper method
-                            ArmorPenetration.DoAPDamage(pAmount,strength, 0.2f * pLevel, entity, attacker, false, "piercing.player");
+                            ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, entity, attacker, false, "piercing.player");
                             event.setAmount(0);//prevent extra damage
 
                             //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
@@ -185,7 +185,7 @@ public class CommonEvents
 
     public static void OnPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
-        Debug.log("adding PLAYER to MAP");
+        //Debug.log("adding PLAYER to MAP");
         if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
     }
 
@@ -223,7 +223,20 @@ public class CommonEvents
             if(v <= 0)
             {
                 event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
-                //todo: disable current shield
+                event.player.level.playSound(null, event.player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f,1f);
+                Vec3 pos = event.player.position();
+
+                ((ServerLevel) event.player.level).sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.x, pos.y, pos.z, 30, 2D, 2D, 2D, 0.0D);
+                Vec3 dir = event.player.getViewVector(1);
+                event.player.knockback(1, dir.x, dir.z);
+                event.player.hurtMarked = true;
+
+                if (event.player.isBlocking())
+                {
+                    event.player.getCooldowns().addCooldown(event.player.getUseItem().getItem(), 60);
+                    event.player.stopUsingItem();
+                    event.player.level.playSound(null, event.player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f,1f);
+                }
                 newValue = 0.001f;
             }
             else if(v < 1)

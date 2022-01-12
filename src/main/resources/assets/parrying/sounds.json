@@ -42,5 +42,16 @@
       "stream": false
     }
   ]
-}
+},
+  "defense_break":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:defense_break",
+        "stream": false
+      }
+    ]
+  }
 }

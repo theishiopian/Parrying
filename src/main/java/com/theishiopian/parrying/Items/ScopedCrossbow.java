@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Items;
 
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -69,7 +68,7 @@ public class ScopedCrossbow extends CrossbowItem
     @Override
     public void releaseUsing(ItemStack crossbow, Level world, LivingEntity pEntityLiving, int pTimeLeft)
     {
-        Debug.log("released");
+        //Debug.log("released");
         if(isCharged(crossbow))
         {
             performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow), 1.0F);
@@ -77,7 +76,7 @@ public class ScopedCrossbow extends CrossbowItem
         }
         else
         {
-            Debug.log("charged");
+            //Debug.log("charged");
             super.releaseUsing(crossbow, world, pEntityLiving, pTimeLeft);
         }
     }

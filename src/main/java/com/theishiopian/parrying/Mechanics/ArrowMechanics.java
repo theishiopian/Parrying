@@ -21,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 //used for all active arrow mechanics
-public abstract class Arrows
+public abstract class ArrowMechanics
 {
     public static void DoSonicArrow(AbstractArrow arrow)
     {

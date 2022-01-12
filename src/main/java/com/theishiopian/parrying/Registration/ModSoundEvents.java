@@ -18,6 +18,7 @@ public class ModSoundEvents
     public static final  RegistryObject<SoundEvent> SHIELD_BASH = registerSoundEvent("shield_bash");
     public static final  RegistryObject<SoundEvent> SHIELD_BASH_MISS = registerSoundEvent("shield_bash_miss");
     public static final  RegistryObject<SoundEvent> FLAIL_SWING = registerSoundEvent("flail_swing");
+    public static final  RegistryObject<SoundEvent> DEFENSE_BREAK = registerSoundEvent("defense_break");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name)
     {

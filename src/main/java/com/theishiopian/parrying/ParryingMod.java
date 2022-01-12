@@ -43,7 +43,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 6;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added defense sync packet
+    private static final int VERSION = 6;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added defense packet
 
     static
     {
@@ -135,7 +135,7 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("spears_enabled", Config.spearEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("daggers_enabled", Config.daggerEnabled::get).new Serializer());
-        CraftingHelper.register(new EnabledCondition("quivers_enabled", Config.quiverEnabled::get).new Serializer());
+        //CraftingHelper.register(new EnabledCondition("quivers_enabled", Config.quiverEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("is_chainmail_craftable", Config.isChainmailCraftable::get).new Serializer());
     }
 }
