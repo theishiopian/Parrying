@@ -21,7 +21,7 @@ public class ScopedCrossbow extends CrossbowItem
     public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
     {
         ItemStack crossbow = player.getItemInHand(hand);
-        if (!isCharged(crossbow))
+        if (!isCharged(crossbow) && !player.getProjectile(crossbow).isEmpty())
         {
             this.startSoundPlayed = false;
             this.midLoadSoundPlayed = false;
