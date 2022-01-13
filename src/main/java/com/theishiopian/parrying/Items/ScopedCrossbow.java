@@ -18,7 +18,7 @@ public class ScopedCrossbow extends CrossbowItem
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player player, @NotNull InteractionHand hand)
     {
         ItemStack crossbow = player.getItemInHand(hand);
         if (!isCharged(crossbow) && !player.getProjectile(crossbow).isEmpty())
@@ -41,19 +41,19 @@ public class ScopedCrossbow extends CrossbowItem
     }
 
     @Override
-    public void onUseTick(Level pLevel, LivingEntity pLivingEntity, ItemStack pStack, int pCount)
+    public void onUseTick(@NotNull Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pCount)
     {
         if(!ScopedCrossbow.isCharged(pStack))super.onUseTick(pLevel, pLivingEntity, pStack, pCount);
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack)
+    public int getUseDuration(@NotNull ItemStack pStack)
     {
         return ScopedCrossbow.isCharged(pStack) ? 72000 : getChargeDuration(pStack) + 3;
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack)
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack)
     {
         if(ScopedCrossbow.isCharged(pStack))
         {
@@ -66,7 +66,7 @@ public class ScopedCrossbow extends CrossbowItem
      * Called when the player stops using an Item (stops holding the right mouse button).
      */
     @Override
-    public void releaseUsing(ItemStack crossbow, Level world, LivingEntity pEntityLiving, int pTimeLeft)
+    public void releaseUsing(@NotNull ItemStack crossbow, @NotNull Level world, @NotNull LivingEntity pEntityLiving, int pTimeLeft)
     {
         //Debug.log("released");
         if(isCharged(crossbow))

@@ -86,24 +86,6 @@ public class AdvancedBundle extends BundleItem
         }
     }
 
-    public static ItemStack TakeFirstItem(ItemStack bundle, boolean shouldReduce)
-    {
-        Optional<ItemStack> toRemovePotential = removeOne(bundle);
-        if(toRemovePotential.isPresent())
-        {
-            ItemStack removed = toRemovePotential.get();
-            ItemStack oneRemoved = removed.copy();
-            ItemStack remainder = removed.copy();
-
-            oneRemoved.setCount(1);
-
-            AdvancedBundle.add(bundle, remainder);
-
-            return  oneRemoved;
-        }
-        return ItemStack.EMPTY;
-    }
-
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
     {
