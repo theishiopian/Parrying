@@ -29,7 +29,7 @@ public class ParryModUtil
 
     public static boolean IsBlocked(LivingEntity defender, LivingEntity attacker)
     {
-        if (defender.isBlocking())
+        if (defender.isBlocking() && attacker != null)
         {
             Vec3 attackPos = attacker.position();
             Vec3 defenderLook = defender.getViewVector(1.0F);

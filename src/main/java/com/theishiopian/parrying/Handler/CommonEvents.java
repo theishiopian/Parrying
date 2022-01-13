@@ -241,7 +241,7 @@ public class CommonEvents
             }
             else if(v < 1)
             {
-                newValue = v + 0.0075f;
+                newValue = v + 0.005f;
             }
             else
             {

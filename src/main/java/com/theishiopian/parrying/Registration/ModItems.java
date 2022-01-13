@@ -89,7 +89,7 @@ public class ModItems
 
     //public static final RegistryObject<AdvancedBundle> QUIVER = ITEMS.register("quiver", () -> new AdvancedBundle(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
 
-    public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as

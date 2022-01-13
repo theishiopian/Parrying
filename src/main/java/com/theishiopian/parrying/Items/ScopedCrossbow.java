@@ -29,7 +29,7 @@ public class ScopedCrossbow extends CrossbowItem
 
             return InteractionResultHolder.consume(crossbow);
         }
-        else if(!player.getProjectile(crossbow).isEmpty())
+        else if(ScopedCrossbow.isCharged(crossbow))
         {
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(crossbow);
