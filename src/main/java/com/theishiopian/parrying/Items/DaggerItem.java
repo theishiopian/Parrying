@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class DaggerItem extends LazyItem
@@ -93,5 +95,10 @@ public class DaggerItem extends LazyItem
         player.awardStat(Stats.ITEM_USED.get(this));
 
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+    }
+
+    public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player)
+    {
+        return !player.isCreative();
     }
 }
