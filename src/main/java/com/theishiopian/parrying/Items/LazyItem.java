@@ -29,7 +29,6 @@ public abstract class LazyItem extends TieredItem
         this.baseSpeed = baseSpeed;
         this.attackDamage = (float)baseDamage + tier.getAttackDamageBonus();
         this.attackSpeed = baseSpeed;
-
     }
 
     public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slotType)
@@ -46,7 +45,7 @@ public abstract class LazyItem extends TieredItem
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return enchantment.category == EnchantmentCategory.WEAPON || enchantment.category == EnchantmentCategory.BREAKABLE;
+        return enchantment.category == EnchantmentCategory.BREAKABLE || enchantment.category == EnchantmentCategory.VANISHABLE;
     }
 
     protected abstract void LazyModifiers();

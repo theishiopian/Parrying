@@ -23,7 +23,7 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     {
         "PlayerMixin",
         "DamageEnchantmentMixin",
-        "BundleItemMixin"
+        //"BundleItemMixin"
     };
 
     @Override

@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This class is going to be used for an upcoming feature, namely quivers. It is currently pending on changes to forge, and may deserve a rewrite.
+ */
+@Deprecated
 @SuppressWarnings("deprecation")//it's not deprecated if mojang uses it
 public class AdvancedBundle extends BundleItem
 {
