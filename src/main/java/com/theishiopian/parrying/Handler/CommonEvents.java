@@ -186,7 +186,6 @@ public class CommonEvents
 
     public static void OnPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
-        //Debug.log("adding PLAYER to MAP");
         if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
     }
 

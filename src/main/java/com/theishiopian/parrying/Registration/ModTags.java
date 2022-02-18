@@ -8,7 +8,7 @@ public class ModTags
 {
     public static Tag.Named<Item> TWO_HANDED_WEAPONS;
 
-    public static void Init()
+    public static void Bind()
     {
         TWO_HANDED_WEAPONS = ItemTags.bind("parrying:two_handed_weapons");
     }

@@ -127,7 +127,7 @@ public class ParryingMod
 
     public void CommonSetup(FMLCommonSetupEvent event)
     {
-        ModTags.Init();
+        ModTags.Bind();
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally

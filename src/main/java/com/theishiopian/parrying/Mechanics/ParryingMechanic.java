@@ -7,14 +7,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -22,7 +20,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -61,19 +58,11 @@ public abstract class ParryingMechanic
                         Vec3 attackerDir = attacker.position().subtract(player.position());
                         Vec3 attackerDirNorm = attackerDir.normalize();
 
-                        double attackSpeed = Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_SPEED)).getValue();//the speed of the weapon in use
-
                         //the angle from player look direction to the direction from the player to the enemy
                         double angle = new Vec3(playerLookDir.x, 0, playerLookDir.z).dot(new Vec3(attackerDirNorm.x, 0, attackerDirNorm.z));
 
-                        float dualWield = DualWielding.IsDualWielding(player) ? 0.1f : 0;
-
-                        //the minimum angle for a successful parry, determined by the attack speed. based around the speed of a sword (1.6)
-                        //granted a small bonus by dual wielding
-                        double surfaceAngle = Mth.clamp(Config.parryAngle.get() - ((attackSpeed - 1.6)) - dualWield * 0.05, 0, 1);
-
                         //default 0.95
-                        if(angle >= surfaceAngle && player.swinging)
+                        if(angle >= Config.parryAngle.get() && player.swinging)
                         {
                             //phasing check
                             if(phaseLevel == 0 || ParryModUtil.random.nextInt(3) != 0)
