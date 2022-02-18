@@ -82,7 +82,8 @@ public class ClientEvents
     public static void OnTooltip(ItemTooltipEvent event)
     {
         //this MAY break when reloading resource packs, need more information
-        if(IsGameplayInProgress() && event.getPlayer() != null && Config.twoHandedEnabled.get())
+        if(!IsGameplayInProgress()) return;
+        if(Config.twoHandedEnabled.get())
         {
             if(event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
             {
@@ -100,7 +101,8 @@ public class ClientEvents
 
     public static void OnLeftMouse(InputEvent.MouseInputEvent event)
     {
-        if (Minecraft.getInstance().screen == null && Minecraft.getInstance().options.keyAttack.isDown())
+        if(!IsGameplayInProgress()) return;
+        if (Minecraft.getInstance().options.keyAttack.isDown())
         {
             ParryingMod.channel.sendToServer(new LeftClickPacket());
         }
@@ -111,7 +113,10 @@ public class ClientEvents
      */
     private static boolean IsGameplayInProgress()
     {
-        return Minecraft.getInstance().screen == null && !Minecraft.getInstance().isPaused() && Minecraft.getInstance().player != null;
+        return Minecraft.getInstance().screen == null &&
+                Minecraft.getInstance().level != null &&
+                !Minecraft.getInstance().isPaused() &&
+                Minecraft.getInstance().player != null;
     }
 
     @OnlyIn(Dist.CLIENT)

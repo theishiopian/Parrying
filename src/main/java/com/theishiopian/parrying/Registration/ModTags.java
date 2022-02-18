@@ -6,5 +6,10 @@ import net.minecraft.world.item.Item;
 
 public class ModTags
 {
-    public static Tag.Named<Item> TWO_HANDED_WEAPONS = ItemTags.bind("parrying:two_handed_weapons");
+    public static Tag.Named<Item> TWO_HANDED_WEAPONS;
+
+    public static void Init()
+    {
+        TWO_HANDED_WEAPONS = ItemTags.bind("parrying:two_handed_weapons");
+    }
 }

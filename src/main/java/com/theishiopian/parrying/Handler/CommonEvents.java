@@ -6,14 +6,16 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Registration.*;
+import com.theishiopian.parrying.Registration.ModAttributes;
+import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Registration.ModSoundEvents;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,7 +28,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -252,11 +253,5 @@ public class CommonEvents
 
             ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
         }
-    }
-
-    //this MAY fix the tag issue
-    public static void OnTagsChanged(TagsUpdatedEvent event)
-    {
-        ModTags.TWO_HANDED_WEAPONS = ItemTags.bind("parrying:two_handed_weapons");
     }
 }

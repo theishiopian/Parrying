@@ -87,7 +87,6 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnTagsChanged);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerJoin);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerLeave);
 
@@ -99,6 +98,7 @@ public class ParryingMod
         ModItems.ITEMS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
         ModAttributes.ATTRIBUTES.register(bus);
+
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
 
@@ -127,6 +127,7 @@ public class ParryingMod
 
     public void CommonSetup(FMLCommonSetupEvent event)
     {
+        ModTags.Init();
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally
