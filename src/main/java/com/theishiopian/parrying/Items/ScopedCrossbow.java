@@ -49,7 +49,7 @@ public class ScopedCrossbow extends CrossbowItem
     @Override
     public int getUseDuration(@NotNull ItemStack pStack)
     {
-        return ScopedCrossbow.isCharged(pStack) ? 72000 : getChargeDuration(pStack) + 3;
+        return ScopedCrossbow.isCharged(pStack) ? 72000 : getChargeDuration(pStack) + 20;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ScopedCrossbow extends CrossbowItem
         //Debug.log("released");
         if(isCharged(crossbow))
         {
-            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow), 1.0F);
+            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow) + 2, 0F);
             setCharged(crossbow, false);
         }
         else

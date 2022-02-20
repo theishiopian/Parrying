@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
@@ -14,6 +15,7 @@ import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
@@ -27,6 +29,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,6 +39,7 @@ import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -47,6 +53,36 @@ public class ClientEvents
     static
     {
         ClientRegistry.registerKeyBinding(dodgeKey);
+    }
+
+    public static void OnHandRenderedEvent(RenderHandEvent event)
+    {
+        Player player = Minecraft.getInstance().player;
+        assert player != null;
+        ItemStack mainHandItem = player.getMainHandItem();
+        ItemStack offHandItem = player.getOffhandItem();
+
+        if(player.isUsingItem())
+        {
+            if(event.getHand() != player.getUsedItemHand())
+            {
+                event.setCanceled(true);
+            }
+        }
+        else if(event.getHand() == InteractionHand.OFF_HAND && (isChargedScopedCrossbow(mainHandItem) || isChargedCrossbow(mainHandItem) || mainHandItem.is(Items.BOW)))
+        {
+            event.setCanceled(true);
+        }
+    }
+
+    private static boolean isChargedCrossbow(ItemStack pStack)
+    {
+        return pStack.is(Items.CROSSBOW) && CrossbowItem.isCharged(pStack);
+    }
+
+    private static boolean isChargedScopedCrossbow(ItemStack pStack)
+    {
+        return pStack.is(ModItems.SCOPED_CROSSBOW.get()) && ScopedCrossbow.isCharged(pStack);
     }
 
     /**
