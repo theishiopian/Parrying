@@ -73,7 +73,7 @@ public class ScopedCrossbow extends CrossbowItem
     {
         if(isCharged(crossbow))
         {
-            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow) + 3, 0F);
+            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow), 0);
             setCharged(crossbow, false);
         }
         else
