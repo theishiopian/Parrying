@@ -7,6 +7,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.MultiShotEnchantment;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,7 +52,7 @@ public class ScopedCrossbow extends CrossbowItem
     @Override
     public int getUseDuration(@NotNull ItemStack pStack)
     {
-        return ScopedCrossbow.isCharged(pStack) ? 72000 : getChargeDuration(pStack) + 20;
+        return ScopedCrossbow.isCharged(pStack) ? 72000 : getChargeDuration(pStack) + 3;
     }
 
     @Override
@@ -68,16 +71,32 @@ public class ScopedCrossbow extends CrossbowItem
     @Override
     public void releaseUsing(@NotNull ItemStack crossbow, @NotNull Level world, @NotNull LivingEntity pEntityLiving, int pTimeLeft)
     {
-        //Debug.log("released");
         if(isCharged(crossbow))
         {
-            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow) + 2, 0F);
+            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow) + 3, 0F);
             setCharged(crossbow, false);
         }
         else
         {
-            //Debug.log("charged");
             super.releaseUsing(crossbow, world, pEntityLiving, pTimeLeft);
         }
+    }
+
+    @Override
+    public int getEnchantmentValue()
+    {
+        return 1;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    {
+        return enchantment.category == EnchantmentCategory.CROSSBOW && !(enchantment instanceof MultiShotEnchantment);
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack pStack)
+    {
+        return true;
     }
 }
