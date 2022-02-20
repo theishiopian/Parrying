@@ -226,10 +226,11 @@ public class CommonEvents
             if(v <= 0)
             {
                 event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
-                event.player.level.playSound(null, event.player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f,1f);
+                float pitch = ParryModUtil.random.nextFloat() * 0.4f + 0.8f;
+                event.player.level.playSound(null, event.player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f, pitch);
                 Vec3 pos = event.player.position();
 
-                ((ServerLevel) event.player.level).sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.x, pos.y, pos.z, 30, 1D, 2D, 1D, 0.0D);
+                ((ServerLevel) event.player.level).sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.x, pos.y, pos.z, 30, 0.5D, 2D, 0.5D, 0.0D);
                 Vec3 dir = event.player.getViewVector(1);
                 event.player.knockback(1, dir.x, dir.z);
                 event.player.hurtMarked = true;
