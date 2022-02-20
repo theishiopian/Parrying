@@ -64,7 +64,7 @@ public class CommonEvents
             {
                 if(ParryModUtil.IsBlocked(player, attacker))
                 {
-                    float shieldAbsorb = 5; //TODO store in shields somehow
+                    float shieldAbsorb = 2; //TODO store in shields somehow
                     float amountPostAbsorb = Mth.clamp(amount - shieldAbsorb, 0, player.getMaxHealth());
 
                     float reduction = amountPostAbsorb / player.getMaxHealth();
