@@ -55,8 +55,10 @@ public abstract class ItemInHandRendererMixin
         ItemStack mainHandItem = pPlayer.getMainHandItem();
         ItemStack offHandItem = pPlayer.getOffhandItem();
         boolean hasScopedCrossbow = mainHandItem.is(ModItems.SCOPED_CROSSBOW.get()) || offHandItem.is(ModItems.SCOPED_CROSSBOW.get());
+
         if(hasScopedCrossbow)//does either hand have a scoped crossbow?
         {
+            ItemInHandRenderer.HandRenderSelection select;
             if (pPlayer.isUsingItem())
             {
                 ItemStack stackInUse = pPlayer.getUseItem();
@@ -64,16 +66,7 @@ public abstract class ItemInHandRendererMixin
 
                 if (!stackInUse.is(ModItems.SCOPED_CROSSBOW.get()))//if item in use is NOT a scoped crossbow
                 {
-                    ItemInHandRenderer.HandRenderSelection select;
-
-                    if(hand == InteractionHand.MAIN_HAND && isChargedScopedCrossbow(pPlayer.getOffhandItem()))//has scoped crossbow in offhand
-                    {
-                        select = ItemInHandRenderer.HandRenderSelection.RENDER_MAIN_HAND_ONLY;
-                    }
-                    else//does not have scoped crossbow in offhand
-                    {
-                        select = ItemInHandRenderer.HandRenderSelection.RENDER_BOTH_HANDS;
-                    }
+                    select = ItemInHandRenderer.HandRenderSelection.RENDER_MAIN_HAND_ONLY;
 
                     cir.setReturnValue(select);
                 }
@@ -85,7 +78,7 @@ public abstract class ItemInHandRendererMixin
             else //not charging or using item
             {
                 boolean bowInMain = isChargedScopedCrossbow(mainHandItem) || isChargedCrossbow(mainHandItem) || mainHandItem.is(Items.BOW);
-                ItemInHandRenderer.HandRenderSelection select = bowInMain ? ItemInHandRenderer.HandRenderSelection.RENDER_MAIN_HAND_ONLY : ItemInHandRenderer.HandRenderSelection.RENDER_BOTH_HANDS;
+                select = bowInMain ? ItemInHandRenderer.HandRenderSelection.RENDER_MAIN_HAND_ONLY : ItemInHandRenderer.HandRenderSelection.RENDER_BOTH_HANDS;
                 cir.setReturnValue(select);
             }
         }
