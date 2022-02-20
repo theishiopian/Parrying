@@ -212,6 +212,9 @@ public class CommonEvents
 //            Debug.log(side + " Value for" + event.player.getName().getString() + ":" + value);
 //            Debug.log("END TICK------------------------------------");
 //        }
+
+        //Debug.log(ParryingMechanic.GetSurfaceAngle(event.player));
+
         if(!event.player.level.isClientSide())
         {
             if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))

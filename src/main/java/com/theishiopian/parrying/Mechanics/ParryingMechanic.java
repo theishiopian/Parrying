@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
@@ -60,9 +61,8 @@ public abstract class ParryingMechanic
 
                         //the angle from player look direction to the direction from the player to the enemy
                         double angle = new Vec3(playerLookDir.x, 0, playerLookDir.z).dot(new Vec3(attackerDirNorm.x, 0, attackerDirNorm.z));
-
                         //default 0.95
-                        if(angle >= Config.parryAngle.get() && player.swinging)
+                        if(angle >= GetSurfaceAngle(player) && player.swinging)
                         {
                             //phasing check
                             if(phaseLevel == 0 || ParryModUtil.random.nextInt(3) != 0)
@@ -112,5 +112,20 @@ public abstract class ParryingMechanic
                 }
             }
         }
+    }
+
+
+    /**
+     * Calculates the angle to the target that must be exceeded in order to parry.
+     * @param player the player
+     * @return the adjusted value, taking into account attack recharge.
+     */
+    public static double GetSurfaceAngle(Player player)
+    {
+        double angle = Config.parryAngle.get();
+        double remainder = 1 - angle;
+        double charge = Mth.clamp(player.getAttackStrengthScale(0f), 0.1f, 1f);
+        double penalty = (1f - charge) * remainder;
+        return angle + (penalty);
     }
 }
