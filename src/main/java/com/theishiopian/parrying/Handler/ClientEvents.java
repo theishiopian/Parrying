@@ -55,7 +55,7 @@ public class ClientEvents
         ClientRegistry.registerKeyBinding(dodgeKey);
     }
 
-    public static void OnHandRenderedEvent(RenderHandEvent event)
+    public static void OnHandRendered(RenderHandEvent event)
     {
         Player player = Minecraft.getInstance().player;
         assert player != null;

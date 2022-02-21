@@ -65,6 +65,9 @@ public class Config
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
 
+    //zero g arrows for scoped crossbows
+    public static final ForgeConfigSpec.BooleanValue zeroGravityBolts;
+
     static
     {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -146,6 +149,8 @@ public class Config
         isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
 
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
+
+        zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
 
         COMMON = builder.build();
     }

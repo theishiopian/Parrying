@@ -10,6 +10,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.MultiShotEnchantment;
+import net.minecraft.world.item.enchantment.QuickChargeEnchantment;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,7 +74,8 @@ public class ScopedCrossbow extends CrossbowItem
     {
         if(isCharged(crossbow))
         {
-            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow) * 2, 0);
+            performShooting(world, pEntityLiving, InteractionHand.MAIN_HAND, crossbow, getShootingPower(crossbow), 0);
+
             setCharged(crossbow, false);
         }
         else
@@ -91,7 +93,7 @@ public class ScopedCrossbow extends CrossbowItem
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return enchantment.category == EnchantmentCategory.CROSSBOW && !(enchantment instanceof MultiShotEnchantment);
+        return enchantment.category == EnchantmentCategory.CROSSBOW && !(enchantment instanceof MultiShotEnchantment || enchantment instanceof QuickChargeEnchantment);
     }
 
     @Override

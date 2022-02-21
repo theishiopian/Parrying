@@ -81,7 +81,8 @@ public class ParryingMod
     public ParryingMod()
     {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttackedEvent);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttacked);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowShoot);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerAttackTarget);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
@@ -121,7 +122,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnAttack);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnTooltip);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::RenderDefense);
-        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnHandRenderedEvent);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnHandRendered);
         EntityRenderers.register(ModEntities.SPEAR.get(), RenderSpear::new);
         EntityRenderers.register(ModEntities.DAGGER.get(), RenderDagger::new);
     }

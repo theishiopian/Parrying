@@ -6,10 +6,7 @@ import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Registration.ModAttributes;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +26,7 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -52,7 +50,20 @@ public class CommonEvents
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
     }
 
-    public static void OnAttackedEvent(LivingAttackEvent event)
+    public static void OnArrowShoot(EntityJoinWorldEvent event)
+    {
+        if(
+            Config.zeroGravityBolts.get() &&
+            event.getEntity() instanceof AbstractArrow arrow &&
+            arrow.getOwner() instanceof LivingEntity shooter &&
+            shooter.getMainHandItem().is(ModItems.SCOPED_CROSSBOW.get())
+        )
+        {
+            arrow.setNoGravity(true);
+        }
+    }
+
+    public static void OnAttacked(LivingAttackEvent event)
     {
         if(!event.getEntity().level.isClientSide)
         {
