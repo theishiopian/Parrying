@@ -135,6 +135,11 @@ public class ClientEvents
         Minecraft.getInstance().particleEngine.register(ModParticles.BASH_PARTICLE.get(), BashParticle.Factory::new);
     }
 
+    /**
+     * This event is used to trigger a shield bash on the server.
+     * It is separate from the OnAttack event because that event does not fire when left-clicking with a shield.
+     * @param event the event data.
+     */
     public static void OnLeftMouse(InputEvent.MouseInputEvent event)
     {
         if(!IsGameplayInProgress()) return;
@@ -156,11 +161,12 @@ public class ClientEvents
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void OnClick(InputEvent.ClickInputEvent event)
+    public static void OnAttack(InputEvent.ClickInputEvent event)
     {
         if(IsGameplayInProgress() && event.isAttack())
         {
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
+
             Player player = Minecraft.getInstance().player;
 
             if(Config.dualWieldEnabled.get())

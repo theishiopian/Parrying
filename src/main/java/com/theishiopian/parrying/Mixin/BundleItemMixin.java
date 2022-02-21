@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * This mixin exists to let me redirect the add method in bundles, as without copying a large portion of mojang code practically verbatim,
  * I cannot use my updated add method.
  */
+@Deprecated
 @Mixin(net.minecraft.world.item.BundleItem.class)
 public class BundleItemMixin
 {
