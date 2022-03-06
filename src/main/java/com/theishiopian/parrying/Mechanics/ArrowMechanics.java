@@ -13,16 +13,29 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 
 import java.util.List;
 
 //used for all active arrow mechanics
 public abstract class ArrowMechanics
 {
+    public static void DoSnipeChallenge(AbstractArrow arrow, HitResult result)
+    {
+        if
+        (
+            arrow.getOwner() instanceof ServerPlayer player &&
+            arrow.isNoGravity() &&
+            result instanceof EntityHitResult hit &&
+            hit.getEntity() instanceof LivingEntity target &&
+            Backstab.CanBackstab(player, target) &&
+            player.distanceTo(target) >= 50
+        )
+        {
+            ModTriggers.snipe.trigger(player);
+        }
+    }
+
     public static void DoSonicArrow(AbstractArrow arrow)
     {
         if(arrow instanceof SpectralArrow && Config.sonicSpectralArrow.get())

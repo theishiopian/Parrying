@@ -18,6 +18,7 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -91,7 +92,7 @@ public class ClientEvents
      */
     public static void RenderDefense(RenderGameOverlayEvent.Post event)
     {
-        if(IsGameplayInProgress() && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
+        if(IsGameplayInProgress(true) && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
             if(ParryingMechanic.ClientDefense < 1)
             {
@@ -117,14 +118,14 @@ public class ClientEvents
 
     public static void OnTooltip(ItemTooltipEvent event)
     {
+        Debug.log("entered");
         //this MAY break when reloading resource packs, need more information
-        if(!IsGameplayInProgress()) return;
-        if(Config.twoHandedEnabled.get())
+        if(!IsGameplayInProgress(false)) return;
+        Debug.log("ok to render");
+        if(Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
-            if(event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
-            {
-                event.getToolTip().add(new TranslatableComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor((TextColor.fromLegacyFormat(ChatFormatting.RED)))));
-            }
+            Debug.log("rendering");
+            event.getToolTip().add(new TranslatableComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor((TextColor.fromLegacyFormat(ChatFormatting.RED)))));
         }
     }
 
@@ -142,7 +143,7 @@ public class ClientEvents
      */
     public static void OnLeftMouse(InputEvent.MouseInputEvent event)
     {
-        if(!IsGameplayInProgress()) return;
+        if(!IsGameplayInProgress(true)) return;
         if (Minecraft.getInstance().options.keyAttack.isDown())
         {
             ParryingMod.channel.sendToServer(new LeftClickPacket());
@@ -152,18 +153,27 @@ public class ClientEvents
     /*
      *this method is used to ensure that things like dodging and dual wield don't occur when, say, the inventory is open
      */
-    private static boolean IsGameplayInProgress()
+    private static boolean IsGameplayInProgress(boolean noInventory)
     {
-        return Minecraft.getInstance().screen == null &&
-                Minecraft.getInstance().level != null &&
-                !Minecraft.getInstance().isPaused() &&
-                Minecraft.getInstance().player != null;
+        boolean a = Minecraft.getInstance().screen == null;
+        boolean b = Minecraft.getInstance().level != null;
+        boolean c = !Minecraft.getInstance().isPaused();
+        boolean d = Minecraft.getInstance().player != null;
+
+//        Debug.log("GAMEPLAY CHECK");
+//        Debug.log(a);
+//        Debug.log(b);
+//        Debug.log(c);
+//        Debug.log(d);
+//        Debug.log("END GAMEPLAY CHECK");
+
+        return (a || !noInventory) && b && c && d;
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void OnAttack(InputEvent.ClickInputEvent event)
     {
-        if(IsGameplayInProgress() && event.isAttack())
+        if(IsGameplayInProgress(true) && event.isAttack())
         {
             assert Minecraft.getInstance().player != null;//gameplay check should take care of this. I hope.
 
@@ -206,12 +216,12 @@ public class ClientEvents
 
     public static void OnKeyPressed(InputEvent.KeyInputEvent event)
     {
-        if (IsGameplayInProgress() && event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
+        if (IsGameplayInProgress(true) && event.getKey() == Minecraft.getInstance().options.keyAttack.getKey().getValue())
         {
             ParryingMod.channel.sendToServer(new LeftClickPacket());
         }
 
-        if (IsGameplayInProgress() && dodgeKey.isDown())
+        if (IsGameplayInProgress(true) && dodgeKey.isDown())
         {
             boolean left = Minecraft.getInstance().options.keyLeft.isDown();
             boolean right = Minecraft.getInstance().options.keyRight.isDown();

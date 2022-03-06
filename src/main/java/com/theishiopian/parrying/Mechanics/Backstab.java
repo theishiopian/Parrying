@@ -26,57 +26,54 @@ public abstract class Backstab
         {
             Entity e = event.getSource().getEntity();
 
-           if(e instanceof LivingEntity attacker)
-           {
-               if(entity.getMaxHealth() <= Config.backStabMaxHealth.get())
-               {
-                   Vec3 attackerDir = attacker.getViewVector(1);
-                   Vec3 defenderDir = entity.getViewVector(1);
+            if(e instanceof LivingEntity attacker && CanBackstab(attacker, entity))
+            {
+                int tLevel = 0;
+                int vLevel = 0;
 
-                   double angle = (new Vec3(attackerDir.x, 0, attackerDir.z)).dot(new Vec3(defenderDir.x, 0, defenderDir.z));
+                if(event.getSource() instanceof IndirectEntityDamageSource && (event.getSource()).getDirectEntity() instanceof DaggerEntity)
+                {
+                    DaggerEntity d = (DaggerEntity) event.getSource().getDirectEntity();
 
-                   if(angle > Config.backStabAngle.get())
-                   {
-                        int tLevel = 0;
-                        int vLevel = 0;
+                    ItemStack dagger = d.daggerItem;
 
-                       if(event.getSource() instanceof IndirectEntityDamageSource)
-                       {
-                            if((event.getSource()).getDirectEntity() instanceof DaggerEntity)
-                            {
-                                DaggerEntity d = (DaggerEntity) event.getSource().getDirectEntity();
+                    tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.TREACHERY.get(), dagger) : 0;
+                    vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.VENOMOUS.get(), dagger) : 0;
+                }
+                else
+                {
+                    tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.TREACHERY.get(), attacker) : 0;
+                    vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.VENOMOUS.get(), attacker) : 0;
+                }
 
-                                ItemStack dagger = d.daggerItem;
+                event.setAmount((float) (event.getAmount() * (Config.backStabDamageMultiplier.get() + tLevel)));
 
-                                tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.TREACHERY.get(), dagger) : 0;
-                                vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.VENOMOUS.get(), dagger) : 0;
-                            }
-                       }
-                       else
-                       {
-                           tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.TREACHERY.get(), attacker) : 0;
-                           vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.VENOMOUS.get(), attacker) : 0;
-                       }
+                if(vLevel > 0)
+                {
+                    entity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, vLevel - 1));
+                }
 
-                       event.setAmount((float) (event.getAmount() * (Config.backStabDamageMultiplier.get() + tLevel)));
+                if(attacker instanceof Player && tLevel > 0)
+                {
+                    ((Player)attacker).magicCrit(entity);
+                }
 
-                       if(vLevel > 0)
-                       {
-                            entity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, vLevel - 1));
-                       }
+                Vec3 pos = entity.position();
 
-                       if(attacker instanceof Player && tLevel > 0)
-                       {
-                           ((Player)attacker).magicCrit(entity);
-                       }
-
-                       Vec3 pos = entity.position();
-
-                       ((ServerLevel) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
-                       attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundSource.PLAYERS, 2, 1);
-                   }
-               }
-           }
+                ((ServerLevel) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
+                attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundSource.PLAYERS, 2, 1);
+            }
         }
+    }
+
+    public static boolean CanBackstab(LivingEntity attacker, LivingEntity defender)
+    {
+        if(defender.getMaxHealth() > Config.backStabMaxHealth.get()) return false;
+        Vec3 attackerDir = attacker.getViewVector(1);
+        Vec3 defenderDir = defender.getViewVector(1);
+
+        double angle = (new Vec3(attackerDir.x, 0, attackerDir.z)).dot(new Vec3(defenderDir.x, 0, defenderDir.z));
+
+        return angle > Config.backStabAngle.get();
     }
 }

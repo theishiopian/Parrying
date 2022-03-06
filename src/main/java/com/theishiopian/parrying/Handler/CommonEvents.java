@@ -75,6 +75,7 @@ public class CommonEvents
             {
                 if(ParryModUtil.IsBlocked(player, attacker))
                 {
+                    player.level.playSound(player, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.8F + player.level.random.nextFloat() * 0.4F);
                     float shieldAbsorb = 2; //TODO store in shields somehow
                     float amountPostAbsorb = Mth.clamp(amount - shieldAbsorb, 0, player.getMaxHealth());
 
@@ -119,6 +120,7 @@ public class CommonEvents
         {
             ArrowMechanics.DoSonicArrow(arrow);
             ArrowMechanics.DoBurningArrow(arrow, event.getRayTraceResult());
+            ArrowMechanics.DoSnipeChallenge(arrow, event.getRayTraceResult());
         }
     }
 

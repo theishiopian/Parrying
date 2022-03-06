@@ -126,6 +126,6 @@ public abstract class ParryingMechanic
         double remainder = 1 - angle;
         double charge = Mth.clamp(player.getAttackStrengthScale(0f), 0.1f, 1f);
         double penalty = (1f - charge) * remainder;
-        return angle + (penalty);
+        return angle + (penalty * 0.3f);
     }
 }

@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "parrying:scoped_crossbow"
+    },
+    "title": {
+      "translate": "advancements.parrying.snipe"
+    },
+    "description": {
+      "translate": "advancements.parrying.snipe.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/blocks/oak_log_side.png"
+  },
+  "parent": "minecraft:adventure/ol_betsy",
+  "criteria": {
+    "snipe": {
+      "trigger": "parrying:snipe"
+    }
+  },
+  "requirements": [
+    [
+      "snipe"
+    ]
+  ]
+}

@@ -6,7 +6,8 @@
     "title": {
       "translate": "advancements.parrying.campfire_light"
     },
-    "description": {
+    "description":
+    {
       "translate": "advancements.parrying.campfire_light.desc"
     },
     "frame": "task",
@@ -15,11 +16,14 @@
     "hidden": false,
     "background": "minecraft:textures/blocks/oak_log_side.png"
   },
-  "criteria": {
-    "lit": {
+  "criteria":
+  {
+    "lit":
+    {
       "trigger": "parrying:campfire_light"
     }
   },
+  "parent": "minecraft:adventure/shot_arrow",
   "requirements": [
     [
       "lit"
