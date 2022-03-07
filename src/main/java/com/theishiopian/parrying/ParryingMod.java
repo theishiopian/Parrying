@@ -1,5 +1,6 @@
 package com.theishiopian.parrying;
 
+import com.theishiopian.parrying.Advancement.Triggers;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.Render.RenderDagger;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
@@ -91,7 +92,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerJoin);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerLeave);
 
-        ModTriggers.Init();
+        Triggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);

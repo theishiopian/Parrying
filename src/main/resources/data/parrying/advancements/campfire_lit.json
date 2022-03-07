@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/shoot_arrow",
+  "display": {
+    "icon": {
+      "item": "minecraft:campfire"
+    },
+    "title": {
+      "translate": "advancements.campfire_lit"
+    },
+    "description": {
+      "translate": "advancements.campfire_lit.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "lit": {
+      "trigger": "parrying:lit"
+    }
+  },
+  "requirements": [
+    [
+      "lit"
+    ]
+  ]
+}
