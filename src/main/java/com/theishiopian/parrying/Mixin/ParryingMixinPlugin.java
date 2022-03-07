@@ -23,7 +23,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     {
         "PlayerMixin",
         "DamageEnchantmentMixin",
-        "TiersMixin"
+        "TiersMixin",
+            "ArmorMaterialsMixin"
         //"BundleItemMixin"
     };
 
