@@ -18,6 +18,15 @@ public class TiersMixin
         }
     }
 
+    @Inject(method = "getLevel", at = @At("HEAD"), cancellable = true)
+    private void InjectIntoGetLevel(CallbackInfoReturnable<Integer> cir)
+    {
+        if(Tiers.class.cast(this) == Tiers.GOLD)
+        {
+            cir.setReturnValue(2);
+        }
+    }
+
     @Inject(method = "getAttackDamageBonus", at = @At("HEAD"), cancellable = true)
     private void InjectIntoGetDamage(CallbackInfoReturnable<Float> cir)
     {
