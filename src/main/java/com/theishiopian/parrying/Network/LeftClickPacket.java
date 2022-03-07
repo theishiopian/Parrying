@@ -16,7 +16,9 @@ import java.util.function.Supplier;
 /**
  * Used to tell the server a left click happened. Used to bypass the normal attack logic.
  * This is necessary because Minecraft disables the normal attack logic while a shield is raised,
- * as such this is needed to perform a shield bash.
+ * as such this is needed to perform a shield bash. This also means we cannot use the attack packet for this, sadly.
+ *
+ * Also used for the flail sound.
  */
 public class LeftClickPacket
 {

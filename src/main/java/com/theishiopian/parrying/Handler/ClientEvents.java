@@ -147,8 +147,10 @@ public class ClientEvents
         }
     }
 
-    /*
-     *this method is used to ensure that things like dodging and dual wield don't occur when, say, the inventory is open
+    /**
+     * THis method is used to ensure mechanics don't occur when, say, we are in the main menu
+     * @param noInventory whether to consider the player's inventory being open as something to cancel mechanics
+     * @return is gameplay in progress?
      */
     private static boolean IsGameplayInProgress(boolean noInventory)
     {

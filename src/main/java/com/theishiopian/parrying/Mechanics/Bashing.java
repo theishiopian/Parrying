@@ -86,20 +86,19 @@ public abstract class Bashing
 
                     player.level.playSound(null, player.blockPosition(), bashes == 0 ? ModSoundEvents.SHIELD_BASH_MISS.get() : ModSoundEvents.SHIELD_BASH.get(), SoundSource.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                     player.stopUsingItem();
-                    player.swing(hand);
+                    player.swing(hand, true);
                     player.getCooldowns().addCooldown(shield.getItem(), bashes == 0 ? Config.bashMissCooldown.get() : Config.bashBaseCooldown.get() + 20 * bashes);
 
                     double pX = player.position().x + pDir.x;
                     double pY = player.position().y + 1.5f + pDir.y;
                     double pZ = player.position().z + pDir.z;
                     if(bashes > 0)((ServerLevel) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
-
                 }
                 else
                 {
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.SHIELD_BASH_MISS.get(), SoundSource.PLAYERS, 1, random.nextFloat() * 0.5f + 0.5f);
                     player.stopUsingItem();
-                    player.swing(hand);
+                    player.swing(hand, true);
                     assert shield != null : "U what m8";
                     player.getCooldowns().addCooldown(shield.getItem(), Config.bashMissCooldown.get());
                 }
