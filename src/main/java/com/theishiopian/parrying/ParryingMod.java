@@ -1,6 +1,5 @@
 package com.theishiopian.parrying;
 
-import com.theishiopian.parrying.Advancement.ModTriggers;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.Render.RenderDagger;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;

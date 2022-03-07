@@ -1,5 +1,6 @@
-package com.theishiopian.parrying.Advancement;
+package com.theishiopian.parrying.Registration;
 
+import com.theishiopian.parrying.Advancement.SimpleTrigger;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.resources.ResourceLocation;
 

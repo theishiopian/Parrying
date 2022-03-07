@@ -1,10 +1,10 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.Advancement.ModTriggers;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.ModTriggers;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -89,7 +89,7 @@ public abstract class Deflection
                     ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
 
 
-                    ModTriggers.deflect.trigger(ModTriggers.deflect.getId().toString(), (ServerPlayer) player);
+                    ModTriggers.deflect.trigger((ServerPlayer) player);
 
                     //cancel hit logic
                     event.setCanceled(true);

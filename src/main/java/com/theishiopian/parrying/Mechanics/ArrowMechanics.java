@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.Advancement.ModTriggers;
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,7 +32,7 @@ public abstract class ArrowMechanics
             player.distanceTo(target) >= 50
         )
         {
-            ModTriggers.snipe.trigger(ModTriggers.snipe.getId().toString(), player);
+            ModTriggers.snipe.trigger(player);
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class ArrowMechanics
 
             if(arrow.getOwner() instanceof ServerPlayer player && toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT))
             {
-                ModTriggers.campfire.trigger(ModTriggers.campfire.getId().toString(), player);
+                ModTriggers.campfire.trigger(player);
             }
         }
     }
