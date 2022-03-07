@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:story/deflect_arrow",
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_sword"
+    },
+    "title": {
+      "translate": "advancements.parrying.deflect"
+    },
+    "description": {
+      "translate": "advancements.parrying.deflect.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "deflect": {
+      "trigger": "parrying:deflect"
+    }
+  },
+  "requirements": [
+    [
+      "deflect"
+    ]
+  ]
+}

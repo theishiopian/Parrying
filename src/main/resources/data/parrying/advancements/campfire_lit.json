@@ -5,10 +5,10 @@
       "item": "minecraft:campfire"
     },
     "title": {
-      "translate": "advancements.campfire_lit"
+      "translate": "advancements.parrying.campfire_lit"
     },
     "description": {
-      "translate": "advancements.campfire_lit.desc"
+      "translate": "advancements.parrying.campfire_lit.desc"
     },
     "frame": "task",
     "show_toast": true,

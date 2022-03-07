@@ -80,11 +80,14 @@
 
   "stat.parrying.parry": "Parry Count",
 
-  "advancements.campfire_lit" : "The beacons are lit!",
-  "advancements.campfire_lit.desc": "Light a campfire by shooting it",
+  "advancements.parrying.campfire_lit" : "The beacons are lit!",
+  "advancements.parrying.campfire_lit.desc": "Light a campfire by shooting it",
 
-  "advancements.snipe" : "One shot, one kill...",
-  "advancements.snipe.desc": "Hit a target in the back with a scoped crossbow, from 50 meters away",
+  "advancements.parrying.snipe" : "One shot, one kill...",
+  "advancements.parrying.snipe.desc": "Hit a target in the back with a scoped crossbow, from 50 meters away",
+
+  "advancements.parrying.deflect" : "I am ready!",
+  "advancements.parrying.deflect.desc": "Deflect an arrow with the Deflection Enchantment",
 
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"

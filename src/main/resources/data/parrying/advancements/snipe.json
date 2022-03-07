@@ -5,10 +5,10 @@
       "item": "parrying:scoped_crossbow"
     },
     "title": {
-      "translate": "advancements.snipe"
+      "translate": "advancements.parrying.snipe"
     },
     "description": {
-      "translate": "advancements.snipe.desc"
+      "translate": "advancements.parrying.snipe.desc"
     },
     "frame": "challenge",
     "show_toast": true,

@@ -1,11 +1,13 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Advancement.ModTriggers;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -85,6 +87,9 @@ public abstract class Deflection
                     player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
                     Vec3 particlePos = projectile.position();
                     ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
+
+
+                    ModTriggers.deflect.trigger(ModTriggers.deflect.getId().toString(), (ServerPlayer) player);
 
                     //cancel hit logic
                     event.setCanceled(true);
