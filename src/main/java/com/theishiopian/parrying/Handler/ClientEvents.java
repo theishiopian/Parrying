@@ -18,7 +18,6 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -116,15 +115,13 @@ public class ClientEvents
         }
     }
 
+    //this MAY break when reloading resource packs, need more information
     public static void OnTooltip(ItemTooltipEvent event)
     {
-        Debug.log("entered");
-        //this MAY break when reloading resource packs, need more information
         if(!IsGameplayInProgress(false)) return;
-        Debug.log("ok to render");
+
         if(Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
-            Debug.log("rendering");
             event.getToolTip().add(new TranslatableComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor((TextColor.fromLegacyFormat(ChatFormatting.RED)))));
         }
     }
