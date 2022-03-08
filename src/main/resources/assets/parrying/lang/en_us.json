@@ -99,7 +99,7 @@
   "advancements.parrying.big_bash.desc": "Bash at least 3 enemies at once",
 
   "advancements.parrying.retribution" : "Retribution",
-  "advancements.parrying.retribution.desc": "Kill a stunned enemy while on half a heart",
+  "advancements.parrying.retribution.desc": "Kill a stunned enemy while on very low health",
 
   "advancements.parrying.deflect_trident" : "Reforked",
   "advancements.parrying.deflect_trident.desc": "Deflect a trident with the Deflection Enchantment",

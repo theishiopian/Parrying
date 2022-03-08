@@ -290,11 +290,14 @@ public class CommonEvents
     {
         if(event.getSource().getEntity() instanceof ServerPlayer player)
         {
-            if(event.getEntityLiving().hasEffect(ModEffects.STUNNED.get()) && player.getHealth() < 2)ModTriggers.retribution.trigger(player);
-            if(event.getEntityLiving() instanceof Pig
-                    && event.getSource() instanceof IndirectEntityDamageSource source
-                    && source.getDirectEntity() instanceof AbstractArrow arrow
-                    && arrow.isOnFire()
+            if(event.getEntityLiving().hasEffect(ModEffects.STUNNED.get()) && player.getHealth() < 5)ModTriggers.retribution.trigger(player);
+
+            if
+            (
+                event.getEntityLiving() instanceof Pig
+                && event.getSource() instanceof IndirectEntityDamageSource source
+                && source.getDirectEntity() instanceof AbstractArrow arrow
+                && arrow.isOnFire()
             )
             {
                 ModTriggers.bacon.trigger(player);

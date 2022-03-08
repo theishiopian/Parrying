@@ -21,7 +21,7 @@ public class ModTriggers
         campfire =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:lit")));
         snipe =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:snipe")));
         deflect =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:deflect")));
-        deflectTrident =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:deflectTrident")));
+        deflectTrident =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:deflect_trident")));
         poke =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:poke")));
         stagger =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:stagger")));
         bigBash =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:big_bash")));

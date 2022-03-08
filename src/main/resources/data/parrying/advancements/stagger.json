@@ -2,7 +2,7 @@
   "parent": "minecraft:adventure/kill_a_mob",
   "display": {
     "icon": {
-      "item": "parrying:wood_spear"
+      "item": "skeleton_skull"
     },
     "title": {
       "translate": "advancements.parrying.stagger"

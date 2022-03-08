@@ -1,5 +1,5 @@
 {
-  "parent": "parrying:campfire",
+  "parent": "parrying:campfire_lit",
   "display": {
     "icon": {
       "item": "minecraft:cooked_porkchop"
