@@ -107,6 +107,9 @@
   "advancements.parrying.bacon" : "The bacons are lit!",
   "advancements.parrying.bacon.desc": "Kill a pig with a flaming arrow",
 
+  "advancements.parrying.instakill" : "All's fair in love and war...",
+  "advancements.parrying.instakill.desc": "Kill something in one hit with a backstab",
+
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"
 }

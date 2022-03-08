@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:story/kill_a_mob",
+  "display": {
+    "icon": {
+      "item": "parrying:diamond_dagger"
+    },
+    "title": {
+      "translate": "advancements.parrying.instakill"
+    },
+    "description": {
+      "translate": "advancements.parrying.instakill.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "instakill": {
+      "trigger": "parrying:instakill"
+    }
+  },
+  "requirements": [
+    [
+      "instakill"
+    ]
+  ]
+}

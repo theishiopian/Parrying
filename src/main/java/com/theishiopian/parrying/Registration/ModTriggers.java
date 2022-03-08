@@ -15,6 +15,7 @@ public class ModTriggers
     public static SimpleTrigger bigBash;
     public static SimpleTrigger retribution;
     public static SimpleTrigger bacon;
+    public static SimpleTrigger instakill;
 
     public static void Init()
     {
@@ -27,5 +28,6 @@ public class ModTriggers
         bigBash =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:big_bash")));
         retribution =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:retribution")));
         bacon =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:bacon")));
+        instakill =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:instakill")));
     }
 }

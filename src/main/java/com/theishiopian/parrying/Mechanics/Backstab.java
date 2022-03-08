@@ -4,7 +4,9 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
+import com.theishiopian.parrying.Registration.ModTriggers;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
@@ -59,6 +61,8 @@ public abstract class Backstab
                 }
 
                 Vec3 pos = entity.position();
+
+                if(attacker instanceof ServerPlayer player && event.getAmount() >= entity.getMaxHealth()) ModTriggers.instakill.trigger(player);
 
                 ((ServerLevel) attacker.level).sendParticles(ModParticles.STAB_PARTICLE.get(), pos.x, pos.y+1.5f, pos.z, 1, 0D, 0D, 0D, 0.0D);
                 attacker.level.playSound(null, attacker.blockPosition(), SoundEvents.PLAYER_BIG_FALL, SoundSource.PLAYERS, 2, 1);

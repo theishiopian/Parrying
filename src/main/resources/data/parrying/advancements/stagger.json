@@ -20,7 +20,8 @@
       "trigger": "parrying:stagger"
     }
   },
-  "requirements": [
+  "requirements":
+  [
     [
       "stagger"
     ]
