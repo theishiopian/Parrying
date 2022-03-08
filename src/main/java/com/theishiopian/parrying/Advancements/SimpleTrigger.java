@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Advancement;
+package com.theishiopian.parrying.Advancements;
 
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.critereon.*;

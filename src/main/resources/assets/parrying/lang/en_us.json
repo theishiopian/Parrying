@@ -89,6 +89,9 @@
   "advancements.parrying.deflect" : "I am ready!",
   "advancements.parrying.deflect.desc": "Deflect an arrow with the Deflection Enchantment",
 
+  "advancements.parrying.poke" : "This is my poking stick",
+  "advancements.parrying.poke.desc": "Attack a mob from further than 3 blocks away using a spear",
+
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"
 }

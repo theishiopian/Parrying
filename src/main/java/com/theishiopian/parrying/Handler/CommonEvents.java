@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Handler;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
+import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
@@ -48,6 +49,16 @@ public class CommonEvents
     public static void OnPlayerAttackTarget(AttackEntityEvent event)
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
+
+        if(!event.getPlayer().level.isClientSide && event.getPlayer().getMainHandItem().getItem() instanceof SpearItem)
+        {
+            float dist = (float) event.getPlayer().position().distanceTo(event.getTarget().position());
+
+            if(dist > 3)
+            {
+                ModTriggers.poke.trigger((ServerPlayer) event.getPlayer());
+            }
+        }
     }
 
     public static void OnArrowShoot(EntityJoinWorldEvent event)
