@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.EntityHitResult;
@@ -90,6 +91,7 @@ public abstract class Deflection
 
 
                     ModTriggers.deflect.trigger((ServerPlayer) player);
+                    if(projectile instanceof ThrownTrident)ModTriggers.deflectTrident.trigger((ServerPlayer) player);
 
                     //cancel hit logic
                     event.setCanceled(true);

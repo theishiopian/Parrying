@@ -90,6 +90,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerJoin);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerLeave);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnDeath);
 
         ModTriggers.Init();
         ModParticles.PARTICLE_TYPES.register(bus);

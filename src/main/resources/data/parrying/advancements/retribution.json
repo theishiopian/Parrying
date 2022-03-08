@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:big_bash",
+  "display": {
+    "icon": {
+      "item": "shield"
+    },
+    "title": {
+      "translate": "advancements.parrying.retribution"
+    },
+    "description": {
+      "translate": "advancements.parrying.retribution.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "retribution": {
+      "trigger": "parrying:retribution"
+    }
+  },
+  "requirements": [
+    [
+      "retribution"
+    ]
+  ]
+}

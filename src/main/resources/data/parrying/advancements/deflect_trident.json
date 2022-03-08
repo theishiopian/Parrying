@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:deflect",
+  "display": {
+    "icon": {
+      "item": "minecraft:trident"
+    },
+    "title": {
+      "translate": "advancements.parrying.deflect_trident"
+    },
+    "description": {
+      "translate": "advancements.parrying.deflect_trident.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "deflect_trident": {
+      "trigger": "parrying:deflect_trident"
+    }
+  },
+  "requirements": [
+    [
+      "deflect_trident"
+    ]
+  ]
+}

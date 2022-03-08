@@ -21,6 +21,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -259,6 +261,8 @@ public class CommonEvents
                 event.player.knockback(1, dir.x, dir.z);
                 event.player.hurtMarked = true;
 
+                ModTriggers.stagger.trigger((ServerPlayer) event.player);
+
                 if (event.player.isBlocking())
                 {
                     event.player.getCooldowns().addCooldown(event.player.getUseItem().getItem(), 60);
@@ -279,6 +283,22 @@ public class CommonEvents
             ParryingMechanic.ServerDefenseValues.replace(event.player.getUUID(), newValue);
 
             ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
+        }
+    }
+
+    public static void OnDeath(LivingDeathEvent event)
+    {
+        if(event.getSource().getEntity() instanceof ServerPlayer player)
+        {
+            if(event.getEntityLiving().hasEffect(ModEffects.STUNNED.get()) && player.getHealth() < 2)ModTriggers.retribution.trigger(player);
+            if(event.getEntityLiving() instanceof Pig
+                    && event.getSource() instanceof IndirectEntityDamageSource source
+                    && source.getDirectEntity() instanceof AbstractArrow arrow
+                    && arrow.isOnFire()
+            )
+            {
+                ModTriggers.bacon.trigger(player);
+            }
         }
     }
 }

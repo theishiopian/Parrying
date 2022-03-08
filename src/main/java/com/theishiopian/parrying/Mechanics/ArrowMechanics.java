@@ -52,21 +52,27 @@ public abstract class ArrowMechanics
 
     public static void DoBurningArrow(AbstractArrow arrow, HitResult result)
     {
-        if(arrow.isOnFire() && Config.flamingArrowGriefing.get() && result instanceof BlockHitResult hit)
+        if(arrow.isOnFire())
         {
-            BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
-            BlockState toBurn = arrow.level.getBlockState(hit.getBlockPos());
-
-            if(toBurn.isFlammable(arrow.level, posToIgnite, hit.getDirection()))
+            if (result instanceof BlockHitResult hit)
             {
-                BlockState fireState = FireBlock.getState(arrow.level, posToIgnite);
+                if (Config.flamingArrowGriefing.get())
+                {
+                    BlockPos posToIgnite = hit.getBlockPos().relative(hit.getDirection());
+                    BlockState toBurn = arrow.level.getBlockState(hit.getBlockPos());
 
-                arrow.level.setBlock(posToIgnite, fireState, 11);
-            }
+                    if (toBurn.isFlammable(arrow.level, posToIgnite, hit.getDirection()))
+                    {
+                        BlockState fireState = FireBlock.getState(arrow.level, posToIgnite);
 
-            if(arrow.getOwner() instanceof ServerPlayer player && toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT))
-            {
-                ModTriggers.campfire.trigger(player);
+                        arrow.level.setBlock(posToIgnite, fireState, 11);
+                    }
+
+                    if (arrow.getOwner() instanceof ServerPlayer player && toBurn.is(Blocks.CAMPFIRE) && !toBurn.getValue(CampfireBlock.LIT))
+                    {
+                        ModTriggers.campfire.trigger(player);
+                    }
+                }
             }
         }
     }

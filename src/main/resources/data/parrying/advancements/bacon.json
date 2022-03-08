@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:campfire",
+  "display": {
+    "icon": {
+      "item": "minecraft:cooked_porkchop"
+    },
+    "title": {
+      "translate": "advancements.parrying.bacon"
+    },
+    "description": {
+      "translate": "advancements.parrying.bacon.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "bacon": {
+      "trigger": "parrying:bacon"
+    }
+  },
+  "requirements": [
+    [
+      "bacon"
+    ]
+  ]
+}

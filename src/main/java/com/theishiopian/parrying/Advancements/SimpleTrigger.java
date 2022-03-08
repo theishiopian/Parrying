@@ -4,12 +4,13 @@ import com.google.gson.JsonObject;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class SimpleTrigger extends SimpleCriterionTrigger<SimpleTrigger.Instance>
 {
     final ResourceLocation ID;
     @Override
-    public SimpleTrigger.Instance createInstance(JsonObject pJson, EntityPredicate.Composite pEntityPredicate, DeserializationContext pConditionsParser)
+    public SimpleTrigger.@NotNull Instance createInstance(@NotNull JsonObject pJson, EntityPredicate.@NotNull Composite pEntityPredicate, @NotNull DeserializationContext pConditionsParser)
     {
         return new SimpleTrigger.Instance(getId());
     }
@@ -24,7 +25,7 @@ public class SimpleTrigger extends SimpleCriterionTrigger<SimpleTrigger.Instance
         ID = id;
     }
 
-    public ResourceLocation getId() {
+    public @NotNull ResourceLocation getId() {
         return ID;
     }
 
@@ -36,7 +37,7 @@ public class SimpleTrigger extends SimpleCriterionTrigger<SimpleTrigger.Instance
             super(idIn, EntityPredicate.Composite.ANY);
         }
 
-        public JsonObject serializeToJson(SerializationContext pConditions)
+        public @NotNull JsonObject serializeToJson(@NotNull SerializationContext pConditions)
         {
             return super.serializeToJson(pConditions);
         }

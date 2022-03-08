@@ -1,10 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -93,6 +90,7 @@ public abstract class Bashing
                     double pY = player.position().y + 1.5f + pDir.y;
                     double pZ = player.position().z + pDir.z;
                     if(bashes > 0)((ServerLevel) player.level).sendParticles(ModParticles.BASH_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
+                    if(bashes >=3) ModTriggers.bigBash.trigger(player);
                 }
                 else
                 {

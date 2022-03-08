@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:story/deflect_arrow",
+  "display": {
+    "icon": {
+      "item": "shield"
+    },
+    "title": {
+      "translate": "advancements.parrying.big_bash"
+    },
+    "description": {
+      "translate": "advancements.parrying.big_bash.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "big_bash": {
+      "trigger": "parrying:big_bash"
+    }
+  },
+  "requirements": [
+    [
+      "big_bash"
+    ]
+  ]
+}

@@ -92,6 +92,21 @@
   "advancements.parrying.poke" : "This is my poking stick",
   "advancements.parrying.poke.desc": "Attack a mob from further than 3 blocks away using a spear",
 
+  "advancements.parrying.stagger" : "Truly staggering!",
+  "advancements.parrying.stagger.desc": "Have your defense broken",
+
+  "advancements.parrying.big_bash" : "Crowd Control",
+  "advancements.parrying.big_bash.desc": "Bash at least 3 enemies at once",
+
+  "advancements.parrying.retribution" : "Retribution",
+  "advancements.parrying.retribution.desc": "Kill a stunned enemy while on half a heart",
+
+  "advancements.parrying.deflect_trident" : "Reforked",
+  "advancements.parrying.deflect_trident.desc": "Deflect a trident with the Deflection Enchantment",
+
+  "advancements.parrying.bacon" : "The bacons are lit!",
+  "advancements.parrying.bacon.desc": "Kill a pig with a flaming arrow",
+
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"
 }
