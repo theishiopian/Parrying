@@ -3,7 +3,6 @@ package com.theishiopian.parrying.Mechanics;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
 import com.theishiopian.parrying.Registration.ModTriggers;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
@@ -46,27 +45,16 @@ public abstract class Deflection
                 ItemStack mainHandItem = player.getMainHandItem();//get player item
                 ItemStack offHandItem = player.getOffhandItem();//get player item
 
-                int mainLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), mainHandItem);
-                int offLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), offHandItem);
+                int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), mainHandItem);
 
-                int level = Math.min(mainLevel + offLevel, 3);//deflecting enchant level
 
                 if(level > 0 && player.swinging && angle > 0.5)
                 {
                     player.causeFoodExhaustion(1f);//exhaust player
 
                     //hurt item used
-                    if(mainLevel > 0)
-                    {
-                        mainHandItem.hurtAndBreak(1, player, (playerEntity) ->
-                                playerEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-                    }
-
-                    if(offLevel > 0)
-                    {
-                        offHandItem.hurtAndBreak(1, player, (playerEntity) ->
-                                playerEntity.broadcastBreakEvent(InteractionHand.OFF_HAND));
-                    }
+                    mainHandItem.hurtAndBreak(1, player, (playerEntity) ->
+                            playerEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 
                     float power = (float)(projectile.getDeltaMovement().length() / 5f) * level;//get power to deflect with
                     projectile.setDeltaMovement(playerLookDir.x * power, playerLookDir.y * power, playerLookDir.z * power);//set projectile speed
@@ -85,7 +73,7 @@ public abstract class Deflection
                     projectile.setPos(projectile.getX() + arrowMovement.x, projectile.getY() + arrowMovement.y, projectile.getZ() + arrowMovement.z);
 
                     //play parry noise and spawn particle
-                    player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                    player.level.playSound(null, player.blockPosition(), ParryingMechanic.GetMaterialParrySound(mainHandItem.getItem()), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
                     Vec3 particlePos = projectile.position();
                     ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
 

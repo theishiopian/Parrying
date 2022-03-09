@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:husbandry/tame_a_mob",
+  "display": {
+    "icon": {
+      "item": "parrying:iron_spear"
+    },
+    "title": {
+      "translate": "advancements.parrying.hussars"
+    },
+    "description": {
+      "translate": "advancements.parrying.hussars.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "hussars": {
+      "trigger": "parrying:hussars"
+    }
+  },
+  "requirements": [
+    [
+      "hussars"
+    ]
+  ]
+}

@@ -1,11 +1,35 @@
 {
-  "block_hit":
+  "parry_wood":
   {
     "category": "player",
     "sounds":
     [
       {
-        "name": "parrying:block_hit",
+        "name": "parrying:parry_wood",
+        "stream": false
+      }
+    ]
+  },
+
+  "parry_stone":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:parry_stone",
+        "stream": false
+      }
+    ]
+  },
+
+  "parry_metal":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:parry_metal",
         "stream": false
       }
     ]

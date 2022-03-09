@@ -5,6 +5,7 @@ import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -15,7 +16,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -95,8 +99,10 @@ public abstract class ParryingMechanic
                                 double pY = ((attacker.getY() + player.getY()) / 2) + 1.45 + (ParryModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.y * 0.2);
                                 double pZ = (attacker.getZ() + player.getZ()) / 2 + (ParryModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
 
+                                SoundEvent toPlay = GetMaterialParrySound(held.getItem());
+
                                 //play particles and sound
-                                player.level.playSound(null, player.blockPosition(), ModSoundEvents.BLOCK_HIT.get(), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                                player.level.playSound(null, player.blockPosition(), toPlay, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
                                 ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
 
                                 //cancel player damage logic
@@ -114,6 +120,24 @@ public abstract class ParryingMechanic
         }
     }
 
+    public static SoundEvent GetMaterialParrySound(Item item)
+    {
+        SoundEvent toPlay = ModSoundEvents.PARRY_METAL.get();
+
+        if(item instanceof TieredItem tieredItem)
+        {
+            if(tieredItem.getTier() == Tiers.WOOD)
+            {
+                toPlay = ModSoundEvents.PARRY_WOOD.get();
+            }
+            else if(tieredItem.getTier() == Tiers.STONE)
+            {
+                toPlay = ModSoundEvents.PARRY_STONE.get();
+            }
+        }
+
+        return toPlay;
+    }
 
     /**
      * Calculates the angle to the target that must be exceeded in order to parry.

@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:story/kill_a_mob",
+  "display": {
+    "icon": {
+      "item": "parrying:iron_flail"
+    },
+    "title": {
+      "translate": "advancements.parrying.rally"
+    },
+    "description": {
+      "translate": "advancements.parrying.rally.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "rally": {
+      "trigger": "parrying:rally"
+    }
+  },
+  "requirements": [
+    [
+      "rally"
+    ]
+  ]
+}

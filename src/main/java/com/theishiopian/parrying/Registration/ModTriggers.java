@@ -16,6 +16,8 @@ public class ModTriggers
     public static SimpleTrigger retribution;
     public static SimpleTrigger bacon;
     public static SimpleTrigger instakill;
+    public static SimpleTrigger rally;
+    public static SimpleTrigger hussars;
 
     public static void Init()
     {
@@ -29,5 +31,7 @@ public class ModTriggers
         retribution =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:retribution")));
         bacon =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:bacon")));
         instakill =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:instakill")));
+        rally =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:rally")));
+        hussars =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:hussars")));
     }
 }

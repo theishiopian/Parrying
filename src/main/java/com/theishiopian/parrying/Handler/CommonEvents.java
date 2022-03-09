@@ -22,9 +22,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
@@ -39,6 +41,7 @@ import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 public class CommonEvents
 {
@@ -301,6 +304,23 @@ public class CommonEvents
             )
             {
                 ModTriggers.bacon.trigger(player);
+            }
+
+            if(player.getMainHandItem().getItem() instanceof FlailItem && player.hasEffect(MobEffects.ABSORPTION))
+            {
+                ModTriggers.rally.trigger(player);
+            }
+
+            //TODO: convert this to json?
+            if
+            (
+                player.getMainHandItem().getItem() instanceof SpearItem
+                && StreamSupport.stream(player.getArmorSlots().spliterator(), false).anyMatch((stack) -> stack.is(Items.ELYTRA))
+                && player.isPassenger()
+                && player.getVehicle() instanceof Horse
+            )
+            {
+                ModTriggers.hussars.trigger(player);
             }
         }
     }

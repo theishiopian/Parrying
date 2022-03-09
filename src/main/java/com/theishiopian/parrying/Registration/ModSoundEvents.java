@@ -14,7 +14,9 @@ public class ModSoundEvents
 {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ParryingMod.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> BLOCK_HIT = registerSoundEvent("block_hit");
+    public static final RegistryObject<SoundEvent> PARRY_WOOD = registerSoundEvent("parry_wood");
+    public static final RegistryObject<SoundEvent> PARRY_STONE = registerSoundEvent("parry_stone");
+    public static final RegistryObject<SoundEvent> PARRY_METAL = registerSoundEvent("parry_metal");
     public static final  RegistryObject<SoundEvent> SHIELD_BASH = registerSoundEvent("shield_bash");
     public static final  RegistryObject<SoundEvent> SHIELD_BASH_MISS = registerSoundEvent("shield_bash_miss");
     public static final  RegistryObject<SoundEvent> FLAIL_SWING = registerSoundEvent("flail_swing");

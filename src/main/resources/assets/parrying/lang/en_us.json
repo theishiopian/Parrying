@@ -110,6 +110,9 @@
   "advancements.parrying.instakill" : "All's fair in love and war...",
   "advancements.parrying.instakill.desc": "Deal enough damage to instantly kill something with a backstab",
 
+  "advancements.parrying.rally" : "Alla til mig!",
+  "advancements.parrying.rally.desc": "Deal a killing blow with a flail while under the effect of absorption",
+
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"
 }
