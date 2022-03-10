@@ -26,6 +26,7 @@ import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
@@ -41,7 +42,6 @@ import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 public class CommonEvents
 {
@@ -117,13 +117,13 @@ public class CommonEvents
 
             if(attacker != null)
             {
-                APItem weapon = attacker.getMainHandItem().getItem() instanceof APItem ? (APItem) attacker.getMainHandItem().getItem() : null;
+                ItemStack weapon = attacker.getMainHandItem();
 
-                if(weapon != null && ArmorPenetrationMechanic.IsNotBypassing())
+                if(weapon.getItem() instanceof APItem && ArmorPenetrationMechanic.IsNotBypassing())
                 {
                     //yes, the attribute is there, I put it there
-                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlot.MAINHAND, attacker.getMainHandItem()).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
-                    ArmorPenetrationMechanic.DoAPDamage(amount, strength, ap, entity, attacker, weapon instanceof FlailItem, "bludgeoning.player");
+                    float ap = (float) weapon.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();
+                    ArmorPenetrationMechanic.DoAPDamage(amount, strength, ap, entity, attacker, weapon.getItem() instanceof FlailItem, "bludgeoning.player");
                     event.setCanceled(true);
                 }
             }
@@ -144,6 +144,7 @@ public class CommonEvents
     {
         LivingEntity entity = event.getEntityLiving();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
+        ItemStack weapon = attacker != null ? attacker.getMainHandItem() : ItemStack.EMPTY;
 
         if(entity != null)
         {
@@ -197,6 +198,17 @@ public class CommonEvents
             if((!(entity instanceof Player)) && entity.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
+            }
+
+            int joustLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JOUSTING.get(), weapon);
+
+            if(weapon.getItem() instanceof SpearItem)
+            {
+                assert attacker != null;//if attacker is null weapon is empty
+                if (attacker.isPassenger() && joustLevel > 0)
+                {
+                    event.setAmount(event.getAmount() + 2 * joustLevel);
+                }
             }
 
             if(attacker != null && Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
@@ -315,7 +327,7 @@ public class CommonEvents
             if
             (
                 player.getMainHandItem().getItem() instanceof SpearItem
-                && StreamSupport.stream(player.getArmorSlots().spliterator(), false).anyMatch((stack) -> stack.is(Items.ELYTRA))
+                && player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
                 && player.isPassenger()
                 && player.getVehicle() instanceof Horse
             )

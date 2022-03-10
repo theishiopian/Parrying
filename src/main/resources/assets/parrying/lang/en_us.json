@@ -11,6 +11,8 @@
   "enchantment.parrying.treachery.desc": "Increases backstab damage",
   "enchantment.parrying.bashing": "Bashing",
   "enchantment.parrying.bashing.desc": "Increases the number of targets a shield bash can hit.",
+  "enchantment.parrying.jousting": "Jousting",
+  "enchantment.parrying.jousting.desc": "Increases the damage of a spear while riding something.",
   "enchantment.parrying.phasing": "Curse of Phasing",
   "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
   "enchantment.parrying.fragile": "Curse of Fragility",
@@ -112,6 +114,9 @@
 
   "advancements.parrying.rally" : "Alla til mig!",
   "advancements.parrying.rally.desc": "Deal a killing blow with a flail while under the effect of absorption",
+
+  "advancements.parrying.hussars" : "When the winged hussars arrived!",
+  "advancements.parrying.hussars.desc": "Deal a killing blow with a spear while riding a horse and wearing an elytra",
 
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"

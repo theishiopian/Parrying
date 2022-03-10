@@ -66,9 +66,10 @@ public class ParryModUtil
     {
         float range = 2.5f;
 
-        if(toAttackWith != null)
+        if(toAttackWith != null && !toAttackWith.isEmpty())
         {
             boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
+
             if(hasRange)
             {
                 range += toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
@@ -79,7 +80,7 @@ public class ParryModUtil
         Vec3 lookVector = toAttackFrom.getViewVector(1.0F);
         Vec3 projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
         AABB box = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom.level, toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()));
+        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()), range);
 
         if(potentialTarget != null)
         {
