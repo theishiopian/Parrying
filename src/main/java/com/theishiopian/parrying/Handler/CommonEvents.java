@@ -8,7 +8,6 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -56,7 +55,7 @@ public class CommonEvents
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
 
-        Debug.log("attack: " + event.getTarget());
+        //Debug.log("attack: " + event.getTarget());
 
         if(!event.getPlayer().level.isClientSide && event.getPlayer().getMainHandItem().getItem() instanceof SpearItem)
         {

@@ -18,7 +18,6 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -209,7 +208,7 @@ public class ClientEvents
 
             if(player.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
             {
-                Debug.log("doing reach attack");
+                //Debug.log("doing reach attack");
                 EntityHitResult target =  ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
                 if(target != null)
                 {
