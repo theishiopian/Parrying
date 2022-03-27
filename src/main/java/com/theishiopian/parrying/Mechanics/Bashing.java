@@ -16,7 +16,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -49,19 +48,10 @@ public abstract class Bashing
                     shield = off;
                 }
 
-                //sort by distance
-                Comparator<LivingEntity> distCompare = (o1, o2) ->
-                {
-                    double distA = o1.position().distanceTo(player.position());
-                    double distB = o2.position().distanceTo(player.position());
-
-                    return Double.compare(distA, distB);
-                };
-
                 if(list.size() > 0)
                 {
                     //Debug.log("begin bash");
-                    list.sort(distCompare);
+                    list.sort(ParryModUtil.GetDistanceSorter(player));
                     Vec3 pDir = player.getViewVector(1);
                     int bashes = 0;
                     //Debug.log(shield);

@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Utility;
 
 import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -10,12 +11,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -66,29 +69,50 @@ public class ParryModUtil
     {
         float range = 2.5f;
 
-        if(toAttackWith != null && !toAttackWith.isEmpty())
+        if(toAttackWith != null && !toAttackWith.isEmpty())//has weapon
         {
             boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
+            int joustLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JOUSTING.get(), toAttackWith);
 
             if(hasRange)
             {
                 range += toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
+            }
+
+            if(toAttackFrom.isPassenger() && joustLevel > 0)
+            {
+                range += (joustLevel * 2) + 0.5f;
             }
         }
 
         Vec3 eyePos = toAttackFrom.getEyePosition();
         Vec3 lookVector = toAttackFrom.getViewVector(1.0F);
         Vec3 projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
-        AABB box = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D, 1.0D, 1.0D);
-        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()), range);
+        AABB box = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D);
+        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()), range * range);
 
         if(potentialTarget != null)
         {
             boolean unobstructed = toAttackFrom.hasLineOfSight(potentialTarget.getEntity());
 
-            if(unobstructed)return potentialTarget;
+            if(unobstructed)
+            {
+                //Debug.log(toAttackFrom.position().distanceTo(potentialTarget.getEntity().position()));
+                return potentialTarget;
+            }
         }
 
         return null;
+    }
+
+    public static Comparator<Entity> GetDistanceSorter(Entity target)
+    {
+        return (o1, o2) ->
+        {
+            double distA = o1.position().distanceTo(target.position());
+            double distB = o2.position().distanceTo(target.position());
+
+            return Double.compare(distA, distB);
+        };
     }
 }

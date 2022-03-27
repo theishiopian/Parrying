@@ -8,6 +8,7 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -55,6 +56,8 @@ public class CommonEvents
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
 
+        Debug.log("attack: " + event.getTarget());
+
         if(!event.getPlayer().level.isClientSide && event.getPlayer().getMainHandItem().getItem() instanceof SpearItem)
         {
             float dist = (float) event.getPlayer().position().distanceTo(event.getTarget().position());
@@ -68,7 +71,8 @@ public class CommonEvents
 
     public static void OnArrowShoot(EntityJoinWorldEvent event)
     {
-        if(
+        if
+        (
             Config.zeroGravityBolts.get() &&
             event.getEntity() instanceof AbstractArrow arrow &&
             arrow.getOwner() instanceof LivingEntity shooter &&

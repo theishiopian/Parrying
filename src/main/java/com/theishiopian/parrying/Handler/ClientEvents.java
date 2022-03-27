@@ -18,6 +18,7 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTags;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -28,6 +29,8 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -200,14 +203,19 @@ public class ClientEvents
                     }
 
                     player.resetAttackStrengthTicker();
+                    return;
                 }
-                else
+            }
+
+            if(player.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
+            {
+                Debug.log("doing reach attack");
+                EntityHitResult target =  ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
+                if(target != null)
                 {
-                    if(player.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
-                    {
-                        EntityHitResult target = ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
-                        if(target != null)Minecraft.getInstance().hitResult = target;
-                    }
+                    Minecraft mc = Minecraft.getInstance();
+                    mc.hitResult = target;
+                    if (target.getEntity() instanceof LivingEntity || target.getEntity() instanceof ItemFrame)mc.crosshairPickEntity = target.getEntity();
                 }
             }
         }
