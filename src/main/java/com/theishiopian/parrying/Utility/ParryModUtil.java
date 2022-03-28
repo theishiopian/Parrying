@@ -64,6 +64,12 @@ public class ParryModUtil
         return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
     }
 
+    /**
+     * Gets an entity hit result, taking range modifiers into account.
+     * @param toAttackWith The weapon to use, if any.
+     * @param toAttackFrom The attacker.
+     * @return An entity hit result, if applicable.
+     */
     @Nullable
     public static EntityHitResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
     {
