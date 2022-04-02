@@ -70,6 +70,9 @@ public class Config
     //zero g arrows for scoped crossbows
     public static final ForgeConfigSpec.BooleanValue zeroGravityBolts;
 
+    //owners can't attack pets
+    public static final ForgeConfigSpec.BooleanValue protectPets;
+
     static
     {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -157,6 +160,7 @@ public class Config
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
 
         zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
+        protectPets = builder.comment("Are pets immune to damage from their owners?").define("protect_pets", true);
 
         COMMON = builder.build();
     }

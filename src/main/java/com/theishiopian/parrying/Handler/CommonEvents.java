@@ -15,12 +15,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
@@ -55,8 +57,6 @@ public class CommonEvents
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
 
-        //Debug.log("attack: " + event.getTarget());
-
         if(!event.getPlayer().level.isClientSide && event.getPlayer().getMainHandItem().getItem() instanceof SpearItem)
         {
             float dist = (float) event.getPlayer().position().distanceTo(event.getTarget().position());
@@ -86,6 +86,12 @@ public class CommonEvents
     {
         if(!event.getEntity().level.isClientSide)
         {
+            if(Config.protectPets.get() && event.getSource() instanceof EntityDamageSource src && event.getEntity() instanceof OwnableEntity pet && pet.getOwner() == src.getEntity())
+            {
+                event.setCanceled(true);
+                return;
+            }
+
             LivingEntity entity = event.getEntityLiving();
             LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
             float amount = event.getAmount();
@@ -256,8 +262,6 @@ public class CommonEvents
 //            Debug.log(side + " Value for" + event.player.getName().getString() + ":" + value);
 //            Debug.log("END TICK------------------------------------");
 //        }
-
-        //Debug.log(ParryingMechanic.GetSurfaceAngle(event.player));
 
         if(!event.player.level.isClientSide())
         {
