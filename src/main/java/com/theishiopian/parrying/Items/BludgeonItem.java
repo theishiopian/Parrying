@@ -59,7 +59,9 @@ public class BludgeonItem extends LazyItem
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        return enchantment == Enchantments.SMITE || super.canApplyAtEnchantingTable(stack, enchantment);
+        return enchantment == Enchantments.SMITE ||
+        enchantment == Enchantments.BANE_OF_ARTHROPODS ||
+        super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     //shockingly lazy
