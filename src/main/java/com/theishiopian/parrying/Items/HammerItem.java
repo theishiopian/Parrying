@@ -3,8 +3,9 @@ package com.theishiopian.parrying.Items;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.RedStoneOreBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
 
 public class HammerItem extends BludgeonItem
 {
@@ -15,9 +16,9 @@ public class HammerItem extends BludgeonItem
 
     public float getDestroySpeed(ItemStack pStack, BlockState pState)
     {
-        if (pState.is(BlockTags.MINEABLE_WITH_PICKAXE) && !pState.is(Tags.Blocks.ORES))
+        if (pState.is(BlockTags.MINEABLE_WITH_PICKAXE) && !(pState.getBlock() instanceof OreBlock || pState.getBlock() instanceof RedStoneOreBlock))
         {
-            return 50.0F;
+            return 100.0F;
         }
         else
         {

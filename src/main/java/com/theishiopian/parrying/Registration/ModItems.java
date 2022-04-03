@@ -30,7 +30,7 @@ public class ModItems
     public static final float SPEAR_SPEED = -2.8f;
     public static final float DAGGER_SPEED = -1.6f;
 
-    public static final int MACE_DMG = 4;
+    public static final int MACE_DMG = 3;
     public static final int HAMMER_DMG = 5;
     public static final int FLAIL_DMG = 2;
     public static final int SPEAR_DMG = 2;
