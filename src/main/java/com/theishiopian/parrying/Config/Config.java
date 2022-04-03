@@ -100,7 +100,7 @@ public class Config
                 .defineInRange("parry_angle", 0.5f, -1,1);
 
         parryPenalty = builder.comment("The penalty to parry angle for parrying at low attack recharge.")
-                .defineInRange("parry_penalty", 0.25, 0,1);
+                .defineInRange("parry_penalty", 0.15, 0,1);
 
         //DUAL WIELD
         dualWieldEnabled = builder.comment("Whether dual wielding is enabled or not.").define("dual_wielding_enabled", true);
