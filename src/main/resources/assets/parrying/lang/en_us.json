@@ -78,6 +78,8 @@
   "death.attack.dagger": "%1$s was finished off by a thrown dagger",
   "death.attack.dagger.player": "%1$s was finished off by %2$s's thrown dagger",
 
+  "death.attack.bedrock": "%1$s failed the vibe check",
+
   "key.parrying.dodge": "Dodge",
 
   "stat.parrying.parry": "Parry Count",
@@ -117,6 +119,9 @@
 
   "advancements.parrying.hussars" : "When the winged hussars arrived!",
   "advancements.parrying.hussars.desc": "Deal a killing blow with a spear while riding a horse and wearing an elytra",
+
+  "advancements.parrying.vibe" : "Vibe Check",
+  "advancements.parrying.vibe.desc": "Try to break bedrock with a hammer",
 
   "filter.parrying.arrows": "Can only hold arrows",
   "bundle.parrying.shuffle": "Cycling Items"

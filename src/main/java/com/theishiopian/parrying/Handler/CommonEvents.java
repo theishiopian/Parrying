@@ -3,12 +3,14 @@ package com.theishiopian.parrying.Handler;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.APItem;
 import com.theishiopian.parrying.Items.FlailItem;
+import com.theishiopian.parrying.Items.HammerItem;
 import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,6 +33,7 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -40,6 +43,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
@@ -341,6 +345,28 @@ public class CommonEvents
             {
                 ModTriggers.hussars.trigger(player);
             }
+        }
+    }
+
+    /**
+     * VIBE CHECK
+     * @param event the event
+     */
+    public static void OnHitBlock(PlayerInteractEvent.LeftClickBlock event)
+    {
+        if(event.getWorld().getBlockState(event.getPos()).is(Blocks.BEDROCK) && event.getPlayer().getMainHandItem().getItem() instanceof HammerItem)
+        {
+            event.setCanceled(true);
+            Player player = event.getPlayer();
+            BlockPos bPos = event.getPos();
+            Vec3 pos = new Vec3(bPos.getX() + 0.5f, bPos.getY() + 0.5f, bPos.getZ() + 0.5f);
+            Vec3 dir = (pos.subtract(player.position())).normalize();
+
+            player.knockback(1, dir.x, dir.z);
+            player.hurtMarked = true;
+            player.hurt(ModDamageSources.BEDROCK, 0.2f);
+            player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
+            if(player instanceof ServerPlayer serverPlayer)ModTriggers.vibe.trigger(serverPlayer);
         }
     }
 }

@@ -18,6 +18,7 @@ public class ModTriggers
     public static SimpleTrigger instakill;
     public static SimpleTrigger rally;
     public static SimpleTrigger hussars;
+    public static SimpleTrigger vibe;
 
     public static void Init()
     {
@@ -33,5 +34,6 @@ public class ModTriggers
         instakill =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:instakill")));
         rally =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:rally")));
         hussars =  CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:hussars")));
+        vibe = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:vibe")));
     }
 }

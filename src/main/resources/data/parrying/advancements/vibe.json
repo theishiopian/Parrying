@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:story/mine_stone",
+  "display": {
+    "icon": {
+      "item": "parrying:netherite_hammer"
+    },
+    "title": {
+      "translate": "advancements.parrying.vibe"
+    },
+    "description": {
+      "translate": "advancements.parrying.vibe.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vibe": {
+      "trigger": "parrying:vibe"
+    }
+  },
+  "requirements": [
+    [
+      "vibe"
+    ]
+  ]
+}

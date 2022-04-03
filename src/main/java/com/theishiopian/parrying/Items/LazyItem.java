@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * This is a workaround for the registration order of attributes in forge.
  */
 @SuppressWarnings("deprecation")//it's not deprecated if vanilla still uses it
-public abstract class LazyItem extends TieredItem
+public abstract class LazyItem extends TieredItem implements Vanishable
 {
     protected Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected final int baseDamage;
