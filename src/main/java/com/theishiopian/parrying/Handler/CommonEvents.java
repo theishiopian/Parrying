@@ -354,7 +354,7 @@ public class CommonEvents
      */
     public static void OnHitBlock(PlayerInteractEvent.LeftClickBlock event)
     {
-        if(event.getWorld().getBlockState(event.getPos()).is(Blocks.BEDROCK) && event.getPlayer().getMainHandItem().getItem() instanceof HammerItem)
+        if(event.getWorld().getBlockState(event.getPos()).is(Blocks.BEDROCK) && !event.getPlayer().isCreative() && event.getPlayer().getMainHandItem().getItem() instanceof HammerItem)
         {
             event.setCanceled(true);
             Player player = event.getPlayer();
@@ -362,9 +362,9 @@ public class CommonEvents
             Vec3 pos = new Vec3(bPos.getX() + 0.5f, bPos.getY() + 0.5f, bPos.getZ() + 0.5f);
             Vec3 dir = (pos.subtract(player.position())).normalize();
 
-            player.knockback(1, dir.x, dir.z);
+            player.knockback(0.2f, dir.x, dir.z);
             player.hurtMarked = true;
-            player.hurt(ModDamageSources.BEDROCK, 0.2f);
+            player.hurt(ModDamageSources.BEDROCK, 1);
             player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
             if(player instanceof ServerPlayer serverPlayer)ModTriggers.vibe.trigger(serverPlayer);
         }
