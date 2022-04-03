@@ -112,7 +112,7 @@ public class Config
 
         bashAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
                 "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
-                .defineInRange("bash_angle", 0.75, -1,1);
+                .defineInRange("bash_angle", 0.5, -1,1);
 
         bashBaseCooldown = builder.comment("The base cooldown, in ticks, for a successful shield bash. Each " +
                 "target adds one second to the cooldown. There are 20 ticks in a second.")
@@ -129,7 +129,7 @@ public class Config
 
         backStabAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
                 "-1 represents pointing exactly away from the target, and 1 represents pointing exactly towards the target")
-                .defineInRange("backstab_angle", 0.85, -1,1);
+                .defineInRange("backstab_angle", 0.8, -1,1);
 
         backStabDamageMultiplier = builder.comment("The amount to multiply incoming damage by with a successful backstab.")
                 .defineInRange("backstab_multiplier", 3, 1d, 99999d);
