@@ -96,7 +96,8 @@ public class Config
         parryEnabled = builder.comment("Whether parrying is enabled or not.").define("parry_enabled", true);
 
         parryAngle = builder.comment("The maximum angle that you can be aiming relative to the attacker. " +
-                "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
+                "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker"+
+                        "0.5 represents 45 degrees")
                 .defineInRange("parry_angle", 0.5f, -1,1);
 
         parryPenalty = builder.comment("The penalty to parry angle for parrying at low attack recharge.")
