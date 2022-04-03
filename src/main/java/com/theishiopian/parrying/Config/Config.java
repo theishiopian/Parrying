@@ -97,10 +97,10 @@ public class Config
 
         parryAngle = builder.comment("The maximum angle that you can be aiming relative to the attacker. " +
                 "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
-                .defineInRange("parry_angle", 0.95, -1,1);
+                .defineInRange("parry_angle", 0.5f, -1,1);
 
         parryPenalty = builder.comment("The penalty to parry angle for parrying at low attack recharge.")
-                .defineInRange("parry_penalty", 0.2, 0,1);
+                .defineInRange("parry_penalty", 0.25, 0,1);
 
         //DUAL WIELD
         dualWieldEnabled = builder.comment("Whether dual wielding is enabled or not.").define("dual_wielding_enabled", true);
@@ -111,7 +111,7 @@ public class Config
 
         bashAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
                 "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
-                .defineInRange("bash_angle", 0.85, -1,1);
+                .defineInRange("bash_angle", 0.75, -1,1);
 
         bashBaseCooldown = builder.comment("The base cooldown, in ticks, for a successful shield bash. Each " +
                 "target adds one second to the cooldown. There are 20 ticks in a second.")

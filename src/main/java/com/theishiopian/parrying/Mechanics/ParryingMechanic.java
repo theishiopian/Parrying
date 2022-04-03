@@ -60,12 +60,12 @@ public abstract class ParryingMechanic
                         int phaseLevel = Config.phasingCurseEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PHASING.get(), held) : 0;
 
                         assert attacker != null : "How the hell did this throw null???";
-                        Vec3 attackerDir = attacker.position().subtract(player.position());
+                        Vec3 attackerDir = new Vec3(attacker.position().x, 0, attacker.position().z).subtract(new Vec3(player.position().x, 0, player.position().z));
                         Vec3 attackerDirNorm = attackerDir.normalize();
 
                         //the angle from player look direction to the direction from the player to the enemy
-                        double angle = new Vec3(playerLookDir.x, 0, playerLookDir.z).dot(new Vec3(attackerDirNorm.x, 0, attackerDirNorm.z));
-                        //default 0.95
+                        double angle = playerLookDir.dot(attackerDirNorm);
+
                         if(angle >= GetSurfaceAngle(player) && player.swinging)
                         {
                             //phasing check
@@ -150,6 +150,6 @@ public abstract class ParryingMechanic
         double remainder = 1 - angle;
         double charge = Mth.clamp(player.getAttackStrengthScale(0f), 0.1f, 1f);
         double penalty = (1f - charge) * remainder;
-        return angle + (penalty * Config.parryPenalty.get());//default value is 0.2
+        return angle + (penalty * Config.parryPenalty.get());
     }
 }
