@@ -10,7 +10,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 
-public class FlailItem extends APItem
+public class FlailItem extends BludgeonItem
 {
     private final float shieldPen;
 

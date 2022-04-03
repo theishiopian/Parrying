@@ -22,7 +22,6 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     private static final String[] COMMON_MIXINS = new String[]
     {
         "PlayerMixin",
-        "DamageEnchantmentMixin",
         "TiersMixin",
         "ArmorMaterialsMixin",
         "ServerListenerMixin"

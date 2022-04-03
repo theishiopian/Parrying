@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.APItem;
+import com.theishiopian.parrying.Items.BludgeonItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,7 +34,7 @@ public class CripplingEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof APItem && Config.cripplingEnchantEnabled.get();
+        return toEnchant.getItem() instanceof BludgeonItem && Config.cripplingEnchantEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)

@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.APItem;
+import com.theishiopian.parrying.Items.BludgeonItem;
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Items.HammerItem;
 import com.theishiopian.parrying.Items.SpearItem;
@@ -132,7 +132,7 @@ public class CommonEvents
             {
                 ItemStack weapon = attacker.getMainHandItem();
 
-                if(weapon.getItem() instanceof APItem && ArmorPenetrationMechanic.IsNotBypassing())
+                if(weapon.getItem() instanceof BludgeonItem && ArmorPenetrationMechanic.IsNotBypassing())
                 {
                     //yes, the attribute is there, I put it there
                     float ap = (float) weapon.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ModAttributes.AP.get()).stream().findFirst().get().getAmount();

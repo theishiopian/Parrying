@@ -12,15 +12,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 //it's not deprecated if vanilla uses it
-public class APItem extends LazyItem
+public class BludgeonItem extends LazyItem
 {
     protected final float armorPenetration;
-    public APItem(Tier itemTier, int baseDamage, float baseSpeed, float baseAP, Item.Properties properties)
+    public BludgeonItem(Tier itemTier, int baseDamage, float baseSpeed, float baseAP, Item.Properties properties)
     {
         super(itemTier, properties, baseDamage, baseSpeed);
 
@@ -52,6 +54,12 @@ public class APItem extends LazyItem
         }
 
         return true;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+    {
+        return enchantment == Enchantments.SMITE || super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     //shockingly lazy

@@ -6,7 +6,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
-public class HammerItem extends APItem
+public class HammerItem extends BludgeonItem
 {
     public HammerItem(Tier itemTier, int baseDamage, float baseSpeed, float baseAP, Properties properties)
     {
