@@ -94,11 +94,11 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHitBlock);
 
         ModTriggers.Init();
+        ModItems.ITEMS.register(bus);
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
         ModEffects.EFFECTS.register(bus);
-        ModItems.ITEMS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
         ModAttributes.ATTRIBUTES.register(bus);
 
@@ -117,7 +117,7 @@ public class ParryingMod
     @OnlyIn(Dist.CLIENT)
     public void ClientSetup(FMLClientSetupEvent event)
     {
-        if(Config.flailEnabled.get())ModItems.RegisterOverrides();
+        ModItems.RegisterOverrides();
 
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);
@@ -131,7 +131,6 @@ public class ParryingMod
 
     public void CommonSetup(FMLCommonSetupEvent event)
     {
-        ModTags.Bind();
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally

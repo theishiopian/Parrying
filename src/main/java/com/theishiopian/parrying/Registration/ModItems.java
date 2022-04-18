@@ -57,37 +57,19 @@ public class ModItems
     public static final RegistryObject<Item> DIAMOND_DAGGER = ITEMS.register("diamond_dagger", () -> new DaggerItem(Tiers.DIAMOND, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<Item> NETHERITE_DAGGER = ITEMS.register("netherite_dagger", () -> new DaggerItem(Tiers.NETHERITE, DAGGER_DMG, DAGGER_SPEED, (new Item.Properties()).fireResistant().tab(CreativeModeTab.TAB_COMBAT)));
 
-    //initialized separately for item override purposes
-    private static final FlailItem WoodFlail = new FlailItem(Tiers.WOOD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT));
-    private static final FlailItem StoneFlail = new FlailItem(Tiers.STONE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT));
-    private static final FlailItem IronFlail = new FlailItem(Tiers.IRON, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT));
-    private static final FlailItem GoldFlail = new FlailItem(Tiers.GOLD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT));
-    private static final FlailItem DiamondFlail = new FlailItem(Tiers.DIAMOND, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT));
-    private static final FlailItem NetheriteFlail = new FlailItem(Tiers.NETHERITE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).fireResistant().tab(CreativeModeTab.TAB_COMBAT));
+    public static final RegistryObject<FlailItem> WOOD_FLAIL = ITEMS.register("wood_flail", () -> new FlailItem(Tiers.WOOD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<FlailItem> STONE_FLAIL = ITEMS.register("stone_flail", () -> new FlailItem(Tiers.STONE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<FlailItem> IRON_FLAIL = ITEMS.register("iron_flail", () -> new FlailItem(Tiers.IRON, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<FlailItem> GOLD_FLAIL = ITEMS.register("gold_flail", () -> new FlailItem(Tiers.GOLD, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<FlailItem> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> new FlailItem(Tiers.DIAMOND, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<FlailItem> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> new FlailItem(Tiers.NETHERITE, FLAIL_DMG, FLAIL_SPEED, FLAIL_AP, 0.5f, (new Item.Properties()).fireResistant().tab(CreativeModeTab.TAB_COMBAT)));
 
-    public static final RegistryObject<Item> WOOD_FLAIL = ITEMS.register("wood_flail", () -> WoodFlail);
-    public static final RegistryObject<Item> STONE_FLAIL = ITEMS.register("stone_flail", () -> StoneFlail);
-    public static final RegistryObject<Item> IRON_FLAIL = ITEMS.register("iron_flail", () -> IronFlail);
-    public static final RegistryObject<Item> GOLD_FLAIL = ITEMS.register("gold_flail", () -> GoldFlail);
-    public static final RegistryObject<Item> DIAMOND_FLAIL = ITEMS.register("diamond_flail", () -> DiamondFlail);
-    public static final RegistryObject<Item> NETHERITE_FLAIL = ITEMS.register("netherite_flail", () -> NetheriteFlail);
-
-    //initialized separately for item override purposes
-    private static final SpearItem WoodSpear = new SpearItem(Tiers.WOOD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-    private static final SpearItem StoneSpear = new SpearItem(Tiers.STONE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-    private static final SpearItem IronSpear = new SpearItem(Tiers.IRON, SPEAR_DMG, SPEAR_SPEED, 1,  (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-    private static final SpearItem GoldSpear = new SpearItem(Tiers.GOLD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-    private static final SpearItem DiamondSpear = new SpearItem(Tiers.DIAMOND, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
-    private static final SpearItem NetheriteSpear = new SpearItem(Tiers.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(CreativeModeTab.TAB_COMBAT)));
-
-    public static final RegistryObject<SpearItem> WOOD_SPEAR = ITEMS.register("wood_spear", () -> WoodSpear);
-    public static final RegistryObject<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear", () -> StoneSpear);
-    public static final RegistryObject<SpearItem> IRON_SPEAR = ITEMS.register("iron_spear", () -> IronSpear);
-    public static final RegistryObject<SpearItem> GOLD_SPEAR = ITEMS.register("gold_spear", () -> GoldSpear);
-    public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> DiamondSpear);
-    public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> NetheriteSpear);
-
-    //public static final RegistryObject<AdvancedBundle> QUIVER = ITEMS.register("quiver", () -> new AdvancedBundle(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
+    public static final RegistryObject<SpearItem> WOOD_SPEAR = ITEMS.register("wood_spear", () -> new SpearItem(Tiers.WOOD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear", () -> new SpearItem(Tiers.STONE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> IRON_SPEAR = ITEMS.register("iron_spear", () -> new SpearItem(Tiers.IRON, SPEAR_DMG, SPEAR_SPEED, 1,  (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> GOLD_SPEAR = ITEMS.register("gold_spear", () -> new SpearItem(Tiers.GOLD, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear", () -> new SpearItem(Tiers.DIAMOND, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().tab(CreativeModeTab.TAB_COMBAT))));
+    public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> new SpearItem(Tiers.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(CreativeModeTab.TAB_COMBAT))));
 
     public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
@@ -99,22 +81,22 @@ public class ModItems
     {
         FlailItem[] flails =
         {
-            WoodFlail,
-            StoneFlail,
-            IronFlail,
-            GoldFlail,
-            DiamondFlail,
-            NetheriteFlail
+            WOOD_FLAIL.get(),
+            STONE_FLAIL.get(),
+            IRON_FLAIL.get(),
+            GOLD_FLAIL.get(),
+            DIAMOND_FLAIL.get(),
+            NETHERITE_FLAIL.get()
         };
 
         SpearItem[] spears =
         {
-            WoodSpear,
-            StoneSpear,
-            IronSpear,
-            GoldSpear,
-            DiamondSpear,
-            NetheriteSpear
+            WOOD_SPEAR.get(),
+            STONE_SPEAR.get(),
+            IRON_SPEAR.get(),
+            GOLD_SPEAR.get(),
+            DIAMOND_SPEAR.get(),
+            NETHERITE_SPEAR.get()
         };
 
         //ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AdvancedBundle.ContainsItems(stack) ? 1 : 0);

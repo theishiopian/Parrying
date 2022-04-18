@@ -1,9 +1,9 @@
 modLoader="javafml"
-loaderVersion="[39,)"
+loaderVersion="[40,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.4"
+version="2.5"
 displayName="Parrying"
 authors="theishiopian"
 credits="ArcanePhysics, for testing help, y3z0n, for some of the foley sounds"
