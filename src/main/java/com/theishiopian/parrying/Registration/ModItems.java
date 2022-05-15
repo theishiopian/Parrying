@@ -72,6 +72,8 @@ public class ModItems
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> new SpearItem(Tiers.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(CreativeModeTab.TAB_COMBAT))));
 
     public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<QuiverItem> QUIVER = ITEMS.register("quiver", () -> new QuiverItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
+
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as

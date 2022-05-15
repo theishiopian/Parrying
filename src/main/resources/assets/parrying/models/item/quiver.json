@@ -1,20 +1,6 @@
 {
   "parent": "minecraft:item/generated",
-  "overrides":
-  [
-    {
-      "predicate":
-      {
-        "arrows": 0
-      },
-      "model": "parrying:item/quiver_empty"
-    },
-    {
-      "predicate":
-      {
-        "arrows": 1
-      },
-      "model": "parrying:item/quiver_full"
-    }
-  ]
+  "textures": {
+    "layer0": "parrying:item/quiver"
+  }
 }
