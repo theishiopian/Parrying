@@ -101,7 +101,7 @@ public class ModItems
             NETHERITE_SPEAR.get()
         };
 
-        //ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AdvancedBundle.ContainsItems(stack) ? 1 : 0);
+        ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> QuiverItem.GetCount(stack) > 0 ? 1 : 0);
 
         ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
         {

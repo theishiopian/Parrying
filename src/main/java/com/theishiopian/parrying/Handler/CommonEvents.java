@@ -214,7 +214,7 @@ public class CommonEvents
                                     boolean isInstantHeal = i.getEffect() == MobEffects.HEAL;
                                     boolean isInstantHarm = i.getEffect() == MobEffects.HARM;
                                     boolean targetUndead = target.getMobType() == MobType.UNDEAD;
-                                    if(beneficial && (!targetUndead && isInstantHeal))
+                                    if(beneficial && !(targetUndead && isInstantHeal))
                                     {
                                         shouldBeHarmful = false;
                                         break;

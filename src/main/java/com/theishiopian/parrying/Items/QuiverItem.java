@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Items;
 
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -8,9 +9,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -43,8 +42,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//TODO bug fixes
-//TODO item model overrides based on count
 //TODO fix crafting
 //TODO investigate dyeing? how does leather armor work?
 public class QuiverItem extends Item
@@ -79,7 +76,7 @@ public class QuiverItem extends Item
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null) return 0;
-        return c.count;
+        return c.GetCount();
     }
 
     public static ItemStack PeekFirstStack(ItemStack quiver)
@@ -102,11 +99,23 @@ public class QuiverItem extends Item
         else
         {
             ItemStack toStackOnto = pSlot.getItem();
-            if (toStackOnto.isEmpty() && c.count > 0)
+            if (toStackOnto.isEmpty() && c.GetCount() > 0)
             {
-                //Debug.log(c.count);
-                this.playRemoveOneSound(pPlayer);
-                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
+                try
+                {
+                    this.playRemoveOneSound(pPlayer);
+                    removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
+                }
+                catch (IndexOutOfBoundsException e)
+                {
+                    Debug.log("Found you bitch");
+                    Debug.log(c.GetCount());
+                    for (ItemStack itemStack : c.stacksList)
+                    {
+                        Debug.log(itemStack);
+                    }
+                    return false;
+                }
             }
             else if (toStackOnto.getItem().canFitInsideContainerItems())
             {
@@ -155,16 +164,18 @@ public class QuiverItem extends Item
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
     {
-        ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
-        if (dropContents(itemstack, pPlayer))
+        ItemStack quiver = pPlayer.getItemInHand(pUsedHand);
+
+        QuiverCapability c = getCapability(quiver);
+        if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
+
+        if(c.GetCount() > 0)
         {
-            this.playDropContentsSound(pPlayer);
-            pPlayer.awardStat(Stats.ITEM_USED.get(this));
-            return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
-        } else
-        {
-            return InteractionResultHolder.fail(itemstack);
+            c.stacksList.add(c.stacksList.remove(0).copy());
+            pPlayer.displayClientMessage(c.stacksList.get(0).getHoverName(), true);
+            return InteractionResultHolder.sidedSuccess(quiver, pLevel.isClientSide());
         }
+        else return InteractionResultHolder.fail(quiver);
     }
 
     public boolean isBarVisible(@NotNull ItemStack pStack)
@@ -187,7 +198,7 @@ public class QuiverItem extends Item
         if (!stackToInsert.isEmpty() && stackToInsert.getItem().canFitInsideContainerItems() && stackToInsert.is(ItemTags.ARROWS))
         {
             QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-            if(c == null || c.count == 256)return 0;
+            if(c == null || c.GetCount() == 256)return 0;
 
             int currentWeight = getTotalWeight(quiverStack);
             int weightOfInsert = getWeightOfItem(stackToInsert);
@@ -216,8 +227,6 @@ public class QuiverItem extends Item
                     toAdd.setCount(amountToAdd);
                     c.stacksList.add(toAdd);
                 }
-
-                c.count += amountToAdd;
 
                 return amountToAdd;
             }
@@ -248,38 +257,15 @@ public class QuiverItem extends Item
 
         if(c == null)return Optional.empty();
 
-        if (c.count == 0)
+        if (c.GetCount() == 0)
         {
             return Optional.empty();
         }
         else
         {
+            Debug.log(c.GetCount());
             ItemStack stackToRemove = c.stacksList.remove(0);
-            c.count -= stackToRemove.getCount();
             return Optional.of(stackToRemove);
-        }
-    }
-
-    private static boolean dropContents(ItemStack quiverStack, Player pPlayer)
-    {
-        QuiverCapability c = QuiverItem.getCapability(quiverStack);
-        if (c == null || c.count == 0)
-        {
-            return false;
-        }
-        else
-        {
-            if (pPlayer instanceof ServerPlayer)
-            {
-                for (int i = 0; i < c.stacksList.size(); i++)
-                {
-                    pPlayer.drop(c.stacksList.get(0), true);
-                }
-            }
-
-            c.count = 0;
-
-            return true;
         }
     }
 
@@ -302,7 +288,7 @@ public class QuiverItem extends Item
         if(!level.isClientSide)
         {
             QuiverCapability c = QuiverItem.getCapability(pItemEntity.getItem());
-            if(c == null || c.count == 0)return;
+            if(c == null || c.GetCount() == 0)return;
 
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
         }
@@ -325,12 +311,16 @@ public class QuiverItem extends Item
 
     static class QuiverCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
-        public int count = 0;
         public ArrayList<ItemStack> stacksList = new ArrayList<>();
 
         public QuiverCapability()
         {
             super();
+        }
+
+        public int GetCount()
+        {
+            return stacksList.stream().mapToInt(ItemStack::getCount).sum();
         }
 
         public NonNullList<ItemStack> getNonnullStackList()
@@ -358,7 +348,6 @@ public class QuiverItem extends Item
             }
             CompoundTag nbt = new CompoundTag();
             nbt.put("Items", nbtTagList);
-            nbt.putInt("Count", count);
             return nbt;
         }
 
@@ -372,7 +361,6 @@ public class QuiverItem extends Item
                 CompoundTag itemTags = tagList.getCompound(i);
                 stacksList.add(ItemStack.of(itemTags));
             }
-            count = nbt.getInt("Count");
         }
 
         //borrowed from immersive engineering, modified for use here

@@ -132,6 +132,5 @@
   "advancements.parrying.quiver_over_stack" : "Quiver in fear",
   "advancements.parrying.quiver_over_stack.desc": "Fill a quiver with arrows of at least 8 different kinds",
 
-
   "filter.parrying.arrows": "Can only store arrows"
 }
