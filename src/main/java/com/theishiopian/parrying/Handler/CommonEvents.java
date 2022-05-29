@@ -27,6 +27,8 @@ import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -38,6 +40,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingGetProjectileEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -85,6 +88,23 @@ public class CommonEvents
         )
         {
             arrow.setNoGravity(true);
+        }
+    }
+
+    public static void OnArrowScan(LivingGetProjectileEvent event)
+    {
+        if(event.getEntityLiving() instanceof ServerPlayer player &&
+                (event.getProjectileWeaponItemStack().getItem() instanceof BowItem ||
+                (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
+        {
+            for (ItemStack item : player.getInventory().items)
+            {
+                if(item.is(ModItems.QUIVER.get()) && QuiverItem.GetCount(item) > 0)
+                {
+                    event.setProjectileItemStack(QuiverItem.PeekFirstStack(item));
+                    break;
+                }
+            }
         }
     }
 

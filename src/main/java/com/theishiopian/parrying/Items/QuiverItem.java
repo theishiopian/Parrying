@@ -45,7 +45,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 //TODO bug fixes
-//TODO implement jonathan's event to allow arrows to be withdrawn by bows etc
 //TODO item model overrides based on count
 //TODO fix crafting
 //TODO investigate dyeing? how does leather armor work?
@@ -69,13 +68,27 @@ public class QuiverItem extends Item
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    public static QuiverCapability getCapability(ItemStack quiver)
+    private static QuiverCapability getCapability(ItemStack quiver)
     {
         LazyOptional<IItemHandler> handler = quiver.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
         if (handler.isPresent() && handler.orElse(null) instanceof QuiverCapability capability) return capability;
         return null;
     }
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
+
+    public static int GetCount(ItemStack quiver)
+    {
+        QuiverCapability c = getCapability(quiver);
+        if(c == null) return 0;
+        return c.count;
+    }
+
+    public static ItemStack PeekFirstStack(ItemStack quiver)
+    {
+        QuiverCapability c = getCapability(quiver);
+        if(c == null) return ItemStack.EMPTY;
+        return c.stacksList.get(0);
+    }
 
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack quiverStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
