@@ -100,9 +100,10 @@ public class QuiverItem extends Item
     {
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
-            Debug.log("VALID");
             if (pOther.isEmpty())
             {
+                Debug.log("removing one stack");
+
                 removeOne(pStack).ifPresent((p_186347_) ->
                 {
                     this.playRemoveOneSound(pPlayer);
@@ -111,7 +112,6 @@ public class QuiverItem extends Item
             }
             else
             {
-                Debug.log("trying to add item");
                 int i = addItem(pStack, pOther);
                 if (i > 0)
                 {
@@ -162,7 +162,7 @@ public class QuiverItem extends Item
         if (!stackToInsert.isEmpty() && stackToInsert.getItem().canFitInsideContainerItems())
         {
             QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-            if(c == null || c.count ==256)return 0;
+            if(c == null || c.count == 256)return 0;
 
             int currentWeight = getContentWeight(quiverStack);
             int weightOfInsert = getWeight(stackToInsert);
@@ -191,6 +191,7 @@ public class QuiverItem extends Item
                     c.stacksList.add(toAdd);
                 }
 
+                Debug.log("add k");
                 c.count += k;
 
                 return k;
@@ -220,15 +221,18 @@ public class QuiverItem extends Item
         QuiverCapability c = QuiverItem.getCapability(quiverStack);
 
         if(c == null)return Optional.empty();
+        Debug.log("not null");
 
         if (c.count == 0)
         {
+            Debug.log("quiver empty");
             return Optional.empty();
         }
         else
         {
+            Debug.log("quiver not empty");
             ItemStack stackToRemove = c.stacksList.remove(0);
-            if(!stackToRemove.isEmpty())c.count -= stackToRemove.getCount();
+            c.count -= stackToRemove.getCount();
             return Optional.of(stackToRemove);
         }
     }
@@ -343,10 +347,8 @@ public class QuiverItem extends Item
             }
             CompoundTag nbt = new CompoundTag();
             nbt.put("Items", nbtTagList);
-            nbt.putInt("Size", stacksList.size());
+            nbt.putInt("Count", count);
             return nbt;
-
-
         }
 
         @Override
@@ -364,6 +366,7 @@ public class QuiverItem extends Item
 
                 stacksList.add(slot, toAdd);
             }
+            count = nbt.getInt("Count");
         }
 
         @Override
