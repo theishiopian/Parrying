@@ -12,7 +12,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,16 +29,18 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -302,7 +303,7 @@ public class QuiverItem extends Item
         entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
-    public static class QuiverCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>, IItemHandler
+    public static class QuiverCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
         public int count = 0;
         public final int max = 256;
@@ -314,12 +315,6 @@ public class QuiverItem extends Item
             super();
         }
 
-        @NotNull
-        @Override
-        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-        {
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(capability, LazyOptional.of(() -> this));
-        }
 
         public NonNullList<ItemStack> getNonnullStackList()
         {
@@ -335,13 +330,12 @@ public class QuiverItem extends Item
         public CompoundTag serializeNBT()
         {
             ListTag nbtTagList = new ListTag();
-            for (int i = 0; i < stacksList.size(); i++)
+            for (ItemStack itemStack : stacksList)
             {
-                if (!stacksList.get(i).isEmpty())
+                if (!itemStack.isEmpty())
                 {
                     CompoundTag itemTag = new CompoundTag();
-                    itemTag.putInt("Slot", i);
-                    stacksList.get(i).save(itemTag);
+                    itemStack.save(itemTag);
                     nbtTagList.add(itemTag);
                 }
             }
@@ -359,53 +353,32 @@ public class QuiverItem extends Item
             for (int i = 0; i < tagList.size(); i++)
             {
                 CompoundTag itemTags = tagList.getCompound(i);
-                int slot = itemTags.getInt("Slot");
-
-                ItemStack toAdd = ItemStack.of(itemTags);
-                //TODO somewhere in here the list is getting reset, make sure data is copying properly
-
-                stacksList.add(slot, toAdd);
+                stacksList.add(ItemStack.of(itemTags));
             }
             count = nbt.getInt("Count");
         }
 
-        @Override
-        public int getSlots()
+        @SubscribeEvent
+        public void registerCaps(RegisterCapabilitiesEvent event)
         {
-            return stacksList.size();
+            event.register(QuiverCapability.class);
         }
 
-        @NotNull
-        @Override
-        public ItemStack getStackInSlot(int slot)
+        //borrowed from immersive engineering, modified for use here
+        public static <T> LazyOptional<T> constantOptional(T val)
         {
-            return stacksList.get(slot);
+            LazyOptional<T> result = LazyOptional.of(() -> Objects.requireNonNull(val));
+            result.resolve();
+            return result;
         }
 
-        @NotNull
-        @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate)
-        {
-            return stacksList.set(slot, stack);
-        }
+        private final LazyOptional<QuiverCapability> quiverCapabilityLazyOptional = constantOptional(this);
 
-        @NotNull
+        @Nonnull
         @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate)
+        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
         {
-            return getStackInSlot(slot);
-        }
-
-        @Override
-        public int getSlotLimit(int slot)
-        {
-            return 256;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack)
-        {
-            return stack.is(ItemTags.ARROWS);
+            return quiverCapabilityLazyOptional.cast();
         }
     }
 }
