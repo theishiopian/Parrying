@@ -35,6 +35,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -55,7 +56,7 @@ public class QuiverItem extends Item
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new QuiverCapability(stack);
+        return new QuiverCapability();
     }
 
     @Nullable
@@ -68,7 +69,7 @@ public class QuiverItem extends Item
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
 
     @Override
-    public boolean overrideStackedOnOther(ItemStack pStack, Slot pSlot, ClickAction pAction, Player pPlayer)
+    public boolean overrideStackedOnOther(@NotNull ItemStack pStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
         if (pAction != ClickAction.SECONDARY)
         {
@@ -84,9 +85,8 @@ public class QuiverItem extends Item
             }
             else if (itemstack.getItem().canFitInsideContainerItems())
             {
-                int i = (64 - getContentWeight(pStack)) / getWeight(itemstack);
-                int j = addItem(pStack, pSlot.safeTake(itemstack.getCount(), i, pPlayer));
-                if (j > 0)
+                int amountToTake = (256 - getTotalWeight(pStack)) / getWeightOfItem(itemstack);
+                if (addItem(pStack, pSlot.safeTake(itemstack.getCount(), amountToTake, pPlayer)) > 0)
                 {
                     this.playInsertSound(pPlayer);
                 }
@@ -97,7 +97,7 @@ public class QuiverItem extends Item
     }
 
     @Override
-    public boolean overrideOtherStackedOnMe(ItemStack pStack, ItemStack pOther, Slot pSlot, ClickAction pAction, Player pPlayer, SlotAccess pAccess)
+    public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
@@ -129,7 +129,7 @@ public class QuiverItem extends Item
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand)
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
     {
         ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
         if (dropContents(itemstack, pPlayer))
@@ -143,17 +143,17 @@ public class QuiverItem extends Item
         }
     }
 
-    public boolean isBarVisible(ItemStack pStack)
+    public boolean isBarVisible(@NotNull ItemStack pStack)
     {
-        return getContentWeight(pStack) > 0;
+        return getTotalWeight(pStack) > 0;
     }
 
-    public int getBarWidth(ItemStack pStack)
+    public int getBarWidth(@NotNull ItemStack pStack)
     {
-        return Math.min(1 + 12 * getContentWeight(pStack) / 256, 13);
+        return Math.min(1 + 12 * getTotalWeight(pStack) / 256, 13);
     }
 
-    public int getBarColor(ItemStack pStack)
+    public int getBarColor(@NotNull ItemStack pStack)
     {
         return BAR_COLOR;
     }
@@ -165,8 +165,8 @@ public class QuiverItem extends Item
             QuiverCapability c =  QuiverItem.getCapability(quiverStack);
             if(c == null || c.count == 256)return 0;
 
-            int currentWeight = getContentWeight(quiverStack);
-            int weightOfInsert = getWeight(stackToInsert);
+            int currentWeight = getTotalWeight(quiverStack);
+            int weightOfInsert = getWeightOfItem(stackToInsert);
             int k = Math.min(stackToInsert.getCount(), (256 - currentWeight) / weightOfInsert);
             if (k == 0)
             {
@@ -192,7 +192,6 @@ public class QuiverItem extends Item
                     c.stacksList.add(toAdd);
                 }
 
-                Debug.log("add k");
                 c.count += k;
 
                 return k;
@@ -204,17 +203,18 @@ public class QuiverItem extends Item
         }
     }
 
-    private static int getWeight(ItemStack pStack)
+    //technically unneeded. at least for a quiver...
+    private static int getWeightOfItem(ItemStack pStack)
     {
         return 64 / pStack.getMaxStackSize();
     }
 
-    private static int getContentWeight(ItemStack pStack)
+    private static int getTotalWeight(ItemStack pStack)
     {
         QuiverCapability c = QuiverItem.getCapability(pStack);
         if(c == null)return 0;
 
-        return c.stacksList.stream().mapToInt(stack -> getWeight(stack) * stack.getCount()).sum();
+        return c.stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
     }
 
     private static Optional<ItemStack> removeOne(ItemStack quiverStack)
@@ -261,19 +261,19 @@ public class QuiverItem extends Item
         }
     }
 
-    public Optional<TooltipComponent> getTooltipImage(ItemStack quiverStack)
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack quiverStack)
     {
         QuiverCapability c = QuiverItem.getCapability(quiverStack);
         if(c ==  null) return Optional.empty();
-        return Optional.of(new BundleTooltip(c.getNonnullStackList(), getContentWeight(quiverStack)));
+        return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(quiverStack)));
     }
 
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced)
+    public void appendHoverText(@NotNull ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
-        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getContentWeight(pStack), 256)).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getTotalWeight(pStack), 256)).withStyle(ChatFormatting.GRAY));
     }
 
     public void onDestroyed(ItemEntity pItemEntity)
@@ -306,15 +306,13 @@ public class QuiverItem extends Item
     public static class QuiverCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>
     {
         public int count = 0;
-        public final int max = 256;
 
         public ArrayList<ItemStack> stacksList = new ArrayList<>();
 
-        public QuiverCapability(ItemStack quiver)
+        public QuiverCapability()
         {
             super();
         }
-
 
         public NonNullList<ItemStack> getNonnullStackList()
         {
