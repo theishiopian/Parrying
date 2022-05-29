@@ -18,10 +18,7 @@ import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.player.Player;
@@ -177,11 +174,11 @@ public class CommonEvents
 
     public static void OnHurtEvent(LivingHurtEvent event)
     {
-        LivingEntity entity = event.getEntityLiving();
+        LivingEntity target = event.getEntityLiving();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity ? (LivingEntity) event.getSource().getEntity() : null;
         ItemStack weapon = attacker != null ? attacker.getMainHandItem() : ItemStack.EMPTY;
 
-        if(entity != null)
+        if(target != null)
         {
             if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing())
             {
@@ -197,7 +194,7 @@ public class CommonEvents
                         if(pLevel > 0)
                         {
                             //it actually will bypass the shield, this is just to trick the helper method
-                            ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, entity, attacker, false, "piercing.player");
+                            ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, target, attacker, false, "piercing.player");
                             event.setAmount(0);//prevent extra damage
 
                             //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
@@ -210,17 +207,26 @@ public class CommonEvents
 
                             if(effects.size() > 0)
                             {
-                                boolean hasHarm = false;
+                                boolean shouldBeHarmful = true;
                                 for (MobEffectInstance i : effects)
                                 {
-                                    if(!i.getEffect().isBeneficial())
+                                    boolean beneficial = i.getEffect().isBeneficial();
+                                    boolean isInstantHeal = i.getEffect() == MobEffects.HEAL;
+                                    boolean isInstantHarm = i.getEffect() == MobEffects.HARM;
+                                    boolean targetUndead = target.getMobType() == MobType.UNDEAD;
+                                    if(beneficial && (!targetUndead && isInstantHeal))
                                     {
-                                        hasHarm = true;
+                                        shouldBeHarmful = false;
+                                        break;
+                                    }
+                                    else if(targetUndead && isInstantHarm)
+                                    {
+                                        shouldBeHarmful = false;
                                         break;
                                     }
                                 }
 
-                                if(!hasHarm)
+                                if(!shouldBeHarmful)
                                 {
                                     event.setAmount(0);
                                 }
@@ -230,7 +236,7 @@ public class CommonEvents
                 }
             }
 
-            if((!(entity instanceof Player)) && entity.hasEffect(ModEffects.STUNNED.get()))
+            if((!(target instanceof Player)) && target.hasEffect(ModEffects.STUNNED.get()))
             {
                 event.setAmount(event.getAmount() * 1.5f);
             }
@@ -252,11 +258,11 @@ public class CommonEvents
 
                 if(chance <= 0.25)
                 {
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
+                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
                 }
             }
 
-            Backstab.DoBackstab(event, entity);
+            Backstab.DoBackstab(event, target);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Items;
 
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -105,13 +104,13 @@ public class QuiverItem extends Item
             ItemStack toStackOnto = pSlot.getItem();
             if (toStackOnto.isEmpty() && c.count > 0)
             {
-                Debug.log(c.count);
+                //Debug.log(c.count);
                 this.playRemoveOneSound(pPlayer);
                 removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
             }
             else if (toStackOnto.getItem().canFitInsideContainerItems())
             {
-                Debug.log(c.count);
+                //Debug.log(c.count);
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
                 if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
                 {
