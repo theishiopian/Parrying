@@ -1,10 +1,7 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.BludgeonItem;
-import com.theishiopian.parrying.Items.FlailItem;
-import com.theishiopian.parrying.Items.HammerItem;
-import com.theishiopian.parrying.Items.SpearItem;
+import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
@@ -35,6 +32,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -56,7 +54,6 @@ public class CommonEvents
     //these static fields transfer information between layers of method calls, in between which this information is altered or destroyed. The only other way of ensuring access
     //is to restructure the logic of the minecraft combat system, which would cause innumerable problems for compatibility im sure.
     //Why do you do this to me mojang?
-
     public static void OnPlayerAttackTarget(AttackEntityEvent event)
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
@@ -70,6 +67,11 @@ public class CommonEvents
                 ModTriggers.poke.trigger((ServerPlayer) event.getPlayer());
             }
         }
+    }
+
+    public static void OnRegisterCapabilities(RegisterCapabilitiesEvent event)
+    {
+        QuiverItem.registerCapability(event);
     }
 
     public static void OnArrowShoot(EntityJoinWorldEvent event)
