@@ -11,7 +11,7 @@ import java.util.Random;
 
 /*
  * Modified version of net.minecraft.world.entity.npc.VillagerTrades.DyedArmorForEmeralds
- * Supports any dyeable item
+ * Supports any dyeable item and adds a random number of colors for maximum fancy
  */
 public class DyedItemForEmeralds implements VillagerTrades.ItemListing
 {
