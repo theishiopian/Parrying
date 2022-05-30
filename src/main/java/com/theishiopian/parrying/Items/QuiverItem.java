@@ -77,7 +77,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     {
         CompoundTag tag = super.getShareTag(stack)==null? stack.getOrCreateTag() : super.getShareTag(stack);
         QuiverCapability c = getCapability(stack);
-        if(c!=null)
+        if(c!=null && tag != null)
         {
             tag.put("quiver", c.serializeNBT());
         }
