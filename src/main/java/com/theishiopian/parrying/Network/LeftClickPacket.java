@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Items.FlailItem;
 import com.theishiopian.parrying.Mechanics.Bashing;
-import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,9 +39,9 @@ public class LeftClickPacket
         assert player != null;//how would this be null?
         Bashing.Bash(player);
 
-        if(DualWielding.IsDualWielding(player))
+        if(DualWieldingMechanic.IsDualWielding(player))
         {
-            InteractionHand hand = DualWielding.dualWielders.get(player.getUUID());
+            InteractionHand hand = DualWieldingMechanic.dualWielders.get(player.getUUID());
 
             //DON'T ASK
             if(hand != InteractionHand.MAIN_HAND && player.getMainHandItem().getItem() instanceof FlailItem)

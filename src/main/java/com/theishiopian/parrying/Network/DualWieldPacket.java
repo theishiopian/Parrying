@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Network;
 
-import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -32,7 +32,7 @@ public record DualWieldPacket(boolean mainHand, int id)
         ServerPlayer sender = context.get().getSender();
         assert sender != null : "Sender is null in dual wield packet, this is a serious problem!";
         Level level = sender.level;
-        DualWielding.DoDualWield(Objects.requireNonNull(sender), level.getEntity(packet.id), packet.mainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
+        DualWieldingMechanic.DoDualWield(Objects.requireNonNull(sender), level.getEntity(packet.id), packet.mainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
 
         context.get().setPacketHandled(true);
     }

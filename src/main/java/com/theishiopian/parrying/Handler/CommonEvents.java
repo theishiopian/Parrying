@@ -299,7 +299,7 @@ public class CommonEvents
         {
             if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))
             {
-                DualWielding.dualWielders.remove(event.player.getUUID());
+                DualWieldingMechanic.dualWielders.remove(event.player.getUUID());
             }
             float newValue;
             float v = ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());

@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
-import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,7 +22,7 @@ public class PlayerMixin
         {
             Player player = ((Player)(Object)this);
 
-            if(DualWielding.IsDualWielding(player))
+            if(DualWieldingMechanic.IsDualWielding(player))
             {
                 float mainSpeed = (float) player.getMainHandItem().
                         getAttributeModifiers(EquipmentSlot.MAINHAND).

@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Registration.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -37,7 +37,7 @@ public abstract class ItemInHandRendererMixin
 
         float f = player.getAttackStrengthScale(1);
         //Debug.log("you better not be on a server here");
-        return (DualWielding.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
+        return (DualWieldingMechanic.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
     }
 
     //the following code was created by paulevs, tweaked by theishiopian

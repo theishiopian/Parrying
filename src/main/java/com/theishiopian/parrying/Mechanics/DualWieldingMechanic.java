@@ -19,7 +19,7 @@ import java.util.UUID;
  * attack logic is handled by the server. Communication between the two is
  * handled via SwingPacket.
  */
-public class DualWielding
+public class DualWieldingMechanic
 {
     //region CLIENT
     public static InteractionHand CurrentHand = InteractionHand.MAIN_HAND;

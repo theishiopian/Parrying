@@ -9,7 +9,7 @@ import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Items.SpearItem;
-import com.theishiopian.parrying.Mechanics.DualWielding;
+import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.DualWieldPacket;
@@ -85,11 +85,13 @@ public class ClientEvents
      * This code will be used to render the defense meter. TODO: move to custom class for rendering events
      * @param event the render event
      */
-    public static void RenderDefense(RenderGameOverlayEvent.Post event)
+    public static void RenderOverlays(RenderGameOverlayEvent.Post event)
     {
         if(IsGameplayInProgress(true) && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
-            if(ParryingMechanic.ClientDefense < 1)
+            Player player = Minecraft.getInstance().player;
+            assert player != null : "Null player in overlay renderer!";
+            if(Config.parryEnabled.get() && ParryingMechanic.ClientDefense < 1)
             {
                 PoseStack matrixStack = event.getMatrixStack();
                 RenderSystem.enableBlend();
@@ -99,14 +101,28 @@ public class ClientEvents
                 Window window = event.getWindow();
                 int x = (window.getGuiScaledWidth() / 2) - 8;
                 int y = (window.getGuiScaledHeight() / 2) + 16;
-                //stack, position, uv, size, texture size
-                Player player = Minecraft.getInstance().player;
-                int stunOffset = player != null && player.hasEffect(ModEffects.STUNNED.get()) ? 16 : 0;
+                int stunOffset = player.hasEffect(ModEffects.STUNNED.get()) ? 16 : 0;
                 Screen.blit(matrixStack, x, y, 0, stunOffset, 16, 16, 64, 64);
                 int posOffset = (int)(16 + y - (16* ParryingMechanic.ClientDefense));
                 int uvOffset = (int)(16 * ParryingMechanic.ClientDefense);
                 int sizeOffset = (int)(16 * ParryingMechanic.ClientDefense) + 1;
+                //stack, position, uv, size, texture size
                 Screen.blit(matrixStack, x, posOffset, 16, (15 - uvOffset) + stunOffset, 16, sizeOffset, 64, 64);
+            }
+
+            if(Config.dualWieldEnabled.get() && DualWieldingMechanic.IsDualWielding(player))
+            {
+                PoseStack matrixStack = event.getMatrixStack();
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
+                RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
+                Window window = event.getWindow();
+                boolean offhand = DualWieldingMechanic.CurrentHand == InteractionHand.OFF_HAND;
+                int x = (window.getGuiScaledWidth() / 2) - (8 + (offhand ? 16 : -16));
+                int y = (window.getGuiScaledHeight() / 2) - 8;
+
+                Screen.blit(matrixStack, x, y, offhand ? 32 : 48, 0, 16, 16, 64, 64);
             }
         }
     }
@@ -180,7 +196,7 @@ public class ClientEvents
 
             if(Config.dualWieldEnabled.get())
             {
-                if(DualWielding.IsDualWielding(player))
+                if(DualWieldingMechanic.IsDualWielding(player))
                 {
                     event.setSwingHand(false);
                     event.setCanceled(true);
@@ -191,18 +207,18 @@ public class ClientEvents
 
                     if(target != null)targetID = target.getId();
 
-                    if(DualWielding.CurrentHand == InteractionHand.OFF_HAND)
+                    if(DualWieldingMechanic.CurrentHand == InteractionHand.OFF_HAND)
                     {
                         player.swing(InteractionHand.OFF_HAND, false);
 
                         ParryingMod.channel.sendToServer(new DualWieldPacket(false, targetID));
-                        DualWielding.CurrentHand = InteractionHand.MAIN_HAND;
+                        DualWieldingMechanic.CurrentHand = InteractionHand.MAIN_HAND;
                     }
                     else
                     {
                         player.swing(InteractionHand.MAIN_HAND, false);
                         ParryingMod.channel.sendToServer(new DualWieldPacket(true, targetID));
-                        DualWielding.CurrentHand = InteractionHand.OFF_HAND;
+                        DualWieldingMechanic.CurrentHand = InteractionHand.OFF_HAND;
                     }
 
                     player.resetAttackStrengthTicker();
