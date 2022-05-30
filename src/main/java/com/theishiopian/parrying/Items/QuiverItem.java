@@ -73,6 +73,30 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
 
     @Override
+    public CompoundTag getShareTag(ItemStack stack)
+    {
+        CompoundTag tag = super.getShareTag(stack)==null? stack.getOrCreateTag() : super.getShareTag(stack);
+        QuiverCapability c = getCapability(stack);
+        if(c!=null)
+        {
+            tag.put("quiver", c.serializeNBT());
+        }
+
+        return tag;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, CompoundTag nbt)
+    {
+        QuiverCapability c = getCapability(stack);
+        if(c!=null && nbt != null)
+        {
+            c.deserializeNBT(nbt.getCompound("quiver"));
+        }
+        super.readShareTag(stack, nbt);
+    }
+
+    @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
@@ -205,11 +229,19 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static int addItem(ItemStack quiverStack, ItemStack stackToInsert, Player player)
     {
+        QuiverCapability c =  QuiverItem.getCapability(quiverStack);
+        if(c == null)
+        {
+            return 0;
+        }
+
+        if(c.GetItemCount() == 256)
+        {
+            return 0;
+        }
+
         if (!stackToInsert.isEmpty() && stackToInsert.getItem().canFitInsideContainerItems() && stackToInsert.is(ItemTags.ARROWS))
         {
-            QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-            if(c == null || c.GetItemCount() == 256)return 0;
-
             int currentWeight = getTotalWeight(quiverStack);
             int weightOfInsert = getWeightOfItem(stackToInsert);
             int amountToAdd = Math.min(stackToInsert.getCount(), (256 - currentWeight) / weightOfInsert);

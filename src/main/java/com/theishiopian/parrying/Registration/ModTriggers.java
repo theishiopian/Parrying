@@ -21,6 +21,7 @@ public class ModTriggers
     public static SimpleTrigger vibe;
     public static SimpleTrigger quiver_over_stack;
     public static SimpleTrigger kevin;
+    public static SimpleTrigger stupid;
 
     public static void Init()
     {
@@ -39,5 +40,6 @@ public class ModTriggers
         vibe = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:vibe")));
         kevin = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:kevin")));
         quiver_over_stack = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:quiver_over_stack")));
+        stupid = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:stupid")));
     }
 }

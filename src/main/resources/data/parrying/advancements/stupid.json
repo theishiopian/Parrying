@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:big_bash",
+  "display": {
+    "icon": {
+      "item": "minecraft:end_crystal"
+    },
+    "title": {
+      "translate": "advancements.parrying.stupid"
+    },
+    "description": {
+      "translate": "advancements.parrying.stupid.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "stupid": {
+      "trigger": "parrying:stupid"
+    }
+  },
+  "requirements": [
+    [
+      "stupid"
+    ]
+  ]
+}

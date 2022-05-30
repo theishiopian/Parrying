@@ -9,8 +9,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -28,7 +30,7 @@ public abstract class BashingMechanic
         {
             if(player != null && player.isBlocking())
             {
-                List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, new AABB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
+                List<Entity> list = player.level.getEntitiesOfClass(Entity.class, new AABB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
 
                 list.remove(player);
                 Random random = ParryModUtil.random;
@@ -58,12 +60,12 @@ public abstract class BashingMechanic
                     //Debug.log(shield);
                     assert shield != null : "How";
                     int level = Config.bashingEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield) : 0;
-                    for (LivingEntity target : list)
+                    for (Entity target : list)
                     {
                         Vec3 dir = (target.position().subtract(player.position())).normalize();
                         double dot = dir.dot(pDir);
                         //default 0.85
-                        if (dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !target.isBlocking())
+                        if (dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !(target instanceof LivingEntity l && l.isBlocking()))
                         {
                             BashEntity(target, player, shield, hand);
                             bashes++;
@@ -95,7 +97,7 @@ public abstract class BashingMechanic
         }
     }
 
-    private static void BashEntity(LivingEntity target, Player player, ItemStack shield, InteractionHand hand)
+    private static void BashEntity(Entity entity, Player player, ItemStack shield, InteractionHand hand)
     {
         DamageSource source = new DamageSource("bludgeoning");
 
@@ -104,15 +106,23 @@ public abstract class BashingMechanic
         shield.hurtAndBreak(1, player, (playerEntity) ->
                 playerEntity.broadcastBreakEvent(hand));
 
-        MobEffectInstance instance = new MobEffectInstance(ModEffects.STUNNED.get(), 60);
-        target.hurt(source, 2);
-        (target).addEffect(instance);
-        (target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
-        target.hurtMarked = true;
-
-        if(target instanceof Chicken && target.hasCustomName() && target.getCustomName().getString().equalsIgnoreCase("kevin"))
+        if(entity instanceof LivingEntity target)
         {
-            ModTriggers.kevin.trigger((ServerPlayer) player);
+            MobEffectInstance instance = new MobEffectInstance(ModEffects.STUNNED.get(), 60);
+            target.hurt(source, 2);
+            (target).addEffect(instance);
+            (target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
+            target.hurtMarked = true;
+
+            if(target instanceof Chicken && target.hasCustomName() && target.getCustomName().getString().equalsIgnoreCase("kevin"))
+            {
+                ModTriggers.kevin.trigger((ServerPlayer) player);
+            }
+        }
+        else if(entity instanceof EndCrystal)
+        {
+            entity.hurt(source, 2);
+            ModTriggers.stupid.trigger((ServerPlayer) player);
         }
     }
 }

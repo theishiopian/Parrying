@@ -110,7 +110,7 @@
   "advancements.parrying.deflect_trident.desc": "Deflect a trident with the Deflection Enchantment",
 
   "advancements.parrying.bacon" : "The Bacons are Lit!",
-  "advancements.parrying.bacon.desc": "Kill a pig with a flaming arrow",
+  "advancements.parrying.bacon.desc": "Make bacon from a distance",
 
   "advancements.parrying.instakill" : "All's fair in love and war...",
   "advancements.parrying.instakill.desc": "Oneshot a target with an attack from behind",
@@ -132,6 +132,9 @@
 
   "advancements.parrying.quiver_over_stack" : "Quiver in Fear",
   "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max, including at least 8 different tipped arrows",
+
+  "advancements.parrying.stupid" : "Why did you do that?",
+  "advancements.parrying.stupid.desc": "Blow yourself up with a shield bash",
 
   "filter.parrying.arrows": "Can only store arrows"
 }
