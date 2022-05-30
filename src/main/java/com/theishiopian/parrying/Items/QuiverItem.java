@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//TODO fix crafting
 //TODO investigate dyeing? how does leather armor work?
 public class QuiverItem extends Item
 {
@@ -51,7 +50,7 @@ public class QuiverItem extends Item
     }
     public QuiverItem(Properties pProperties)
     {
-        super(pProperties);
+        super(pProperties.stacksTo(1));
     }
 
     @Nullable

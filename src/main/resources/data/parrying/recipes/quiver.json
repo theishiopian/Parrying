@@ -7,14 +7,14 @@
         }
     ],
     "pattern": [
-        " ls",
-        "lll",
-        "ll "
+        " sr",
+        " r ",
+        "r  "
     ],
     "key": {
-        "l":
+        "r":
         {
-            "item": "minecraft:leather"
+            "item": "minecraft:rabbit_hide"
         },
         "s":
         {
