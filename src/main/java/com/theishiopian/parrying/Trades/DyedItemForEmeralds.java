@@ -50,7 +50,7 @@ public class DyedItemForEmeralds implements VillagerTrades.ItemListing
                 dyes.add(getRandomDye(random));
             }
 
-            productStack = DyeableLeatherItem.dyeArmor(productStack, dyes);
+            productStack = dyes.size() > 0 ? DyeableLeatherItem.dyeArmor(productStack, dyes) : productStack;
         }
 
         return new MerchantOffer(emeraldStack, productStack, this.maxUses, this.villagerXp, 0.2F);
