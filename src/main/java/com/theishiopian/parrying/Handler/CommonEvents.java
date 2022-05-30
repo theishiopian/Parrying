@@ -7,6 +7,8 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
+import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +23,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -42,6 +46,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
@@ -395,6 +400,23 @@ public class CommonEvents
             player.hurt(ModDamageSources.BEDROCK, 1);
             player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
             if(player instanceof ServerPlayer serverPlayer)ModTriggers.vibe.trigger(serverPlayer);
+        }
+    }
+
+    public static void OnRegisterTrades(VillagerTradesEvent event)
+    {
+        if(event.getType() == VillagerProfession.FLETCHER)
+        {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            //trade offer
+            //i receive, quiver
+            // you receive, emeralds
+            trades.get(1).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 1));
+            trades.get(2).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 2));
+            trades.get(3).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 3));
+            trades.get(4).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 4));
+            trades.get(5).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 5));
         }
     }
 }

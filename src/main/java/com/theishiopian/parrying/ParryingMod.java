@@ -82,6 +82,7 @@ public class ParryingMod
     {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterCapabilities);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterTrades);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttacked);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowShoot);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerAttackTarget);
@@ -94,7 +95,6 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnDeath);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHitBlock);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowScan);
-        //MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerDropItem);
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);
