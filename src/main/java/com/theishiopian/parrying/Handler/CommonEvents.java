@@ -6,7 +6,7 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;

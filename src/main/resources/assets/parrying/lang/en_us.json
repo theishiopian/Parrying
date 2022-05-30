@@ -62,7 +62,8 @@
   "item.parrying.quiver" : "Quiver",
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
 
-  "tag.parrying.two_handed": "Two Handed",
+  "tooltip.parrying.two_handed": "Two Handed",
+  "tooltip.parrying.jousting": "+%s Damage When Riding",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",

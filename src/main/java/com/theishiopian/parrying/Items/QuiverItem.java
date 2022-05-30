@@ -73,8 +73,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
-        if(!player.isCrouching() || !QuiverItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
-
+        if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
+        if(!QuiverItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
     }
 

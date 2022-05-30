@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;

@@ -8,23 +8,20 @@ import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
+import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Registration.ModEffects;
-import com.theishiopian.parrying.Registration.ModItems;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Registration.*;
+import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ClientRegistry;
@@ -118,9 +116,20 @@ public class ClientEvents
     {
         if(!IsGameplayInProgress(false)) return;
 
+        if(event.getItemStack().getItem() instanceof SpearItem)
+        {
+            int lvl = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JOUSTING.get(), event.getItemStack());
+
+            if(lvl > 0)
+            {
+                event.getToolTip().add(new TranslatableComponent("tooltip.parrying.jousting", lvl * 2).setStyle(Style.EMPTY.withColor(ChatFormatting.BLUE)));
+            }
+        }
+
         if(Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
-            event.getToolTip().add(new TranslatableComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor((TextColor.fromLegacyFormat(ChatFormatting.RED)))));
+            event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
+
         }
     }
 

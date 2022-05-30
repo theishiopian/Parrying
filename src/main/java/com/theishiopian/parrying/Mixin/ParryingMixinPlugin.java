@@ -23,8 +23,7 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     {
         "PlayerMixin",
         "TiersMixin",
-        "ArmorMaterialsMixin",
-        "ForgePlayerMixin"
+        "ArmorMaterialsMixin"
     };
 
     @Override
