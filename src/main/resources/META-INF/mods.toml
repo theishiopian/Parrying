@@ -6,5 +6,5 @@ modId="parrying"
 version="2.5"
 displayName="Parrying"
 authors="theishiopian"
-credits="ArcanePhysics, for testing help, y3z0n, for some of the foley sounds"
+credits="ArcanePhysics, for testing help, y3z0n, for some of the foley sounds, Jonathing, for help integrating features into forge and for gradleworks"
 description='''Improving Minecraft combat with new mechanics and weapons!'''

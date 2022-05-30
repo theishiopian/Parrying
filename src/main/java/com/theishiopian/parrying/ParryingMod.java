@@ -6,8 +6,8 @@ import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
-import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
@@ -43,7 +43,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 7;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added defense packet
+    private static final int VERSION = 8;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added UUID to dual wield for target acquisition
 
     static
     {
@@ -65,10 +65,10 @@ public class ParryingMod
                 .consumer(DodgePacket::handle)
                 .add();
 
-        channel.messageBuilder(SwingPacket.class, 3)
-                .decoder(SwingPacket::fromBytes)
-                .encoder(SwingPacket::toBytes)
-                .consumer(SwingPacket::handle)
+        channel.messageBuilder(DualWieldPacket.class, 3)
+                .decoder(DualWieldPacket::fromBytes)
+                .encoder(DualWieldPacket::toBytes)
+                .consumer(DualWieldPacket::handle)
                 .add();
 
         channel.messageBuilder(SyncDefPacket.class, 4, NetworkDirection.PLAY_TO_CLIENT)
@@ -94,7 +94,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnDeath);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHitBlock);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowScan);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerDropItem);
+        //MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerDropItem);
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);

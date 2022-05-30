@@ -5,9 +5,10 @@ import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -32,29 +33,27 @@ public class DualWielding
      * @param player the player doing the dual wielding attack
      * @param currentHand the hand the client says it is currently using for dual wielding
      */
-    public static void DoDualWield(ServerPlayer player, InteractionHand currentHand)
+    public static void DoDualWield(ServerPlayer player, @Nullable Entity target, InteractionHand currentHand)
     {
         if(Config.dualWieldEnabled.get())
         {
-            //Debug.log("dual wield init");
-            EntityHitResult potentialTarget = ParryModUtil.GetAttackTargetWithRange(player.getItemInHand(currentHand), player);
             dualWielders.put(player.getUUID(), currentHand);
-            //Debug.log(currentHand);
+
             if(currentHand == InteractionHand.MAIN_HAND)
             {
-                if(potentialTarget != null)player.attack(potentialTarget.getEntity());
+                if(target != null)player.attack(target);
                 player.swing(InteractionHand.MAIN_HAND, true);
             }
             else
             {
-                ItemStack offhand = player.getItemInHand(InteractionHand.OFF_HAND);
-                ItemStack mainhand = player.getItemInHand(InteractionHand.MAIN_HAND);
-                player.setItemInHand(InteractionHand.MAIN_HAND, offhand);
-                player.setItemInHand(InteractionHand.OFF_HAND, mainhand);
-                if(potentialTarget != null)player.attack(potentialTarget.getEntity());
+                ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
+                ItemStack mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
+                player.setItemInHand(InteractionHand.MAIN_HAND, offHandItem);
+                player.setItemInHand(InteractionHand.OFF_HAND, mainHandItem);
+                if(target != null)player.attack(target);
                 player.swing(InteractionHand.OFF_HAND, true);
-                player.setItemInHand(InteractionHand.MAIN_HAND, mainhand);
-                player.setItemInHand(InteractionHand.OFF_HAND, offhand);
+                player.setItemInHand(InteractionHand.MAIN_HAND, mainHandItem);
+                player.setItemInHand(InteractionHand.OFF_HAND, offHandItem);
             }
 
             player.resetAttackStrengthTicker();

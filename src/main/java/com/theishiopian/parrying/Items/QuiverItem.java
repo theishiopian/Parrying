@@ -70,6 +70,14 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     }
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
 
+    @Override
+    public boolean onDroppedByPlayer(ItemStack item, Player player)
+    {
+        if(!player.isCrouching() || !QuiverItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
+
+        return false;
+    }
+
     public static int GetItemCount(ItemStack quiver)
     {
         QuiverCapability c = getCapability(quiver);

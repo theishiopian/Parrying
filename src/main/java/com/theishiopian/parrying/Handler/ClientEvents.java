@@ -11,8 +11,8 @@ import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Mechanics.DualWielding;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
-import com.theishiopian.parrying.Network.SwingPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModItems;
@@ -27,14 +27,11 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ClientRegistry;
@@ -43,7 +40,6 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -150,7 +146,7 @@ public class ClientEvents
     }
 
     /**
-     * THis method is used to ensure mechanics don't occur when, say, we are in the main menu
+     * This method is used to ensure mechanics don't occur when, say, we are in the main menu
      * @param noInventory whether to consider the player's inventory being open as something to cancel mechanics
      * @return is gameplay in progress?
      */
@@ -160,13 +156,6 @@ public class ClientEvents
         boolean b = Minecraft.getInstance().level != null;
         boolean c = !Minecraft.getInstance().isPaused();
         boolean d = Minecraft.getInstance().player != null;
-
-//        Debug.log("GAMEPLAY CHECK");
-//        Debug.log(a);
-//        Debug.log(b);
-//        Debug.log(c);
-//        Debug.log(d);
-//        Debug.log("END GAMEPLAY CHECK");
 
         return (a || !noInventory) && b && c && d;
     }
@@ -187,34 +176,27 @@ public class ClientEvents
                     event.setSwingHand(false);
                     event.setCanceled(true);
 
+                    Entity target = Minecraft.getInstance().crosshairPickEntity;
+
+                    int targetID = Integer.MIN_VALUE;
+
+                    if(target != null)targetID = target.getId();
+
                     if(DualWielding.CurrentHand == InteractionHand.OFF_HAND)
                     {
                         player.swing(InteractionHand.OFF_HAND, false);
 
-                        ParryingMod.channel.sendToServer(new SwingPacket(false));
+                        ParryingMod.channel.sendToServer(new DualWieldPacket(false, targetID));
                         DualWielding.CurrentHand = InteractionHand.MAIN_HAND;
                     }
                     else
                     {
                         player.swing(InteractionHand.MAIN_HAND, false);
-                        ParryingMod.channel.sendToServer(new SwingPacket(true));
+                        ParryingMod.channel.sendToServer(new DualWieldPacket(true, targetID));
                         DualWielding.CurrentHand = InteractionHand.OFF_HAND;
                     }
 
                     player.resetAttackStrengthTicker();
-                    return;
-                }
-            }
-
-            if(player.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get()))
-            {
-                //Debug.log("doing reach attack");
-                EntityHitResult target =  ParryModUtil.GetAttackTargetWithRange(player.getMainHandItem(), player);
-                if(target != null)
-                {
-                    Minecraft mc = Minecraft.getInstance();
-                    mc.hitResult = target;
-                    if (target.getEntity() instanceof LivingEntity || target.getEntity() instanceof ItemFrame)mc.crosshairPickEntity = target.getEntity();
                 }
             }
         }

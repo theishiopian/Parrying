@@ -21,6 +21,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
 
 public class SpearItem extends LazyItem implements Vanishable
@@ -137,6 +138,7 @@ public class SpearItem extends LazyItem implements Vanishable
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
         builder.put(net.minecraftforge.common.ForgeMod.REACH_DISTANCE.get(), new AttributeModifier(ModAttributes.RD_UUID,"Tool Modifier", reach,  AttributeModifier.Operation.ADDITION));
+        builder.put(ForgeMod.ATTACK_RANGE.get(), new AttributeModifier(ModAttributes.AR_UUID,"Tool Modifier", reach,  AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
     }
 
