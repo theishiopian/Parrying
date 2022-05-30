@@ -121,6 +121,7 @@ public class ParryingMod
     public void ClientSetup(FMLClientSetupEvent event)
     {
         ModItems.RegisterOverrides();
+        ModItems.RegisterColorHandlers();//dyeable items
 
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnLeftMouse);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnKeyPressed);

@@ -5,16 +5,34 @@
     {
       "predicate":
       {
-        "arrows": 0
+        "arrows": 0,
+        "dyed" : 0
       },
       "model": "parrying:item/quiver_empty"
     },
     {
       "predicate":
       {
-        "arrows": 1
+        "arrows": 1,
+        "dyed": 0
       },
       "model": "parrying:item/quiver_full"
+    },
+    {
+      "predicate":
+      {
+        "arrows": 0,
+        "dyed" : 1
+      },
+      "model": "parrying:item/quiver_empty_dyed"
+    },
+    {
+      "predicate":
+      {
+        "arrows": 1,
+        "dyed": 1
+      },
+      "model": "parrying:item/quiver_full_dyed"
     }
   ]
 }

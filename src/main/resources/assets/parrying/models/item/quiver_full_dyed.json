@@ -2,7 +2,6 @@
   "parent": "parrying:item/quiver",
   "textures": {
     "layer0": "parrying:item/quiver_dyeable",
-    "layer1": "parrying:item/quiver_full_overlay",
-    "layer2": "parrying:item/quiver_no_dye"
+    "layer1": "parrying:item/quiver_full_overlay"
   }
 }

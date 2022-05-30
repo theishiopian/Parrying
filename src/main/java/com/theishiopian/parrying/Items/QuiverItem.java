@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -41,8 +42,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//TODO investigate dyeing? how does leather armor work?
-public class QuiverItem extends Item
+public class QuiverItem extends Item implements DyeableLeatherItem
 {
     public static void registerCapability(RegisterCapabilitiesEvent event)
     {

@@ -2,13 +2,11 @@ package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -102,6 +100,7 @@ public class ModItems
         };
 
         ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> QuiverItem.GetItemCount(stack) > 0 ? 1 : 0);
+        ItemProperties.register(QUIVER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
 
         ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
         {
@@ -141,5 +140,10 @@ public class ModItems
                 return (user != null && user.attackAnim > 0 && (mainHand || offHand)) ? 1 : 0;
             });
         }
+    }
+
+    public static void RegisterColorHandlers()
+    {
+        Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.QUIVER.get());
     }
 }
