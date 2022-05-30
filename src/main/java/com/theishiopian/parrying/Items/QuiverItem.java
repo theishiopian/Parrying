@@ -1,6 +1,5 @@
 package com.theishiopian.parrying.Items;
 
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -90,6 +89,9 @@ public class QuiverItem extends Item
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null || GetItemCount(quiver) == 0)return false;
+
+        playDropContentsSound(player);
+
         for (ItemStack itemStack : c.stacksList)
         {
             player.drop(itemStack.copy(), true);
@@ -115,29 +117,15 @@ public class QuiverItem extends Item
             ItemStack toStackOnto = pSlot.getItem();
             if (toStackOnto.isEmpty() && c.GetCount() > 0)
             {
-                try
-                {
-                    this.playRemoveOneSound(pPlayer);
-                    removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
-                }
-                catch (IndexOutOfBoundsException e)
-                {
-                    Debug.log("Found you bitch");
-                    Debug.log(c.GetCount());
-                    for (ItemStack itemStack : c.stacksList)
-                    {
-                        Debug.log(itemStack);
-                    }
-                    return false;
-                }
+                playRemoveOneSound(pPlayer);
+                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
             }
             else if (toStackOnto.getItem().canFitInsideContainerItems())
             {
-                //Debug.log(c.count);
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
                 if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
                 {
-                    this.playInsertSound(pPlayer);
+                    playInsertSound(pPlayer);
                 }
             }
 
@@ -154,7 +142,7 @@ public class QuiverItem extends Item
             {
                 removeOneStack(pStack).ifPresent((p_186347_) ->
                 {
-                    this.playRemoveOneSound(pPlayer);
+                    playRemoveOneSound(pPlayer);
                     pAccess.set(p_186347_);
                 });
             }
@@ -163,7 +151,7 @@ public class QuiverItem extends Item
                 int i = addItem(pStack, pOther);
                 if (i > 0)
                 {
-                    this.playInsertSound(pPlayer);
+                    playInsertSound(pPlayer);
                     pOther.shrink(i);
                 }
             }
@@ -277,7 +265,6 @@ public class QuiverItem extends Item
         }
         else
         {
-            Debug.log(c.GetCount());
             ItemStack stackToRemove = c.stacksList.remove(0);
             return Optional.of(stackToRemove);
         }
@@ -308,17 +295,17 @@ public class QuiverItem extends Item
         }
     }
 
-    private void playRemoveOneSound(Entity entity)
+    private static void playRemoveOneSound(Entity entity)
     {
         entity.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playInsertSound(Entity entity)
+    private static void playInsertSound(Entity entity)
     {
         entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playDropContentsSound(Entity entity)
+    private static void playDropContentsSound(Entity entity)
     {
         entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
