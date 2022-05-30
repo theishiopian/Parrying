@@ -85,19 +85,19 @@
 
   "stat.parrying.parry": "Parry Count",
 
-  "advancements.parrying.campfire_lit" : "The beacons are lit!",
+  "advancements.parrying.campfire_lit" : "The Beacons are Lit!",
   "advancements.parrying.campfire_lit.desc": "Light a campfire by shooting it",
 
-  "advancements.parrying.snipe" : "One shot, one kill...",
+  "advancements.parrying.snipe" : "One shot, One kill...",
   "advancements.parrying.snipe.desc": "Hit a target in the back with a scoped crossbow, from 50 meters away",
 
-  "advancements.parrying.deflect" : "I am ready!",
+  "advancements.parrying.deflect" : "I am Ready!",
   "advancements.parrying.deflect.desc": "Deflect an arrow with the Deflection Enchantment",
 
   "advancements.parrying.poke" : "This is my poking stick",
   "advancements.parrying.poke.desc": "Attack a mob from further than 3 blocks away using a spear",
 
-  "advancements.parrying.stagger" : "Truly staggering!",
+  "advancements.parrying.stagger" : "Truly Staggering!",
   "advancements.parrying.stagger.desc": "Have your defense broken",
 
   "advancements.parrying.big_bash" : "Crowd Control",
@@ -109,7 +109,7 @@
   "advancements.parrying.deflect_trident" : "Reforked",
   "advancements.parrying.deflect_trident.desc": "Deflect a trident with the Deflection Enchantment",
 
-  "advancements.parrying.bacon" : "The bacons are lit!",
+  "advancements.parrying.bacon" : "The Bacons are Lit!",
   "advancements.parrying.bacon.desc": "Kill a pig with a flaming arrow",
 
   "advancements.parrying.instakill" : "All's fair in love and war...",
@@ -118,20 +118,20 @@
   "advancements.parrying.rally" : "Alla til mig!",
   "advancements.parrying.rally.desc": "Deal a killing blow with a flail while under the effect of absorption",
 
-  "advancements.parrying.hussars" : "When the winged hussars arrived!",
+  "advancements.parrying.hussars" : "The Winged Hussars",
   "advancements.parrying.hussars.desc": "Deal a killing blow with a spear while riding a horse and wearing wings",
 
   "advancements.parrying.vibe" : "Vibe Check",
   "advancements.parrying.vibe.desc": "Try to break bedrock with a hammer",
 
   "advancements.parrying.kevin" : "Whoa, is that Kevin?",
-  "advancements.parrying.kevin.desc": "Use a shield to defend yourself from Kevin",
+  "advancements.parrying.kevin.desc": "Use a shield to asset dominance over Kevin",
 
   "advancements.parrying.quiver" : "Ruby Dung 2",
-  "advancements.parrying.quiver.desc": "Craft a quiver",
+  "advancements.parrying.quiver.desc": "Obtain a quiver",
 
-  "advancements.parrying.quiver_over_stack" : "Quiver in fear",
-  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver with arrows of at least 8 different kinds",
+  "advancements.parrying.quiver_over_stack" : "Quiver in Fear",
+  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max, including at least 8 different tipped arrows",
 
   "filter.parrying.arrows": "Can only store arrows"
 }

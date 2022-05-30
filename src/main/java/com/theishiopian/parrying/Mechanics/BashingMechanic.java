@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Bashing
+public abstract class BashingMechanic
 {
     public static void Bash(ServerPlayer player)
     {
@@ -108,5 +109,10 @@ public abstract class Bashing
         (target).addEffect(instance);
         (target).knockback(0.5f, -player.getViewVector(1).x, -player.getViewVector(1).z);
         target.hurtMarked = true;
+
+        if(target instanceof Chicken && target.hasCustomName() && target.getCustomName().getString().equalsIgnoreCase("kevin"))
+        {
+            ModTriggers.kevin.trigger((ServerPlayer) player);
+        }
     }
 }

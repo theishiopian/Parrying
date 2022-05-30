@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class Dodging
+public abstract class DodgingMechanic
 {
     public static final Map<UUID, Integer> dodgeCooldown = new HashMap<>();
     public static void Dodge(ServerPlayer player, boolean left, boolean right, boolean back)

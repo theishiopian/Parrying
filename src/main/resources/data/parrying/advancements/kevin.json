@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:big_bash",
+  "display": {
+    "icon": {
+      "item": "minecraft:egg"
+    },
+    "title": {
+      "translate": "advancements.parrying.kevin"
+    },
+    "description": {
+      "translate": "advancements.parrying.kevin.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kevin": {
+      "trigger": "parrying:kevin"
+    }
+  },
+  "requirements": [
+    [
+      "kevin"
+    ]
+  ]
+}

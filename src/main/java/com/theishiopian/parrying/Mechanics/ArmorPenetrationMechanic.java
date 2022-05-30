@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

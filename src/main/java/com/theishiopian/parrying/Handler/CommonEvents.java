@@ -6,8 +6,8 @@ import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -285,8 +285,8 @@ public class CommonEvents
     {
         if(event.world.isClientSide)return;
 
-        Dodging.dodgeCooldown.replaceAll((k, v) -> v - 1);
-        Dodging.dodgeCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
+        DodgingMechanic.dodgeCooldown.replaceAll((k, v) -> v - 1);
+        DodgingMechanic.dodgeCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
     }
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)

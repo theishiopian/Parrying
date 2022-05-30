@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:craft_quiver",
+  "display": {
+    "icon": {
+      "item": "parrying:quiver"
+    },
+    "title": {
+      "translate": "advancements.parrying.quiver_over_stack"
+    },
+    "description": {
+      "translate": "advancements.parrying.quiver_over_stack.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "quiver_over_stack": {
+      "trigger": "parrying:quiver_over_stack"
+    }
+  },
+  "requirements": [
+    [
+      "quiver_over_stack"
+    ]
+  ]
+}

@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Data;
 
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModItemTagProvider;
-import com.theishiopian.parrying.Registration.Utility.Debug;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;

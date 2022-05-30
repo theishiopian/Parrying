@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Network;
 
-import com.theishiopian.parrying.Mechanics.Dodging;
+import com.theishiopian.parrying.Mechanics.DodgingMechanic;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -37,7 +37,7 @@ public class DodgePacket
 
     public static void handle(DodgePacket packet, Supplier<NetworkEvent.Context> context)
     {
-        Dodging.Dodge(context.get().getSender(), packet.left, packet.right, packet.back);
+        DodgingMechanic.Dodge(context.get().getSender(), packet.left, packet.right, packet.back);
 
         context.get().setPacketHandled(true);
     }

@@ -16,7 +16,7 @@ import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Registration.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

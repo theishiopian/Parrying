@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:adventure/shoot_arrow",
+  "display": {
+    "icon": {
+      "item": "parrying:quiver",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.parrying.quiver"
+    },
+    "description": {
+      "translate": "advancements.parrying.quiver.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "quiver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "parrying:quiver"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "quiver"
+    ]
+  ]
+}

@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Registration.Utility;
+package com.theishiopian.parrying.Utility;
 
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.resources.ResourceLocation;

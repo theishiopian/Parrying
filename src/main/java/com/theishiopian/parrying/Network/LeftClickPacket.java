@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Items.FlailItem;
-import com.theishiopian.parrying.Mechanics.Bashing;
+import com.theishiopian.parrying.Mechanics.BashingMechanic;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,7 +37,7 @@ public class LeftClickPacket
     {
         ServerPlayer player = context.get().getSender();
         assert player != null;//how would this be null?
-        Bashing.Bash(player);
+        BashingMechanic.Bash(player);
 
         if(DualWieldingMechanic.IsDualWielding(player))
         {

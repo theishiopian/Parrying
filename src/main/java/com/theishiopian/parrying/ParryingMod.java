@@ -5,10 +5,7 @@ import com.theishiopian.parrying.Entity.Render.RenderDagger;
 import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
-import com.theishiopian.parrying.Network.DodgePacket;
-import com.theishiopian.parrying.Network.DualWieldPacket;
-import com.theishiopian.parrying.Network.LeftClickPacket;
-import com.theishiopian.parrying.Network.SyncDefPacket;
+import com.theishiopian.parrying.Network.*;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -43,7 +40,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 8;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added UUID to dual wield for target acquisition
+    private static final int VERSION = 9;//protocol version, bump whenever adding new network packets or changing existing ones. last change: added new packet to trigger quiver advancement
 
     static
     {
@@ -75,6 +72,12 @@ public class ParryingMod
                 .decoder(SyncDefPacket::fromBytes)
                 .encoder(SyncDefPacket::toBytes)
                 .consumer(SyncDefPacket::handle)
+                .add();
+
+        channel.messageBuilder(QuiverAdvPacket.class, 5)
+                .decoder(QuiverAdvPacket::fromBytes)
+                .encoder(QuiverAdvPacket::toBytes)
+                .consumer(QuiverAdvPacket::handle)
                 .add();
     }
 

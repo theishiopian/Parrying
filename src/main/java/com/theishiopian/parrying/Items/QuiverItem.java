@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Items;
 
+import com.theishiopian.parrying.Network.QuiverAdvPacket;
+import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -13,6 +15,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -25,6 +29,7 @@ import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -37,10 +42,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class QuiverItem extends Item implements DyeableLeatherItem
 {
@@ -82,7 +84,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null) return 0;
-        return c.GetCount();
+        return c.GetItemCount();
     }
 
     public static ItemStack PeekFirstStack(ItemStack quiver)
@@ -122,20 +124,19 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         else
         {
             ItemStack toStackOnto = pSlot.getItem();
-            if (toStackOnto.isEmpty() && c.GetCount() > 0)
+            if (toStackOnto.isEmpty() && c.GetItemCount() > 0)
             {
                 playRemoveOneSound(pPlayer);
-                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
+                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert),pPlayer));
             }
             else if (toStackOnto.getItem().canFitInsideContainerItems())
             {
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
-                if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
+                if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer) > 0)
                 {
                     playInsertSound(pPlayer);
                 }
             }
-
             return true;
         }
     }
@@ -155,7 +156,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
             else
             {
-                int i = addItem(pStack, pOther);
+                int i = addItem(pStack, pOther, pPlayer);
                 if (i > 0)
                 {
                     playInsertSound(pPlayer);
@@ -178,7 +179,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         QuiverCapability c = getCapability(quiver);
         if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
 
-        if(c.GetCount() > 0)
+        if(c.GetItemCount() > 0)
         {
             c.stacksList.add(c.stacksList.remove(0).copy());
             pPlayer.displayClientMessage(c.stacksList.get(0).getHoverName(), true);
@@ -202,12 +203,12 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    private static int addItem(ItemStack quiverStack, ItemStack stackToInsert)
+    private static int addItem(ItemStack quiverStack, ItemStack stackToInsert, Player player)
     {
         if (!stackToInsert.isEmpty() && stackToInsert.getItem().canFitInsideContainerItems() && stackToInsert.is(ItemTags.ARROWS))
         {
             QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-            if(c == null || c.GetCount() == 256)return 0;
+            if(c == null || c.GetItemCount() == 256)return 0;
 
             int currentWeight = getTotalWeight(quiverStack);
             int weightOfInsert = getWeightOfItem(stackToInsert);
@@ -235,6 +236,25 @@ public class QuiverItem extends Item implements DyeableLeatherItem
                     ItemStack toAdd = stackToInsert.copy();
                     toAdd.setCount(amountToAdd);
                     c.stacksList.add(toAdd);
+                }
+
+                if(c.GetItemCount() == 256)
+                {
+                    HashSet<MobEffect> allEffects = new HashSet<>();
+                    for (ItemStack itemStack : c.stacksList)
+                    {
+                        List<MobEffectInstance> mobEffectInstances = PotionUtils.getMobEffects(itemStack);
+                        for (MobEffectInstance mobEffectInstance : mobEffectInstances)
+                        {
+                            allEffects.add(mobEffectInstance.getEffect());
+                        }
+                    }
+
+                    if(allEffects.size() >= 8)
+                    {
+                        //trigger
+                        ParryingMod.channel.sendToServer(new QuiverAdvPacket());
+                    }
                 }
 
                 return amountToAdd;
@@ -266,7 +286,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
         if(c == null)return Optional.empty();
 
-        if (c.GetCount() == 0)
+        if (c.GetItemCount() == 0)
         {
             return Optional.empty();
         }
@@ -296,7 +316,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         if(!level.isClientSide)
         {
             QuiverCapability c = QuiverItem.getCapability(pItemEntity.getItem());
-            if(c == null || c.GetCount() == 0)return;
+            if(c == null || c.GetItemCount() == 0)return;
 
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
         }
@@ -326,7 +346,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             super();
         }
 
-        public int GetCount()
+        public int GetItemCount()
         {
             return stacksList.stream().mapToInt(ItemStack::getCount).sum();
         }
