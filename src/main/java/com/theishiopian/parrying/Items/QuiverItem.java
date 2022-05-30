@@ -151,12 +151,12 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             if (toStackOnto.isEmpty() && c.GetItemCount() > 0)
             {
                 playRemoveOneSound(pPlayer);
-                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert),pPlayer));
+                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
             }
             else if (toStackOnto.getItem().canFitInsideContainerItems())
             {
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
-                if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer) > 0)
+                if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
                 {
                     playInsertSound(pPlayer);
                 }
@@ -180,7 +180,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
             else
             {
-                int i = addItem(pStack, pOther, pPlayer);
+                int i = addItem(pStack, pOther);
                 if (i > 0)
                 {
                     playInsertSound(pPlayer);
@@ -227,7 +227,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    private static int addItem(ItemStack quiverStack, ItemStack stackToInsert, Player player)
+    private static int addItem(ItemStack quiverStack, ItemStack stackToInsert)
     {
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
         if(c == null)
