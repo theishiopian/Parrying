@@ -72,7 +72,7 @@ public class QuiverItem extends Item
     }
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
 
-    public static int GetCount(ItemStack quiver)
+    public static int GetItemCount(ItemStack quiver)
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null) return 0;
@@ -84,6 +84,20 @@ public class QuiverItem extends Item
         QuiverCapability c = getCapability(quiver);
         if(c == null) return ItemStack.EMPTY;
         return c.stacksList.get(0);
+    }
+
+    public static boolean DropAllItems(ItemStack quiver, Player player)
+    {
+        QuiverCapability c = getCapability(quiver);
+        if(c == null || GetItemCount(quiver) == 0)return false;
+        for (ItemStack itemStack : c.stacksList)
+        {
+            player.drop(itemStack.copy(), true);
+        }
+
+        c.stacksList.clear();
+
+        return true;
     }
 
     @Override

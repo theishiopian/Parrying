@@ -21,6 +21,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -35,6 +36,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingGetProjectileEvent;
@@ -96,12 +98,26 @@ public class CommonEvents
         {
             for (ItemStack item : player.getInventory().items)
             {
-                if(item.is(ModItems.QUIVER.get()) && QuiverItem.GetCount(item) > 0)
+                if(item.is(ModItems.QUIVER.get()) && QuiverItem.GetItemCount(item) > 0)
                 {
                     event.setProjectileItemStack(QuiverItem.PeekFirstStack(item));
                     break;
                 }
             }
+        }
+    }
+
+    public static void OnPlayerDropItem(ItemTossEvent event)
+    {
+        if(event.getEntityItem().getItem().is(ModItems.QUIVER.get()) && event.getPlayer().isCrouching() && !event.getPlayer().level.isClientSide)
+        {
+            Player player = event.getPlayer();
+            ItemStack quiver = event.getEntityItem().getItem();
+            if(!QuiverItem.DropAllItems(quiver, player))return;
+            event.setCanceled(true);
+            ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), quiver.copy());
+            itemEntity.setPickUpDelay(0);
+            player.level.addFreshEntity(itemEntity);
         }
     }
 
