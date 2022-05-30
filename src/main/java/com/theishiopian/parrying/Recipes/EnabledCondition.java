@@ -12,6 +12,7 @@ import java.util.function.Supplier;
  * This class defines an object that in turn defines a recipe condition with a simple boolean value. The exact value is defined via supplier.
  * See ParryingMod.java for registration.
  */
+@SuppressWarnings("ALL")
 public class EnabledCondition implements ICondition
 {
     private final ResourceLocation name;//the name of the condition, eg "parrying:flails_enabled"
