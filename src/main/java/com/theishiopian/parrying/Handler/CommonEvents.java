@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
@@ -99,10 +100,17 @@ public class CommonEvents
                 (event.getProjectileWeaponItemStack().getItem() instanceof BowItem ||
                 (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
         {
-            for (ItemStack item : player.getInventory().items)
+            //Debug.log("scan start");
+            if(player.getInventory().getItem(40).is(ItemTags.ARROWS)) return;
+            ItemStack item;
+            for(int i = 0; i < 9; i++)
             {
+
+                item = player.getInventory().getItem(i);
+                //Debug.log("scanning: " + item + " " + i);
                 if(item.is(ModItems.QUIVER.get()) && QuiverItem.GetItemCount(item) > 0)
                 {
+                    //Debug.log("providing from "+ i);
                     event.setProjectileItemStack(QuiverItem.PeekFirstStack(item));
                     break;
                 }
