@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Network.QuiverAdvPacket;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,7 +32,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -111,6 +117,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return c.GetItemCount();
     }
 
+
+
     public static ItemStack PeekFirstStack(ItemStack quiver)
     {
         QuiverCapability c = getCapability(quiver);
@@ -153,7 +161,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
                 playRemoveOneSound(pPlayer);
                 removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
             }
-            else if (toStackOnto.getItem().canFitInsideContainerItems())
+            else if (toStackOnto.is(ItemTags.ARROWS))
             {
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
                 if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
@@ -177,6 +185,10 @@ public class QuiverItem extends Item implements DyeableLeatherItem
                     playRemoveOneSound(pPlayer);
                     pAccess.set(p_186347_);
                 });
+            }
+            else if(!pOther.is(ItemTags.ARROWS))
+            {
+                return false;
             }
             else
             {
@@ -210,6 +222,26 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             return InteractionResultHolder.sidedSuccess(quiver, pLevel.isClientSide());
         }
         else return InteractionResultHolder.fail(quiver);
+    }
+
+    @Override
+    public @NotNull InteractionResult useOn(UseOnContext pContext)
+    {
+        if(pContext.getLevel().isClientSide)return super.useOn(pContext);
+        BlockPos pos = pContext.getClickedPos();
+        BlockState block = pContext.getLevel().getBlockState(pos);
+        if(block.is(Blocks.WATER_CAULDRON))
+        {
+            ItemStack quiver = pContext.getItemInHand();
+            if(((DyeableLeatherItem)quiver.getItem()).hasCustomColor(quiver))
+            {
+                ((DyeableLeatherItem)quiver.getItem()).clearColor(quiver);
+                LayeredCauldronBlock.lowerFillLevel(block, pContext.getLevel(), pos);
+                return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide);
+            }
+            else return InteractionResult.PASS;
+        }
+        return super.useOn(pContext);
     }
 
     public boolean isBarVisible(@NotNull ItemStack pStack)

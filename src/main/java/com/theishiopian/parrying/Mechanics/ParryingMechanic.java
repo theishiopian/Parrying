@@ -102,7 +102,7 @@ public abstract class ParryingMechanic
                                 SoundEvent toPlay = GetMaterialParrySound(held.getItem());
 
                                 //play particles and sound
-                                player.level.playSound(null, player.blockPosition(), toPlay, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                                player.level.playSound(null, player.blockPosition(), toPlay, SoundSource.PLAYERS, 1, (ParryModUtil.random.nextFloat() * 0.5f) + 0.5f);
                                 ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
 
                                 //cancel player damage logic
