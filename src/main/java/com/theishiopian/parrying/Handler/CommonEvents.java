@@ -7,7 +7,6 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
@@ -101,24 +100,38 @@ public class CommonEvents
                 (event.getProjectileWeaponItemStack().getItem() instanceof BowItem ||
                         (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
         {
-            if(player.getInventory().getItem(40).is(ItemTags.ARROWS)) return;
-            ItemStack item;
+            if(player.getOffhandItem().is(ItemTags.ARROWS)) return;
+            ItemStack itemToScan;
+            ItemStack quiver = ItemStack.EMPTY;
+            ItemStack priorityQuiver = ItemStack.EMPTY;
             for(int i = 45; i >= 0; i--)
             {
-                item = player.getInventory().getItem(i);
+                itemToScan = player.getInventory().getItem(i);
 
-                if(item.is(ModItems.QUIVER.get()) )
+                if(itemToScan.is(ModItems.QUIVER.get()) )
                 {
-                    int count = QuiverItem.GetItemCount(item);
-                    Debug.log("Found quiver with: "+count);
-                    if(count > 0 &&
-                            (i < 9 || EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), item) > 0))
+                    int count = QuiverItem.GetItemCount(itemToScan);
+
+                    if(count == 0)continue;
+
+                    if(i < 9)
                     {
-                        ItemStack peek =QuiverItem.PeekFirstStack(item);
-                        event.setProjectileItemStack(peek);
-                        break;
+                        quiver = itemToScan;
+                    }
+
+                    if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
+                    {
+                        priorityQuiver = itemToScan;
                     }
                 }
+            }
+
+            if(!priorityQuiver.isEmpty())quiver = priorityQuiver;
+
+            if(!quiver.isEmpty())
+            {
+                ItemStack peek = QuiverItem.PeekFirstStack(quiver);
+                event.setProjectileItemStack(peek);
             }
         }
     }
