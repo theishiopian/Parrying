@@ -23,4 +23,6 @@ public class ModEnchantments
     public static final RegistryObject<Enchantment> VENOMOUS = ENCHANTMENTS.register("venomous", VenomousEnchantment::new);
     public static final RegistryObject<Enchantment> PHASING = ENCHANTMENTS.register("phasing", PhasingCurse::new);
     public static final RegistryObject<Enchantment> FRAGILE = ENCHANTMENTS.register("fragile", FragileCurse::new);
+
+    public static final RegistryObject<Enchantment> INTRUSIVE = ENCHANTMENTS.register("intrusive", IntrusiveCurse::new);
 }

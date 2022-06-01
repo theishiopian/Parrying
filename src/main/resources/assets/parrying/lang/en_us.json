@@ -17,6 +17,8 @@
   "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
   "enchantment.parrying.fragile": "Curse of Fragility",
   "enchantment.parrying.fragile.desc": "Parrying severely damages your weapon",
+  "enchantment.parrying.intrusive": "Curse of Intrusion",
+  "enchantment.parrying.intrusive.desc": "Quivers with this enchantment will take priority over all other arrows and quivers",
 
   "effect.parrying.stunned": "Stunned",
 

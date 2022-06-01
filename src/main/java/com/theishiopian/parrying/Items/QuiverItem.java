@@ -27,10 +27,7 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.DyeableLeatherItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -123,6 +120,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null) return ItemStack.EMPTY;
+        c.Deflate();
         return c.stacksList.get(0);
     }
 
@@ -130,6 +128,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     {
         QuiverCapability c = getCapability(quiver);
         if(c == null || GetItemCount(quiver) == 0)return false;
+        c.Deflate();
 
         playDropContentsSound(player);
 
@@ -214,6 +213,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
         QuiverCapability c = getCapability(quiver);
         if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
+        c.Deflate();
 
         if(c.GetItemCount() > 0)
         {
@@ -262,10 +262,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     private static int addItem(ItemStack quiverStack, ItemStack stackToInsert)
     {
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-        if(c == null)
-        {
-            return 0;
-        }
+        if(c == null)return 0;
+        c.Deflate();
 
         if(c.GetItemCount() == 256)
         {
@@ -320,7 +318,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
                         ParryingMod.channel.sendToServer(new QuiverAdvPacket());
                     }
                 }
-
                 return amountToAdd;
             }
         }
@@ -349,6 +346,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         QuiverCapability c = QuiverItem.getCapability(quiverStack);
 
         if(c == null)return Optional.empty();
+        c.Deflate();
 
         if (c.GetItemCount() == 0)
         {
@@ -425,13 +423,18 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             return stacks;
         }
 
+        public void Deflate()
+        {
+            stacksList.removeIf(itemStack -> itemStack.isEmpty() || itemStack.is(Items.AIR));
+        }
+
         @Override
         public CompoundTag serializeNBT()
         {
             ListTag nbtTagList = new ListTag();
             for (ItemStack itemStack : stacksList)
             {
-                if (!itemStack.isEmpty())
+                if (!itemStack.isEmpty() && !itemStack.is(Items.AIR))
                 {
                     CompoundTag itemTag = new CompoundTag();
                     itemStack.save(itemTag);

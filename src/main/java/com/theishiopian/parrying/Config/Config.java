@@ -59,10 +59,12 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue phasingCurseEnabled;
     public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
     public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
+    public static final ForgeConfigSpec.BooleanValue isIntrusionTreasure;
     public static final ForgeConfigSpec.BooleanValue bashingEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
     public static final ForgeConfigSpec.BooleanValue joustingEnabled;
+    public static final ForgeConfigSpec.BooleanValue intrusiveCurseEnabled;
 
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
@@ -155,8 +157,10 @@ public class Config
         venomousEnabled = builder.comment("Whether or not the venomous enchantment is enabled").define("venomous_enabled", true);
         fragileCurseEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
         phasingCurseEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);
+        intrusiveCurseEnabled = builder.comment("Whether or not the intrusion curse is enabled").define("intrusion_enabled", true);
         isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
         isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
+        isIntrusionTreasure = builder.comment("Whether or not intrusion curse is treasure only").define("is_intrusion_treasure", true);
 
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
 

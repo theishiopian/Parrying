@@ -7,6 +7,7 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
@@ -96,23 +97,27 @@ public class CommonEvents
 
     public static void OnArrowScan(LivingGetProjectileEvent event)
     {
-        if(event.getEntityLiving() instanceof ServerPlayer player &&
+        if(event.getEntityLiving() instanceof Player player &&
                 (event.getProjectileWeaponItemStack().getItem() instanceof BowItem ||
-                (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
+                        (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
         {
-            //Debug.log("scan start");
             if(player.getInventory().getItem(40).is(ItemTags.ARROWS)) return;
             ItemStack item;
-            for(int i = 0; i < 9; i++)
+            for(int i = 45; i >= 0; i--)
             {
-
                 item = player.getInventory().getItem(i);
-                //Debug.log("scanning: " + item + " " + i);
-                if(item.is(ModItems.QUIVER.get()) && QuiverItem.GetItemCount(item) > 0)
+
+                if(item.is(ModItems.QUIVER.get()) )
                 {
-                    //Debug.log("providing from "+ i);
-                    event.setProjectileItemStack(QuiverItem.PeekFirstStack(item));
-                    break;
+                    int count = QuiverItem.GetItemCount(item);
+                    Debug.log("Found quiver with: "+count);
+                    if(count > 0 &&
+                            (i < 9 || EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), item) > 0))
+                    {
+                        ItemStack peek =QuiverItem.PeekFirstStack(item);
+                        event.setProjectileItemStack(peek);
+                        break;
+                    }
                 }
             }
         }
