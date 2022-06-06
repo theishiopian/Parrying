@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Network.QuiverAdvPacket;
 import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,7 +19,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -158,16 +158,14 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             if (toStackOnto.isEmpty() && c.GetItemCount() > 0)
             {
                 playRemoveOneSound(pPlayer);
-                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert)));
+                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert), pPlayer));
             }
             else if (toStackOnto.is(ItemTags.ARROWS))
             {
                 int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
-                if (addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer)) > 0)
-                {
-                    playInsertSound(pPlayer);
-                }
+                addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer);
             }
+            else return false;
             return true;
         }
     }
@@ -179,11 +177,12 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         {
             if (pOther.isEmpty())
             {
-                removeOneStack(pStack).ifPresent((p_186347_) ->
+                Optional<ItemStack> removed = removeOneStack(pStack);
+                if(removed.isPresent())
                 {
                     playRemoveOneSound(pPlayer);
-                    pAccess.set(p_186347_);
-                });
+                    pAccess.set(removed.get());
+                }
             }
             else if(!pOther.is(ItemTags.ARROWS))
             {
@@ -191,12 +190,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
             else
             {
-                int i = addItem(pStack, pOther);
-                if (i > 0)
-                {
-                    playInsertSound(pPlayer);
-                    pOther.shrink(i);
-                }
+                pAccess.set(addItem(pStack, pOther, pPlayer));
             }
 
             return true;
@@ -259,72 +253,66 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    private static int addItem(ItemStack quiverStack, ItemStack stackToInsert)
+    private static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, Player player)
     {
+        int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
-        if(c == null)return 0;
+        if(c == null)return stackToInsert;
         c.Deflate();
+        if(stackToInsert.isEmpty() || !stackToInsert.is(ItemTags.ARROWS) || c.IsFull())return stackToInsert;
 
-        if(c.GetItemCount() == 256)
+        for (ItemStack itemStack : c.stacksList)
         {
-            return 0;
-        }
-
-        if (!stackToInsert.isEmpty() && stackToInsert.getItem().canFitInsideContainerItems() && stackToInsert.is(ItemTags.ARROWS))
-        {
-            int currentWeight = getTotalWeight(quiverStack);
-            int weightOfInsert = getWeightOfItem(stackToInsert);
-            int amountToAdd = Math.min(stackToInsert.getCount(), (256 - currentWeight) / weightOfInsert);
-            if (amountToAdd == 0)
+            if(c.IsFull())break;
+            if(ItemStack.isSameItemSameTags(itemStack, stackToInsert))
             {
-                return 0;
-            }
-            else
-            {
-                boolean inserted = false;
-
-                for (int i = 0; i < c.stacksList.size(); i++)
+                while(itemStack.getCount() < itemStack.getMaxStackSize())
                 {
-                    if(!ItemStack.isSameItemSameTags(c.stacksList.get(i), stackToInsert))continue;
-                    if(c.stacksList.get(i).getCount() + stackToInsert.getCount() > stackToInsert.getMaxStackSize())continue;
-
-                    c.stacksList.get(i).grow(amountToAdd);
-
-                    inserted = true;
+                    if(c.IsFull())break;
+                    stackToInsert.shrink(1);
+                    itemStack.grow(1);
                 }
-
-                if(!inserted)
-                {
-                    ItemStack toAdd = stackToInsert.copy();
-                    toAdd.setCount(amountToAdd);
-                    c.stacksList.add(toAdd);
-                }
-
-                if(c.GetItemCount() == 256)
-                {
-                    HashSet<MobEffect> allEffects = new HashSet<>();
-                    for (ItemStack itemStack : c.stacksList)
-                    {
-                        List<MobEffectInstance> mobEffectInstances = PotionUtils.getMobEffects(itemStack);
-                        for (MobEffectInstance mobEffectInstance : mobEffectInstances)
-                        {
-                            allEffects.add(mobEffectInstance.getEffect());
-                        }
-                    }
-
-                    if(allEffects.size() >= 8)
-                    {
-                        //trigger
-                        ParryingMod.channel.sendToServer(new QuiverAdvPacket());
-                    }
-                }
-                return amountToAdd;
             }
         }
-        else
+
+        if(!stackToInsert.isEmpty() && !c.IsFull())
         {
-            return 0;
+            ItemStack s = stackToInsert.copy();
+            s.setCount(1);
+            c.stacksList.add(s);
+            stackToInsert.shrink(1);
+
+            while(!stackToInsert.isEmpty())
+            {
+                if(c.IsFull())break;
+                c.stacksList.get(c.stacksList.size() -1 ).grow(1);
+                stackToInsert.shrink(1);
+            }
         }
+
+        Debug.log(c.IsFull());
+
+        if(c.IsFull())
+        {
+            HashSet<MobEffect> effects = new HashSet<>();
+
+            for (ItemStack itemStack : c.stacksList)
+            {
+                effects.add(PotionUtils.getMobEffects(itemStack).get(0).getEffect());
+            }
+
+            if(effects.size() >= 8)
+            {
+                ParryingMod.channel.sendToServer(new QuiverAdvPacket());
+            }
+        }
+
+        if(player.level.isClientSide && startingCount != stackToInsert.getCount())
+        {
+            playInsertSound(player);
+        }
+
+        return stackToInsert.copy();
     }
 
     //technically unneeded. at least for a quiver...
@@ -412,6 +400,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         {
             return stacksList.stream().mapToInt(ItemStack::getCount).sum();
         }
+
+        public boolean IsFull() {return GetItemCount() == 256;}
 
         public NonNullList<ItemStack> getNonnullStackList()
         {

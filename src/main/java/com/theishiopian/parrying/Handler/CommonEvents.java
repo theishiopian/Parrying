@@ -130,7 +130,14 @@ public class CommonEvents
 
             if(!quiver.isEmpty())
             {
-                ItemStack peek = QuiverItem.PeekFirstStack(quiver);
+                int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
+                float pChance = 1f - 0.1f*pLevel;
+
+                boolean doP = pLevel > 0 && ParryModUtil.random.nextFloat() > pChance;
+
+                if(doP && !player.level.isClientSide)ModTriggers.provide.trigger((ServerPlayer) player);
+
+                ItemStack peek = doP ? QuiverItem.PeekFirstStack(quiver).copy() : QuiverItem.PeekFirstStack(quiver);
                 event.setProjectileItemStack(peek);
             }
         }

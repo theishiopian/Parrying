@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:craft_quiver",
+  "display": {
+    "icon": {
+      "item": "minecraft:spectral_arrow"
+    },
+    "title": {
+      "translate": "advancements.parrying.provide"
+    },
+    "description": {
+      "translate": "advancements.parrying.provide.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "provide": {
+      "trigger": "parrying:provide"
+    }
+  },
+  "requirements": [
+    [
+      "provide"
+    ]
+  ]
+}

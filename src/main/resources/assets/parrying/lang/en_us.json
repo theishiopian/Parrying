@@ -13,6 +13,8 @@
   "enchantment.parrying.bashing.desc": "Increases the number of targets a shield bash can hit.",
   "enchantment.parrying.jousting": "Jousting",
   "enchantment.parrying.jousting.desc": "Increases the damage of a spear while riding something.",
+  "enchantment.parrying.providence": "Providence",
+  "enchantment.parrying.providence.desc": "Quivers have a small chance to duplicate arrows at the cost of hunger",
   "enchantment.parrying.phasing": "Curse of Phasing",
   "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
   "enchantment.parrying.fragile": "Curse of Fragility",
@@ -137,6 +139,9 @@
 
   "advancements.parrying.stupid" : "Why did you do that?",
   "advancements.parrying.stupid.desc": "Blow yourself up with a shield bash",
+
+  "advancements.parrying.provide" : "Cinematic Miscount",
+  "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment",
 
   "filter.parrying.arrows": "Can only store arrows"
 }
