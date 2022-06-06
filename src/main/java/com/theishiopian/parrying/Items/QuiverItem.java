@@ -2,7 +2,6 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Network.QuiverAdvPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -266,6 +265,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             if(c.IsFull())break;
             if(ItemStack.isSameItemSameTags(itemStack, stackToInsert))
             {
+                //TODO these loops are stupid, but im too tired to do the math right now
                 while(itemStack.getCount() < itemStack.getMaxStackSize())
                 {
                     if(c.IsFull())break;
@@ -282,15 +282,14 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             c.stacksList.add(s);
             stackToInsert.shrink(1);
 
+            //TODO these loops are stupid, but im too tired to do the math right now
             while(!stackToInsert.isEmpty())
             {
                 if(c.IsFull())break;
-                c.stacksList.get(c.stacksList.size() -1 ).grow(1);
+                c.stacksList.get(c.stacksList.size() - 1).grow(1);
                 stackToInsert.shrink(1);
             }
         }
-
-        Debug.log(c.IsFull());
 
         if(c.IsFull())
         {
@@ -399,7 +398,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         public int GetItemCount()
         {
             return stacksList.stream().mapToInt(ItemStack::getCount).sum();
-        }
+        }//TODO cache count to reduce overhead
 
         public boolean IsFull() {return GetItemCount() == 256;}
 
