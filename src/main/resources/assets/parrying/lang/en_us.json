@@ -67,7 +67,9 @@
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
 
   "tooltip.parrying.two_handed": "Two Handed",
-  "tooltip.parrying.jousting": "+%s Damage When Riding",
+  "tooltip.parrying.jousting": "+%s Damage While Riding",
+
+  "filter.parrying.arrows": "Can only store arrows",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
@@ -93,7 +95,7 @@
   "advancements.parrying.campfire_lit.desc": "Light a campfire by shooting it",
 
   "advancements.parrying.snipe" : "One shot, One kill...",
-  "advancements.parrying.snipe.desc": "Hit a target in the back with a scoped crossbow, from 50 meters away",
+  "advancements.parrying.snipe.desc": "Hit a target in the back with a scoped crossbow, from at least 50 blocks away",
 
   "advancements.parrying.deflect" : "I am Ready!",
   "advancements.parrying.deflect.desc": "Deflect an arrow with the Deflection Enchantment",
@@ -114,7 +116,7 @@
   "advancements.parrying.deflect_trident.desc": "Deflect a trident with the Deflection Enchantment",
 
   "advancements.parrying.bacon" : "The Bacons are Lit!",
-  "advancements.parrying.bacon.desc": "Make bacon from a distance",
+  "advancements.parrying.bacon.desc": "Make crispy bacon from a distance",
 
   "advancements.parrying.instakill" : "All's fair in love and war...",
   "advancements.parrying.instakill.desc": "Oneshot a target with an attack from behind",
@@ -126,7 +128,7 @@
   "advancements.parrying.hussars.desc": "Deal a killing blow with a spear while riding a horse and wearing wings",
 
   "advancements.parrying.vibe" : "Vibe Check",
-  "advancements.parrying.vibe.desc": "Try to break bedrock with a hammer",
+  "advancements.parrying.vibe.desc": "Try to break the unbreakable with a hammer",
 
   "advancements.parrying.kevin" : "Whoa, is that Kevin?",
   "advancements.parrying.kevin.desc": "Use a shield to asset dominance over Kevin",
@@ -135,13 +137,11 @@
   "advancements.parrying.quiver.desc": "Obtain a quiver",
 
   "advancements.parrying.quiver_over_stack" : "Quiver in Fear",
-  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max with arrows, including at least 8 different kinds of tipped arrows",
+  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max, including 8 different kinds of tipped arrows",
 
   "advancements.parrying.stupid" : "Why did you do that?",
   "advancements.parrying.stupid.desc": "Blow yourself up with a shield bash",
 
   "advancements.parrying.provide" : "Fortuitous Miscount",
-  "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment",
-
-  "filter.parrying.arrows": "Can only store arrows"
+  "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment"
 }
