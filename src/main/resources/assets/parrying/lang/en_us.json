@@ -135,12 +135,12 @@
   "advancements.parrying.quiver.desc": "Obtain a quiver",
 
   "advancements.parrying.quiver_over_stack" : "Quiver in Fear",
-  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max, including at least 8 different tipped arrows",
+  "advancements.parrying.quiver_over_stack.desc": "Fill a quiver to max with arrows, including at least 8 different kinds of tipped arrows",
 
   "advancements.parrying.stupid" : "Why did you do that?",
   "advancements.parrying.stupid.desc": "Blow yourself up with a shield bash",
 
-  "advancements.parrying.provide" : "Cinematic Miscount",
+  "advancements.parrying.provide" : "Fortuitous Miscount",
   "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment",
 
   "filter.parrying.arrows": "Can only store arrows"
