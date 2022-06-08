@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Network.QuiverAdvPacket;
 import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -113,7 +114,10 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return c.GetItemCount();
     }
 
-
+    public static void AddRandomArrows(ItemStack quiver)
+    {
+        QuiverItem.addItem(quiver, new ItemStack(Items.ARROW, ParryModUtil.random.nextInt(64) + 1), null);
+    }
 
     public static ItemStack PeekFirstStack(ItemStack quiver)
     {
@@ -252,7 +256,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    private static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, Player player)
+    private static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
     {
         int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
@@ -306,7 +310,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
         }
 
-        if(player.level.isClientSide && startingCount != stackToInsert.getCount())
+        if(player != null && player.level.isClientSide && startingCount != stackToInsert.getCount())
         {
             playInsertSound(player);
         }

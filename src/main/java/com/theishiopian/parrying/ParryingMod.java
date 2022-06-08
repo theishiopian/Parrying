@@ -103,6 +103,7 @@ public class ParryingMod
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);
+        ModLootModifiers.GLM.register(bus);
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);

@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Data;
 
+import com.theishiopian.parrying.Handler.LootHandler;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.ModItemTagProvider;
 import com.theishiopian.parrying.Utility.Debug;
@@ -26,6 +27,7 @@ public class Generators
             DataGenerator generator = event.getGenerator();
             ExistingFileHelper helper = event.getExistingFileHelper();
             generator.addProvider(new ModItemTagProvider(generator, new BlockTagsProvider(generator, ParryingMod.MOD_ID, helper), event.getExistingFileHelper()));
+            generator.addProvider(new LootHandler.DataProvider(generator, ParryingMod.MOD_ID));
         }
     }
 }
