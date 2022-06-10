@@ -114,10 +114,7 @@ public class CommonEvents
 
                     if(count == 0)continue;
 
-                    if(i < 9)
-                    {
-                        quiver = itemToScan;
-                    }
+                    quiver = itemToScan;
 
                     if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
                     {
