@@ -8,10 +8,5 @@ import net.minecraft.world.item.Item;
 
 public class ModTags
 {
-    public static TagKey<Item> TWO_HANDED_WEAPONS = tag("two_handed_weapons");
-
-    private static TagKey<Item> tag(String id)
-    {
-        return ItemTags.create(new ResourceLocation(ParryingMod.MOD_ID + ":" + id));
-    }
+    public static TagKey<Item> TWO_HANDED_WEAPONS = ItemTags.create(new ResourceLocation(ParryingMod.MOD_ID, "two_handed_weapons"));
 }

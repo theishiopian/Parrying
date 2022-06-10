@@ -4,12 +4,15 @@ import com.google.gson.JsonObject;
 import com.theishiopian.parrying.Items.QuiverItem;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModLootModifiers;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -30,8 +33,9 @@ public class LootHandler
         @Override
         protected void start()
         {
-            add("quiver_modifier", ModLootModifiers.QUIVER_DUNGEON_LOOT.get(), new QuiverModifier(
-                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build() })
+            add("quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()})
             );
         }
     }
@@ -57,10 +61,12 @@ public class LootHandler
         @Override
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
-            Debug.log("do apply");
             ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
             quiver.setCount(1);
-            QuiverItem.AddRandomArrows(quiver);
+            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.ARROW, null, 0.5f, 64);
+            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.SPECTRAL_ARROW, null, 0.15f, 32);
+            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.TIPPED_ARROW, Potions.POISON, 0.25f, 8);
+            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.TIPPED_ARROW, Potions.HEALING, 0.15f, 16);
             generatedLoot.add(quiver);
             return generatedLoot;
         }

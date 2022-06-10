@@ -28,6 +28,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -114,9 +115,16 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return c.GetItemCount();
     }
 
-    public static void AddRandomArrows(ItemStack quiver)
+    public static void AddRandomArrows(ItemStack quiver, ArrowItem item, Potion tippedEffect, float chance, int maxCount)
     {
-        QuiverItem.addItem(quiver, new ItemStack(Items.ARROW, ParryModUtil.random.nextInt(64) + 1), null);
+        float random = ParryModUtil.random.nextFloat();
+        if(random > chance) return;
+        ItemStack stack = new ItemStack(item, ParryModUtil.random.nextInt(maxCount) + 1);
+        if(tippedEffect != null && item instanceof TippedArrowItem)
+        {
+            PotionUtils.setPotion(stack, tippedEffect);
+        }
+        QuiverItem.addItem(quiver, stack, null);
     }
 
     public static ItemStack PeekFirstStack(ItemStack quiver)

@@ -127,10 +127,25 @@ public class ClientEvents
         }
     }
 
+    /**
+     * This method is used to ensure mechanics don't occur when, say, we are in the main menu
+     * @param noInventory whether to consider the player's inventory being open as something to cancel mechanics
+     * @return is gameplay in progress?
+     */
+    private static boolean IsGameplayInProgress(boolean noInventory)
+    {
+        boolean a = Minecraft.getInstance().screen == null;
+        boolean b = Minecraft.getInstance().level != null;
+        boolean c = !Minecraft.getInstance().isPaused();
+        boolean d = Minecraft.getInstance().player != null;
+
+        return (a || !noInventory) && b && c && d;
+    }
+
     //this MAY break when reloading resource packs, need more information
     public static void OnTooltip(ItemTooltipEvent event)
     {
-        if(!IsGameplayInProgress(false)) return;
+        if(!IsGameplayInProgress(false) || ModTags.TWO_HANDED_WEAPONS == null) return;//TODO null check on player?
 
         if(event.getItemStack().getItem() instanceof SpearItem)
         {
@@ -145,7 +160,6 @@ public class ClientEvents
         if(Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
-
         }
     }
 
@@ -168,21 +182,6 @@ public class ClientEvents
         {
             ParryingMod.channel.sendToServer(new LeftClickPacket());
         }
-    }
-
-    /**
-     * This method is used to ensure mechanics don't occur when, say, we are in the main menu
-     * @param noInventory whether to consider the player's inventory being open as something to cancel mechanics
-     * @return is gameplay in progress?
-     */
-    private static boolean IsGameplayInProgress(boolean noInventory)
-    {
-        boolean a = Minecraft.getInstance().screen == null;
-        boolean b = Minecraft.getInstance().level != null;
-        boolean c = !Minecraft.getInstance().isPaused();
-        boolean d = Minecraft.getInstance().player != null;
-
-        return (a || !noInventory) && b && c && d;
     }
 
     @OnlyIn(Dist.CLIENT)

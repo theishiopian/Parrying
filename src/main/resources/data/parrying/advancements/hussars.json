@@ -1,8 +1,8 @@
 {
-  "parent": "minecraft:husbandry/tame_an_animal",
+  "parent": "parrying:poke",
   "display": {
     "icon": {
-      "item": "parrying:iron_spear"
+      "item": "minecraft:elytra"
     },
     "title": {
       "translate": "advancements.parrying.hussars"

@@ -10,6 +10,5 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModLootModifiers
 {
     public static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, ParryingMod.MOD_ID);
-
-    public static final RegistryObject<LootHandler.QuiverModifier.Serializer> QUIVER_DUNGEON_LOOT = GLM.register("quiver_modifier", LootHandler.QuiverModifier.Serializer::new);
+    public static final RegistryObject<LootHandler.QuiverModifier.Serializer> QUIVER_MODIFIER = GLM.register("quiver_modifier", LootHandler.QuiverModifier.Serializer::new);
 }
