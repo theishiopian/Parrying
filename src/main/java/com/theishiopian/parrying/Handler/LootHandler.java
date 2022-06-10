@@ -62,13 +62,6 @@ public class LootHandler
         @Override
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
-//            ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
-//            quiver.setCount(1);
-//            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.ARROW, null, 0.5f, 64);
-//            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.SPECTRAL_ARROW, null, 0.15f, 32);
-//            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.TIPPED_ARROW, Potions.POISON, 0.25f, 8);
-//            QuiverItem.AddRandomArrows(quiver, (ArrowItem) Items.TIPPED_ARROW, Potions.HEALING, 0.15f, 16);
-
             LootTable table = context.getLootTable(this.table);
             ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
             quiver.setCount(1);
