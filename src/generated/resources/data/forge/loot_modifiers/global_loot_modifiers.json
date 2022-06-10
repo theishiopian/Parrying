@@ -1,6 +1,6 @@
 {
   "replace": false,
   "entries": [
-    "parrying:quiver_modifier"
+    "parrying:dungeon_quiver_modifier"
   ]
 }

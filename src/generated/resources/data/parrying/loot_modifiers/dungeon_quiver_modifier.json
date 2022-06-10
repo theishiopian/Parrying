@@ -9,5 +9,6 @@
       "chance": 0.25
     }
   ],
+  "quiver_arrows_table": "parrying:dungeon_quiver",
   "type": "parrying:quiver_modifier"
 }

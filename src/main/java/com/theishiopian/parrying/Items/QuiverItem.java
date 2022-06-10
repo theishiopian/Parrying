@@ -2,7 +2,6 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Network.QuiverAdvPacket;
 import com.theishiopian.parrying.ParryingMod;
-import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,13 +27,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -115,16 +115,14 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return c.GetItemCount();
     }
 
-    public static void AddRandomArrows(ItemStack quiver, ArrowItem item, Potion tippedEffect, float chance, int maxCount)
+    public static void AddLootArrows(ItemStack quiver, LootTable table, LootContext context)
     {
-        float random = ParryModUtil.random.nextFloat();
-        if(random > chance) return;
-        ItemStack stack = new ItemStack(item, ParryModUtil.random.nextInt(maxCount) + 1);
-        if(tippedEffect != null && item instanceof TippedArrowItem)
+        List<ItemStack> items = table.getRandomItems(context);
+
+        for (ItemStack item : items)
         {
-            PotionUtils.setPotion(stack, tippedEffect);
+            QuiverItem.addItem(quiver, item, null);
         }
-        QuiverItem.addItem(quiver, stack, null);
     }
 
     public static ItemStack PeekFirstStack(ItemStack quiver)
