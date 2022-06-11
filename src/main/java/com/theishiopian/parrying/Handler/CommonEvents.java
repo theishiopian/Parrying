@@ -128,7 +128,7 @@ public class CommonEvents
             if(!quiver.isEmpty())
             {
                 int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
-                float pChance = 1f - 0.1f*pLevel;
+                float pChance = 1f - 0.01f * pLevel;
 
                 boolean doP = pLevel > 0 && ParryModUtil.random.nextFloat() > pChance;
 
