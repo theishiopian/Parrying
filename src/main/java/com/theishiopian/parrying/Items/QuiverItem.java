@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -262,8 +263,9 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    private static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
+    public static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
     {
+        if(player != null && player.level.isClientSide)return stackToInsert;
         int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
         if(c == null)return stackToInsert;
@@ -273,30 +275,37 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         for (ItemStack itemStack : c.stacksList)
         {
             if(c.IsFull())break;
+            if(itemStack.getCount() == itemStack.getMaxStackSize())continue;
             if(ItemStack.isSameItemSameTags(itemStack, stackToInsert))
             {
+                //Debug.log("trying to combine stack " + stackToInsert + " onto stack " + itemStack);
                 //TODO these loops are stupid, but im too tired to do the math right now
                 while(itemStack.getCount() < itemStack.getMaxStackSize())
                 {
-                    if(c.IsFull())break;
+                    //Debug.log("adding");
+                    if(c.IsFull() || stackToInsert.getCount() == 0)break;
                     stackToInsert.shrink(1);
                     itemStack.grow(1);
                 }
             }
         }
 
+        //problem isn't here
         if(!stackToInsert.isEmpty() && !c.IsFull())
         {
+            //Debug.log("overflowing " + stackToInsert);
             ItemStack s = stackToInsert.copy();
             s.setCount(1);
             c.stacksList.add(s);
             stackToInsert.shrink(1);
 
+            s = c.stacksList.get(c.stacksList.size() - 1);
+
             //TODO these loops are stupid, but im too tired to do the math right now
             while(!stackToInsert.isEmpty())
             {
                 if(c.IsFull())break;
-                c.stacksList.get(c.stacksList.size() - 1).grow(1);
+                s.grow(1);
                 stackToInsert.shrink(1);
             }
         }
@@ -307,7 +316,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
             for (ItemStack itemStack : c.stacksList)
             {
-                effects.add(PotionUtils.getMobEffects(itemStack).get(0).getEffect());
+                if(itemStack.is(Items.TIPPED_ARROW))effects.add(PotionUtils.getMobEffects(itemStack).get(0).getEffect());
             }
 
             if(effects.size() >= 8)
@@ -316,7 +325,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
         }
 
-        if(player != null && player.level.isClientSide && startingCount != stackToInsert.getCount())
+        if(player != null && startingCount != stackToInsert.getCount())
         {
             playInsertSound(player);
         }
@@ -383,17 +392,17 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static void playRemoveOneSound(Entity entity)
     {
-        entity.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
+        entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_REMOVE_ONE, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playInsertSound(Entity entity)
     {
-        entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
+        entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_INSERT, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playDropContentsSound(Entity entity)
     {
-        entity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
+        entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     static class QuiverCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>
