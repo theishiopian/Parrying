@@ -265,7 +265,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     public static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
     {
-        if(player != null && player.level.isClientSide)return stackToInsert;
         int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
         if(c == null)return stackToInsert;
