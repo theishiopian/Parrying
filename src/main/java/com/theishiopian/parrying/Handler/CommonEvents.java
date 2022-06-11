@@ -137,6 +137,8 @@ public class CommonEvents
                 if(doProvide)
                 {
                     ModTriggers.provide.trigger((ServerPlayer) player);
+                    //magic sound go brr
+                    player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
                 }
 
                 event.setProjectileItemStack(doProvide ? peek.copy() : peek);
