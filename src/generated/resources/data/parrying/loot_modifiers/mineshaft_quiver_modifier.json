@@ -2,13 +2,13 @@
   "conditions": [
     {
       "condition": "forge:loot_table_id",
-      "loot_table_id": "minecraft:chests/simple_dungeon"
+      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
     },
     {
       "condition": "minecraft:random_chance",
       "chance": 0.2
     }
   ],
-  "quiver_arrows_table": "parrying:dungeon_quiver",
+  "quiver_arrows_table": "parrying:mineshaft_quiver",
   "type": "parrying:quiver_modifier"
 }

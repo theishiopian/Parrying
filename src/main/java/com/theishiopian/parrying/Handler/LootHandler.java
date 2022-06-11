@@ -34,14 +34,49 @@ public class LootHandler
         {
             add("dungeon_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
-                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:dungeon_quiver"))
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:dungeon_quiver"))
+            );
+
+            add("mineshaft_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/abandoned_mineshaft")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:mineshaft_quiver"))
+            );
+
+            add("jungle_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/jungle_temple")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:jungle_quiver"))
+            );
+
+            add("desert_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/desert_pyramid")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:desert_quiver"))
+            );
+
+            add("igloo_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/igloo_pyramid")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:igloo_quiver"))
+            );
+
+            add("stronghold_crossing_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/stronghold_crossing")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:stronghold_quiver"))
+            );
+
+            add("stronghold_corridor_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/stronghold_corridor")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:stronghold_quiver"))
+            );
+
+            add("mansion_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/woodland_mansion")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:mansion_quiver"))
             );
         }
     }
 
     public static class QuiverModifier extends LootModifier
     {
-        private ResourceLocation table;
+        private final ResourceLocation table;
         /**
          * Constructs a LootModifier.
          *

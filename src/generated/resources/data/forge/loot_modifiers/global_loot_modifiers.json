@@ -1,6 +1,13 @@
 {
   "replace": false,
   "entries": [
-    "parrying:dungeon_quiver_modifier"
+    "parrying:mineshaft_quiver_modifier",
+    "parrying:stronghold_crossing_quiver_modifier",
+    "parrying:desert_quiver_modifier",
+    "parrying:igloo_quiver_modifier",
+    "parrying:dungeon_quiver_modifier",
+    "parrying:mansion_quiver_modifier",
+    "parrying:jungle_quiver_modifier",
+    "parrying:stronghold_corridor_quiver_modifier"
   ]
 }
