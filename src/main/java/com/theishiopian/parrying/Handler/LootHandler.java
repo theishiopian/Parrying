@@ -71,6 +71,21 @@ public class LootHandler
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/woodland_mansion")).build(),
                             LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:mansion_quiver"))
             );
+
+            add("skeleton_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/skeleton")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:skeleton_quiver"))
+            );
+
+            add("stray_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/stray")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:stray_quiver"))
+            );
+
+            add("pillager_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/pillager")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:pillager_quiver"))
+            );
         }
     }
 
