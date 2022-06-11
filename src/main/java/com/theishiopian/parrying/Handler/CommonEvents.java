@@ -132,14 +132,14 @@ public class CommonEvents
                 int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
                 float chance = 1f - (pLevel * (1/64f));
 
-                boolean doP = !player.level.isClientSide && ParryModUtil.random.nextFloat() > chance;
+                boolean doProvide = !player.level.isClientSide && ParryModUtil.random.nextFloat() > chance;
 
-                if(doP)
+                if(doProvide)
                 {
                     ModTriggers.provide.trigger((ServerPlayer) player);
                 }
 
-                event.setProjectileItemStack(doP ? peek.copy() : peek);
+                event.setProjectileItemStack(doProvide ? peek.copy() : peek);
             }
         }
     }
