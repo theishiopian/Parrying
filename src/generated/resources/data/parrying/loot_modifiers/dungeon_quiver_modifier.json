@@ -6,7 +6,7 @@
     },
     {
       "condition": "minecraft:random_chance",
-      "chance": 0.2
+      "chance": 0.25
     }
   ],
   "quiver_arrows_table": "parrying:dungeon_quiver",
