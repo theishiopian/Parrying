@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
@@ -74,17 +75,20 @@ public class LootHandler
 
             add("skeleton_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/skeleton")).build(),
-                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:skeleton_quiver"))
+                            LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                            LootItemRandomChanceCondition.randomChance(0.01f).build()}, new ResourceLocation("parrying:skeleton_quiver"))
             );
 
             add("stray_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/stray")).build(),
-                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:stray_quiver"))
+                            LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                            LootItemRandomChanceCondition.randomChance(0.01f).build()}, new ResourceLocation("parrying:stray_quiver"))
             );
 
             add("pillager_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("entities/pillager")).build(),
-                            LootItemRandomChanceCondition.randomChance(0.2f).build()}, new ResourceLocation("parrying:pillager_quiver"))
+                            LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                            LootItemRandomChanceCondition.randomChance(0.01f).build()}, new ResourceLocation("parrying:pillager_quiver"))
             );
         }
     }

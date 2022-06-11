@@ -5,8 +5,11 @@
       "loot_table_id": "minecraft:entities/skeleton"
     },
     {
+      "condition": "minecraft:killed_by_player"
+    },
+    {
       "condition": "minecraft:random_chance",
-      "chance": 0.2
+      "chance": 0.01
     }
   ],
   "quiver_arrows_table": "parrying:skeleton_quiver",
