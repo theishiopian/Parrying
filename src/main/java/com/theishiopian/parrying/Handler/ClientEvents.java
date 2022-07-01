@@ -16,6 +16,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.text.Color;
@@ -43,8 +44,7 @@ public class ClientEvents
 
     public static void OnTooltip(ItemTooltipEvent event)
     {
-        //this MAY break when reloading resource packs, need more information
-        if(Config.twoHandedEnabled.get() && event.getItemStack().getItem().is(ModTags.TWO_HANDED_WEAPONS))
+        if(ItemTags.getAllTags().getAvailableTags().contains(ModTags.TWO_HANDED_WEAPONS.getName()) && Config.twoHandedEnabled.get() && event.getItemStack().getItem().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslationTextComponent("tag.parrying.two_handed").setStyle(Style.EMPTY.withColor(Color.fromLegacyFormat(TextFormatting.RED))));
         }
