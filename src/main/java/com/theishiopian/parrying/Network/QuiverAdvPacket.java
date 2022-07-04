@@ -1,7 +1,6 @@
 package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Registration.ModTriggers;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -33,7 +32,7 @@ public class QuiverAdvPacket
     {
         ServerPlayer player = context.get().getSender();
 
-        Debug.log("received");
+        //Debug.log("received");
         ModTriggers.quiver_over_stack.trigger(player);
 
         context.get().setPacketHandled(true);
