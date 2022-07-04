@@ -1,0 +1,11 @@
+{
+  "name": "Providence",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "In the heat of battle, a peculiar phenomenon has been noted when using a ranged weapon; it becomes very easy to lose track of how much ammo you have left. This probability altering enchantment takes advantage of this, resulting in a random chance to not consume an arrow when firing. This works with ANY kind of arrow, not just normal arrows like with the Infinity enchantment."
+    }
+  ]
+}
