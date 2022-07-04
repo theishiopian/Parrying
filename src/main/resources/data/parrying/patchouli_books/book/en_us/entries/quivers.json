@@ -1,6 +1,6 @@
 {
   "name": "Quivers",
-  "icon": "parrying:quivers",
+  "icon": "parrying:quiver",
   "category": "parrying:items",
   "pages" : [
     {
