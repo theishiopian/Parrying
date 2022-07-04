@@ -1,0 +1,15 @@
+{
+  "name": "Scoped Crossbows",
+  "icon": "parrying:scoped_crossbow",
+  "category": "parrying:weapons",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "The scoped crossbow is the result of the ever increasing demand for higher accuracy and longer range in ranged weaponry. When a telescope is applied to a crossbow via a smithing table, it grants the ability to zoom in on your foes, allowing you to go for precision shots."
+    },
+    {
+      "type": "text",
+      "text": "Additionally, arrows fired from a scoped crossbow exhibit a peculiar property: they do not seem affected by the force of gravity, allowing them to fly much further. Science currently has no explanation for this phenomenon\""
+    }
+  ]
+}

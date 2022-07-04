@@ -21,6 +21,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
@@ -56,7 +57,7 @@ public class ClientEvents
         Player player = Minecraft.getInstance().player;
         assert player != null;
         ItemStack mainHandItem = player.getMainHandItem();
-        ItemStack offHandItem = player.getOffhandItem();
+        //ItemStack offHandItem = player.getOffhandItem();
 
         if(player.isUsingItem())
         {
@@ -157,7 +158,7 @@ public class ClientEvents
             }
         }
 
-        if (Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
+        if (Registry.ITEM.isKnownTagName(ModTags.TWO_HANDED_WEAPONS) && Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
         }
