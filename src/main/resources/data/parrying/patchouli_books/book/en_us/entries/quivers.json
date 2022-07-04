@@ -5,19 +5,23 @@
   "pages" : [
     {
       "type": "text",
-      "text": "The quiver is a marvelous innovation that allows you to pack more arrows into the same space. Composed of rabbit hide, it is somewhat expensive, but many would say it is a worthy investment. $(br2) A quiver can store up to 256 arrows, of any type or combination of types. Due to its ergonomic design, bows and crossbows will automatically draw from quivers before the inventory is checked. Of course, arrows in the offhand will still take priority over everything."
+      "text": "The quiver is a marvelous innovation that allows you to pack more arrows into the same space. Composed of rabbit hide, it is somewhat expensive, but many would say it is a worthy investment. $(br2) A quiver can store up to 256 arrows, of any type or combination of types. Due to its ergonomic design, bows and crossbows will automatically draw from quivers"
     },
     {
       "type": "text",
-      "text": "To add items, simply stack the arrows on top of the quiver, and it will consume them if it has room. To withdraw a stack, simply right click on the quiver as if you were splitting a stack. The mechanics are very similar to that of the bundle. However, the quiver has a few tricks up its rabbit hide sleeve. $(br2) For starters, the quiver can be used to quickly and easily determine what arrow to use.The first stack in the quiver will be the one used by bows and crossbows."
+      "text": "before the inventory is checked. Of course, arrows in the offhand will still take priority. $(br2) To add and remove arrows, simply use the quiver as you would a bundle. However, the quiver also has a few tricks up its rabbit hide sleeve. For starters, the quiver can be used to quickly and easily determine what arrow to use. The first stack in the quiver will be the one used by bows and crossbows."
     },
     {
       "type": "text",
-      "text": "To change this stack, simply right click with the quiver in your hand. This will cycle the items round-robin style, allowing you to select a different stack. $(br2) In addition to being incredibly useful, quivers can also be very fashionable. Just like leather armor, quivers can be dyed a multitude of colors. This practice is common among fletchers, who can sell dyed quivers for a \"Reasonable\" price."
+      "text": "To change which stack of arrows is used, simply right click with the quiver in your hand. This will cycle the items round-robin style, allowing you to select a different stack. $(br2) When a quiver is thrown, holding onto the strap, by crouching, causes the arrows to get thrown out instead, making the quiver easy to empty. Thus, unlike bundles, accidentally dropping all your items is not a huge risk. A shameful design flaw, really..."
     },
     {
       "type": "text",
-      "text": "While quivers in the modern age are a relatively recent development, historical records of quivers date back hundreds of years. Some of these ancient quivers can be found in various loot chests, or as drops from certain creatures that use bows or crossbows. These quivers will often contain a few arrows of varying types, depending on what types of arrows the owner used."
+      "text": "In addition to being incredibly useful, quivers can also be very fashionable. Just like leather armor, quivers can be dyed a multitude of colors. Simply craft any dyes with the quiver, using multiply dyes to make non-standard colors. To remove dyes, simply use the quiver on a water-filled cauldron. $(br2) This practice is common among fletchers, who will often sell dyed quivers for a \"Reasonable\" price."
+    },
+    {
+      "type": "text",
+      "text": "While quivers in the modern age are a relatively recent development, historical records of quivers date back hundreds of years. Some of these ancient quivers can be found in various loot chests, or as drops from certain creatures that use bows or crossbows. These quivers will often contain a few arrows of varying types, depending on what types of arrows the owner used, before you appropriated their ammunition that is."
     }
   ]
 }
