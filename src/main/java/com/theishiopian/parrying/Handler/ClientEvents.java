@@ -157,7 +157,7 @@ public class ClientEvents
             }
         }
 
-        if(Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
+        if (Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
         }

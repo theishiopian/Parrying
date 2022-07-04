@@ -155,6 +155,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack quiverStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
+        //Debug.log("stackedOnOther");
         QuiverCapability c = getCapability(quiverStack);
         if(c == null)return false;
 
@@ -183,6 +184,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
+        //Debug.log("stackedOnMe");
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
             if (pOther.isEmpty())
@@ -265,6 +267,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     public static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
     {
+        //Debug.log("adding");
         int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
         if(c == null)return stackToInsert;
@@ -348,6 +351,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static Optional<ItemStack> removeOneStack(ItemStack quiverStack)
     {
+        //Debug.log("removing");
         QuiverCapability c = QuiverItem.getCapability(quiverStack);
 
         if(c == null)return Optional.empty();
@@ -391,16 +395,19 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static void playRemoveOneSound(Entity entity)
     {
+        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_REMOVE_ONE, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playInsertSound(Entity entity)
     {
+        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_INSERT, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playDropContentsSound(Entity entity)
     {
+        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
