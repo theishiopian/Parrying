@@ -1,0 +1,8 @@
+{
+  "parent": "parrying:item/scabbard",
+  "textures": {
+    "layer0": "parrying:item/scabbard_dyeable",
+    "layer1": "parrying:item/scabbard_empty_overlay",
+    "layer2": "parrying:item/scabbard_no_dye"
+  }
+}

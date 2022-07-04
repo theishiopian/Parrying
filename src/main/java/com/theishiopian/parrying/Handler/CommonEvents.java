@@ -78,6 +78,7 @@ public class CommonEvents
     public static void OnRegisterCapabilities(RegisterCapabilitiesEvent event)
     {
         QuiverItem.registerCapability(event);
+        ScabbardItem.registerCapability(event);
     }
 
     public static void OnArrowShoot(EntityJoinWorldEvent event)

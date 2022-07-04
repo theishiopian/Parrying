@@ -64,12 +64,15 @@
   "item.parrying.netherite_dagger": "Netherite Dagger",
 
   "item.parrying.quiver" : "Quiver",
+  "item.parrying.scabbard" : "Scabbard",
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
 
   "tooltip.parrying.two_handed": "Two Handed",
   "tooltip.parrying.jousting": "+%s Damage While Riding",
 
   "filter.parrying.arrows": "Can only store arrows",
+  "filter.parrying.swords": "Stored blade:",
+  "filter.parrying.none": "None",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
@@ -88,6 +91,7 @@
   "death.attack.bedrock": "%1$s failed the vibe check",
 
   "key.parrying.dodge": "Dodge",
+  "key.parrying.draw": "Draw Blade",
 
   "stat.parrying.parry": "Parry Count",
 

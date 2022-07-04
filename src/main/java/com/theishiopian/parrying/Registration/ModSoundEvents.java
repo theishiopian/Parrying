@@ -17,10 +17,12 @@ public class ModSoundEvents
     public static final RegistryObject<SoundEvent> PARRY_WOOD = registerSoundEvent("parry_wood");
     public static final RegistryObject<SoundEvent> PARRY_STONE = registerSoundEvent("parry_stone");
     public static final RegistryObject<SoundEvent> PARRY_METAL = registerSoundEvent("parry_metal");
-    public static final  RegistryObject<SoundEvent> SHIELD_BASH = registerSoundEvent("shield_bash");
-    public static final  RegistryObject<SoundEvent> SHIELD_BASH_MISS = registerSoundEvent("shield_bash_miss");
-    public static final  RegistryObject<SoundEvent> FLAIL_SWING = registerSoundEvent("flail_swing");
-    public static final  RegistryObject<SoundEvent> DEFENSE_BREAK = registerSoundEvent("defense_break");
+    public static final RegistryObject<SoundEvent> SHIELD_BASH = registerSoundEvent("shield_bash");
+    public static final RegistryObject<SoundEvent> SHIELD_BASH_MISS = registerSoundEvent("shield_bash_miss");
+    public static final RegistryObject<SoundEvent> FLAIL_SWING = registerSoundEvent("flail_swing");
+    public static final RegistryObject<SoundEvent> DEFENSE_BREAK = registerSoundEvent("defense_break");
+    public static final RegistryObject<SoundEvent> DRAW_SWORD = registerSoundEvent("draw_sword");
+    public static final RegistryObject<SoundEvent> SHEATHE_SWORD = registerSoundEvent("sheathe_sword");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name)
     {

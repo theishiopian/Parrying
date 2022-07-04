@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides":
+  [
+    {
+      "predicate":
+      {
+        "sword": 0,
+        "dyed" : 0
+      },
+      "model": "parrying:item/scabbard_empty"
+    },
+    {
+      "predicate":
+      {
+        "sword": 1,
+        "dyed": 0
+      },
+      "model": "parrying:item/scabbard_full"
+    },
+    {
+      "predicate":
+      {
+        "sword": 0,
+        "dyed" : 1
+      },
+      "model": "parrying:item/scabbard_empty_dyed"
+    },
+    {
+      "predicate":
+      {
+        "sword": 1,
+        "dyed": 1
+      },
+      "model": "parrying:item/scabbard_full_dyed"
+    }
+  ]
+}

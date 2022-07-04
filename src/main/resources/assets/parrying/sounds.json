@@ -77,5 +77,27 @@
         "stream": false
       }
     ]
+  },
+  "draw_sword":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:draw_sword",
+        "stream": false
+      }
+    ]
+  },
+  "sheathe_sword":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:sheathe_sword",
+        "stream": false
+      }
+    ]
   }
 }

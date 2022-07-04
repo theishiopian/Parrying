@@ -71,6 +71,7 @@ public class ModItems
 
     public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<QuiverItem> QUIVER = ITEMS.register("quiver", () -> new QuiverItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<ScabbardItem> SCABBARD = ITEMS.register("scabbard", () -> new ScabbardItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
 
     /**
@@ -101,6 +102,9 @@ public class ModItems
 
         ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> QuiverItem.GetItemCount(stack) > 0 ? 1 : 0);
         ItemProperties.register(QUIVER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
+
+        ItemProperties.register(SCABBARD.get(), new ResourceLocation("sword"), (stack, world, user, seed) -> ScabbardItem.HasSword(stack) ? 1 : 0);
+        ItemProperties.register(SCABBARD.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
 
         ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
         {

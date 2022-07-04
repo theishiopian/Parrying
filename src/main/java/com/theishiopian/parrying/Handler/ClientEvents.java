@@ -12,6 +12,7 @@ import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
+import com.theishiopian.parrying.Network.DrawPacket;
 import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
 import com.theishiopian.parrying.ParryingMod;
@@ -46,6 +47,7 @@ import org.lwjgl.opengl.GL11;
 public class ClientEvents
 {
     public static final KeyMapping dodgeKey = new KeyMapping("key.parrying.dodge", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "key.categories.movement");
+    public static final KeyMapping drawKey = new KeyMapping("key.parrying.draw", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.gameplay");
 
     static
     {
@@ -242,6 +244,11 @@ public class ClientEvents
 
 
             if(left || right || back)ParryingMod.channel.sendToServer(new DodgePacket(left, right, back));
+        }
+
+        if(IsGameplayInProgress(true) && drawKey.isDown())
+        {
+            ParryingMod.channel.sendToServer(new DrawPacket());
         }
     }
 }
