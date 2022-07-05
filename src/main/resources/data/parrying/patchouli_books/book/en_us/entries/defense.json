@@ -1,11 +1,11 @@
 {
-  "name": "Parrying",
-  "icon": "minecraft:iron_sword",
+  "name": "Defense",
+  "icon": "minecraft:shield",
   "category": "parrying:mechanics",
   "pages": [
     {
       "type": "text",
-      "text": "Although parrying allows a skilled combatant to avoid considerable damage, the act itself is very tiring. Deflecting blows requires a significant amount of counter-force, after all! Because of this, maintaining one's posture is paramount to an effective defensive strategy. $(br2) Whenever you parry a hit or block one with a shield, your defense meter will receive a penalty. The meter is the shield icon under the cross-hair, take note that it's invisible when the meter is full."
+      "text": "Although parrying allows a skilled combatant to avoid considerable damage, the act itself is very tiring. Deflecting blows requires a significant amount of force, after all! As such, maintaining one's posture is crucial to an effective defensive strategy. $(br2) Whenever you parry a hit or block one with a shield, your defense meter will be reduced. The meter is the shield icon under the cross-hair. Note that it's invisible when the meter is full."
     },
     {
       "type": "text",
