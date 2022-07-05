@@ -74,7 +74,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
 
         if(c != null && items.size() > 0)
         {
-            c.sword = new ItemStack(Items.IRON_SWORD);
+            c.sword = items.get(0).copy();
         }
     }
 

@@ -151,16 +151,16 @@ public class LootHandler
 
     public static class ScabbardModifier extends LootModifier
     {
-        private final ResourceLocation table;
+        private final ResourceLocation tableLocation;
         /**
          * Constructs a LootModifier.
          *
          * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
          */
-        protected ScabbardModifier(LootItemCondition[] conditionsIn, ResourceLocation table)
+        protected ScabbardModifier(LootItemCondition[] conditionsIn, ResourceLocation tableLocation)
         {
             super(conditionsIn);
-            this.table = table;
+            this.tableLocation = tableLocation;
         }
 
         public LootItemCondition[] GetConditions()
@@ -172,9 +172,8 @@ public class LootHandler
         @Override
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
-            LootTable table = context.getLootTable(this.table);
+            LootTable table = context.getLootTable(this.tableLocation);
             ItemStack scabbard = new ItemStack(ModItems.SCABBARD.get());
-            scabbard.setCount(1);
             ScabbardItem.AddLootSword(scabbard, table, context);
             generatedLoot.add(scabbard);
             return generatedLoot;
@@ -193,7 +192,7 @@ public class LootHandler
             public JsonObject write(ScabbardModifier instance)
             {
                 JsonObject res = this.makeConditions(instance.GetConditions());
-                res.addProperty("scabbard_sword_table", instance.table.toString());
+                res.addProperty("scabbard_sword_table", instance.tableLocation.toString());
                 return res;
             }
         }
