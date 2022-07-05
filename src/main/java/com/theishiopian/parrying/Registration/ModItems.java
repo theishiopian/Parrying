@@ -149,5 +149,6 @@ public class ModItems
     public static void RegisterColorHandlers()
     {
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.QUIVER.get());
+        Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.SCABBARD.get());
     }
 }

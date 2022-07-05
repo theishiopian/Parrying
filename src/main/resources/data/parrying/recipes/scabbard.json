@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:scabbards_enabled"
+        }
+    ],
+    "pattern": [
+        "srs",
+        " r ",
+        " r "
+    ],
+    "key": {
+        "r":
+        {
+            "item": "minecraft:rabbit_hide"
+        },
+        "s":
+        {
+            "item": "minecraft:string"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:scabbard",
+        "count": 1
+    }
+}

@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Items;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
@@ -120,7 +121,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
             player.getCooldowns().addCooldown(ModItems.SCABBARD.get(), 600);
             player.level.playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.8F, 0.8F + player.getLevel().getRandom().nextFloat() * 0.4F);
 
-            List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, 0.85);
+            List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, Config.swiftStrikeAngle.get());
 
             int attacks = 0;
 

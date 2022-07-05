@@ -6,6 +6,10 @@
     {
       "type": "text",
       "text": "The scabbard is very similar to the quiver in both form and function. It is used to store a single sword of your choice. What makes it particularly useful, however, is that it makes said sword much easier to access. By simply pressing a key (by default \"r\") you can immediately swap out your current item with a sword. This is particularly useful if you need the hot-bar space, or if you just want to look and sound cool as heck."
+    },
+    {
+      "type": "text",
+      "text": "Like the quiver, the scabbard is made of rabbit hide, and as such is a little expensive. Weapon smiths have been known to occasionally sell them, though their prices tend to be quite high when dealing with players. Alternatively, if you don't want to pay for a scabbard, you can steal one from various loot chests. Sometimes it will even come with a sword already in it!"
     }
   ]
 }

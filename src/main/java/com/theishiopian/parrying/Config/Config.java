@@ -17,6 +17,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue spearEnabled;
     public static final ForgeConfigSpec.BooleanValue daggerEnabled;
     public static final ForgeConfigSpec.BooleanValue quiverEnabled;
+    public static final ForgeConfigSpec.BooleanValue scabbardEnabled;
 
     //arrow tweaks
     public static final ForgeConfigSpec.BooleanValue flamingArrowGriefing;
@@ -77,6 +78,8 @@ public class Config
     //owners can't attack pets
     public static final ForgeConfigSpec.BooleanValue protectPets;
 
+    public static final ForgeConfigSpec.DoubleValue swiftStrikeAngle;
+
     static
     {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -90,6 +93,7 @@ public class Config
         spearEnabled = builder.comment("Whether or not the spear is craftable.").define("spear_enabled", true);
         daggerEnabled = builder.comment("Whether or not the dagger is craftable.").define("dagger_enabled", true);
         quiverEnabled = builder.comment("Whether or not the quiver is craftable.").define("quiver_enabled", true);
+        scabbardEnabled = builder.comment("Whether or not the scabbard is craftable.").define("scabbard_enabled", true);
 
         flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
         apPiercing = builder.comment("Does the piercing enchant cause armor penetrating damage?").define("ap_piercing", true);
@@ -151,6 +155,10 @@ public class Config
         //ENCHANT
         deflectionEnchantEnabled = builder.comment("Whether or not the deflection enchantment is enabled").define("deflection_enabled", true);
         riposteEnchantEnabled = builder.comment("Whether or not the riposte enchantment is enabled").define("riposte_enabled", true);
+
+        swiftStrikeAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
+                        "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
+                .defineInRange("bash_angle", 0.85, -1,1);
 
         cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);

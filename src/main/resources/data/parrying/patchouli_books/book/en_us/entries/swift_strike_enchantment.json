@@ -1,0 +1,11 @@
+{
+  "name": "Swift Strike",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "When a sword is drawn from a scabbard enchanted with Swift Strike, the enchantment imparts a large amount of momentum to the sword. With proper technique, a skilled swordsman can use this boost to perform a wide slash, dealing very high damage to a small group of enemies. Performing this attack is very taxing on the enchantment's matrix, and as such incurs a long cooldown."
+    }
+  ]
+}
