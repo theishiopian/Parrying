@@ -5,7 +5,11 @@
   "pages" : [
     {
       "type": "text",
-      "text": "The spear is a very versatile weapon, and its extended reach makes it particularly useful from horseback. This enchantment is designed to capitalize on this synergy, allowing momentum to be transferred through the spear more efficiently. While not particularly useful on its own, a spear with the Jousting enchantment becomes absolutely deadly from horseback. It should also be noted that this damage boost also applies when riding any other moving beast or vehicle. In some parts of the world, boat jousting is a time honored tradition!"
+      "text": "The spear is a very versatile weapon, and its extended reach makes it particularly useful from horseback. This enchantment is designed to capitalize on this synergy, allowing momentum to be transferred through the spear more efficiently. While not particularly useful on its own, a spear with the Jousting enchantment becomes absolutely deadly from horseback."
+    },
+    {
+      "type": "text",
+      "text": "It should also be noted that this damage boost also applies when riding any other moving beast or vehicle. In some parts of the world, boat jousting is a time honored tradition!"
     }
   ]
 }

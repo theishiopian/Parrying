@@ -5,15 +5,15 @@
   "pages": [
     {
       "type": "text",
-      "text": "Although parrying allows a skilled combatant to avoid considerable damage, the act itself is very tiring. Deflecting blows requires a significant amount of force, after all! As such, maintaining one's posture is crucial to an effective defensive strategy. $(br2) Whenever you parry a hit or block one with a shield, your defense meter will be reduced. The meter is the shield icon under the cross-hair. Note that it's invisible when the meter is full."
+      "text": "Although parrying allows a skilled combatant to avoid considerable damage, the act itself is very tiring. Deflecting blows requires a significant amount of force, after all! As such, maintaining one's posture is crucial to an effective defensive strategy. $(br2)Whenever you parry a hit or block one with a shield, your defense meter will go down."
     },
     {
       "type": "text",
-      "text": "The defense meter will recharge over time on its own, representing your posture recovering from hits. Stronger hits will reduce your defense more than weaker hits, so be careful when parrying heavy blows. Enemies that hit hard, such as those blasted vindicators, will be able to wear down your defense very quickly. A way to partially mitigate this is to use a shield, as shields absorb some of the strength of a hit."
+      "text": "The meter is the shield icon under the cross-hair. Note that it's invisible when it's full. The defense meter will recharge over time on its own, representing your posture recovering from hits. Stronger hits will reduce your defense more than weaker hits, so be careful when parrying heavy blows. Enemies that hit hard, such as those blasted vindicators, will be able to wear down your defense very quickly. "
     },
     {
       "type": "text",
-      "text": "When your defense meter reaches zero, the shield icon will shatter, indicating you are unable to defend yourself. While your defense is broken, you will be unable to parry attacks, and if you were using a shield it will be disabled. This sate of affairs fades quickly, but can open a gaping hole in your defense, so be ready to start moving evasively!"
+      "text": "A way to counter this is to use a shield, as shields absorb some of the strength of a hit. $(br2) When your defense meter reaches zero, the shield icon will shatter, indicating your defense is broken. While your defense is broken, you cannot parry attacks, and if you were using a shield it will be disabled. This stun fades quickly, but can open a big hole in your defense, so be ready to start moving evasively!"
     }
   ]
 }
