@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -10,10 +11,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -106,6 +109,36 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         }
     }
 
+    public static boolean DoDrawAttack(Player player, ItemStack scabbard)
+    {
+        int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SWIFT_STRIKE.get(), scabbard);
+
+        if(level > 0 && player.isCrouching() && !player.getCooldowns().isOnCooldown(ModItems.SCABBARD.get()))
+        {
+            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 20, 5));
+            player.swing(InteractionHand.MAIN_HAND, true);
+            player.getCooldowns().addCooldown(ModItems.SCABBARD.get(), 600);
+            player.level.playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_HURT, SoundSource.PLAYERS, 0.8F, 0.8F + player.getLevel().getRandom().nextFloat() * 0.4F);
+
+            List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, 0.85);
+
+            int attacks = 0;
+
+            for (Entity target : targets)
+            {
+                player.attack(target);
+                player.attackStrengthTicker = 1;
+                attacks++;
+                if(attacks >= 3) break;
+            }
+
+            player.resetAttackStrengthTicker();
+            return true;
+        }
+
+        return false;
+    }
+
     public static void DrawSword(Player player)
     {
         ItemStack itemToScan;
@@ -155,39 +188,10 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
                     itemEntity.setNoPickUpDelay();
                     player.level.addFreshEntity(itemEntity);
                     player.setItemInHand(InteractionHand.MAIN_HAND, sword);
-                    playUnsheatheSound(player);
+                    if(!DoDrawAttack(player, scabbard))playUnsheatheSound(player);
                 }
             }
         }
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand)
-    {
-        if(pLevel.isClientSide) return super.use(pLevel, pPlayer, pUsedHand);
-        ItemStack scabbard = pPlayer.getItemInHand(pUsedHand);
-        ScabbardCapability c = getCapability(scabbard);
-
-        if(c == null || c.sword.isEmpty())return super.use(pLevel, pPlayer, pUsedHand);
-        ItemStack sword = c.sword.copy();
-        c.sword = ItemStack.EMPTY;
-        if(!pPlayer.getMainHandItem().isEmpty() && !HasSword(pPlayer.getMainHandItem()))
-        {
-            ItemEntity oldItemToDrop = new ItemEntity(pPlayer.level, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), pPlayer.getMainHandItem().copy());
-            oldItemToDrop.setNoPickUpDelay();
-            pPlayer.level.addFreshEntity(oldItemToDrop);
-        }
-        pPlayer.setItemInHand(pUsedHand, sword);
-
-        ItemEntity droppedScabbard = new ItemEntity(pPlayer.level, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), scabbard);
-
-        droppedScabbard.setNoPickUpDelay();
-
-        pPlayer.level.addFreshEntity(droppedScabbard);
-
-        playUnsheatheSound(pPlayer);
-
-        return InteractionResultHolder.sidedSuccess(scabbard, pLevel.isClientSide());
     }
 
     @Override

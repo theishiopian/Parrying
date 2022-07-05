@@ -16,7 +16,6 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -30,9 +29,6 @@ public abstract class BashingMechanic
         {
             if(player != null && player.isBlocking())
             {
-                List<Entity> list = player.level.getEntitiesOfClass(Entity.class, new AABB(player.position().x + 3, player.position().y + 3, player.position().z + 3,player.position().x - 3, player.position().y - 3, player.position().z - 3));
-
-                list.remove(player);
                 Random random = ParryModUtil.random;
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
@@ -51,21 +47,20 @@ public abstract class BashingMechanic
                     shield = off;
                 }
 
-                if(list.size() > 0)
+                List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, Config.bashAngle.get());
+
+                if(targets.size() > 0)
                 {
                     //Debug.log("begin bash");
-                    list.sort(ParryModUtil.GetDistanceSorter(player));
                     Vec3 pDir = player.getViewVector(1);
                     int bashes = 0;
                     //Debug.log(shield);
                     assert shield != null : "How";
                     int level = Config.bashingEnchantEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.BASHING.get(), shield) : 0;
-                    for (Entity target : list)
+                    for (Entity target : targets)
                     {
-                        Vec3 dir = (target.position().subtract(player.position())).normalize();
-                        double dot = dir.dot(pDir);
                         //default 0.85
-                        if (dot > Config.bashAngle.get() && player.position().distanceTo(target.position()) <= 3 && !(target instanceof LivingEntity l && l.isBlocking()))
+                        if (!(target instanceof LivingEntity l && l.isBlocking()))
                         {
                             BashEntity(target, player, shield, hand);
                             bashes++;

@@ -9,10 +9,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * This class contains misc methods that I have found to be useful in multiple places.
@@ -57,53 +60,6 @@ public class ParryModUtil
         return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
     }
 
-//    /**
-//     * Gets an entity hit result, taking range modifiers into account.
-//     * @param toAttackWith The weapon to use, if any.
-//     * @param toAttackFrom The attacker.
-//     * @return An entity hit result, if applicable.
-//     */
-//    @Nullable
-//    public static EntityHitResult GetAttackTargetWithRange(@Nullable ItemStack toAttackWith, LivingEntity toAttackFrom)
-//    {
-//        float range = 2.5f;
-//
-//        if(toAttackWith != null && !toAttackWith.isEmpty())//has weapon
-//        {
-//            boolean hasRange = toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(ForgeMod.REACH_DISTANCE.get());
-//            int joustLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.JOUSTING.get(), toAttackWith);
-//
-//            if(hasRange)
-//            {
-//                range += toAttackWith.getAttributeModifiers(EquipmentSlot.MAINHAND).get(ForgeMod.REACH_DISTANCE.get()).stream().findFirst().get().getAmount();
-//            }
-//
-//            if(toAttackFrom.isPassenger() && joustLevel > 0)
-//            {
-//                range += (joustLevel * 2) + 0.5f;
-//            }
-//        }
-//
-//        Vec3 eyePos = toAttackFrom.getEyePosition();
-//        Vec3 lookVector = toAttackFrom.getViewVector(1.0F);
-//        Vec3 projection = eyePos.add(lookVector.x * range, lookVector.y * range, lookVector.z * range);
-//        AABB box = toAttackFrom.getBoundingBox().expandTowards(lookVector.scale(range)).inflate(1.0D);
-//        EntityHitResult potentialTarget = ProjectileUtil.getEntityHitResult(toAttackFrom, eyePos, projection, box, ((entity) -> !entity.isSpectator() && entity.isPickable()), range * range);
-//
-//        if(potentialTarget != null)
-//        {
-//            boolean unobstructed = toAttackFrom.hasLineOfSight(potentialTarget.getEntity());
-//
-//            if(unobstructed)
-//            {
-//                //Debug.log(toAttackFrom.position().distanceTo(potentialTarget.getEntity().position()));
-//                return potentialTarget;
-//            }
-//        }
-//
-//        return null;
-//    }
-
     public static Comparator<Entity> GetDistanceSorter(Entity target)
     {
         return (o1, o2) ->
@@ -113,5 +69,32 @@ public class ParryModUtil
 
             return Double.compare(distA, distB);
         };
+    }
+
+    //TODO put corners at min and max instead of centered cube, should increase performance
+    public static List<Entity> GetEntitiesInCone(Player player, double distance, double angle)//NOTE: angle is in dot product, NOT DEGREES
+    {
+        List<Entity> list = player.level.getEntitiesOfClass(Entity.class, new AABB(
+                        player.position().x + distance,
+                        player.position().y + distance,
+                        player.position().z + distance,
+                        player.position().x - distance,
+                        player.position().y - distance,
+                        player.position().z - distance));
+
+        list.remove(player);
+
+        list.sort(ParryModUtil.GetDistanceSorter(player));
+        Vec3 pDir = player.getViewVector(1);
+        return list.stream().filter(
+                entity ->
+                {
+                    Vec3 dir = (entity.position().subtract(player.position())).normalize();
+                    double dot = dir.dot(pDir);
+
+                    return dot > angle &&
+                            player.position().distanceTo(entity.position()) <= distance;
+                }
+        ).collect(Collectors.toList());
     }
 }

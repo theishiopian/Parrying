@@ -15,6 +15,8 @@
   "enchantment.parrying.jousting.desc": "Increases the damage of a spear while riding something.",
   "enchantment.parrying.providence": "Providence",
   "enchantment.parrying.providence.desc": "Quivers have a small chance to duplicate arrows at the cost of hunger",
+  "enchantment.parrying.swift_strike": "Swift Strike",
+  "enchantment.parrying.swift_strike.desc": "Scabbards can be used to perform a special attack.",
   "enchantment.parrying.phasing": "Curse of Phasing",
   "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
   "enchantment.parrying.fragile": "Curse of Fragility",
