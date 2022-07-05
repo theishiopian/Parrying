@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.QuiverItem;
+import com.theishiopian.parrying.Items.ScabbardItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -36,7 +37,7 @@ public class IntrusiveCurse extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof QuiverItem && Config.phasingCurseEnabled.get();
+        return (toEnchant.getItem() instanceof QuiverItem || toEnchant.getItem() instanceof ScabbardItem) && Config.intrusiveCurseEnabled.get();
     }
 
     public boolean isTreasureOnly() {

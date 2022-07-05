@@ -5,7 +5,7 @@
   "pages" : [
     {
       "type": "text",
-      "text": "This curse can sometimes be a blessing in disguise. When applied to a quiver, the user's hands will be involuntarily drawn to the quiver, prioritizing it above all other quivers for the purposes of providing ammo. As usual, arrows in the offhand will still override all quivers."
+      "text": "This curse can sometimes be a blessing in disguise. When applied to a quiver or scabbard, the user's hands will be involuntarily drawn to the item, prioritizing it above all others for the purposes of providing ammo or weapons. As usual, arrows in the offhand will still override all quivers."
     }
   ]
 }
