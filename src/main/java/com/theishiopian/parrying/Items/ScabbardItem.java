@@ -4,6 +4,7 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -55,6 +58,24 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     public static void registerCapability(RegisterCapabilitiesEvent event)
     {
         event.register(ScabbardCapability.class);
+    }
+
+    public static void AddLootSword(ItemStack scabbard, LootTable table, LootContext context)
+    {
+        Debug.log(table.getLootTableId());
+        List<ItemStack> items = table.getRandomItems(context);
+
+        ScabbardCapability c = getCapability(scabbard);
+
+        for (ItemStack item : items)
+        {
+            Debug.log(item);
+        }
+
+        if(c != null && items.size() > 0)
+        {
+            c.sword = new ItemStack(Items.IRON_SWORD);
+        }
     }
 
     @Nullable

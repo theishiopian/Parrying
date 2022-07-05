@@ -455,5 +455,19 @@ public class CommonEvents
             trades.get(4).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 4));
             trades.get(5).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 5));
         }
+
+        if(event.getType() == VillagerProfession.WEAPONSMITH)
+        {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            //trade offer
+            //i receive, quiver
+            // you receive, emeralds
+            trades.get(1).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 1));
+            trades.get(2).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 2));
+            trades.get(3).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 3));
+            trades.get(4).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 4));
+            trades.get(5).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 5));
+        }
     }
 }

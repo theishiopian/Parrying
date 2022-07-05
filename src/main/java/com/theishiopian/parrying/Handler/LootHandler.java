@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Handler;
 
 import com.google.gson.JsonObject;
 import com.theishiopian.parrying.Items.QuiverItem;
+import com.theishiopian.parrying.Items.ScabbardItem;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModLootModifiers;
 import net.minecraft.data.DataGenerator;
@@ -33,6 +34,11 @@ public class LootHandler
         @Override
         protected void start()
         {
+            add("dungeon_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:dungeon_scabbard"))
+            );
+
             add("dungeon_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:dungeon_quiver"))
@@ -138,6 +144,56 @@ public class LootHandler
             {
                 JsonObject res = this.makeConditions(instance.GetConditions());
                 res.addProperty("quiver_arrows_table", instance.table.toString());
+                return res;
+            }
+        }
+    }
+
+    public static class ScabbardModifier extends LootModifier
+    {
+        private final ResourceLocation table;
+        /**
+         * Constructs a LootModifier.
+         *
+         * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
+         */
+        protected ScabbardModifier(LootItemCondition[] conditionsIn, ResourceLocation table)
+        {
+            super(conditionsIn);
+            this.table = table;
+        }
+
+        public LootItemCondition[] GetConditions()
+        {
+            return conditions;
+        }
+
+        @NotNull
+        @Override
+        protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
+        {
+            LootTable table = context.getLootTable(this.table);
+            ItemStack scabbard = new ItemStack(ModItems.SCABBARD.get());
+            scabbard.setCount(1);
+            ScabbardItem.AddLootSword(scabbard, table, context);
+            generatedLoot.add(scabbard);
+            return generatedLoot;
+        }
+
+        public static class Serializer extends GlobalLootModifierSerializer<ScabbardModifier>
+        {
+            @Override
+            public ScabbardModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions)
+            {
+                ResourceLocation table = new ResourceLocation(GsonHelper.getAsString(object, "scabbard_sword_table"));
+                return new ScabbardModifier(conditions, table);
+            }
+
+            @Override
+            public JsonObject write(ScabbardModifier instance)
+            {
+                JsonObject res = this.makeConditions(instance.GetConditions());
+                res.addProperty("scabbard_sword_table", instance.table.toString());
                 return res;
             }
         }
