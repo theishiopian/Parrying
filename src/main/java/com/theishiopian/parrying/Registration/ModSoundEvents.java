@@ -23,6 +23,7 @@ public class ModSoundEvents
     public static final RegistryObject<SoundEvent> DEFENSE_BREAK = registerSoundEvent("defense_break");
     public static final RegistryObject<SoundEvent> DRAW_SWORD = registerSoundEvent("draw_sword");
     public static final RegistryObject<SoundEvent> SHEATHE_SWORD = registerSoundEvent("sheathe_sword");
+    public static final RegistryObject<SoundEvent> SWIFT_STRIKE = registerSoundEvent("swift_strike");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name)
     {

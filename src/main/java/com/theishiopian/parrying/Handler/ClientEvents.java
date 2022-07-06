@@ -6,6 +6,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.theishiopian.parrying.Client.BashParticle;
 import com.theishiopian.parrying.Client.ParryParticle;
+import com.theishiopian.parrying.Client.SliceParticle;
+import com.theishiopian.parrying.Client.StabParticle;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Items.SpearItem;
@@ -169,8 +171,9 @@ public class ClientEvents
     public static void OnRegisterParticlesEvent(ParticleFactoryRegisterEvent event)
     {
         Minecraft.getInstance().particleEngine.register(ModParticles.PARRY_PARTICLE.get(), ParryParticle.Factory::new);
-        Minecraft.getInstance().particleEngine.register(ModParticles.STAB_PARTICLE.get(), ParryParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.STAB_PARTICLE.get(), StabParticle.Factory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.BASH_PARTICLE.get(), BashParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.SLICE_PARTICLE.get(), SliceParticle.Factory::new);
     }
 
     /**

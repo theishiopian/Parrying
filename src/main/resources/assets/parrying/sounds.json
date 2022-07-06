@@ -99,5 +99,16 @@
         "stream": false
       }
     ]
+  },
+  "swift_strike":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:swift_strike",
+        "stream": false
+      }
+    ]
   }
 }
