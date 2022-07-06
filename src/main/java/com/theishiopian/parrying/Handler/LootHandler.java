@@ -39,6 +39,21 @@ public class LootHandler
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:dungeon_scabbard"))
             );
 
+            add("mineshaft_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/abandoned_mineshaft")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:mineshaft_scabbard"))
+            );
+
+            add("end_city_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/end_city_treasure")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:end_city_scabbard"))
+            );
+
+            add("nether_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/nether_bridge")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:nether_scabbard"))
+            );
+
             add("dungeon_quiver_modifier", ModLootModifiers.QUIVER_MODIFIER.get(), new QuiverModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:dungeon_quiver"))

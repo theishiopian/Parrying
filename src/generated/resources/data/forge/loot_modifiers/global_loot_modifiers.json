@@ -2,15 +2,18 @@
   "replace": false,
   "entries": [
     "parrying:mineshaft_quiver_modifier",
-    "parrying:stronghold_crossing_quiver_modifier",
+    "parrying:nether_scabbard_modifier",
     "parrying:pillager_quiver_modifier",
     "parrying:desert_quiver_modifier",
-    "parrying:stray_quiver_modifier",
     "parrying:skeleton_quiver_modifier",
     "parrying:dungeon_scabbard_modifier",
+    "parrying:end_city_scabbard_modifier",
+    "parrying:stronghold_crossing_quiver_modifier",
+    "parrying:stray_quiver_modifier",
     "parrying:igloo_quiver_modifier",
     "parrying:dungeon_quiver_modifier",
     "parrying:mansion_quiver_modifier",
+    "parrying:mineshaft_scabbard_modifier",
     "parrying:jungle_quiver_modifier",
     "parrying:stronghold_corridor_quiver_modifier"
   ]
