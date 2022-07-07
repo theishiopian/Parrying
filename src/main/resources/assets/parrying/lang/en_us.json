@@ -151,8 +151,8 @@
   "advancements.parrying.provide" : "Fortuitous Miscount",
   "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment",
 
-  "advancements.parrying.craft_scabbard" : "Snug Fit",
-  "advancements.parrying.craft_scabbard.desc": "Obtain a scabbard",
+  "advancements.parrying.scabbard" : "Snug Fit",
+  "advancements.parrying.scabbard.desc": "Obtain a scabbard",
 
   "advancements.parrying.swift_strike" : "The Only Thing I Know For Real...",
   "advancements.parrying.swift_strike.desc": "Instakill a mob with a swift strike",

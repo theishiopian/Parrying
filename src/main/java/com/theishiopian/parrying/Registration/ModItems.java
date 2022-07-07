@@ -73,7 +73,6 @@ public class ModItems
     public static final RegistryObject<QuiverItem> QUIVER = ITEMS.register("quiver", () -> new QuiverItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<ScabbardItem> SCABBARD = ITEMS.register("scabbard", () -> new ScabbardItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
-
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as
      * for the flail animation or for spears pointing the right way when about to be thrown.

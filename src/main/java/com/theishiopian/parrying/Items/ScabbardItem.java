@@ -5,7 +5,6 @@ import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -132,7 +131,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         }
     }
 
-    public static boolean DoDrawAttack(Player player, ItemStack scabbard)
+    public static boolean DoDrawAttack(ServerPlayer player, ItemStack scabbard)
     {
         int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SWIFT_STRIKE.get(), scabbard);
 
@@ -162,16 +161,13 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
                 if(attacks >= 3) break;
             }
 
-            if(player instanceof ServerPlayer sPlayer)
+            if(instaKills >= 3)
             {
-                if(instaKills >= 3)
-                {
-                    ModTriggers.bloodshed.trigger(sPlayer);
-                }
-                else if(instaKills >= 1)
-                {
-                    ModTriggers.swift_strike.trigger(sPlayer);
-                }
+                ModTriggers.bloodshed.trigger(player);
+            }
+            else if(instaKills >= 1)
+            {
+                ModTriggers.swift_strike.trigger(player);
             }
 
             player.resetAttackStrengthTicker();
@@ -181,7 +177,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         return false;
     }
 
-    public static void DrawSword(Player player)
+    public static void DrawSword(ServerPlayer player)
     {
         if(drawCooldown.containsKey(player.getUUID()))return;
         ItemStack itemToScan;
@@ -331,22 +327,6 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         return super.useOn(pContext);
     }
 
-    public void appendHoverText(@NotNull ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
-    {
-        pTooltipComponents.add((new TranslatableComponent("filter.parrying.swords")).withStyle(ChatFormatting.GOLD));
-        ScabbardCapability c = getCapability(pStack);
-        if(c == null)return;
-
-        if(c.sword.isEmpty())
-        {
-            pTooltipComponents.add((new TranslatableComponent("filter.parrying.none")).withStyle(ChatFormatting.DARK_RED));
-            return;
-        }
-        List<Component> components = c.sword.getTooltipLines(pLevel.isClientSide ? Minecraft.getInstance().player : null, pIsAdvanced);
-
-        pTooltipComponents.addAll(components);
-    }
-
     public static boolean HasSword(ItemStack scabbard)
     {
         ScabbardCapability c = getCapability(scabbard);
@@ -363,6 +343,22 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     {
         //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), ModSoundEvents.SHEATHE_SWORD.get(), SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
+    }
+
+    public static List<Component> GetTooltipComponents(Player player, ItemStack stack, TooltipFlag isAdvanced)
+    {
+        List<Component> components = new ArrayList<>();
+        ScabbardItem.ScabbardCapability c = getCapability(stack);
+
+        components.add(new TranslatableComponent("filter.parrying.swords").withStyle(ChatFormatting.GOLD));
+
+        if (c != null && !c.sword.isEmpty())
+        {
+            components.addAll(c.sword.getTooltipLines(player, isAdvanced));
+        }
+        else components.add((new TranslatableComponent("filter.parrying.none")).withStyle(ChatFormatting.DARK_RED));
+
+        return components;
     }
 
     static class ScabbardCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>

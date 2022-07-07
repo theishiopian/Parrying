@@ -2,9 +2,9 @@ package com.theishiopian.parrying.Network;
 
 import com.theishiopian.parrying.Items.ScabbardItem;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -30,10 +30,7 @@ public class DrawPacket
 
     public static void handle(DrawPacket packet, Supplier<NetworkEvent.Context> context)
     {
-        Player player = context.get().getSender();
-
-        assert player != null;
-        ScabbardItem.DrawSword(player);
+        ScabbardItem.DrawSword(Objects.requireNonNull(context.get().getSender()));
 
         context.get().setPacketHandled(true);
     }

@@ -9,6 +9,7 @@ import com.theishiopian.parrying.Client.ParryParticle;
 import com.theishiopian.parrying.Client.SliceParticle;
 import com.theishiopian.parrying.Client.StabParticle;
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Items.ScabbardItem;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
@@ -147,10 +148,9 @@ public class ClientEvents
         return (a || !noInventory) && b && c && d;
     }
 
-    //this MAY break when reloading resource packs, need more information
     public static void OnTooltip(ItemTooltipEvent event)
     {
-        if(!IsGameplayInProgress(false) || ModTags.TWO_HANDED_WEAPONS == null) return;//TODO null check on player?
+        if(!IsGameplayInProgress(false)) return;
 
         if(event.getItemStack().getItem() instanceof SpearItem)
         {
@@ -165,6 +165,11 @@ public class ClientEvents
         if (Registry.ITEM.isKnownTagName(ModTags.TWO_HANDED_WEAPONS) && Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
+        }
+
+        if(event.getItemStack().is(ModItems.SCABBARD.get()))
+        {
+            event.getToolTip().addAll(ScabbardItem.GetTooltipComponents(event.getPlayer(), event.getItemStack(), event.getFlags()));
         }
     }
 
