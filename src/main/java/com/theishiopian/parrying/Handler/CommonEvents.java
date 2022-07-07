@@ -324,6 +324,9 @@ public class CommonEvents
 
         DodgingMechanic.dodgeCooldown.replaceAll((k, v) -> v - 1);
         DodgingMechanic.dodgeCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
+
+        ScabbardItem.drawCooldown.replaceAll((k, v) -> v - 1);
+        ScabbardItem.drawCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
     }
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)

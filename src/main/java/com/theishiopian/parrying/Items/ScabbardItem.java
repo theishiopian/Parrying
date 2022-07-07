@@ -46,11 +46,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ScabbardItem extends Item implements DyeableLeatherItem
 {
+    public static final Map<UUID, Integer> drawCooldown = new HashMap<>();//TODO move this somewhere. anywhere else
     public ScabbardItem(Properties pProperties)
     {
         super(pProperties);
@@ -183,6 +183,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
 
     public static void DrawSword(Player player)
     {
+        if(drawCooldown.containsKey(player.getUUID()))return;
         ItemStack itemToScan;
         ItemStack scabbard = ItemStack.EMPTY;
         ItemStack priorityScabbard = ItemStack.EMPTY;
@@ -232,6 +233,8 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
                     player.setItemInHand(InteractionHand.MAIN_HAND, sword);
                     if(!DoDrawAttack(player, scabbard))playUnsheatheSound(player);
                 }
+
+                drawCooldown.put(player.getUUID(), (int)(Config.drawCooldown.get() * 120));
             }
         }
     }

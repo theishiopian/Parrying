@@ -80,6 +80,8 @@ public class Config
 
     public static final ForgeConfigSpec.DoubleValue swiftStrikeAngle;
 
+    public static final ForgeConfigSpec.DoubleValue drawCooldown;
+
     static
     {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -159,6 +161,8 @@ public class Config
         swiftStrikeAngle = builder.comment("The maximum angle that you can be aiming relative to the target. " +
                         "-1 represents pointing exactly away from the attacker, and 1 represents pointing exactly towards the attacker")
                 .defineInRange("bash_angle", 0.85, -1,1);
+
+        drawCooldown = builder.comment("The time in seconds before you can draw or sheathe again").defineInRange("draw_cooldown", 1, 0, 99999d);
 
         cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
