@@ -149,5 +149,14 @@
   "advancements.parrying.stupid.desc": "Blow yourself up with a shield bash",
 
   "advancements.parrying.provide" : "Fortuitous Miscount",
-  "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment"
+  "advancements.parrying.provide.desc": "Duplicate an arrow with the providence enchantment",
+
+  "advancements.parrying.craft_scabbard" : "Snug Fit",
+  "advancements.parrying.craft_scabbard.desc": "Obtain a scabbard",
+
+  "advancements.parrying.swift_strike" : "The Only Thing I Know For Real...",
+  "advancements.parrying.swift_strike.desc": "Instakill a mob with a swift strike",
+
+  "advancements.parrying.bloodshed" : "There Will Be Blood! Shed!",
+  "advancements.parrying.bloodshed.desc": "Instakill 3 mobs with a swift strike"
 }

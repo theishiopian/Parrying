@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:craft_scabbard",
+  "display": {
+    "icon": {
+      "item": "minecraft:iron_sword"
+    },
+    "title": {
+      "translate": "advancements.parrying.swift_strike"
+    },
+    "description": {
+      "translate": "advancements.parrying.swift_strike.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "swift_strike": {
+      "trigger": "parrying:swift_strike"
+    }
+  },
+  "requirements": [
+    [
+      "swift_strike"
+    ]
+  ]
+}

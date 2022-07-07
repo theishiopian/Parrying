@@ -23,6 +23,8 @@ public class ModTriggers
     public static SimpleTrigger kevin;
     public static SimpleTrigger stupid;
     public static SimpleTrigger provide;
+    public static SimpleTrigger swift_strike;
+    public static SimpleTrigger bloodshed;
 
     public static void Init()
     {
@@ -43,5 +45,7 @@ public class ModTriggers
         quiver_over_stack = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:quiver_over_stack")));
         stupid = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:stupid")));
         provide = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:provide")));
+        swift_strike = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:swift_strike")));
+        bloodshed = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:bloodshed")));
     }
 }

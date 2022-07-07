@@ -1,0 +1,28 @@
+{
+  "parent": "parrying:swift_strike",
+  "display": {
+    "icon": {
+      "item": "minecraft:diamond_sword"
+    },
+    "title": {
+      "translate": "advancements.parrying.bloodshed"
+    },
+    "description": {
+      "translate": "advancements.parrying.bloodshed.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "bloodshed": {
+      "trigger": "parrying:bloodshed"
+    }
+  },
+  "requirements": [
+    [
+      "bloodshed"
+    ]
+  ]
+}

@@ -1,10 +1,7 @@
 package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Registration.ModItems;
-import com.theishiopian.parrying.Registration.ModParticles;
-import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
@@ -15,12 +12,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -152,13 +151,27 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
             List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, Config.swiftStrikeAngle.get());
 
             int attacks = 0;
+            int instaKills = 0;
 
             for (Entity target : targets)
             {
                 player.attack(target);
+                if(target instanceof LivingEntity living && living.getHealth() <= 0)instaKills++;
                 player.attackStrengthTicker = 1;
                 attacks++;
                 if(attacks >= 3) break;
+            }
+
+            if(player instanceof ServerPlayer sPlayer)
+            {
+                if(instaKills >= 3)
+                {
+                    ModTriggers.bloodshed.trigger(sPlayer);
+                }
+                else if(instaKills >= 1)
+                {
+                    ModTriggers.swift_strike.trigger(sPlayer);
+                }
             }
 
             player.resetAttackStrengthTicker();
