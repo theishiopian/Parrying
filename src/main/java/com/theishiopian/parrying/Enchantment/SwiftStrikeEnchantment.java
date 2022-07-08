@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.QuiverItem;
+import com.theishiopian.parrying.Items.ScabbardItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,7 +34,7 @@ public class SwiftStrikeEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof QuiverItem && Config.swiftStrikeEnabled.get();
+        return toEnchant.getItem() instanceof ScabbardItem && Config.swiftStrikeEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
