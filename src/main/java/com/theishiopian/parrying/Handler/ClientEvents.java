@@ -15,9 +15,9 @@ import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
-import com.theishiopian.parrying.Network.DrawPacket;
 import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
+import com.theishiopian.parrying.Network.ScabbardPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ParryModUtil;
@@ -256,7 +256,7 @@ public class ClientEvents
 
         if(IsGameplayInProgress(true) && drawKey.isDown())
         {
-            ParryingMod.channel.sendToServer(new DrawPacket());
+            ParryingMod.channel.sendToServer(new ScabbardPacket());
         }
     }
 }

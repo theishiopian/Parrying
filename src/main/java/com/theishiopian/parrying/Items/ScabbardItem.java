@@ -177,7 +177,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         return false;
     }
 
-    public static void DrawSword(ServerPlayer player)
+    public static void SheatheOrDrawSword(ServerPlayer player)
     {
         if(drawCooldown.containsKey(player.getUUID()))return;
         ItemStack itemToScan;
@@ -249,7 +249,6 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack scabbard, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
-        //Debug.log("stackedOnOther");
         ScabbardCapability c = getCapability(scabbard);
         if(c == null)return false;
 
@@ -279,7 +278,6 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
-        //Debug.log("stackedOnMe");
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
             ScabbardCapability c = getCapability(pStack);
