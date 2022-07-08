@@ -260,13 +260,13 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         else
         {
             ItemStack toStackOnto = pSlot.getItem();
-            if (toStackOnto.isEmpty() && c.sword != null)
+            if (toStackOnto.isEmpty() && !c.sword.isEmpty())
             {
                 playUnsheatheSound(pPlayer);
                 pSlot.safeInsert(c.sword.copy());
                 c.sword = ItemStack.EMPTY;
             }
-            else if (toStackOnto.getItem() instanceof SwordItem)
+            else if (toStackOnto.getItem() instanceof SwordItem && c.sword.isEmpty())
             {
                 c.sword = pSlot.safeTake(1,1,pPlayer);
             }
@@ -287,14 +287,14 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
 
             if (pOther.isEmpty())
             {
-                if(c.sword != null)
+                if(!c.sword.isEmpty())
                 {
                     playUnsheatheSound(pPlayer);
                     pAccess.set(c.sword.copy());
                     c.sword = ItemStack.EMPTY;
                 }
             }
-            else if(pOther.getItem() instanceof SwordItem)
+            else if(pOther.getItem() instanceof SwordItem && c.sword.isEmpty())
             {
                 playSheatheSound(pPlayer);
                 c.sword = pAccess.get().copy();
