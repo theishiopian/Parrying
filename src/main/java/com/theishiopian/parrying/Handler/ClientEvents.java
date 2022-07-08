@@ -62,7 +62,6 @@ public class ClientEvents
         Player player = Minecraft.getInstance().player;
         assert player != null;
         ItemStack mainHandItem = player.getMainHandItem();
-        //ItemStack offHandItem = player.getOffhandItem();
 
         if(player.isUsingItem())
         {

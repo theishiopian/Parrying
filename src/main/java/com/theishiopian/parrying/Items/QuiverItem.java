@@ -155,7 +155,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack quiverStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
-        //Debug.log("stackedOnOther");
         QuiverCapability c = getCapability(quiverStack);
         if(c == null)return false;
 
@@ -184,7 +183,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
-        //Debug.log("stackedOnMe");
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
             if (pOther.isEmpty())
@@ -206,7 +204,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
 
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -267,7 +266,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     public static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
     {
-        //Debug.log("adding");
         int startingCount = stackToInsert.getCount();
         QuiverCapability c =  QuiverItem.getCapability(quiverStack);
         if(c == null)return stackToInsert;
@@ -280,11 +278,9 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             if(itemStack.getCount() == itemStack.getMaxStackSize())continue;
             if(ItemStack.isSameItemSameTags(itemStack, stackToInsert))
             {
-                //Debug.log("trying to combine stack " + stackToInsert + " onto stack " + itemStack);
                 //TODO these loops are stupid, but im too tired to do the math right now
                 while(itemStack.getCount() < itemStack.getMaxStackSize())
                 {
-                    //Debug.log("adding");
                     if(c.IsFull() || stackToInsert.getCount() == 0)break;
                     stackToInsert.shrink(1);
                     itemStack.grow(1);
@@ -292,10 +288,8 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
         }
 
-        //problem isn't here
         if(!stackToInsert.isEmpty() && !c.IsFull())
         {
-            //Debug.log("overflowing " + stackToInsert);
             ItemStack s = stackToInsert.copy();
             s.setCount(1);
             c.stacksList.add(s);
@@ -351,7 +345,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static Optional<ItemStack> removeOneStack(ItemStack quiverStack)
     {
-        //Debug.log("removing");
         QuiverCapability c = QuiverItem.getCapability(quiverStack);
 
         if(c == null)return Optional.empty();
@@ -395,19 +388,16 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static void playRemoveOneSound(Entity entity)
     {
-        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_REMOVE_ONE, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playInsertSound(Entity entity)
     {
-        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_INSERT, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
     private static void playDropContentsSound(Entity entity)
     {
-        //Debug.log("playing sound");
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
