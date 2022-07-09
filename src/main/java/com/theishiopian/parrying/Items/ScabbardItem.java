@@ -34,9 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -46,6 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class ScabbardItem extends Item implements DyeableLeatherItem
 {
@@ -393,12 +392,13 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         }
 
         private final LazyOptional<ScabbardCapability> scabbardCapabilityLazyOptional = constantOptional(this);
+        private static final Supplier<Capability<ScabbardCapability>> instanceSupplier = () -> CapabilityManager.get(new CapabilityToken<>(){});
 
         @Nonnull
         @Override
         public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
         {
-            return scabbardCapabilityLazyOptional.cast();
+            return capability.orEmpty(instanceSupplier.get(), scabbardCapabilityLazyOptional.cast()).cast();
         }
     }
 }
