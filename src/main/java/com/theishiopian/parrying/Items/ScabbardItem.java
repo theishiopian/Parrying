@@ -1,12 +1,13 @@
 package com.theishiopian.parrying.Items;
 
+import com.theishiopian.parrying.Capability.CapabilityProvider;
+import com.theishiopian.parrying.Capability.IPersistentCapability;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ParryModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -35,16 +36,11 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.*;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.function.Supplier;
 
 public class ScabbardItem extends Item implements DyeableLeatherItem
 {
@@ -64,7 +60,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         Debug.log(table.getLootTableId());
         List<ItemStack> items = table.getRandomItems(context);
 
-        ScabbardCapability c = getCapability(scabbard);
+        ScabbardCapability c = getActualCapability(scabbard);
 
         for (ItemStack item : items)
         {
@@ -81,27 +77,24 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new ScabbardCapability();
+        return new CapabilityProvider<>(new ScabbardCapability()) {};
     }
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    private static ScabbardCapability getCapability(ItemStack scabbard)
+    private static ScabbardCapability getActualCapability(ItemStack scabbard)
     {
-        if(!scabbard.is(ModItems.SCABBARD.get()))return null;
-        LazyOptional<IItemHandler> handler = scabbard.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-        if (handler.isPresent() && handler.orElse(null) instanceof ScabbardCapability capability) return capability;
-        return null;
+        return scabbard.getCapability(ScabbardCapability.INSTANCE).orElse(null);
     }
 
     @Override
     public CompoundTag getShareTag(ItemStack stack)
     {
         CompoundTag tag = super.getShareTag(stack)==null? stack.getOrCreateTag() : super.getShareTag(stack);
-        ScabbardCapability c = getCapability(stack);
+        ScabbardCapability c = getActualCapability(stack);
         if(c!=null && tag != null)
         {
-            tag.put("scabbard", c.serializeNBT());
+            tag.put("scabbard", c.serializeNBT(new CompoundTag()));
         }
 
         return tag;
@@ -110,7 +103,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     @Override
     public void readShareTag(ItemStack stack, CompoundTag nbt)
     {
-        ScabbardCapability c = getCapability(stack);
+        ScabbardCapability c = getActualCapability(stack);
         if(c!=null && nbt != null)
         {
             c.deserializeNBT(nbt.getCompound("scabbard"));
@@ -123,7 +116,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         Level level = pItemEntity.level;
         if(!level.isClientSide)
         {
-            ScabbardCapability c = ScabbardItem.getCapability(pItemEntity.getItem());
+            ScabbardCapability c = ScabbardItem.getActualCapability(pItemEntity.getItem());
             if(c == null || c.sword.isEmpty())return;
             level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), c.sword.copy()));
             c.sword = ItemStack.EMPTY;
@@ -205,7 +198,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
 
         if(!scabbard.isEmpty())
         {
-            ScabbardCapability c = getCapability(scabbard);
+            ScabbardCapability c = getActualCapability(scabbard);
 
             if(c != null)
             {
@@ -238,7 +231,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
-        ScabbardCapability c = ScabbardItem.getCapability(item);
+        ScabbardCapability c = ScabbardItem.getActualCapability(item);
         if(c == null || c.sword.isEmpty())return true;
         player.drop(c.sword.copy(), true);
         c.sword = ItemStack.EMPTY;
@@ -248,7 +241,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     @Override
     public boolean overrideStackedOnOther(@NotNull ItemStack scabbard, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
-        ScabbardCapability c = getCapability(scabbard);
+        ScabbardCapability c = getActualCapability(scabbard);
         if(c == null)return false;
 
         if (pAction != ClickAction.SECONDARY)
@@ -279,7 +272,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     {
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
-            ScabbardCapability c = getCapability(pStack);
+            ScabbardCapability c = getActualCapability(pStack);
             if(c == null)return false;
 
             if (pOther.isEmpty())
@@ -326,7 +319,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
 
     public static boolean HasSword(ItemStack scabbard)
     {
-        ScabbardCapability c = getCapability(scabbard);
+        ScabbardCapability c = getActualCapability(scabbard);
         return c != null && !c.sword.isEmpty();
     }
 
@@ -345,7 +338,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
     public static List<Component> GetTooltipComponents(Player player, ItemStack stack, TooltipFlag isAdvanced)
     {
         List<Component> components = new ArrayList<>();
-        ScabbardItem.ScabbardCapability c = getCapability(stack);
+        ScabbardItem.ScabbardCapability c = getActualCapability(stack);
 
         components.add(new TranslatableComponent("filter.parrying.swords").withStyle(ChatFormatting.GOLD));
 
@@ -358,9 +351,11 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         return components;
     }
 
-    static class ScabbardCapability implements ICapabilityProvider, INBTSerializable<CompoundTag>
+    static class ScabbardCapability implements IPersistentCapability<ScabbardCapability>
     {
         public ItemStack sword = ItemStack.EMPTY;
+
+        public static final Capability<ScabbardCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 
         public ScabbardCapability()
         {
@@ -368,11 +363,16 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         }
 
         @Override
-        public CompoundTag serializeNBT()
+        public Capability<ScabbardCapability> getDefaultInstance()
+        {
+            return INSTANCE;
+        }
+
+        @Override
+        public CompoundTag serializeNBT(CompoundTag nbt)
         {
             CompoundTag itemTag = new CompoundTag();
             sword.save(itemTag);
-            CompoundTag nbt = new CompoundTag();
             nbt.put("Sword", itemTag);
             return nbt;
         }
@@ -389,16 +389,6 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
             LazyOptional<T> result = LazyOptional.of(() -> Objects.requireNonNull(val));
             result.resolve();
             return result;
-        }
-
-        private final LazyOptional<ScabbardCapability> scabbardCapabilityLazyOptional = constantOptional(this);
-        private static final Supplier<Capability<ScabbardCapability>> instanceSupplier = () -> CapabilityManager.get(new CapabilityToken<>(){});
-
-        @Nonnull
-        @Override
-        public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
-        {
-            return capability.orEmpty(instanceSupplier.get(), scabbardCapabilityLazyOptional.cast()).cast();
         }
     }
 }
