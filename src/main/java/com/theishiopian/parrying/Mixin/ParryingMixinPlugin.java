@@ -15,7 +15,6 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
 {
     private static final String[] CLIENT_MIXINS = new String[]
     {
-        "ItemInHandRendererAccessor",
         "ItemInHandRendererMixin"
     };
 
