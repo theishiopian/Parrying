@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Mixin;
+package com.theishiopian.parrying.CoreMod.Mixin;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
