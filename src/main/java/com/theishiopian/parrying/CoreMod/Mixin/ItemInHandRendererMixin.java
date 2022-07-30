@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Mixin;
+package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;

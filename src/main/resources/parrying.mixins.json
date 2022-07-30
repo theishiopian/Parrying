@@ -1,11 +1,11 @@
 {
   "required": true,
-  "package": "com.theishiopian.parrying.Mixin",
+  "package": "com.theishiopian.parrying.CoreMod.Mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "parrying.refmap.json",
   "injectors": {
     "defaultRequire": 1
   },
   "minVersion": "0.8",
-  "plugin": "com.theishiopian.parrying.Mixin.ParryingMixinPlugin"
+  "plugin": "com.theishiopian.parrying.CoreMod.Mixin.ParryingMixinPlugin"
 }

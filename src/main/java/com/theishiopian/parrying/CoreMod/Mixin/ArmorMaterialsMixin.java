@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Mixin;
+package com.theishiopian.parrying.CoreMod.Mixin;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterials;
