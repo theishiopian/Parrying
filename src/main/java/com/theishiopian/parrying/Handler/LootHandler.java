@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Handler;
 
 import com.google.gson.JsonObject;
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.QuiverItem;
 import com.theishiopian.parrying.Items.ScabbardItem;
 import com.theishiopian.parrying.Registration.ModItems;
@@ -142,6 +143,7 @@ public class LootHandler
         @Override
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
+            if(!Config.quiverEnabled.get())return generatedLoot;
             LootTable table = context.getLootTable(this.table);
             ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
             quiver.setCount(1);
@@ -192,6 +194,7 @@ public class LootHandler
         @Override
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
+            if(!Config.scabbardEnabled.get())return generatedLoot;
             LootTable table = context.getLootTable(this.tableLocation);
             ItemStack scabbard = new ItemStack(ModItems.SCABBARD.get());
             ScabbardItem.AddLootSword(scabbard, table, context);

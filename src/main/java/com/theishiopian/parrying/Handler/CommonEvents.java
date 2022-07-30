@@ -445,12 +445,12 @@ public class CommonEvents
 
     public static void OnRegisterTrades(VillagerTradesEvent event)
     {
-        if(event.getType() == VillagerProfession.FLETCHER)
+        if(Config.quiverEnabled.get() && event.getType() == VillagerProfession.FLETCHER)
         {
             Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
             //trade offer
-            //i receive, quiver
+            //I receive, quiver
             // you receive, emeralds
             trades.get(1).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 1));
             trades.get(2).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 2));
@@ -459,12 +459,12 @@ public class CommonEvents
             trades.get(5).add(new DyedItemForEmeralds(ModItems.QUIVER.get(), 5, 5));
         }
 
-        if(event.getType() == VillagerProfession.WEAPONSMITH)
+        if(Config.scabbardEnabled.get() && event.getType() == VillagerProfession.WEAPONSMITH)
         {
             Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
             //trade offer
-            //i receive, quiver
+            //I receive, scabbard
             // you receive, emeralds
             trades.get(1).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 1));
             trades.get(2).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 2));
