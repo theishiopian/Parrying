@@ -33,11 +33,10 @@ public abstract class ItemInHandRendererMixin
         ItemInHandRenderer thisRenderer = Minecraft.getInstance().getItemInHandRenderer();
         ItemStack offHandCurrentItemStack = player.getOffhandItem();
 
-        boolean reEquip = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(((ItemInHandRendererAccessor)(thisRenderer)).getOffHandItem(), offHandCurrentItemStack, -1);
+        boolean reEquip = net.minecraftforge.client.ForgeHooksClient.shouldCauseReequipAnimation(thisRenderer.offHandItem, offHandCurrentItemStack, -1);
 
         float f = player.getAttackStrengthScale(1);
-        //Debug.log("you better not be on a server here");
-        return (DualWieldingMechanic.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - ((ItemInHandRendererAccessor)(thisRenderer)).getOffHandHeight();
+        return (DualWieldingMechanic.IsDualWielding(player) ? ((!reEquip) ? f * f * f : 0) : ((!reEquip) ? 1 : 0)) - thisRenderer.offHandHeight;
     }
 
     //the following code was created by paulevs, tweaked by theishiopian

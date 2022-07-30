@@ -30,8 +30,8 @@ public abstract class Backstab
 
             if(e instanceof LivingEntity attacker && CanBackstab(attacker, entity))
             {
-                int tLevel = 0;
-                int vLevel = 0;
+                int tLevel;
+                int vLevel;
 
                 if(event.getSource() instanceof IndirectEntityDamageSource && (event.getSource()).getDirectEntity() instanceof DaggerEntity)
                 {

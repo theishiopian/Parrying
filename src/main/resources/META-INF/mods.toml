@@ -3,7 +3,7 @@ loaderVersion="[40,)"
 license="All rights reserved"
 [[mods]]
 modId="parrying"
-version="2.5.2"
+version="2.5.3"
 displayName="Parrying"
 authors="theishiopian"
 credits="ArcanePhysics, for testing help, y3z0n, for some of the foley sounds, Jonathing, for bugfixes, help integrating features into forge, and for gradleworks, AHilyard for debugging and bugfixes"
