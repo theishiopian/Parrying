@@ -37,6 +37,12 @@ public class SwiftStrikeEnchantment extends Enchantment
         return toEnchant.getItem() instanceof ScabbardItem && Config.swiftStrikeEnabled.get();
     }
 
+    @Override
+    public boolean isTreasureOnly()
+    {
+        return Config.isSwiftStrikeTreasure.get();
+    }
+
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
     {
         return canEnchant(toEnchant);

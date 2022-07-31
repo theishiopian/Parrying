@@ -37,6 +37,12 @@ public class ProvidenceEnchantment extends Enchantment
         return toEnchant.getItem() instanceof QuiverItem && Config.providenceEnabled.get();
     }
 
+    @Override
+    public boolean isTreasureOnly()
+    {
+        return Config.isProvidenceTreasure.get();
+    }
+
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
     {
         return canEnchant(toEnchant);

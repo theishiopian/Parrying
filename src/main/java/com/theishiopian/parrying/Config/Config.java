@@ -61,6 +61,8 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
     public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
     public static final ForgeConfigSpec.BooleanValue isIntrusionTreasure;
+    public static final ForgeConfigSpec.BooleanValue isProvidenceTreasure;
+    public static final ForgeConfigSpec.BooleanValue isSwiftStrikeTreasure;
     public static final ForgeConfigSpec.BooleanValue bashingEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
@@ -177,6 +179,8 @@ public class Config
         isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
         isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
         isIntrusionTreasure = builder.comment("Whether or not intrusion curse is treasure only").define("is_intrusion_treasure", true);
+        isProvidenceTreasure = builder.comment("Whether or not the providence enchantment is treasure only").define("is_providence_treasure", true);
+        isSwiftStrikeTreasure = builder.comment("Whether or not the swift strike enchantment is treasure only").define("is_swift_strike_treasure", true);
 
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
 
