@@ -5,7 +5,7 @@ import com.theishiopian.parrying.Capability.IPersistentCapability;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.Debug;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -139,7 +139,7 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
             double pZ = player.position().z + pDir.z;
 
             ((ServerLevel) player.level).sendParticles(ModParticles.SLICE_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
-            List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, Config.swiftStrikeAngle.get());
+            List<Entity> targets = ModUtil.GetEntitiesInCone(player, 3, Config.swiftStrikeAngle.get());
 
             int attacks = 0;
             int instaKills = 0;

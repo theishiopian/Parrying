@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -67,10 +67,10 @@ public class DualWieldingMechanic
         ItemStack offItem = player.getOffhandItem();
 
         //boolean main = ParryModUtil.IsWeapon(mainItem) && (!mainItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
-        boolean main = ParryModUtil.IsWeapon(mainItem) && (!mainItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
+        boolean main = ModUtil.IsWeapon(mainItem) && (!mainItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
 
         //boolean off = ParryModUtil.IsWeapon(offItem) && (!offItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
-        boolean off = ParryModUtil.IsWeapon(offItem) && (!offItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
+        boolean off = ModUtil.IsWeapon(offItem) && (!offItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
 
         return main && off;
     }

@@ -3,7 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -60,7 +60,7 @@ public class DaggerItem extends LazyItem
     {
         ItemStack stack = player.getItemInHand(hand);
 
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ParryModUtil.random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ModUtil.random.nextFloat() * 0.4F + 0.8F));
 
         player.getCooldowns().addCooldown(this, 10);
 

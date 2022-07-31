@@ -7,7 +7,7 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -133,13 +133,13 @@ public class CommonEvents
                 int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
                 float chance = 1f - (pLevel * (1/64f));
 
-                boolean doProvide = !player.level.isClientSide && ParryModUtil.random.nextFloat() > chance;
+                boolean doProvide = !player.level.isClientSide && ModUtil.random.nextFloat() > chance;
 
                 if(doProvide)
                 {
                     ModTriggers.provide.trigger((ServerPlayer) player);
                     //magic sound go brr
-                    player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                    player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ModUtil.random.nextFloat() * 2f);
                 }
 
                 event.setProjectileItemStack(doProvide ? peek.copy() : peek);
@@ -163,7 +163,7 @@ public class CommonEvents
 
             if(entity instanceof Player player)
             {
-                if(ParryModUtil.IsBlocked(player, attacker))
+                if(ModUtil.IsBlocked(player, attacker))
                 {
                     player.level.playSound(player, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 0.8F + player.level.random.nextFloat() * 0.4F);
                     float shieldAbsorb = 2; //TODO store in shields somehow
@@ -296,7 +296,7 @@ public class CommonEvents
 
             if(attacker != null && Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
             {
-                float chance = ParryModUtil.random.nextFloat();
+                float chance = ModUtil.random.nextFloat();
 
                 if(chance <= 0.25)
                 {
@@ -342,7 +342,7 @@ public class CommonEvents
 
         if(!event.player.level.isClientSide())
         {
-            if(!ParryModUtil.IsWeapon(event.player.getMainHandItem()) && ParryModUtil.IsWeapon(event.player.getOffhandItem()))
+            if(!ModUtil.IsWeapon(event.player.getMainHandItem()) && ModUtil.IsWeapon(event.player.getOffhandItem()))
             {
                 DualWieldingMechanic.dualWielders.remove(event.player.getUUID());
             }
@@ -352,7 +352,7 @@ public class CommonEvents
             if(v <= 0)
             {
                 event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
-                float pitch = ParryModUtil.random.nextFloat() * 0.4f + 0.8f;
+                float pitch = ModUtil.random.nextFloat() * 0.4f + 0.8f;
                 event.player.level.playSound(null, event.player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f, pitch);
                 Vec3 pos = event.player.position();
 

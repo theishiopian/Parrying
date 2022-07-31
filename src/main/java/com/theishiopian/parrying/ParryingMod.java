@@ -40,7 +40,7 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 13;  //protocol version, bump whenever adding new network packets or changing existing ones.
+    private static final int VERSION = 14;  //protocol version, bump whenever adding new network packets or changing existing ones.
                                             // last change: renamed a few things
 
     static
@@ -81,10 +81,10 @@ public class ParryingMod
                 .consumer(QuiverAdvPacket::handle)
                 .add();
 
-        channel.messageBuilder(ScabbardPacket.class, 6)
-                .decoder(ScabbardPacket::fromBytes)
-                .encoder(ScabbardPacket::toBytes)
-                .consumer(ScabbardPacket::handle)
+        channel.messageBuilder(UseScabbardPacket.class, 6)
+                .decoder(UseScabbardPacket::fromBytes)
+                .encoder(UseScabbardPacket::toBytes)
+                .consumer(UseScabbardPacket::handle)
                 .add();
     }
 

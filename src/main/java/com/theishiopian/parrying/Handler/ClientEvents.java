@@ -17,10 +17,10 @@ import com.theishiopian.parrying.Mechanics.ParryingMechanic;
 import com.theishiopian.parrying.Network.DodgePacket;
 import com.theishiopian.parrying.Network.DualWieldPacket;
 import com.theishiopian.parrying.Network.LeftClickPacket;
-import com.theishiopian.parrying.Network.ScabbardPacket;
+import com.theishiopian.parrying.Network.UseScabbardPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -102,7 +102,7 @@ public class ClientEvents
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
-                RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
+                RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
                 Window window = event.getWindow();
                 int x = (window.getGuiScaledWidth() / 2) - 8;
                 int y = (window.getGuiScaledHeight() / 2) + 16;
@@ -121,7 +121,7 @@ public class ClientEvents
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
-                RenderSystem.setShaderTexture(0, ParryModUtil.GENERAL_ICONS);
+                RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
                 Window window = event.getWindow();
                 boolean offhand = DualWieldingMechanic.CurrentHand == InteractionHand.OFF_HAND;
                 int x = (window.getGuiScaledWidth() / 2) - (8 + (offhand ? 16 : -16));
@@ -255,7 +255,7 @@ public class ClientEvents
 
         if(IsGameplayInProgress(true) && drawKey.isDown())
         {
-            ParryingMod.channel.sendToServer(new ScabbardPacket());
+            ParryingMod.channel.sendToServer(new UseScabbardPacket());
         }
     }
 }

@@ -4,7 +4,7 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModParticles;
 import com.theishiopian.parrying.Registration.ModTriggers;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -73,7 +73,7 @@ public abstract class Deflection
                     projectile.setPos(projectile.getX() + arrowMovement.x, projectile.getY() + arrowMovement.y, projectile.getZ() + arrowMovement.z);
 
                     //play parry noise and spawn particle
-                    player.level.playSound(null, player.blockPosition(), ParryingMechanic.GetMaterialParrySound(mainHandItem.getItem()), SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                    player.level.playSound(null, player.blockPosition(), ParryingMechanic.GetMaterialParrySound(mainHandItem.getItem()), SoundSource.PLAYERS, 1, ModUtil.random.nextFloat() * 2f);
                     Vec3 particlePos = projectile.position();
                     ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), particlePos.x, particlePos.y, particlePos.z, 1, 0D, 0D, 0D, 0.0D);
 

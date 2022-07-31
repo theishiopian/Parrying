@@ -11,24 +11,24 @@ import java.util.function.Supplier;
  * Used to tell the server to dodge.
  * Encodes the direction of the dodge using an integer.
  */
-public class ScabbardPacket
+public class UseScabbardPacket
 {
     public void toBytes(FriendlyByteBuf buffer)
     {
 
     }
 
-    public static ScabbardPacket fromBytes(FriendlyByteBuf buffer)
+    public static UseScabbardPacket fromBytes(FriendlyByteBuf buffer)
     {
-        return new ScabbardPacket();
+        return new UseScabbardPacket();
     }
 
-    public ScabbardPacket()
+    public UseScabbardPacket()
     {
 
     }
 
-    public static void handle(ScabbardPacket packet, Supplier<NetworkEvent.Context> context)
+    public static void handle(UseScabbardPacket packet, Supplier<NetworkEvent.Context> context)
     {
         ScabbardItem.SheatheOrDrawSword(Objects.requireNonNull(context.get().getSender()));
 

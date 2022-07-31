@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -49,7 +49,7 @@ public abstract class ParryingMechanic
                     ItemStack held = player.getMainHandItem();//the item in use
 
                     //is the player holding a weapon?
-                    if(ParryModUtil.IsWeapon(held))
+                    if(ModUtil.IsWeapon(held))
                     {
                         Entity attacker = source.getEntity();//the attacking entity
                         Vec3 playerLookDir = player.getViewVector(1);//the direction the player is looking
@@ -69,7 +69,7 @@ public abstract class ParryingMechanic
                         if(angle >= GetSurfaceAngle(player) && player.swinging)
                         {
                             //phasing check
-                            if(phaseLevel == 0 || ParryModUtil.random.nextInt(3) != 0)
+                            if(phaseLevel == 0 || ModUtil.random.nextInt(3) != 0)
                             {
                                 //successful parry
                                 player.awardStat(ModStats.parry);
@@ -95,14 +95,14 @@ public abstract class ParryingMechanic
                                         playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
 
                                 //get particle position
-                                double pX = (attacker.getX() + player.getX()) / 2 + (ParryModUtil.random.nextDouble()-0.5) * 0.2 + (attackerDirNorm.x * 0.2);
-                                double pY = ((attacker.getY() + player.getY()) / 2) + 1.45 + (ParryModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.y * 0.2);
-                                double pZ = (attacker.getZ() + player.getZ()) / 2 + (ParryModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
+                                double pX = (attacker.getX() + player.getX()) / 2 + (ModUtil.random.nextDouble()-0.5) * 0.2 + (attackerDirNorm.x * 0.2);
+                                double pY = ((attacker.getY() + player.getY()) / 2) + 1.45 + (ModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.y * 0.2);
+                                double pZ = (attacker.getZ() + player.getZ()) / 2 + (ModUtil.random.nextDouble()-0.5) * 0.2+ (attackerDirNorm.z * 0.2);
 
                                 SoundEvent toPlay = GetMaterialParrySound(held.getItem());
 
                                 //play particles and sound
-                                player.level.playSound(null, player.blockPosition(), toPlay, SoundSource.PLAYERS, 1, (ParryModUtil.random.nextFloat() * 0.5f) + 0.5f);
+                                player.level.playSound(null, player.blockPosition(), toPlay, SoundSource.PLAYERS, 1, (ModUtil.random.nextFloat() * 0.5f) + 0.5f);
                                 ((ServerLevel) player.level).sendParticles(ModParticles.PARRY_PARTICLE.get(), pX, pY, pZ, 1, 0D, 0D, 0D, 0.0D);
 
                                 //cancel player damage logic
@@ -111,7 +111,7 @@ public abstract class ParryingMechanic
                             else
                             {
                                 //called when a player's weapon phases through a clash, caused by the phasing curse
-                                player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ParryModUtil.random.nextFloat() * 2f);
+                                player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ModUtil.random.nextFloat() * 2f);
                             }
                         }
                     }

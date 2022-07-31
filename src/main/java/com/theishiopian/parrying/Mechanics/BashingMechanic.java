@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Registration.*;
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -29,7 +29,7 @@ public abstract class BashingMechanic
         {
             if(player != null && player.isBlocking())
             {
-                Random random = ParryModUtil.random;
+                Random random = ModUtil.random;
                 ItemStack main = player.getMainHandItem();
                 ItemStack off = player.getOffhandItem();
                 ItemStack shield = null;
@@ -47,7 +47,7 @@ public abstract class BashingMechanic
                     shield = off;
                 }
 
-                List<Entity> targets = ParryModUtil.GetEntitiesInCone(player, 3, Config.bashAngle.get());
+                List<Entity> targets = ModUtil.GetEntitiesInCone(player, 3, Config.bashAngle.get());
 
                 if(targets.size() > 0)
                 {

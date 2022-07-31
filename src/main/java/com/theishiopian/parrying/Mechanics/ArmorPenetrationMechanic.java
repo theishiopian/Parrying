@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Mechanics;
 
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,7 +39,7 @@ public abstract class ArmorPenetrationMechanic
             float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
             int strLevel = attacker.hasEffect(MobEffects.DAMAGE_BOOST) ? attacker.getEffect(MobEffects.DAMAGE_BOOST).getAmplifier() : 0;
             amount += strLevel * 3;
-            boolean critical = attacker instanceof Player && ParryModUtil.PlayerCritical((Player) attacker, target, attackStrength);
+            boolean critical = attacker instanceof Player && ModUtil.PlayerCritical((Player) attacker, target, attackStrength);
             if(critical)amount *= 1.5f;
             amount += boost;
             float nonAP = 1 - ap;
@@ -50,7 +50,7 @@ public abstract class ArmorPenetrationMechanic
 
             target.hurt(new EntityDamageSource(src, attacker), dmgNAP);
             target.invulnerableTime = 0;
-            if(!ParryModUtil.IsBlocked(target, attacker))
+            if(!ModUtil.IsBlocked(target, attacker))
             {
                 target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), dmgAP);
             }

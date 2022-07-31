@@ -1,6 +1,6 @@
 package com.theishiopian.parrying.Client;
 
-import com.theishiopian.parrying.Utility.ParryModUtil;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -18,7 +18,7 @@ public class SliceParticle extends TextureSheetParticle
     protected SliceParticle(ClientLevel world, double posX, double posY, double posZ, SpriteSet sprites)
     {
         super(world, posX, posY, posZ, 0, 0, 0);
-        float f = ParryModUtil.random.nextFloat() * 0.6F + 0.4F;
+        float f = ModUtil.random.nextFloat() * 0.6F + 0.4F;
         this.rCol = f;
         this.gCol = f;
         this.bCol = f;

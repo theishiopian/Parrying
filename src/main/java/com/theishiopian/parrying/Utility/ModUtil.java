@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * This class contains misc methods that I have found to be useful in multiple places.
  * If a method is useful in several unrelated places, it goes in here.
  */
-public class ParryModUtil
+public class ModUtil
 {
     public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(ParryingMod.MOD_ID, "textures/gui/icons.png");
     public static final Random random = new Random();
@@ -84,7 +84,7 @@ public class ParryModUtil
 
         list.remove(player);
 
-        list.sort(ParryModUtil.GetDistanceSorter(player));
+        list.sort(ModUtil.GetDistanceSorter(player));
         Vec3 pDir = player.getViewVector(1);
         return list.stream().filter(
                 entity ->

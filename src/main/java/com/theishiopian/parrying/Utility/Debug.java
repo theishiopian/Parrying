@@ -8,7 +8,7 @@ import com.theishiopian.parrying.ParryingMod;
  */
 public class Debug
 {
-    public static void log(String message, Object... params)
+    public static void logLMultiple(String message, Object... params)
     {
         ParryingMod.LOGGER.info(message);
 
