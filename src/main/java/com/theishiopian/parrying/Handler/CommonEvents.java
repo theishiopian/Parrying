@@ -19,6 +19,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -40,17 +41,17 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingGetProjectileEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class CommonEvents
@@ -441,6 +442,60 @@ public class CommonEvents
             player.hurt(ModDamageSources.BEDROCK, 1);
             player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
             if(player instanceof ServerPlayer serverPlayer)ModTriggers.vibe.trigger(serverPlayer);
+        }
+    }
+
+    //TODO let people set this via config or data pack
+    private static final Map<MobEffect, MobEffect> antidotes = new HashMap<>()
+    {
+        {put(MobEffects.POISON, MobEffects.REGENERATION);}
+        {put(MobEffects.REGENERATION, MobEffects.POISON);}
+        {put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);}
+        {put(MobEffects.MOVEMENT_SLOWDOWN, MobEffects.MOVEMENT_SPEED);}
+        {put(MobEffects.BLINDNESS, MobEffects.NIGHT_VISION);}
+        {put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);}
+        {put(MobEffects.DAMAGE_BOOST, MobEffects.WEAKNESS);}
+        {put(MobEffects.WEAKNESS, MobEffects.DAMAGE_BOOST);}
+        {put(MobEffects.INVISIBILITY, MobEffects.GLOWING);}
+        {put(MobEffects.GLOWING, MobEffects.INVISIBILITY);}
+        {put(MobEffects.JUMP, MobEffects.SLOW_FALLING);}
+        {put(MobEffects.SLOW_FALLING, MobEffects.JUMP);}
+        {put(MobEffects.WATER_BREATHING, MobEffects.FIRE_RESISTANCE);}
+        {put(MobEffects.FIRE_RESISTANCE, MobEffects.WATER_BREATHING);}
+    };
+
+    public static void OnPotionEffectAdded(PotionEvent.PotionApplicableEvent event)
+    {
+        LivingEntity entity = event.getEntityLiving();
+
+        //ANTIDOTES
+        MobEffect incoming = event.getPotionEffect().getEffect();
+        MobEffect opposite = antidotes.getOrDefault(incoming, null);
+        if(opposite != null && entity.hasEffect(opposite))
+        {
+            event.setResult(Event.Result.DENY);
+            event.getEntityLiving().removeEffect(opposite);
+        }
+    }
+
+    public static void OnLivingTick(LivingEvent.LivingUpdateEvent event)
+    {
+        //todo config
+        LivingEntity entity = event.getEntityLiving();
+        if(entity.getActiveEffects().size() > 3)
+        {
+            entity.removeAllEffects();
+            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));//TODO config for both effect and duration
+
+            //todo advancement here
+        }
+    }
+
+    public static void OnFinishDrinkPotion(LivingEntityUseItemEvent.Finish event)
+    {
+        if(event.getItem().is(Items.POTION) && event.getEntityLiving() instanceof Player player)
+        {
+            player.getCooldowns().addCooldown(Items.POTION, 16);
         }
     }
 

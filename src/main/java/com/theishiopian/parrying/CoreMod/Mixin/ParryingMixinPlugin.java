@@ -23,7 +23,9 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "PlayerMixin",
         "TiersMixin",
         "ArmorMaterialsMixin",
-        "ArrowMixin"
+        "ArrowMixin",
+        "PotionItemMixin",
+        "MilkBucketMixin",
     };
 
     @Override
