@@ -27,7 +27,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "PotionItemMixin",
         "ThrowablePotionItemMixin",
         "MilkBucketMixin",
-        "ThrownPotionEntityMixin"
+        "ThrownPotionEntityMixin",
+        "PoisonMixin"
     };
 
     @Override

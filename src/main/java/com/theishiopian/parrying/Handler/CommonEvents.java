@@ -22,7 +22,10 @@ import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -256,7 +259,7 @@ public class CommonEvents
                                     boolean beneficial = i.getEffect().isBeneficial();
                                     boolean isInstantHeal = i.getEffect() == MobEffects.HEAL;
                                     boolean isInstantHarm = i.getEffect() == MobEffects.HARM;
-                                    boolean targetUndead = target.getMobType() == MobType.UNDEAD;
+                                    boolean targetUndead = target.isInvertedHealAndHarm();
                                     if(beneficial && !(targetUndead && isInstantHeal))
                                     {
                                         shouldBeHarmful = false;
