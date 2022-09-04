@@ -491,11 +491,20 @@ public class CommonEvents
         }
     }
 
+    public static void OnThrowPotion(PlayerInteractEvent.RightClickItem event)
+    {
+        Player player = event.getPlayer();
+        ItemStack item =  event.getItemStack();
+        //Debug.log("player used item " + item.getItem());
+        if(item.is(Items.SPLASH_POTION))player.getCooldowns().addCooldown(Items.SPLASH_POTION, 20);
+        if(item.is(Items.LINGERING_POTION))player.getCooldowns().addCooldown(Items.LINGERING_POTION, 24);
+    }
+
     public static void OnFinishDrinkPotion(LivingEntityUseItemEvent.Finish event)
     {
-        if(event.getItem().is(Items.POTION) && event.getEntityLiving() instanceof Player player)
+        if(event.getEntityLiving() instanceof Player player)
         {
-            player.getCooldowns().addCooldown(Items.POTION, 16);
+            if(event.getItem().is(Items.POTION)) player.getCooldowns().addCooldown(Items.POTION, 16);//TODO config values for all three
         }
     }
 

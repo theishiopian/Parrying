@@ -107,6 +107,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHitBlock);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowScan);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPotionEffectAdded);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnThrowPotion);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnFinishDrinkPotion);
 
         ModTriggers.Init();
