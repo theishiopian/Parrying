@@ -13,4 +13,10 @@ public class BrewingStandGUIMixin
     {
         return 120;//todo config
     }
+
+    //todo disable line 44 to disable fuel bar
+
+    //todo in menu class (separate mixin for BrewingStandMenu) set co-ords on line 44 to something very high, to move the fuel slot off screen
+    //todo in menu class redirect method on line 147 to return false
+    //todo make gui retexture
 }
