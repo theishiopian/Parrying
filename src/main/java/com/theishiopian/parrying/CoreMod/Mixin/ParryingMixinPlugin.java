@@ -31,7 +31,9 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "ThrownPotionEntityMixin",
         "PoisonMixin",
         "PotionBrewingMixin",
-        "BrewingStandMixin"
+        "BrewingStandMixin",
+        "BrewingStandMenuMixin",
+        "BrewingStandFuelSlotMixin"
     };
 
     @Override

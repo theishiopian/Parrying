@@ -1,9 +1,14 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BrewingStandBlockEntity.class)
 public class BrewingStandMixin
@@ -14,8 +19,15 @@ public class BrewingStandMixin
         return 120;//TODO config
     }
 
-    //TODO change 0 on line 98 to negative infinity to disable fuel intake
-    //TODO need to disable line 118 in BrewingStandBlockEntity to disable fuel loss
-    //todo set 0 on line 117 to negative infinity to disable fuel check
-    //todo redirect on 261 to disable automated blaze input
+    @Redirect(method = "serverTick", at = @At(value = "FIELD", target = "Lnet/minecraft/world/level/block/entity/BrewingStandBlockEntity;fuel:I", opcode = Opcodes.GETFIELD))
+    private static int RedirectFuelIntakeCheck(BrewingStandBlockEntity instance)
+    {
+        return 1;//todo config
+    }
+
+    @Redirect(method = "canPlaceItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"))
+    private boolean RedirectAutomatedBlazePowderCheck(ItemStack instance, Item pItem)
+    {
+        return false;//todo config
+    }
 }
