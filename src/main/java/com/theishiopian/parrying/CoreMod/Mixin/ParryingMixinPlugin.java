@@ -15,7 +15,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
 {
     private static final String[] CLIENT_MIXINS = new String[]
     {
-        "ItemInHandRendererMixin"
+        "ItemInHandRendererMixin",
+        "BrewingStandGUIMixin"
     };
 
     private static final String[] COMMON_MIXINS = new String[]
@@ -29,7 +30,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "MilkBucketMixin",
         "ThrownPotionEntityMixin",
         "PoisonMixin",
-        "PotionBrewingMixin"
+        "PotionBrewingMixin",
+        "BrewingStandMixin"
     };
 
     @Override
