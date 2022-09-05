@@ -55,6 +55,7 @@ public class ClientEvents
     static
     {
         ClientRegistry.registerKeyBinding(dodgeKey);
+        ClientRegistry.registerKeyBinding(drawKey);
     }
 
     public static void OnHandRendered(RenderHandEvent event)
