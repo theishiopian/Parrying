@@ -35,7 +35,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "BrewingStandMenuMixin",
         "BrewingStandFuelSlotMixin",
         "FoodDataMixin",
-        "FoodsMixin"
+        "FoodsMixin",
+        "LivingEntityMixin"
     };
 
     @Override
