@@ -33,7 +33,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "PotionBrewingMixin",
         "BrewingStandMixin",
         "BrewingStandMenuMixin",
-        "BrewingStandFuelSlotMixin"
+        "BrewingStandFuelSlotMixin",
+        "FoodDataMixin"
     };
 
     @Override
