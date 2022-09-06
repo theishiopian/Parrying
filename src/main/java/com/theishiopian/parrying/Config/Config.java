@@ -10,6 +10,9 @@ public class Config
 {
     public static final ForgeConfigSpec COMMON;
 
+    //brewing stand
+    public static final ForgeConfigSpec.BooleanValue brewingRequiresFuel;
+
     //weapon
     public static final ForgeConfigSpec.BooleanValue maceEnabled;
     public static final ForgeConfigSpec.BooleanValue hammerEnabled;
@@ -89,6 +92,8 @@ public class Config
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder.push("common");
+
+        brewingRequiresFuel = builder.comment("Whether or not the brewing stand will require and accept fuel. Also controls whether the fuel slot is visible").define("brewing_requires_fuel", false);
 
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);

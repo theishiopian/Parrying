@@ -1,0 +1,8 @@
+{
+  "pack": {
+    "pack_format": 8,
+    "description": "Removes the fuel slot from the brewing stand",
+    "forge:resource_pack_format": 8,
+    "forge:data_pack_format": 9
+  }
+}

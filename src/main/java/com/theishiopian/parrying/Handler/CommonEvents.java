@@ -11,8 +11,13 @@ import com.theishiopian.parrying.Utility.ModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -41,6 +46,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -50,8 +56,11 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.resource.PathResourcePack;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -539,6 +548,30 @@ public class CommonEvents
             trades.get(3).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 3));
             trades.get(4).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 4));
             trades.get(5).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 5));
+        }
+    }
+
+    public static void OnAddPackFinders(AddPackFindersEvent event)
+    {
+        try
+        {
+            if (event.getPackType() == PackType.CLIENT_RESOURCES && !Config.brewingRequiresFuel.get())
+            {
+                var resourcePath = ModList.get().getModFileById(ParryingMod.MOD_ID).getFile().findResource("brewing_stand_optional");
+                var pack = new PathResourcePack(ModList.get().getModFileById(ParryingMod.MOD_ID).getFile().getFileName() + ":" + resourcePath, resourcePath);
+                var metadataSection = pack.getMetadataSection(PackMetadataSection.SERIALIZER);
+                if (metadataSection != null)
+                {
+                    event.addRepositorySource((packConsumer, packConstructor) ->
+                            packConsumer.accept(packConstructor.create(
+                                    "builtin/parrying", new TextComponent("Brewing Stand Reskin"), true, //set here
+                                    () -> pack, metadataSection, Pack.Position.TOP, PackSource.BUILT_IN, true)));
+                }
+            }
+        }
+        catch(IOException ex)
+        {
+            throw new RuntimeException(ex);
         }
     }
 }

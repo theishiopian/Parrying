@@ -90,7 +90,11 @@ public class ParryingMod
 
     public ParryingMod()
     {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        bus.addListener(CommonEvents::OnAddPackFinders);
+
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterCapabilities);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterTrades);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttacked);
@@ -119,9 +123,6 @@ public class ParryingMod
         ModEffects.EFFECTS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
         ModAttributes.ATTRIBUTES.register(bus);
-
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
         {

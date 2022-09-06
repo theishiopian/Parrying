@@ -251,10 +251,10 @@ public class ClientEvents
             boolean back = Minecraft.getInstance().options.keyDown.isDown();
 
 
-            if(left || right || back)ParryingMod.channel.sendToServer(new DodgePacket(left, right, back));
+            if (left || right || back) ParryingMod.channel.sendToServer(new DodgePacket(left, right, back));
         }
 
-        if(IsGameplayInProgress(true) && drawKey.isDown())
+        if (IsGameplayInProgress(true) && drawKey.isDown())
         {
             ParryingMod.channel.sendToServer(new UseScabbardPacket());
         }
