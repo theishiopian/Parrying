@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class FoodDataMixin
 {
     @ModifyConstant(method = "tick", constant = @Constant(floatValue = 0.0f, ordinal = 2))
-    private float ModifySatHeal(float constant)
+    private float ModifySatHeal(float constant)//disables sat healing
     {
         return Integer.MAX_VALUE;//todo config
     }

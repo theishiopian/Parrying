@@ -494,7 +494,7 @@ public class CommonEvents
     {
         //todo config
         LivingEntity entity = event.getEntityLiving();
-        if(entity.getActiveEffects().size() > 3)
+        if(entity.getActiveEffects().size() > 5)
         {
             entity.removeAllEffects();
             entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));//TODO config for both effect and duration
@@ -564,8 +564,8 @@ public class CommonEvents
                 {
                     event.addRepositorySource((packConsumer, packConstructor) ->
                             packConsumer.accept(packConstructor.create(
-                                    "builtin/parrying", new TextComponent("Brewing Stand Reskin"), true, //set here
-                                    () -> pack, metadataSection, Pack.Position.TOP, PackSource.BUILT_IN, true)));
+                                    "builtin/parrying", new TextComponent("Brewing Stand Reskin"), true, //true makes it required
+                                    () -> pack, metadataSection, Pack.Position.TOP, PackSource.BUILT_IN, true)));//true makes it hidden
                 }
             }
         }
