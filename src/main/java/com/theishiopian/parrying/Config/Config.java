@@ -13,6 +13,10 @@ public class Config
     //brewing stand
     public static final ForgeConfigSpec.BooleanValue brewingRequiresFuel;
 
+    public static final ForgeConfigSpec.IntValue brewingTicks;
+    public static final ForgeConfigSpec.BooleanValue undyingWorksFromInventory;
+    public static final ForgeConfigSpec.BooleanValue undyingRework;
+
     //weapon
     public static final ForgeConfigSpec.BooleanValue maceEnabled;
     public static final ForgeConfigSpec.BooleanValue hammerEnabled;
@@ -94,7 +98,9 @@ public class Config
         builder.push("common");
 
         brewingRequiresFuel = builder.comment("Whether or not the brewing stand will require and accept fuel. Also controls whether the fuel slot is visible").define("brewing_requires_fuel", false);
-
+        brewingTicks = builder.comment("How many ticks the brewing stand takes to brew a potion, vanilla is 400, mod default is 120").defineInRange("brewing_ticks", 120, 1, Integer.MAX_VALUE);
+        undyingRework = builder.comment("Whether or not the totem of undying is reworked.").define("totem_rework", true);
+        undyingWorksFromInventory = builder.comment("Whether or not the totem of undying works from the inventory. Also disabled if the rework is disabled.").define("totem_inventory", true);
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
         hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);

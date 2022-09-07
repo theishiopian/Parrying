@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Hooks;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -16,13 +17,13 @@ public class LivingEntityHooks
 {
     public static Optional<Boolean> ModifyDeathProtectionCheck(DamageSource source, LivingEntity entity)
     {
-        if(true)//todo config here
+        if(Config.undyingRework.get())
         {
             if(source.isBypassInvul()) return Optional.of(false);
 
             ItemStack totem = null;
 
-            if(entity instanceof Player player)//todo config
+            if(Config.undyingWorksFromInventory.get() && entity instanceof Player player)
             {
                 for (ItemStack item : player.getInventory().items)
                 {

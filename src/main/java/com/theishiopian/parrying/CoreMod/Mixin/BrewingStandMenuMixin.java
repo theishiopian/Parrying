@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.inventory.BrewingStandMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -14,12 +15,12 @@ public class BrewingStandMenuMixin
     @ModifyConstant(constant = @Constant(intValue = 17, ordinal = 1), method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V")
     private int ModifyFuelX(int x)
     {
-        return 999;//todo config
+        return Config.brewingRequiresFuel.get() ? 17 : 999;
     }
 
     @ModifyConstant(constant = @Constant(intValue = 17, ordinal = 2), method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V")
     private int ModifyFuelY(int y)
     {
-        return 999;//todo config
+        return Config.brewingRequiresFuel.get() ? 17 : 999;
     }
 }
