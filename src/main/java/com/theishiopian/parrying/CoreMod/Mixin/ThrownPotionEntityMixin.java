@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrownPotion;
@@ -23,9 +24,9 @@ public class ThrownPotionEntityMixin
         List<LivingEntity> targets = instance.getEntitiesOfClass(LivingEntity.class, aabb);
         Entity owner = ((ThrownPotion)(Object)this).getOwner();
 
-        if(owner instanceof LivingEntity)
+        if(Config.noSelfSplash.get() && owner instanceof LivingEntity)
         {
-            targets.remove(owner);//todo config
+            targets.remove(owner);
         }
 
         return targets;
@@ -34,6 +35,6 @@ public class ThrownPotionEntityMixin
     @ModifyConstant(method = "makeAreaOfEffectCloud", constant = @Constant(floatValue = 3.0f))
     private float ModifyLingerCloudRadius(float constant)
     {
-        return 4;//todo config
+        return Config.lingeringRadius.get().floatValue();
     }
 }

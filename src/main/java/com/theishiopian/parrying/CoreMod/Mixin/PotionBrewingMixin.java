@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
@@ -16,7 +17,7 @@ public abstract class PotionBrewingMixin
     @Inject(method = "bootStrap", at = @At("HEAD"), cancellable = true)
     private static void ReplaceRecipes(CallbackInfo ci)
     {
-        //todo config here
+        if(!Config.brewingRecipeOverhaul.get()) return;
 
         //boiler plate
         addContainer(Items.POTION);

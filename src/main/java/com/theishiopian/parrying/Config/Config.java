@@ -12,8 +12,13 @@ public class Config
 
     //brewing
     public static final ForgeConfigSpec.BooleanValue brewingRequiresFuel;
+    public static final ForgeConfigSpec.BooleanValue brewingRecipeOverhaul;
     public static final ForgeConfigSpec.BooleanValue poisonLethal;
+    public static final ForgeConfigSpec.BooleanValue modifyThrow;
+    public static final ForgeConfigSpec.BooleanValue noSelfSplash;
+    public static final ForgeConfigSpec.IntValue sipTicks;
     public static final ForgeConfigSpec.IntValue brewingTicks;
+    public static final ForgeConfigSpec.DoubleValue lingeringRadius;
 
     //food
     public static final ForgeConfigSpec.BooleanValue noSatHeal;
@@ -103,12 +108,17 @@ public class Config
         builder.push("common");
 
         brewingRequiresFuel = builder.comment("Whether or not the brewing stand will require and accept fuel. Also controls whether the fuel slot is visible").define("brewing_requires_fuel", false);
+        brewingRecipeOverhaul = builder.comment("Whether or not the mod replaces the vanilla brewing recipes").define("brewing_overhaul", true);
+        sipTicks = builder.comment("How many ticks a potion takes to drink. Vanilla is 32, mod default is 16").defineInRange("potion_drink_ticks", 16, 1, Integer.MAX_VALUE);
         brewingTicks = builder.comment("How many ticks the brewing stand takes to brew a potion, vanilla is 400, mod default is 120").defineInRange("brewing_ticks", 120, 1, Integer.MAX_VALUE);
         poisonLethal = builder.comment("Whether or not poison is lethal").define("poison_lethal", true);
+        modifyThrow = builder.comment("Whether or not to modify the throwing force of thrown potions").define("modify_potion_throwing", true);
+        noSelfSplash = builder.comment("Whether or not to disable splash potions affecting the thrower").define("no_self_splash", true);
         undyingRework = builder.comment("Whether or not the totem of undying is reworked.").define("totem_rework", true);
         undyingWorksFromInventory = builder.comment("Whether or not the totem of undying works from the inventory. Also disabled if the rework is disabled.").define("totem_inventory", true);
         noSatHeal = builder.comment("Whether or not saturation healing is disabled").define("no_saturation_healing", true);
         milkBucketRework = builder.comment("Whether or not the milk bucket is reworked").define("milk_bucket_rework", true);
+        lingeringRadius = builder.comment("The radius of lingering potion clouds. Vanilla 3, default 4").defineInRange("lingering_radius", 4f, 0, 100);
 
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);

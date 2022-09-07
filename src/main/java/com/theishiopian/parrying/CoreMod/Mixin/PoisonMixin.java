@@ -12,6 +12,6 @@ public class PoisonMixin
     @ModifyConstant(method = "applyEffectTick", constant = @Constant(floatValue = 1.0f, ordinal = 1))
     private float ModifyPoisonLethality(float constant)
     {
-        return Config.poisonLethal.get() ? 0 : 1;//TODO config
+        return Config.poisonLethal.get() ? 0 : 1;
     }
 }
