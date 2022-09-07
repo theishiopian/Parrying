@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -19,7 +20,7 @@ public class MilkBucketMixin
     @Inject(at = @At("HEAD"), method = "finishUsingItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/item/ItemStack;", cancellable = true)
     private void InjectIntoFinishedUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, CallbackInfoReturnable<ItemStack> cir)
     {
-        if(true)//TODO make configurable
+        if(Config.milkBucketRework.get())//TODO make configurable
         {
             //TODO add fortified effect
             if (pEntityLiving instanceof ServerPlayer serverplayer)

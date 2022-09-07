@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.food.FoodData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -11,6 +12,6 @@ public class FoodDataMixin
     @ModifyConstant(method = "tick", constant = @Constant(floatValue = 0.0f, ordinal = 2))
     private float ModifySatHeal(float constant)//disables sat healing
     {
-        return Integer.MAX_VALUE;//todo config
+        return Config.noSatHeal.get() ? Integer.MAX_VALUE : 0;
     }
 }

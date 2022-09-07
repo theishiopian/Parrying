@@ -10,10 +10,15 @@ public class Config
 {
     public static final ForgeConfigSpec COMMON;
 
-    //brewing stand
+    //brewing
     public static final ForgeConfigSpec.BooleanValue brewingRequiresFuel;
-
+    public static final ForgeConfigSpec.BooleanValue poisonLethal;
     public static final ForgeConfigSpec.IntValue brewingTicks;
+
+    //food
+    public static final ForgeConfigSpec.BooleanValue noSatHeal;
+    public static final ForgeConfigSpec.BooleanValue milkBucketRework;
+
     public static final ForgeConfigSpec.BooleanValue undyingWorksFromInventory;
     public static final ForgeConfigSpec.BooleanValue undyingRework;
 
@@ -99,8 +104,12 @@ public class Config
 
         brewingRequiresFuel = builder.comment("Whether or not the brewing stand will require and accept fuel. Also controls whether the fuel slot is visible").define("brewing_requires_fuel", false);
         brewingTicks = builder.comment("How many ticks the brewing stand takes to brew a potion, vanilla is 400, mod default is 120").defineInRange("brewing_ticks", 120, 1, Integer.MAX_VALUE);
+        poisonLethal = builder.comment("Whether or not poison is lethal").define("poison_lethal", true);
         undyingRework = builder.comment("Whether or not the totem of undying is reworked.").define("totem_rework", true);
         undyingWorksFromInventory = builder.comment("Whether or not the totem of undying works from the inventory. Also disabled if the rework is disabled.").define("totem_inventory", true);
+        noSatHeal = builder.comment("Whether or not saturation healing is disabled").define("no_saturation_healing", true);
+        milkBucketRework = builder.comment("Whether or not the milk bucket is reworked").define("milk_bucket_rework", true);
+
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
         hammerEnabled = builder.comment("Whether or not the hammer is craftable.").define("hammer_enabled", true);

@@ -9,9 +9,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(BrewingStandMenu.class)
 public class BrewingStandMenuMixin
 {
-    //todo redirect method on line 147 to return false
-    //todo make gui retexture
-
     @ModifyConstant(constant = @Constant(intValue = 17, ordinal = 1), method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V")
     private int ModifyFuelX(int x)
     {
