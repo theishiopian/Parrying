@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -46,29 +46,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-public class QuiverItem extends Item implements DyeableLeatherItem
+public class AbstractBundleItem extends Item implements DyeableLeatherItem
 {
     public static void registerCapability(RegisterCapabilitiesEvent event)
     {
-        event.register(QuiverCapability.class);
+        event.register(BundleItemCapability.class);
     }
-    public QuiverItem(Properties pProperties)
+
+    private final int CAPACITY;
+    private final TagKey<Item> FILTER;
+
+    public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter)
     {
         super(pProperties.stacksTo(1));
+        CAPACITY = capacity;
+        FILTER = filter;
     }
 
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new CapabilityProvider<>(new QuiverCapability()) {};
+        return new CapabilityProvider<>(new BundleItemCapability(CAPACITY, FILTER)) {};
     }
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    private static QuiverCapability getActualCapability(ItemStack quiver)
+    private static AbstractBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
     {
-        return quiver.getCapability(QuiverCapability.INSTANCE).orElse(null);
+        return bundle.getCapability(BundleItemCapability.INSTANCE).orElse(null);
     }
     private static final int BAR_COLOR = Mth.color(0.4F, 0.4F, 1.0F);
 
@@ -76,10 +82,10 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     public CompoundTag getShareTag(ItemStack stack)
     {
         CompoundTag tag = super.getShareTag(stack)==null? stack.getOrCreateTag() : super.getShareTag(stack);
-        QuiverCapability c = getActualCapability(stack);
+        BundleItemCapability c = getActualCapability(stack);
         if(c!=null && tag != null)
         {
-            tag.put("quiver", c.serializeNBT(new CompoundTag()));
+            tag.put("storage", c.serializeNBT(new CompoundTag()));
         }
 
         return tag;
@@ -88,10 +94,10 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public void readShareTag(ItemStack stack, CompoundTag nbt)
     {
-        QuiverCapability c = getActualCapability(stack);
+        BundleItemCapability c = getActualCapability(stack);
         if(c!=null && nbt != null)
         {
-            c.deserializeNBT(nbt.getCompound("quiver"));
+            c.deserializeNBT(nbt.getCompound("storage"));
         }
         super.readShareTag(stack, nbt);
     }
@@ -100,39 +106,39 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
-        if(!QuiverItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
+        if(!AbstractBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
     }
 
-    public static int GetItemCount(ItemStack quiver)
+    public static int GetItemCount(ItemStack bundle)
     {
-        QuiverCapability c = getActualCapability(quiver);
+        BundleItemCapability c = getActualCapability(bundle);
         if(c == null) return 0;
         return c.GetItemCount();
     }
 
-    public static void AddLootArrows(ItemStack quiver, LootTable table, LootContext context)
+    public static void AddLootArrows(ItemStack bundle, LootTable table, LootContext context)
     {
         List<ItemStack> items = table.getRandomItems(context);
 
         for (ItemStack item : items)
         {
-            QuiverItem.addItem(quiver, item, null);
+            AbstractBundleItem.addItem(bundle, item, null);
         }
     }
 
-    public static ItemStack PeekFirstStack(ItemStack quiver)
+    public static ItemStack PeekFirstStack(ItemStack bundle)
     {
-        QuiverCapability c = getActualCapability(quiver);
+        BundleItemCapability c = getActualCapability(bundle);
         if(c == null) return ItemStack.EMPTY;
         c.Deflate();
         return c.stacksList.get(0);
     }
 
-    public static boolean DropAllItems(ItemStack quiver, Player player)
+    public static boolean DropAllItems(ItemStack bundle, Player player)
     {
-        QuiverCapability c = getActualCapability(quiver);
-        if(c == null || GetItemCount(quiver) == 0)return false;
+        BundleItemCapability c = getActualCapability(bundle);
+        if(c == null || GetItemCount(bundle) == 0)return false;
         c.Deflate();
 
         playDropContentsSound(player);
@@ -148,9 +154,9 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     }
 
     @Override
-    public boolean overrideStackedOnOther(@NotNull ItemStack quiverStack, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
+    public boolean overrideStackedOnOther(@NotNull ItemStack bundle, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer)
     {
-        QuiverCapability c = getActualCapability(quiverStack);
+        BundleItemCapability c = getActualCapability(bundle);
         if(c == null)return false;
 
         if (pAction != ClickAction.SECONDARY)
@@ -163,12 +169,12 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             if (toStackOnto.isEmpty() && c.GetItemCount() > 0)
             {
                 playRemoveOneSound(pPlayer);
-                removeOneStack(quiverStack).ifPresent((toInsert) -> addItem(quiverStack, pSlot.safeInsert(toInsert), pPlayer));
+                removeOneStack(bundle).ifPresent((toInsert) -> addItem(bundle, pSlot.safeInsert(toInsert), pPlayer));
             }
-            else if (toStackOnto.is(ItemTags.ARROWS))
+            else if (toStackOnto.is(c.FILTER))
             {
-                int amountToTake = (256 - getTotalWeight(quiverStack)) / getWeightOfItem(toStackOnto);
-                addItem(quiverStack, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer);
+                int amountToTake = (CAPACITY - getTotalWeight(bundle)) / getWeightOfItem(toStackOnto);
+                addItem(bundle, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer);
             }
             else return false;
             return true;
@@ -176,26 +182,28 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     }
 
     @Override
-    public boolean overrideOtherStackedOnMe(@NotNull ItemStack pStack, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
+    public boolean overrideOtherStackedOnMe(@NotNull ItemStack bundle, @NotNull ItemStack pOther, @NotNull Slot pSlot, @NotNull ClickAction pAction, @NotNull Player pPlayer, @NotNull SlotAccess pAccess)
     {
+        BundleItemCapability c = getActualCapability(bundle);
+        if(c == null) return false;
         if (pAction == ClickAction.SECONDARY && pSlot.allowModification(pPlayer))
         {
             if (pOther.isEmpty())
             {
-                Optional<ItemStack> removed = removeOneStack(pStack);
+                Optional<ItemStack> removed = removeOneStack(bundle);
                 if(removed.isPresent())
                 {
                     playRemoveOneSound(pPlayer);
                     pAccess.set(removed.get());
                 }
             }
-            else if(!pOther.is(ItemTags.ARROWS))
+            else if(!pOther.is(c.FILTER))
             {
                 return false;
             }
             else
             {
-                pAccess.set(addItem(pStack, pOther, pPlayer));
+                pAccess.set(addItem(bundle, pOther, pPlayer));
             }
 
             return true;
@@ -209,9 +217,9 @@ public class QuiverItem extends Item implements DyeableLeatherItem
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
     {
-        ItemStack quiver = pPlayer.getItemInHand(pUsedHand);
+        ItemStack bundle = pPlayer.getItemInHand(pUsedHand);
 
-        QuiverCapability c = getActualCapability(quiver);
+        BundleItemCapability c = getActualCapability(bundle);
         if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
         c.Deflate();
 
@@ -219,9 +227,9 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         {
             c.stacksList.add(c.stacksList.remove(0).copy());
             pPlayer.displayClientMessage(c.stacksList.get(0).getHoverName(), true);
-            return InteractionResultHolder.sidedSuccess(quiver, pLevel.isClientSide());
+            return InteractionResultHolder.sidedSuccess(bundle, pLevel.isClientSide());
         }
-        else return InteractionResultHolder.fail(quiver);
+        else return InteractionResultHolder.fail(bundle);
     }
 
     @Override
@@ -232,10 +240,10 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         BlockState block = pContext.getLevel().getBlockState(pos);
         if(block.is(Blocks.WATER_CAULDRON))
         {
-            ItemStack quiver = pContext.getItemInHand();
-            if(((DyeableLeatherItem)quiver.getItem()).hasCustomColor(quiver))
+            ItemStack bundle = pContext.getItemInHand();
+            if(((DyeableLeatherItem)bundle.getItem()).hasCustomColor(bundle))
             {
-                ((DyeableLeatherItem)quiver.getItem()).clearColor(quiver);
+                ((DyeableLeatherItem)bundle.getItem()).clearColor(bundle);
                 LayeredCauldronBlock.lowerFillLevel(block, pContext.getLevel(), pos);
                 return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide);
             }
@@ -251,7 +259,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     public int getBarWidth(@NotNull ItemStack pStack)
     {
-        return Math.min(1 + 12 * getTotalWeight(pStack) / 256, 13);
+        return Math.min(1 + 12 * getTotalWeight(pStack) / CAPACITY, 13);
     }
 
     public int getBarColor(@NotNull ItemStack pStack)
@@ -259,13 +267,13 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return BAR_COLOR;
     }
 
-    public static ItemStack addItem(ItemStack quiverStack, ItemStack stackToInsert, @Nullable Player player)
+    public static ItemStack addItem(ItemStack bundle, ItemStack stackToInsert, @Nullable Player player)
     {
         int startingCount = stackToInsert.getCount();
-        QuiverCapability c =  QuiverItem.getActualCapability(quiverStack);
+        BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
         c.Deflate();
-        if(stackToInsert.isEmpty() || !stackToInsert.is(ItemTags.ARROWS) || c.IsFull())return stackToInsert;
+        if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.IsFull())return stackToInsert;
 
         for (ItemStack itemStack : c.stacksList)
         {
@@ -301,6 +309,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
             }
         }
 
+        //TODO move to subclass somehow?
         if(c.IsFull())
         {
             HashSet<MobEffect> effects = new HashSet<>();
@@ -324,7 +333,6 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         return stackToInsert.copy();
     }
 
-    //technically unneeded. at least for a quiver...
     private static int getWeightOfItem(ItemStack pStack)
     {
         return 64 / pStack.getMaxStackSize();
@@ -332,15 +340,15 @@ public class QuiverItem extends Item implements DyeableLeatherItem
 
     private static int getTotalWeight(ItemStack pStack)
     {
-        QuiverCapability c = QuiverItem.getActualCapability(pStack);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(pStack);
         if(c == null)return 0;
 
         return c.stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
     }
 
-    private static Optional<ItemStack> removeOneStack(ItemStack quiverStack)
+    private static Optional<ItemStack> removeOneStack(ItemStack bundle)
     {
-        QuiverCapability c = QuiverItem.getActualCapability(quiverStack);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
 
         if(c == null)return Optional.empty();
         c.Deflate();
@@ -356,17 +364,17 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         }
     }
 
-    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack quiverStack)
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack bundle)
     {
-        QuiverCapability c = QuiverItem.getActualCapability(quiverStack);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return Optional.empty();
-        return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(quiverStack)));
+        return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(bundle)));
     }
 
     public void appendHoverText(@NotNull ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
         pTooltipComponents.add((new TranslatableComponent("filter.parrying.arrows")).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getTotalWeight(pStack), 256)).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getTotalWeight(pStack), CAPACITY)).withStyle(ChatFormatting.GRAY));
     }
 
     public void onDestroyed(ItemEntity pItemEntity)
@@ -374,7 +382,7 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         Level level = pItemEntity.level;
         if(!level.isClientSide)
         {
-            QuiverCapability c = QuiverItem.getActualCapability(pItemEntity.getItem());
+            BundleItemCapability c = AbstractBundleItem.getActualCapability(pItemEntity.getItem());
             if(c == null || c.GetItemCount() == 0)return;
 
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
@@ -396,27 +404,33 @@ public class QuiverItem extends Item implements DyeableLeatherItem
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
-    static class QuiverCapability implements IPersistentCapability<QuiverCapability>
+    static class BundleItemCapability implements IPersistentCapability<BundleItemCapability>
     {
+        private final int CAPACITY;
+        private final TagKey<Item> FILTER;
+
         public ArrayList<ItemStack> stacksList = new ArrayList<>();
 
-        public static final Capability<QuiverCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
+        public static final Capability<BundleItemCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 
         @Override
-        public Capability<QuiverCapability> getDefaultInstance()
+        public Capability<BundleItemCapability> getDefaultInstance()
         {
             return INSTANCE;
         }
-        public QuiverCapability()
+        public BundleItemCapability(int capacity, TagKey<Item> filter)
         {
             super();
+            CAPACITY = capacity;
+            FILTER = filter;
         }
+
         public int GetItemCount()
         {
             return stacksList.stream().mapToInt(ItemStack::getCount).sum();
         }
 
-        public boolean IsFull() {return GetItemCount() == 256;}
+        public boolean IsFull() {return GetItemCount() == CAPACITY;}
 
         public NonNullList<ItemStack> getNonnullStackList()
         {

@@ -2,7 +2,7 @@ package com.theishiopian.parrying.Handler;
 
 import com.google.gson.JsonObject;
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.QuiverItem;
+import com.theishiopian.parrying.Items.AbstractBundleItem;
 import com.theishiopian.parrying.Items.ScabbardItem;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModLootModifiers;
@@ -147,7 +147,7 @@ public class LootHandler
             LootTable table = context.getLootTable(this.table);
             ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
             quiver.setCount(1);
-            QuiverItem.AddLootArrows(quiver, table, context);
+            AbstractBundleItem.AddLootArrows(quiver, table, context);
             generatedLoot.add(quiver);
             return generatedLoot;
         }

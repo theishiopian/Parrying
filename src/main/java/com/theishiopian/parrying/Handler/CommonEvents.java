@@ -90,7 +90,7 @@ public class CommonEvents
 
     public static void OnRegisterCapabilities(RegisterCapabilitiesEvent event)
     {
-        QuiverItem.registerCapability(event);
+        AbstractBundleItem.registerCapability(event);
         ScabbardItem.registerCapability(event);
     }
 
@@ -124,7 +124,7 @@ public class CommonEvents
 
                 if(itemToScan.is(ModItems.QUIVER.get()) )
                 {
-                    int count = QuiverItem.GetItemCount(itemToScan);
+                    int count = AbstractBundleItem.GetItemCount(itemToScan);
 
                     if(count == 0)continue;
 
@@ -141,7 +141,7 @@ public class CommonEvents
 
             if(!quiver.isEmpty())
             {
-                ItemStack peek = QuiverItem.PeekFirstStack(quiver);
+                ItemStack peek = AbstractBundleItem.PeekFirstStack(quiver);
 
                 int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
                 float chance = 1f - (pLevel * (1/64f));
