@@ -4,6 +4,7 @@ import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -71,7 +72,7 @@ public class ModItems
     public static final RegistryObject<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear", () -> new SpearItem(Tiers.NETHERITE, SPEAR_DMG, SPEAR_SPEED, 1, (new Item.Properties().fireResistant().tab(CreativeModeTab.TAB_COMBAT))));
 
     public static final RegistryObject<ScopedCrossbow> SCOPED_CROSSBOW = ITEMS.register("scoped_crossbow", () -> new ScopedCrossbow(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
-    public static final RegistryObject<AbstractBundleItem> QUIVER = ITEMS.register("quiver", () -> new AbstractBundleItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS));
+    public static final RegistryObject<CustomBundleItem> QUIVER = ITEMS.register("quiver", () -> new CustomBundleItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT), 256, ItemTags.ARROWS, new TranslatableComponent("filter.parrying.arrows")));
     public static final RegistryObject<ScabbardItem> SCABBARD = ITEMS.register("scabbard", () -> new ScabbardItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
 
     /**
@@ -100,7 +101,7 @@ public class ModItems
             NETHERITE_SPEAR.get()
         };
 
-        ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> AbstractBundleItem.GetItemCount(stack) > 0 ? 1 : 0);
+        ItemProperties.register(QUIVER.get(), new ResourceLocation("arrows"), (stack, world, user, seed) -> CustomBundleItem.GetItemCount(stack) > 0 ? 1 : 0);
         ItemProperties.register(QUIVER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
 
         ItemProperties.register(SCABBARD.get(), new ResourceLocation("sword"), (stack, world, user, seed) -> ScabbardItem.HasSword(stack) ? 1 : 0);

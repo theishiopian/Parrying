@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.Enchantment;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Items.AbstractBundleItem;
+import com.theishiopian.parrying.Items.CustomBundleItem;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,7 +34,7 @@ public class ProvidenceEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof AbstractBundleItem && Config.providenceEnabled.get();
+        return toEnchant.getItem() instanceof CustomBundleItem && Config.providenceEnabled.get();
     }
 
     @Override

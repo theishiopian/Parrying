@@ -46,7 +46,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-public class AbstractBundleItem extends Item implements DyeableLeatherItem
+public class CustomBundleItem extends Item implements DyeableLeatherItem
 {
     public static void registerCapability(RegisterCapabilitiesEvent event)
     {
@@ -55,12 +55,14 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
 
     private final int CAPACITY;
     private final TagKey<Item> FILTER;
+    private final TranslatableComponent FILTER_TOOLTIP;
 
-    public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter)
+    public CustomBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
     {
         super(pProperties.stacksTo(1));
         CAPACITY = capacity;
         FILTER = filter;
+        FILTER_TOOLTIP = filter_tooltip;
     }
 
     @Nullable
@@ -72,7 +74,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    private static AbstractBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
+    private static CustomBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
     {
         return bundle.getCapability(BundleItemCapability.INSTANCE).orElse(null);
     }
@@ -106,7 +108,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
-        if(!AbstractBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
+        if(!CustomBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
     }
 
@@ -117,13 +119,13 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
         return c.GetItemCount();
     }
 
-    public static void AddLootArrows(ItemStack bundle, LootTable table, LootContext context)
+    public static void AddLoot(ItemStack bundle, LootTable table, LootContext context)
     {
         List<ItemStack> items = table.getRandomItems(context);
 
         for (ItemStack item : items)
         {
-            AbstractBundleItem.addItem(bundle, item, null);
+            CustomBundleItem.addItem(bundle, item, null);
         }
     }
 
@@ -270,7 +272,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
     public static ItemStack addItem(ItemStack bundle, ItemStack stackToInsert, @Nullable Player player)
     {
         int startingCount = stackToInsert.getCount();
-        BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
+        BundleItemCapability c =  CustomBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
         c.Deflate();
         if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.IsFull())return stackToInsert;
@@ -340,7 +342,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
 
     private static int getTotalWeight(ItemStack pStack)
     {
-        BundleItemCapability c = AbstractBundleItem.getActualCapability(pStack);
+        BundleItemCapability c = CustomBundleItem.getActualCapability(pStack);
         if(c == null)return 0;
 
         return c.stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
@@ -348,7 +350,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
 
     private static Optional<ItemStack> removeOneStack(ItemStack bundle)
     {
-        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
+        BundleItemCapability c = CustomBundleItem.getActualCapability(bundle);
 
         if(c == null)return Optional.empty();
         c.Deflate();
@@ -366,14 +368,14 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
 
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack bundle)
     {
-        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
+        BundleItemCapability c = CustomBundleItem.getActualCapability(bundle);
         if(c ==  null) return Optional.empty();
         return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(bundle)));
     }
 
     public void appendHoverText(@NotNull ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
-        pTooltipComponents.add((new TranslatableComponent("filter.parrying.arrows")).withStyle(ChatFormatting.DARK_RED));
+        pTooltipComponents.add((FILTER_TOOLTIP).withStyle(ChatFormatting.DARK_RED));
         pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getTotalWeight(pStack), CAPACITY)).withStyle(ChatFormatting.GRAY));
     }
 
@@ -382,7 +384,7 @@ public class AbstractBundleItem extends Item implements DyeableLeatherItem
         Level level = pItemEntity.level;
         if(!level.isClientSide)
         {
-            BundleItemCapability c = AbstractBundleItem.getActualCapability(pItemEntity.getItem());
+            BundleItemCapability c = CustomBundleItem.getActualCapability(pItemEntity.getItem());
             if(c == null || c.GetItemCount() == 0)return;
 
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
