@@ -2,8 +2,6 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Capability.CapabilityProvider;
 import com.theishiopian.parrying.Capability.IPersistentCapability;
-import com.theishiopian.parrying.Network.QuiverAdvPacket;
-import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -19,7 +17,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -29,7 +26,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -42,11 +38,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-public class CustomBundleItem extends Item implements DyeableLeatherItem
+public abstract class AbstractBundleItem extends Item implements DyeableLeatherItem
 {
     public static void registerCapability(RegisterCapabilitiesEvent event)
     {
@@ -57,7 +53,9 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
     private final TagKey<Item> FILTER;
     private final TranslatableComponent FILTER_TOOLTIP;
 
-    public CustomBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
+    protected static Consumer<BundleItemCapability> POST_ADD;
+
+    public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
     {
         super(pProperties.stacksTo(1));
         CAPACITY = capacity;
@@ -74,7 +72,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    private static CustomBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
+    private static AbstractBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
     {
         return bundle.getCapability(BundleItemCapability.INSTANCE).orElse(null);
     }
@@ -108,7 +106,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
-        if(!CustomBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
+        if(!AbstractBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
     }
 
@@ -125,7 +123,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
 
         for (ItemStack item : items)
         {
-            CustomBundleItem.addItem(bundle, item, null);
+            AbstractBundleItem.addItem(bundle, item, null);
         }
     }
 
@@ -272,7 +270,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
     public static ItemStack addItem(ItemStack bundle, ItemStack stackToInsert, @Nullable Player player)
     {
         int startingCount = stackToInsert.getCount();
-        BundleItemCapability c =  CustomBundleItem.getActualCapability(bundle);
+        BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
         c.Deflate();
         if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.IsFull())return stackToInsert;
@@ -311,25 +309,14 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
             }
         }
 
-        //TODO move to subclass somehow?
-        if(c.IsFull())
-        {
-            HashSet<MobEffect> effects = new HashSet<>();
-
-            for (ItemStack itemStack : c.stacksList)
-            {
-                if(itemStack.is(Items.TIPPED_ARROW))effects.add(PotionUtils.getMobEffects(itemStack).get(0).getEffect());
-            }
-
-            if(effects.size() >= 8)
-            {
-                ParryingMod.channel.sendToServer(new QuiverAdvPacket());
-            }
-        }
-
         if(player != null && startingCount != stackToInsert.getCount())
         {
             playInsertSound(player);
+        }
+
+        if(POST_ADD != null)
+        {
+            POST_ADD.accept(c);
         }
 
         return stackToInsert.copy();
@@ -342,7 +329,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
 
     private static int getTotalWeight(ItemStack pStack)
     {
-        BundleItemCapability c = CustomBundleItem.getActualCapability(pStack);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(pStack);
         if(c == null)return 0;
 
         return c.stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
@@ -350,7 +337,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
 
     private static Optional<ItemStack> removeOneStack(ItemStack bundle)
     {
-        BundleItemCapability c = CustomBundleItem.getActualCapability(bundle);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
 
         if(c == null)return Optional.empty();
         c.Deflate();
@@ -368,7 +355,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
 
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack bundle)
     {
-        BundleItemCapability c = CustomBundleItem.getActualCapability(bundle);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return Optional.empty();
         return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(bundle)));
     }
@@ -384,7 +371,7 @@ public class CustomBundleItem extends Item implements DyeableLeatherItem
         Level level = pItemEntity.level;
         if(!level.isClientSide)
         {
-            BundleItemCapability c = CustomBundleItem.getActualCapability(pItemEntity.getItem());
+            BundleItemCapability c = AbstractBundleItem.getActualCapability(pItemEntity.getItem());
             if(c == null || c.GetItemCount() == 0)return;
 
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
