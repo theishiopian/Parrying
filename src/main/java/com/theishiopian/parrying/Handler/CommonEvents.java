@@ -124,9 +124,7 @@ public class CommonEvents
 
                 if(itemToScan.is(ModItems.QUIVER.get()) )
                 {
-                    int count = AbstractBundleItem.GetItemCount(itemToScan);
-
-                    if(count == 0)continue;
+                    if(AbstractBundleItem.isEmpty(itemToScan))continue;
 
                     quiver = itemToScan;
 
@@ -141,7 +139,7 @@ public class CommonEvents
 
             if(!quiver.isEmpty())
             {
-                ItemStack peek = AbstractBundleItem.PeekFirstStack(quiver);
+                ItemStack peek = AbstractBundleItem.peekFirstStack(quiver);
 
                 int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
                 float chance = 1f - (pLevel * (1/64f));

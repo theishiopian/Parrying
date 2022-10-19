@@ -19,7 +19,7 @@ public class QuiverItem extends AbstractBundleItem
 
         POST_ADD = (c) ->
         {
-            if(c.IsFull())
+            if(c.isFull())
             {
                 HashSet<MobEffect> effects = new HashSet<>();
 

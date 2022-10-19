@@ -53,6 +53,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     private final TagKey<Item> FILTER;
     private final TranslatableComponent FILTER_TOOLTIP;
 
+    //TODO may want to replace this pattern with something else
     protected static Consumer<BundleItemCapability> POST_ADD;
 
     public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
@@ -106,18 +107,11 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     public boolean onDroppedByPlayer(ItemStack item, Player player)
     {
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
-        if(!AbstractBundleItem.DropAllItems(item, player))return super.onDroppedByPlayer(item, player);
+        if(!AbstractBundleItem.dropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
     }
 
-    public static int GetItemCount(ItemStack bundle)
-    {
-        BundleItemCapability c = getActualCapability(bundle);
-        if(c == null) return 0;
-        return c.GetItemCount();
-    }
-
-    public static void AddLoot(ItemStack bundle, LootTable table, LootContext context)
+    public static void addLoot(ItemStack bundle, LootTable table, LootContext context)
     {
         List<ItemStack> items = table.getRandomItems(context);
 
@@ -127,7 +121,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         }
     }
 
-    public static ItemStack PeekFirstStack(ItemStack bundle)
+    public static ItemStack peekFirstStack(ItemStack bundle)
     {
         BundleItemCapability c = getActualCapability(bundle);
         if(c == null) return ItemStack.EMPTY;
@@ -135,10 +129,10 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         return c.stacksList.get(0);
     }
 
-    public static boolean DropAllItems(ItemStack bundle, Player player)
+    public static boolean dropAllItems(ItemStack bundle, Player player)
     {
         BundleItemCapability c = getActualCapability(bundle);
-        if(c == null || GetItemCount(bundle) == 0)return false;
+        if(c == null || c.isEmpty())return false;
         c.Deflate();
 
         playDropContentsSound(player);
@@ -151,6 +145,27 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         c.stacksList.clear();
 
         return true;
+    }
+
+    public static boolean isEmpty(ItemStack bundle)
+    {
+        BundleItemCapability c = getActualCapability(bundle);
+
+        return c == null || c.isEmpty();
+    }
+
+    public static boolean isFull(ItemStack bundle)
+    {
+        BundleItemCapability c = getActualCapability(bundle);
+
+        return c != null && c.isFull();
+    }
+
+    public static int getWeight(ItemStack bundle)
+    {
+        BundleItemCapability c = getActualCapability(bundle);
+
+        return c == null ? 0 : c.getWeight();
     }
 
     @Override
@@ -166,14 +181,14 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         else
         {
             ItemStack toStackOnto = pSlot.getItem();
-            if (toStackOnto.isEmpty() && c.GetItemCount() > 0)
+            if (toStackOnto.isEmpty() && !c.isEmpty())
             {
                 playRemoveOneSound(pPlayer);
                 removeOneStack(bundle).ifPresent((toInsert) -> addItem(bundle, pSlot.safeInsert(toInsert), pPlayer));
             }
             else if (toStackOnto.is(c.FILTER))
             {
-                int amountToTake = (CAPACITY - getTotalWeight(bundle)) / getWeightOfItem(toStackOnto);
+                int amountToTake = (CAPACITY - c.getWeight()) / c.getWeightOfItem(toStackOnto);
                 addItem(bundle, pSlot.safeTake(toStackOnto.getCount(), amountToTake, pPlayer), pPlayer);
             }
             else return false;
@@ -223,7 +238,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
         c.Deflate();
 
-        if(c.GetItemCount() > 0)
+        if(!c.isEmpty())
         {
             c.stacksList.add(c.stacksList.remove(0).copy());
             pPlayer.displayClientMessage(c.stacksList.get(0).getHoverName(), true);
@@ -252,14 +267,18 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         return super.useOn(pContext);
     }
 
-    public boolean isBarVisible(@NotNull ItemStack pStack)
+    public boolean isBarVisible(@NotNull ItemStack bundle)
     {
-        return getTotalWeight(pStack) > 0;
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
+        if(c == null)return false;
+        return !c.isEmpty();
     }
 
-    public int getBarWidth(@NotNull ItemStack pStack)
+    public int getBarWidth(@NotNull ItemStack bundle)
     {
-        return Math.min(1 + 12 * getTotalWeight(pStack) / CAPACITY, 13);
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
+        if(c == null)return 0;
+        return Math.min(1 + 12 * c.getWeight() / CAPACITY, 13);
     }
 
     public int getBarColor(@NotNull ItemStack pStack)
@@ -273,25 +292,25 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
         c.Deflate();
-        if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.IsFull())return stackToInsert;
+        if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.isFull())return stackToInsert;
 
         for (ItemStack itemStack : c.stacksList)
         {
-            if(c.IsFull())break;
+            if(c.isFull())break;
             if(itemStack.getCount() == itemStack.getMaxStackSize())continue;
             if(ItemStack.isSameItemSameTags(itemStack, stackToInsert))
             {
                 //TODO these loops are stupid, but im too tired to do the math right now
                 while(itemStack.getCount() < itemStack.getMaxStackSize())
                 {
-                    if(c.IsFull() || stackToInsert.getCount() == 0)break;
+                    if(c.isFull() || stackToInsert.getCount() == 0)break;
                     stackToInsert.shrink(1);
                     itemStack.grow(1);
                 }
             }
         }
 
-        if(!stackToInsert.isEmpty() && !c.IsFull())
+        if(!stackToInsert.isEmpty() && c.hasRoom())
         {
             ItemStack s = stackToInsert.copy();
             s.setCount(1);
@@ -303,7 +322,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
             //TODO these loops are stupid, but im too tired to do the math right now
             while(!stackToInsert.isEmpty())
             {
-                if(c.IsFull())break;
+                if(c.isEmpty())break;
                 s.grow(1);
                 stackToInsert.shrink(1);
             }
@@ -322,19 +341,6 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         return stackToInsert.copy();
     }
 
-    private static int getWeightOfItem(ItemStack pStack)
-    {
-        return 64 / pStack.getMaxStackSize();
-    }
-
-    private static int getTotalWeight(ItemStack pStack)
-    {
-        BundleItemCapability c = AbstractBundleItem.getActualCapability(pStack);
-        if(c == null)return 0;
-
-        return c.stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
-    }
-
     private static Optional<ItemStack> removeOneStack(ItemStack bundle)
     {
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
@@ -342,7 +348,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         if(c == null)return Optional.empty();
         c.Deflate();
 
-        if (c.GetItemCount() == 0)
+        if (c.isEmpty())
         {
             return Optional.empty();
         }
@@ -357,13 +363,15 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     {
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return Optional.empty();
-        return Optional.of(new BundleTooltip(c.getNonnullStackList(), getTotalWeight(bundle)));
+        return Optional.of(new BundleTooltip(c.getNonnullStackList(), c.getWeight()));
     }
 
-    public void appendHoverText(@NotNull ItemStack pStack, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
+    public void appendHoverText(@NotNull ItemStack bundle, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
+        BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
+        if(c ==  null) return;
         pTooltipComponents.add((FILTER_TOOLTIP).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", getTotalWeight(pStack), CAPACITY)).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", c.getWeight(), CAPACITY)).withStyle(ChatFormatting.GRAY));
     }
 
     public void onDestroyed(ItemEntity pItemEntity)
@@ -372,8 +380,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         if(!level.isClientSide)
         {
             BundleItemCapability c = AbstractBundleItem.getActualCapability(pItemEntity.getItem());
-            if(c == null || c.GetItemCount() == 0)return;
-
+            if(c == null || c.isEmpty())return;
             c.stacksList.forEach((stack) -> level.addFreshEntity(new ItemEntity(level, pItemEntity.getX(), pItemEntity.getY(), pItemEntity.getZ(), stack)));
         }
     }
@@ -393,11 +400,10 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         entity.level.playSound(null, entity.blockPosition(), SoundEvents.BUNDLE_DROP_CONTENTS, SoundSource.PLAYERS, 0.8F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.4F);
     }
 
-    static class BundleItemCapability implements IPersistentCapability<BundleItemCapability>
+    protected static class BundleItemCapability implements IPersistentCapability<BundleItemCapability>
     {
         private final int CAPACITY;
         private final TagKey<Item> FILTER;
-
         public ArrayList<ItemStack> stacksList = new ArrayList<>();
 
         public static final Capability<BundleItemCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
@@ -414,13 +420,6 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
             FILTER = filter;
         }
 
-        public int GetItemCount()
-        {
-            return stacksList.stream().mapToInt(ItemStack::getCount).sum();
-        }
-
-        public boolean IsFull() {return GetItemCount() == CAPACITY;}
-
         public NonNullList<ItemStack> getNonnullStackList()
         {
             NonNullList<ItemStack> stacks = NonNullList.withSize(this.stacksList.size(), ItemStack.EMPTY);
@@ -429,6 +428,31 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
                 stacks.set(i, this.stacksList.get(i));
             }
             return stacks;
+        }
+
+        public boolean isFull()
+        {
+            return getWeight() == CAPACITY;
+        }
+
+        public boolean isEmpty()
+        {
+            return getWeight() == 0;
+        }
+
+        public boolean hasRoom()
+        {
+            return getWeight() < CAPACITY;
+        }
+
+        public int getWeight()
+        {
+            return stacksList.stream().mapToInt(stack -> getWeightOfItem(stack) * stack.getCount()).sum();
+        }
+
+        public int getWeightOfItem(ItemStack stack)
+        {
+            return 64 / stack.getMaxStackSize();
         }
 
         public void Deflate()

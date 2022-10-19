@@ -73,6 +73,7 @@
   "tooltip.parrying.jousting": "+%s Damage While Riding",
 
   "filter.parrying.arrows": "Can only store arrows",
+  "filter.parrying.bandolier": "Stores potions and daggers",
   "filter.parrying.swords": "Stored blade:",
   "filter.parrying.none": "None",
 

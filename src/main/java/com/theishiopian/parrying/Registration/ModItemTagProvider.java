@@ -8,7 +8,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 
-
 /**
  * This class is used in the dev environment to generate item tag data on the fly
  */

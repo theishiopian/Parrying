@@ -147,7 +147,7 @@ public class LootHandler
             LootTable table = context.getLootTable(this.table);
             ItemStack quiver = new ItemStack(ModItems.QUIVER.get());
             quiver.setCount(1);
-            AbstractBundleItem.AddLoot(quiver, table, context);
+            AbstractBundleItem.addLoot(quiver, table, context);
             generatedLoot.add(quiver);
             return generatedLoot;
         }
