@@ -15,7 +15,7 @@ public class QuiverItem extends AbstractBundleItem
 {
     public QuiverItem(Properties pProperties)
     {
-        super(pProperties, 256, ItemTags.ARROWS, new TranslatableComponent("filter.parrying.arrows"));
+        super(pProperties, 256, ItemTags.ARROWS, new TranslatableComponent("tooltip.parrying.arrows"));
 
         POST_ADD = (c) ->
         {

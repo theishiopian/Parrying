@@ -340,13 +340,13 @@ public class ScabbardItem extends Item implements DyeableLeatherItem
         List<Component> components = new ArrayList<>();
         ScabbardItem.ScabbardCapability c = getActualCapability(stack);
 
-        components.add(new TranslatableComponent("filter.parrying.swords").withStyle(ChatFormatting.GOLD));
+        components.add(new TranslatableComponent("tooltip.parrying.swords").withStyle(ChatFormatting.GOLD));
 
         if (c != null && !c.sword.isEmpty())
         {
             components.addAll(c.sword.getTooltipLines(player, isAdvanced));
         }
-        else components.add((new TranslatableComponent("filter.parrying.none")).withStyle(ChatFormatting.DARK_RED));
+        else components.add((new TranslatableComponent("tooltip.parrying.none")).withStyle(ChatFormatting.DARK_RED));
 
         return components;
     }

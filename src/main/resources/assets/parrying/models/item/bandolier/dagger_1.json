@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides" :
+  [
+    {
+      "predicate":
+      {
+        "dagger1": 0
+      },
+      "model": "parrying:item/bandolier/none"
+    },
+    {
+      "predicate":
+      {
+        "dagger1": 1
+      },
+      "model": "parrying:item/bandolier/dagger_1_on"
+    }
+  ]
+}

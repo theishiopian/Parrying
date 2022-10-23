@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader" : "forge:composite",
+  "parts" :
+  {
+    "strap":
+    {
+      "parent" : "parrying:item/bandolier/strap"
+    },
+    "potion_one":
+    {
+      "parent" : "parrying:item/bandolier/potion_1"
+    },
+    "potion_two":
+    {
+      "parent" : "parrying:item/bandolier/potion_2"
+    },
+    "potion_three":
+    {
+      "parent" : "parrying:item/bandolier/potion_3"
+    },
+    "dagger_one":
+    {
+      "parent" : "parrying:item/bandolier/dagger_1"
+    },
+    "dagger_two":
+    {
+      "parent" : "parrying:item/bandolier/dagger_2"
+    },
+    "dagger_three":
+    {
+      "parent" : "parrying:item/bandolier/dagger_3"
+    }
+  }
+}

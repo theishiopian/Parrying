@@ -1,8 +1,8 @@
 package com.theishiopian.parrying;
 
+import com.theishiopian.parrying.Client.Render.RenderDagger;
+import com.theishiopian.parrying.Client.Render.RenderSpear;
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Entity.Render.RenderDagger;
-import com.theishiopian.parrying.Entity.Render.RenderSpear;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.*;

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "parrying:item/bandolier/dagger_3"
+  }
+}

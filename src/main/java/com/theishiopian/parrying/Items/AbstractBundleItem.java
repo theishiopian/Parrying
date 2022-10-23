@@ -73,7 +73,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    private static AbstractBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
+    protected static AbstractBundleItem.BundleItemCapability getActualCapability(ItemStack bundle)
     {
         return bundle.getCapability(BundleItemCapability.INSTANCE).orElse(null);
     }

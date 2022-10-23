@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides" :
+  [
+    {
+      "predicate":
+      {
+        "potion2": 0
+      },
+      "model": "parrying:item/bandolier/none"
+    },
+    {
+      "predicate":
+      {
+        "potion2": 1
+      },
+      "model": "parrying:item/bandolier/potion_2_on"
+    }
+  ]
+}

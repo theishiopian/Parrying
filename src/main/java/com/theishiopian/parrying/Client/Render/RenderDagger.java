@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Entity.Render;
+package com.theishiopian.parrying.Client.Render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
