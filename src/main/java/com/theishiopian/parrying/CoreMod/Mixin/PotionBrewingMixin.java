@@ -92,7 +92,7 @@ public abstract class PotionBrewingMixin
         addMix(Potions.REGENERATION, Items.REDSTONE, Potions.LONG_REGENERATION);
 
         //TURTLE
-        addMix(Potions.AWKWARD, Items.TURTLE_HELMET, Potions.TURTLE_MASTER);
+        addMix(Potions.AWKWARD, Items.SCUTE, Potions.TURTLE_MASTER);
         addMix(Potions.TURTLE_MASTER, Items.GLOWSTONE_DUST, Potions.STRONG_TURTLE_MASTER);
         addMix(Potions.TURTLE_MASTER, Items.REDSTONE, Potions.LONG_TURTLE_MASTER);
 

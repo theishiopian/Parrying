@@ -472,10 +472,25 @@ public class CommonEvents
         //ANTIDOTES
         MobEffect incoming = event.getPotionEffect().getEffect();
         MobEffect opposite = antidotes.getOrDefault(incoming, null);
+
         if(opposite != null && entity.hasEffect(opposite))
         {
+            int reduction = event.getPotionEffect().getAmplifier() + 1;
             event.setResult(Event.Result.DENY);
+
+            MobEffectInstance i = entity.getEffect(opposite);
             event.getEntityLiving().removeEffect(opposite);
+
+            assert i != null;
+            int newLevel = ((i.getAmplifier() + 1) - reduction);
+            if(newLevel > 0)event.getEntityLiving().addEffect(new MobEffectInstance(i.getEffect(), i.getDuration(), newLevel - 1));
+
+            if(newLevel < 0)
+            {
+                event.getEntityLiving().addEffect(new MobEffectInstance(incoming, event.getPotionEffect().getDuration(), -1 * (newLevel + 1)));
+            }
+
+            entity.level.playSound(null, entity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.2F);
         }
     }
 

@@ -110,5 +110,16 @@
         "stream": false
       }
     ]
+  },
+  "cleanse":
+  {
+    "category": "player",
+    "sounds":
+    [
+      {
+        "name": "parrying:cleanse",
+        "stream": false
+      }
+    ]
   }
 }
