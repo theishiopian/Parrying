@@ -22,6 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.ToolActions;
 
+import java.util.Objects;
+
 public abstract class ArmorPenetrationMechanic
 {
     static boolean bypassing = false;
@@ -37,10 +39,12 @@ public abstract class ArmorPenetrationMechanic
         {
             bypassing = true;
             float boost = EnchantmentHelper.getDamageBonus(attacker.getMainHandItem(), target.getMobType());
-            int strLevel = attacker.hasEffect(MobEffects.DAMAGE_BOOST) ? attacker.getEffect(MobEffects.DAMAGE_BOOST).getAmplifier() : 0;
+            int strLevel = attacker.hasEffect(MobEffects.DAMAGE_BOOST) ? Objects.requireNonNull(attacker.getEffect(MobEffects.DAMAGE_BOOST)).getAmplifier() : 0;
             amount += strLevel * 3;
             boolean critical = attacker instanceof Player && ModUtil.PlayerCritical((Player) attacker, target, attackStrength);
             if(critical)amount *= 1.5f;
+            amount *= 0.2F + attackStrength * attackStrength * 0.8F;
+            boost *= attackStrength;
             amount += boost;
             float nonAP = 1 - ap;
             float dmgAP = (amount * ap);
@@ -59,11 +63,11 @@ public abstract class ArmorPenetrationMechanic
                 //this is stupid
                 //minecraft apparently has decided that armor and shields are the same thing, so bypassArmor is also used to bypass shields.
                 //thus, I need to do all this math AGAIN
-                float d = amount / 2;
-                float da = CombatRules.getDamageAfterAbsorb(d, (float)target.getArmorValue(), (float)target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), d * ap);
+                float halfDamage = amount / 2;
+                float halfDamageAfterAbsorb = CombatRules.getDamageAfterAbsorb(halfDamage, (float)target.getArmorValue(), (float)target.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), halfDamage * ap);
                 target.invulnerableTime = 0;
-                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), da * nonAP);
+                target.hurt(new EntityDamageSource(src, attacker).bypassArmor(), halfDamageAfterAbsorb * nonAP);
 
                 BlockHelper(attacker, target, amount / 2);
             }
