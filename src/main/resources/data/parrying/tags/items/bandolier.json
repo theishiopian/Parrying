@@ -10,6 +10,7 @@
     "parrying:netherite_dagger",
     "minecraft:potion",
     "minecraft:splash_potion",
-    "minecraft:lingering_potion"
+    "minecraft:lingering_potion",
+    "minecraft:totem_of_undying"
   ]
 }
