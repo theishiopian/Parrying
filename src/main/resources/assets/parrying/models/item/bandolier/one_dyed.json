@@ -1,0 +1,7 @@
+{
+  "parent": "parrying:item/bandolier",
+  "textures": {
+    "layer0": "parrying:item/bandolier/strap_dyed",
+    "layer1": "parrying:item/bandolier/one"
+  }
+}

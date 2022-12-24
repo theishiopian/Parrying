@@ -50,18 +50,25 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     }
 
     private final int CAPACITY;
+    private final int DIVISOR;
     private final TagKey<Item> FILTER;
     private final TranslatableComponent FILTER_TOOLTIP;
 
     //TODO may want to replace this pattern with something else
     protected static Consumer<BundleItemCapability> POST_ADD;
 
-    public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
+    public AbstractBundleItem(Properties pProperties, int capacity, int divisor, TagKey<Item> filter, TranslatableComponent filter_tooltip)
     {
         super(pProperties.stacksTo(1));
         CAPACITY = capacity;
         FILTER = filter;
         FILTER_TOOLTIP = filter_tooltip;
+        DIVISOR = divisor;
+    }
+
+    public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
+    {
+        this(pProperties, capacity, 1, filter, filter_tooltip);
     }
 
     @Nullable
@@ -371,7 +378,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return;
         pTooltipComponents.add((FILTER_TOOLTIP).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", c.getWeight(), CAPACITY)).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", c.getWeight()/DIVISOR, CAPACITY/DIVISOR)).withStyle(ChatFormatting.GRAY));
     }
 
     public void onDestroyed(ItemEntity pItemEntity)

@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.Client;
+package com.theishiopian.parrying.Client.Particle;
 
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.client.multiplayer.ClientLevel;

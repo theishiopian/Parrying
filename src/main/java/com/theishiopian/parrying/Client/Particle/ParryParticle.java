@@ -1,5 +1,6 @@
-package com.theishiopian.parrying.Client;
+package com.theishiopian.parrying.Client.Particle;
 
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -10,15 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class StabParticle extends TextureSheetParticle
+public class ParryParticle extends TextureSheetParticle
 {
     private final SpriteSet sprites;
 
-    @SuppressWarnings("unused")
-    protected StabParticle(ClientLevel world, double posX, double posY, double posZ, SpriteSet sprites)
+    protected ParryParticle(ClientLevel world, double posX, double posY, double posZ, SpriteSet sprites)
     {
         super(world, posX, posY, posZ, 0, 0, 0);
-        float f = this.random.nextFloat() * 0.6F + 0.4F;
+        float f = ModUtil.random.nextFloat() * 0.6F + 0.4F;
         this.rCol = f;
         this.gCol = f;
         this.bCol = f;
@@ -40,6 +40,7 @@ public class StabParticle extends TextureSheetParticle
         else
         {
             this.setSpriteFromAge(this.sprites);
+
         }
     }
 
@@ -54,13 +55,13 @@ public class StabParticle extends TextureSheetParticle
         return 15728880;
     }
 
-    @SuppressWarnings("unused")
     @OnlyIn(Dist.CLIENT)
     public record Factory(SpriteSet sprites) implements ParticleProvider<SimpleParticleType>
     {
+
         public Particle createParticle(@NotNull SimpleParticleType particle, @NotNull ClientLevel world, double x, double y, double z, double vx, double vy, double vz)
         {
-            return new StabParticle(world, x, y, z, this.sprites);
+            return new ParryParticle(world, x, y, z, this.sprites);
         }
     }
 }

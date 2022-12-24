@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "parrying:item/bandolier",
   "textures": {
-    "layer0": "parrying:item/bandolier/none"
+    "layer0": "parrying:item/bandolier/strap",
+    "layer1": "parrying:item/bandolier/strap"
   }
 }

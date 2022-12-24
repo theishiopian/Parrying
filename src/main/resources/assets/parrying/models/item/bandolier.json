@@ -1,35 +1,70 @@
 {
   "parent": "minecraft:item/generated",
-  "loader" : "forge:composite",
-  "parts" :
-  {
-    "strap":
+  "overrides":
+  [
     {
-      "parent" : "parrying:item/bandolier/strap"
+      "predicate":
+      {
+        "items": 0,
+        "dyed" : 0
+      },
+      "model": "parrying:item/bandolier/none"
     },
-    "potion_one":
     {
-      "parent" : "parrying:item/bandolier/potion_1"
+      "predicate":
+      {
+        "items": 1,
+        "dyed": 0
+      },
+      "model": "parrying:item/bandolier/one"
     },
-    "potion_two":
     {
-      "parent" : "parrying:item/bandolier/potion_2"
+      "predicate":
+      {
+        "items": 2,
+        "dyed" : 0
+      },
+      "model": "parrying:item/bandolier/two"
     },
-    "potion_three":
     {
-      "parent" : "parrying:item/bandolier/potion_3"
+      "predicate":
+      {
+        "items": 3,
+        "dyed" : 0
+      },
+      "model": "parrying:item/bandolier/three"
     },
-    "dagger_one":
     {
-      "parent" : "parrying:item/bandolier/dagger_1"
+      "predicate":
+      {
+        "items": 0,
+        "dyed" : 1
+      },
+      "model": "parrying:item/bandolier/none_dyed"
     },
-    "dagger_two":
     {
-      "parent" : "parrying:item/bandolier/dagger_2"
+      "predicate":
+      {
+        "items": 1,
+        "dyed": 1
+      },
+      "model": "parrying:item/bandolier/one_dyed"
     },
-    "dagger_three":
     {
-      "parent" : "parrying:item/bandolier/dagger_3"
+      "predicate":
+      {
+        "items": 2,
+        "dyed" : 1
+      },
+      "model": "parrying:item/bandolier/two_dyed"
+    },
+    {
+      "predicate":
+      {
+        "items": 3,
+        "dyed" : 1
+      },
+      "model": "parrying:item/bandolier/three_dyed"
     }
-  }
+  ]
 }

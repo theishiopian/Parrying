@@ -105,15 +105,9 @@ public class ModItems
 
         ItemProperties.register(SCABBARD.get(), new ResourceLocation("sword"), (stack, world, user, seed) -> ScabbardItem.HasSword(stack) ? 1 : 0);
         ItemProperties.register(SCABBARD.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
+
         ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
-
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("potion1"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(PotionItem.class, 0, stack) ? 1 : 0));
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("potion2"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(PotionItem.class, 1, stack) ? 1 : 0));
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("potion3"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(PotionItem.class, 2, stack) ? 1 : 0));
-
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dagger1"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(DaggerItem.class, 0, stack) ? 1 : 0));
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dagger2"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(DaggerItem.class, 1, stack) ? 1 : 0));
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dagger3"), (stack, world, user, seed) -> (BandolierItem.CheckItemClass(DaggerItem.class, 2, stack) ? 1 : 0));
+        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("items"), (stack, world, user, seed) -> (BandolierItem.GetCount(stack)));
 
         ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
         {
@@ -159,5 +153,6 @@ public class ModItems
     {
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.QUIVER.get());
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.SCABBARD.get());
+        Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.BANDOLIER.get());
     }
 }

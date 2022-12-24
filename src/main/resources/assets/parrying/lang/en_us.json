@@ -67,6 +67,7 @@
 
   "item.parrying.quiver" : "Quiver",
   "item.parrying.scabbard" : "Scabbard",
+  "item.parrying.bandolier" : "Bandolier",
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
 
   "tooltip.parrying.two_handed": "Two Handed",
