@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:nether/brew_potion",
+  "display": {
+    "icon": {
+      "item": "minecraft:chorus_fruit"
+    },
+    "title": {
+      "translate": "advancements.parrying.surrender"
+    },
+    "description": {
+      "translate": "advancements.parrying.surrender.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "surrender": {
+      "trigger": "parrying:surrender"
+    }
+  },
+  "requirements": [
+    [
+      "surrender"
+    ]
+  ]
+}

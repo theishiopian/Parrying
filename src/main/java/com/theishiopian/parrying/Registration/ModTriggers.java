@@ -25,6 +25,9 @@ public class ModTriggers
     public static SimpleTrigger provide;
     public static SimpleTrigger swift_strike;
     public static SimpleTrigger bloodshed;
+    public static SimpleTrigger surrender;
+    public static SimpleTrigger sick;
+    public static SimpleTrigger milk;
 
     public static void Init()
     {
@@ -47,5 +50,8 @@ public class ModTriggers
         provide = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:provide")));
         swift_strike = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:swift_strike")));
         bloodshed = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:bloodshed")));
+        surrender = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:surrender")));
+        sick = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:sick")));
+        milk = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:milk")));
     }
 }

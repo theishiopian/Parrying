@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:milk_bucket"
+    },
+    "title": {
+      "translate": "advancements.parrying.milk"
+    },
+    "description": {
+      "translate": "advancements.parrying.milk.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "milk": {
+      "trigger": "parrying:milk"
+    }
+  },
+  "requirements": [
+    [
+      "milk"
+    ]
+  ]
+}

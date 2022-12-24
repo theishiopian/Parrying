@@ -1,9 +1,12 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEffects;
+import com.theishiopian.parrying.Registration.ModTriggers;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +26,9 @@ public class MilkBucketMixin
         if(Config.milkBucketRework.get())
         {
             //TODO add fortified effect
+
+            pEntityLiving.addEffect(new MobEffectInstance(ModEffects.FORTIFIED.get(), 1200));
+
             if (pEntityLiving instanceof ServerPlayer serverplayer)
             {
                 CriteriaTriggers.CONSUME_ITEM.trigger(serverplayer, pStack);
@@ -32,6 +38,11 @@ public class MilkBucketMixin
             if (pEntityLiving instanceof Player && !((Player)pEntityLiving).getAbilities().instabuild)
             {
                 pStack.shrink(1);
+            }
+
+            if(pEntityLiving instanceof ServerPlayer player)
+            {
+                ModTriggers.milk.trigger(player);
             }
 
             cir.setReturnValue(pStack.isEmpty() ? new ItemStack(Items.BUCKET) : pStack);

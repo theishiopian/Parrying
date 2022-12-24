@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Effects.CoalescenceEffect;
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.SyncDefPacket;
@@ -469,41 +470,50 @@ public class CommonEvents
     {
         LivingEntity entity = event.getEntityLiving();
 
-        //ANTIDOTES
-        MobEffect incoming = event.getPotionEffect().getEffect();
-        MobEffect opposite = antidotes.getOrDefault(incoming, null);
-
-        if(opposite != null && entity.hasEffect(opposite))
+        if(entity.hasEffect(ModEffects.COALESCENCE.get()) || event.getPotionEffect().getEffect() instanceof CoalescenceEffect)
         {
-            int reduction = event.getPotionEffect().getAmplifier() + 1;
-            event.setResult(Event.Result.DENY);
+            if(entity instanceof ServerPlayer player)ModTriggers.surrender.trigger(player);
+        }
+        else
+        {
+            //ANTIDOTES
+            MobEffect incoming = event.getPotionEffect().getEffect();
+            MobEffect opposite = antidotes.getOrDefault(incoming, null);
 
-            MobEffectInstance i = entity.getEffect(opposite);
-            event.getEntityLiving().removeEffect(opposite);
-
-            assert i != null;
-            int newLevel = ((i.getAmplifier() + 1) - reduction);
-            if(newLevel > 0)event.getEntityLiving().addEffect(new MobEffectInstance(i.getEffect(), i.getDuration(), newLevel - 1));
-
-            if(newLevel < 0)
+            if(opposite != null && entity.hasEffect(opposite))
             {
-                event.getEntityLiving().addEffect(new MobEffectInstance(incoming, event.getPotionEffect().getDuration(), -1 * (newLevel + 1)));
-            }
+                int reduction = event.getPotionEffect().getAmplifier() + 1;
+                event.setResult(Event.Result.DENY);
 
-            entity.level.playSound(null, entity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.2F);
+                MobEffectInstance i = entity.getEffect(opposite);
+                event.getEntityLiving().removeEffect(opposite);
+
+                assert i != null;
+                int newLevel = ((i.getAmplifier() + 1) - reduction);
+                if(newLevel > 0)event.getEntityLiving().addEffect(new MobEffectInstance(i.getEffect(), i.getDuration(), newLevel - 1));
+
+                if(newLevel < 0)
+                {
+                    event.getEntityLiving().addEffect(new MobEffectInstance(incoming, event.getPotionEffect().getDuration(), -1 * (newLevel + 1)));
+                }
+
+                entity.level.playSound(null, entity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.2F);
+            }
         }
     }
 
     public static void OnLivingTick(LivingEvent.LivingUpdateEvent event)
     {
-        //todo config
-        LivingEntity entity = event.getEntityLiving();
-        if(entity.getActiveEffects().size() > 5)
+        if(Config.potionSickness.get())
         {
-            entity.removeAllEffects();
-            entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));//TODO config for both effect and duration
+            LivingEntity entity = event.getEntityLiving();
+            if(entity.getActiveEffects().size() > Config.potionTolerance.get() && !entity.hasEffect(ModEffects.FORTIFIED.get()))
+            {
+                entity.removeAllEffects();
+                if(Config.potionSicknessNausea.get())entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
 
-            //todo advancement here
+                if(entity instanceof ServerPlayer player)ModTriggers.sick.trigger(player);
+            }
         }
     }
 
@@ -511,7 +521,6 @@ public class CommonEvents
     {
         Player player = event.getPlayer();
         ItemStack item =  event.getItemStack();
-        //Debug.log("player used item " + item.getItem());
         if(item.is(Items.SPLASH_POTION))player.getCooldowns().addCooldown(Items.SPLASH_POTION, 20);
         if(item.is(Items.LINGERING_POTION))player.getCooldowns().addCooldown(Items.LINGERING_POTION, 24);
     }

@@ -16,6 +16,9 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue poisonLethal;
     public static final ForgeConfigSpec.BooleanValue modifyThrow;
     public static final ForgeConfigSpec.BooleanValue noSelfSplash;
+    public static final ForgeConfigSpec.BooleanValue potionSickness;
+    public static final ForgeConfigSpec.BooleanValue potionSicknessNausea;
+    public static final ForgeConfigSpec.IntValue potionTolerance;
     public static final ForgeConfigSpec.IntValue sipTicks;
     public static final ForgeConfigSpec.IntValue brewingTicks;
     public static final ForgeConfigSpec.DoubleValue lingeringRadius;
@@ -24,6 +27,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue noSatHeal;
     public static final ForgeConfigSpec.BooleanValue milkBucketRework;
 
+    //undying rework
     public static final ForgeConfigSpec.BooleanValue undyingWorksFromInventory;
     public static final ForgeConfigSpec.BooleanValue undyingRework;
 
@@ -114,6 +118,9 @@ public class Config
         poisonLethal = builder.comment("Whether or not poison is lethal").define("poison_lethal", true);
         modifyThrow = builder.comment("Whether or not to modify the throwing force of thrown potions").define("modify_potion_throwing", true);
         noSelfSplash = builder.comment("Whether or not to disable splash potions affecting the thrower").define("no_self_splash", true);
+        potionSickness = builder.comment("Whether or not to dlimit the number of effects on a player at once").define("potion_sickness", true);
+        potionSicknessNausea = builder.comment("Whether or not to give nausea to a player who overdoses on potions. Disable in case of motion sickness.").define("potion_sickness_nausea", true);
+        potionTolerance = builder.comment("How many effects the player can have before overdosing.").defineInRange("potion_tolerance", 4, 1, 1000);
         undyingRework = builder.comment("Whether or not the totem of undying is reworked.").define("totem_rework", true);
         undyingWorksFromInventory = builder.comment("Whether or not the totem of undying works from the inventory. Also disabled if the rework is disabled.").define("totem_inventory", true);
         noSatHeal = builder.comment("Whether or not saturation healing is disabled").define("no_saturation_healing", true);

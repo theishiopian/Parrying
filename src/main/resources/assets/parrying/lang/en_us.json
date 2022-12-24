@@ -25,6 +25,8 @@
   "enchantment.parrying.intrusive.desc": "Quivers with this enchantment will take priority over all other arrows and quivers",
 
   "effect.parrying.stunned": "Stunned",
+  "effect.parrying.fortified": "Fortified",
+  "effect.parrying.coalescence": "Coalescence",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
@@ -69,6 +71,18 @@
   "item.parrying.scabbard" : "Scabbard",
   "item.parrying.bandolier" : "Bandolier",
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
+
+  "item.minecraft.potion.effect.coalescence" : "Potion of Compatibility",
+  "item.minecraft.potion.effect.coalescence_long" : "Potion of Compatibility",
+
+  "item.minecraft.splash_potion.effect.coalescence" : "Splash Potion of Compatibility",
+  "item.minecraft.splash_potion.effect.coalescence_long" : "Splash Potion of Compatibility",
+
+  "item.minecraft.lingering_potion.effect.coalescence" : "Lingering Potion of Compatibility",
+  "item.minecraft.lingering_potion.effect.coalescence_long" : "Lingering Potion of Compatibility",
+
+  "item.minecraft.tipped_arrow.effect.coalescence" : "Arrow of Compatibility",
+  "item.minecraft.tipped_arrow.effect.coalescence_long" : "Arrow of Compatibility",
 
   "tooltip.parrying.two_handed": "Two Handed",
   "tooltip.parrying.jousting": "+%s Damage While Riding",
@@ -160,5 +174,14 @@
   "advancements.parrying.swift_strike.desc": "Instakill a mob with a swift strike",
 
   "advancements.parrying.bloodshed" : "There Will Be Blood! Shed!",
-  "advancements.parrying.bloodshed.desc": "Instakill 3 mobs with a swift strike"
+  "advancements.parrying.bloodshed.desc": "Instakill 3 mobs with a swift strike",
+
+  "advancements.parrying.sick" : "I don't feel so good...",
+  "advancements.parrying.sick.desc": "Overdose on potions",
+
+  "advancements.parrying.milk" : "Drink Milk",
+  "advancements.parrying.milk.desc": "Drink milk and gain the fortified effect",
+
+  "advancements.parrying.surrender" : "Surrender to my will!",
+  "advancements.parrying.surrender.desc": "Gain the coalescence effect"
 }

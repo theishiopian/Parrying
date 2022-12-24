@@ -6,13 +6,17 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Handler.ClientEvents;
 import com.theishiopian.parrying.Handler.CommonEvents;
 import com.theishiopian.parrying.Network.*;
+import com.theishiopian.parrying.Recipes.CustomBrewingRecipe;
 import com.theishiopian.parrying.Recipes.EnabledCondition;
 import com.theishiopian.parrying.Registration.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -121,6 +125,7 @@ public class ParryingMod
         ModSoundEvents.SOUND_EVENTS.register(bus);
         ModEnchantments.ENCHANTMENTS.register(bus);
         ModEffects.EFFECTS.register(bus);
+        ModPotions.POTIONS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
         ModAttributes.ATTRIBUTES.register(bus);
 
@@ -130,7 +135,9 @@ public class ParryingMod
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
         });
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CommonSetup);
+        var eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        eventBus.addListener(this::CommonSetup);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -162,5 +169,9 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("quivers_enabled", Config.quiverEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("scabbards_enabled", Config.scabbardEnabled::get).new Serializer());
         CraftingHelper.register(new EnabledCondition("is_chainmail_craftable", Config.isChainmailCraftable::get).new Serializer());
+
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.CHORUS_FRUIT, ModPotions.COALESCENCE.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.COALESCENCE.get(), Items.GLOWSTONE_DUST, ModPotions.COALESCENCE_LONG.get()));
+
     }
 }
