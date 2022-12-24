@@ -1,11 +1,13 @@
 package com.theishiopian.parrying.CoreMod.Hooks;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -59,7 +61,7 @@ public class LivingEntityHooks
 
                 entity.setHealth(2.0F);
                 entity.removeAllEffects();
-                //todo immortality
+                entity.addEffect(new MobEffectInstance(ModEffects.IMMORTALITY.get(), 600));
                 entity.level.broadcastEntityEvent(entity, (byte)35);
             }
 

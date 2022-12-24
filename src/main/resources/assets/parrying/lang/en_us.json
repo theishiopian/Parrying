@@ -27,6 +27,7 @@
   "effect.parrying.stunned": "Stunned",
   "effect.parrying.fortified": "Fortified",
   "effect.parrying.coalescence": "Coalescence",
+  "effect.parrying.immortality": "Immortality",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",

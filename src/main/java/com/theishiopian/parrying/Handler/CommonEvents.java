@@ -62,10 +62,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CommonEvents
 {
@@ -234,11 +231,20 @@ public class CommonEvents
 
         if(target != null)
         {
+            if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul())
+            {
+                var minHp = 2 * (Objects.requireNonNull(target.getEffect(ModEffects.IMMORTALITY.get())).getAmplifier() + 1f);
+                if(target.getHealth() - event.getAmount() <= 0 || target.getHealth() <= minHp)
+                {
+                    event.setAmount(0);
+                    target.setHealth(minHp);
+                }
+            }
+
             if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing())
             {
                 if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
                 {
-
                     Entity e = src.getDirectEntity();
 
                     if(e instanceof AbstractArrow arrow)
