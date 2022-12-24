@@ -62,7 +62,10 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CommonEvents
 {
@@ -231,14 +234,16 @@ public class CommonEvents
 
         if(target != null)
         {
-            if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul())
+            //immortality bypasses all other damage enhancers by setting the damage to 0
+            if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul() && (target.getHealth() - event.getAmount() <= 0 || target.getHealth() <= 2))
             {
-                var minHp = 2 * (Objects.requireNonNull(target.getEffect(ModEffects.IMMORTALITY.get())).getAmplifier() + 1f);
-                if(target.getHealth() - event.getAmount() <= 0 || target.getHealth() <= minHp)
-                {
-                    event.setAmount(0);
-                    target.setHealth(minHp);
-                }
+                event.setAmount(0);
+                target.setHealth(2);
+            }
+
+            if(event.getSource().isFall() && target.hasEffect(ModEffects.FORTIFIED.get()))
+            {
+                event.setAmount(event.getAmount() * 0.8f);//milk reduces fall damage by 20%, because bones
             }
 
             if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing())

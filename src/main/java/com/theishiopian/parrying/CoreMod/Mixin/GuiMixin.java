@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,19 +39,14 @@ public class GuiMixin
         }
 
         int heart = Math.round(h/2f) - 1;
-        //Debug.log("heart: " + heart + " x: " + x);
-        if(x != heart)
+        if(heart == x)
         {
-            instance.renderHeart(pPoseStack, pHeartType, pX, pY, p_168705_, p_168706_, p_168707_);//vanilla render
+            RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
+            Screen.blit(pPoseStack, pX, pY, 32, 16, 16, 16, 64, 64);
         }
         else
-        {//my render
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShaderColor(1F, 1F, 1F, 1f);
-            RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
-
-            Screen.blit(pPoseStack, pX, pY, 32, 16, 16, 16, 64, 64);
+        {
+            instance.renderHeart(pPoseStack, pHeartType, pX, pY, p_168705_, p_168706_, p_168707_);//vanilla render
         }
 
         x++;
