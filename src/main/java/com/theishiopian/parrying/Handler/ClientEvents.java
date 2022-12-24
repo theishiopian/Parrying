@@ -96,7 +96,7 @@ public class ClientEvents
         if(IsGameplayInProgress(true) && event.getType() == RenderGameOverlayEvent.ElementType.ALL)
         {
             Player player = Minecraft.getInstance().player;
-            assert player != null : "Null player in overlay renderer!";
+            assert player != null : "Null player in overlay renderer! What the heck happened?!";
             if(Config.parryEnabled.get() && ParryingMechanic.ClientDefense < 1)
             {
                 PoseStack matrixStack = event.getMatrixStack();

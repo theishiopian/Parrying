@@ -1,4 +1,4 @@
-package com.theishiopian.parrying.CoreMod.Mixin;
+package com.theishiopian.parrying.CoreMod;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -16,7 +16,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     private static final String[] CLIENT_MIXINS = new String[]
     {
         "ItemInHandRendererMixin",
-        "BrewingStandGUIMixin"
+        "BrewingStandGUIMixin",
+        "GuiMixin"
     };
 
     private static final String[] COMMON_MIXINS = new String[]
