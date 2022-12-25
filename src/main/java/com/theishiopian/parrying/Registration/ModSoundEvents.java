@@ -25,6 +25,7 @@ public class ModSoundEvents
     public static final RegistryObject<SoundEvent> SHEATHE_SWORD = registerSoundEvent("sheathe_sword");
     public static final RegistryObject<SoundEvent> SWIFT_STRIKE = registerSoundEvent("swift_strike");
     public static final RegistryObject<SoundEvent> CLEANSE = registerSoundEvent("cleanse");
+    public static final RegistryObject<SoundEvent> IMMORTAL_HIT = registerSoundEvent("immortal_hit");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name)
     {

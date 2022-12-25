@@ -239,6 +239,7 @@ public class CommonEvents
             {
                 event.setAmount(0);
                 target.setHealth(2);
+                target.level.playSound(null, target.blockPosition(), ModSoundEvents.IMMORTAL_HIT.get(), SoundSource.NEUTRAL, 0.4F, 0.8F + target.getLevel().getRandom().nextFloat() * 0.2F);
             }
 
             if(event.getSource().isFall() && target.hasEffect(ModEffects.FORTIFIED.get()))

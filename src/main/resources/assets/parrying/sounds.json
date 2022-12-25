@@ -1,7 +1,6 @@
 {
   "parry_wood":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -13,7 +12,6 @@
 
   "parry_stone":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -25,7 +23,6 @@
 
   "parry_metal":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -36,7 +33,6 @@
   },
   "shield_bash":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -47,7 +43,6 @@
   },
   "shield_bash_miss":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -58,7 +53,6 @@
   },
   "flail_swing":
 {
-  "category": "player",
   "sounds":
   [
     {
@@ -69,7 +63,6 @@
 },
   "defense_break":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -80,7 +73,6 @@
   },
   "draw_sword":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -91,7 +83,6 @@
   },
   "sheathe_sword":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -102,7 +93,6 @@
   },
   "swift_strike":
   {
-    "category": "player",
     "sounds":
     [
       {
@@ -113,11 +103,20 @@
   },
   "cleanse":
   {
-    "category": "player",
     "sounds":
     [
       {
         "name": "parrying:cleanse",
+        "stream": false
+      }
+    ]
+  },
+  "immortal_hit":
+  {
+    "sounds":
+    [
+      {
+        "name": "parrying:immortal_hit",
         "stream": false
       }
     ]
