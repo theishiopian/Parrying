@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:adventure/trade",
+  "display": {
+    "icon": {
+      "item": "minecraft:emerald"
+    },
+    "title": {
+      "translate": "advancements.parrying.potion_seller"
+    },
+    "description": {
+      "translate": "advancements.parrying.potion_seller.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "traded": {
+      "trigger": "minecraft:villager_trade",
+      "conditions":
+      {
+        "item":
+        {
+          "items":
+          [
+            "minecraft:potion"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "traded"
+    ]
+  ]
+}

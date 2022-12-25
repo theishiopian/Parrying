@@ -183,6 +183,9 @@
   "advancements.parrying.milk" : "Drink Milk",
   "advancements.parrying.milk.desc": "Drink milk and gain the fortified effect",
 
+  "advancements.parrying.potion_seller" : "I require your strongest potions!",
+  "advancements.parrying.potion_seller.desc": "Buy a potion from a villager",
+
   "advancements.parrying.surrender" : "Surrender to my will!",
   "advancements.parrying.surrender.desc": "Gain the coalescence effect",
   "advancements.parrying.immortal" : "You cannot kill me in a way that matters...",
