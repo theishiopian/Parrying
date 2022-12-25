@@ -132,15 +132,26 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     {
         BundleItemCapability c = getActualCapability(bundle);
         if(c == null) return ItemStack.EMPTY;
-        c.Deflate();
+        c.deflate();
         return c.stacksList.get(0);
+    }
+
+    public static ItemStack takeFirstStack(ItemStack bundle)
+    {
+        BundleItemCapability c = getActualCapability(bundle);
+        if(c == null) return ItemStack.EMPTY;
+        var toTake = c.stacksList.get(0).copy();
+        //Debug.log("First item in bandolier is: " + toTake.getItem());
+        c.stacksList.set(0, ItemStack.EMPTY);
+        c.deflate();
+        return toTake;
     }
 
     public static boolean dropAllItems(ItemStack bundle, Player player)
     {
         BundleItemCapability c = getActualCapability(bundle);
         if(c == null || c.isEmpty())return false;
-        c.Deflate();
+        c.deflate();
 
         playDropContentsSound(player);
 
@@ -243,7 +254,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
 
         BundleItemCapability c = getActualCapability(bundle);
         if(c == null)return super.use(pLevel, pPlayer, pUsedHand);
-        c.Deflate();
+        c.deflate();
 
         if(!c.isEmpty())
         {
@@ -298,7 +309,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         int startingCount = stackToInsert.getCount();
         BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
-        c.Deflate();
+        c.deflate();
         if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.isFull())return stackToInsert;
 
         for (ItemStack itemStack : c.stacksList)
@@ -353,7 +364,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
 
         if(c == null)return Optional.empty();
-        c.Deflate();
+        c.deflate();
 
         if (c.isEmpty())
         {
@@ -462,7 +473,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
             return 64 / stack.getMaxStackSize();
         }
 
-        public void Deflate()
+        public void deflate()
         {
             stacksList.removeIf(itemStack -> itemStack.isEmpty() || itemStack.is(Items.AIR));
         }

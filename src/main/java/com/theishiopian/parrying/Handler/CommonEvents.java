@@ -34,6 +34,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -547,6 +548,52 @@ public class CommonEvents
         if(event.getEntityLiving() instanceof Player player)
         {
             if(event.getItem().is(Items.POTION)) player.getCooldowns().addCooldown(Items.POTION, 16);//TODO config values for all three
+
+            if(event.getItem().is(ModTags.BANDOLIER))
+            {
+                ItemStack itemToScan;
+                ItemStack bandolier = ItemStack.EMPTY;
+                ItemStack priorityBandolier = ItemStack.EMPTY;
+                for(int i = 45; i >= 0; i--)
+                {
+                    itemToScan = player.getInventory().getItem(i);
+
+                    if(itemToScan.is(ModItems.BANDOLIER.get()) )
+                    {
+                        if(AbstractBundleItem.isEmpty(itemToScan))continue;
+
+                        bandolier = itemToScan;
+
+                        if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
+                        {
+                            priorityBandolier = itemToScan;
+                        }
+                    }
+                }
+
+                if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
+
+                if(!bandolier.isEmpty() && !player.isCreative())
+                {
+                    ItemStack peek = AbstractBundleItem.peekFirstStack(bandolier);
+
+                    if(!peek.isEmpty())
+                    {
+                        if(!event.getResultStack().isEmpty())
+                        {
+                            var drop = event.getResultStack();
+                            ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), drop);
+                            itemEntity.setNoPickUpDelay();
+                            player.level.addFreshEntity(itemEntity);
+                        }
+
+                        var take = AbstractBundleItem.takeFirstStack(bandolier);
+                        //Debug.log("Providing item: " + take.getItem());
+
+                        event.setResultStack(take.copy());
+                    }
+                }
+            }
         }
     }
 
