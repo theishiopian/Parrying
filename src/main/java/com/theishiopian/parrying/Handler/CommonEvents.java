@@ -44,9 +44,12 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.TickEvent;
@@ -605,8 +608,29 @@ public class CommonEvents
             trades.get(4).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 4));
             trades.get(5).add(new DyedItemForEmeralds(ModItems.SCABBARD.get(), 5, 5));
         }
+
+        if(event.getType() == VillagerProfession.CLERIC)
+        {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            //potion seller, i require your strongest potions
+            trades.get(1).add(new BasicItemListing(5, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING), 5, 1));
+            trades.get(1).add(new BasicItemListing(7, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING), 3, 3));
+            trades.get(2).add(new BasicItemListing(8, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.REGENERATION), 1, 5));
+            trades.get(5).add(new BasicItemListing(10, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_STRENGTH), 1, 8));
+
+            trades.get(1).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 1));
+            trades.get(2).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 2));
+            trades.get(3).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 3));
+            trades.get(4).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 4));
+            trades.get(5).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 5));
+        }
     }
 
+    /**
+     * This mess is responsible for creating the resource pack that covers up the brewing stand fuel slot.
+     * @param event The event from forge.
+     */
     public static void OnAddPackFinders(AddPackFindersEvent event)
     {
         try
@@ -621,7 +645,7 @@ public class CommonEvents
                     event.addRepositorySource((packConsumer, packConstructor) ->
                             packConsumer.accept(packConstructor.create(
                                     "builtin/parrying", new TextComponent("Brewing Stand Reskin"), true, //true makes it required
-                                    () -> pack, metadataSection, Pack.Position.TOP, PackSource.BUILT_IN, true)));//true makes it hidden
+                                    () -> pack, metadataSection, Pack.Position.TOP, PackSource.BUILT_IN, true)));//true makes it be hidden
                 }
             }
         }
