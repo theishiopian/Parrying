@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/totem_of_undying",
+  "display": {
+    "icon": {
+      "item": "minecraft:totem_of_undying"
+    },
+    "title": {
+      "translate": "advancements.parrying.immortal"
+    },
+    "description": {
+      "translate": "advancements.parrying.immortal.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "immortal": {
+      "trigger": "parrying:immortal"
+    }
+  },
+  "requirements": [
+    [
+      "immortal"
+    ]
+  ]
+}

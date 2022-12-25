@@ -184,5 +184,7 @@
   "advancements.parrying.milk.desc": "Drink milk and gain the fortified effect",
 
   "advancements.parrying.surrender" : "Surrender to my will!",
-  "advancements.parrying.surrender.desc": "Gain the coalescence effect"
+  "advancements.parrying.surrender.desc": "Gain the coalescence effect",
+  "advancements.parrying.immortal" : "You cannot kill me in a way that matters...",
+  "advancements.parrying.immortal.desc": "Absorb 10 or more damage with immortality"
 }

@@ -234,12 +234,17 @@ public class CommonEvents
 
         if(target != null)
         {
-            //immortality bypasses all other damage enhancers by setting the damage to 0
-            if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul() && (target.getHealth() - event.getAmount() <= 0 || target.getHealth() <= 2))
+            float diff = target.getHealth() - event.getAmount();
+            if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul() && (diff <= 0 || target.getHealth() <= 2))
             {
                 event.setAmount(0);
                 target.setHealth(2);
                 target.level.playSound(null, target.blockPosition(), ModSoundEvents.IMMORTAL_HIT.get(), SoundSource.NEUTRAL, 0.4F, 0.8F + target.getLevel().getRandom().nextFloat() * 0.2F);
+
+                if(Math.abs(diff) >= 10 && target instanceof ServerPlayer player)
+                {
+                    ModTriggers.immortal.trigger(player);
+                }
             }
 
             if(event.getSource().isFall() && target.hasEffect(ModEffects.FORTIFIED.get()))

@@ -28,6 +28,7 @@ public class ModTriggers
     public static SimpleTrigger surrender;
     public static SimpleTrigger sick;
     public static SimpleTrigger milk;
+    public static SimpleTrigger immortal;
 
     public static void Init()
     {
@@ -53,5 +54,6 @@ public class ModTriggers
         surrender = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:surrender")));
         sick = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:sick")));
         milk = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:milk")));
+        immortal = CriteriaTriggers.register(new SimpleTrigger(new ResourceLocation("parrying:immortal")));
     }
 }
