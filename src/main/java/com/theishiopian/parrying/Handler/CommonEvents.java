@@ -551,27 +551,7 @@ public class CommonEvents
 
             if(event.getItem().is(ModTags.BANDOLIER))
             {
-                ItemStack itemToScan;
-                ItemStack bandolier = ItemStack.EMPTY;
-                ItemStack priorityBandolier = ItemStack.EMPTY;
-                for(int i = 45; i >= 0; i--)
-                {
-                    itemToScan = player.getInventory().getItem(i);
-
-                    if(itemToScan.is(ModItems.BANDOLIER.get()) )
-                    {
-                        if(AbstractBundleItem.isEmpty(itemToScan))continue;
-
-                        bandolier = itemToScan;
-
-                        if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
-                        {
-                            priorityBandolier = itemToScan;
-                        }
-                    }
-                }
-
-                if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
+                ItemStack bandolier = BandolierItem.findBandolier(player);
 
                 if(!bandolier.isEmpty() && !player.isCreative())
                 {
@@ -588,7 +568,6 @@ public class CommonEvents
                         }
 
                         var take = AbstractBundleItem.takeFirstStack(bandolier);
-                        //Debug.log("Providing item: " + take.getItem());
 
                         event.setResultStack(take.copy());
                     }

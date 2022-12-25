@@ -96,7 +96,18 @@ public class DaggerItem extends LazyItem
 
         player.awardStat(Stats.ITEM_USED.get(this));
 
-        return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+        var bandolier = BandolierItem.findBandolier(player);
+
+        if(!bandolier.isEmpty())
+        {
+            var taken = AbstractBundleItem.takeFirstStack(bandolier);
+            if(!taken.isEmpty())
+            {
+                return InteractionResultHolder.sidedSuccess(taken, world.isClientSide());
+            }
+        }
+
+        return InteractionResultHolder.sidedSuccess(ItemStack.EMPTY, world.isClientSide());
     }
 
     @Override
