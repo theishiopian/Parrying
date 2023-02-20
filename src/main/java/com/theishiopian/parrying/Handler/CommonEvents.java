@@ -23,6 +23,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -78,6 +79,12 @@ public class CommonEvents
     //these static fields transfer information between layers of method calls, in between which this information is altered or destroyed. The only other way of ensuring access
     //is to restructure the logic of the minecraft combat system, which would cause innumerable problems for compatibility im sure.
     //Why do you do this to me mojang?
+
+    private static final HashMap<UUID, Provided> provisions = new HashMap<>();
+    private static Provided localProvided;
+
+    protected record Provided(ItemStack provided, InteractionHand hand){}
+
     public static void OnPlayerAttackTarget(AttackEntityEvent event)
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
@@ -364,8 +371,24 @@ public class CommonEvents
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
+        //Debug.log("ticking");
         if(!event.player.level.isClientSide())
         {
+            if(provisions.containsKey(event.player.getUUID()))
+            {
+                //Debug.log("Providing item to player: " + _provisions.get(event.player.getUUID()));
+                var p = provisions.get(event.player.getUUID());
+                if(!event.player.getItemInHand(p.hand).isEmpty())
+                {
+                    var oldItemInHand = event.player.getItemInHand(p.hand).copy();
+                    var itemEntity = new ItemEntity(event.player.level, event.player.getX(), event.player.getY(), event.player.getZ(), oldItemInHand);
+                    itemEntity.setNoPickUpDelay();
+                    event.player.level.addFreshEntity(itemEntity);
+                }
+                event.player.setItemInHand(p.hand, p.provided);
+                provisions.remove(event.player.getUUID());
+            }
+
             if(!ModUtil.IsWeapon(event.player.getMainHandItem()) && ModUtil.IsWeapon(event.player.getOffhandItem()))
             {
                 DualWieldingMechanic.dualWielders.remove(event.player.getUUID());
@@ -407,6 +430,11 @@ public class CommonEvents
             ParryingMechanic.ServerDefenseValues.replace(event.player.getUUID(), newValue);
 
             ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
+        }
+        else if(localProvided != null)
+        {
+            event.player.setItemInHand(localProvided.hand, localProvided.provided);
+            localProvided = null;
         }
     }
 
@@ -538,44 +566,27 @@ public class CommonEvents
         }
     }
 
-    public static void OnThrowPotion(PlayerInteractEvent.RightClickItem event)
+    public static void OnFinishUsing(LivingEntityUseItemEvent.Finish event)
     {
-        Player player = event.getPlayer();
-        ItemStack item =  event.getItemStack();
-        if(item.is(Items.SPLASH_POTION))player.getCooldowns().addCooldown(Items.SPLASH_POTION, 20);
-        if(item.is(Items.LINGERING_POTION))player.getCooldowns().addCooldown(Items.LINGERING_POTION, 24);
+        if(!(event.getEntityLiving() instanceof Player player)) return;
+        var stack = event.getItem();
+        if(stack.is(ModTags.BANDOLIER_FINISH))
+        {
+            var newStack = BandolierItem.findItemInBandolier(player, stack);
+            if(!player.level.isClientSide && !provisions.containsKey(player.getUUID())) provisions.put(player.getUUID(), new Provided(newStack, player.getUsedItemHand()));
+            else localProvided = new Provided(newStack, player.getUsedItemHand());
+        }
     }
 
-    public static void OnFinishDrinkPotion(LivingEntityUseItemEvent.Finish event)
+    public static void OnRightClickItem(PlayerInteractEvent.RightClickItem event)
     {
-        if(event.getEntityLiving() instanceof Player player)
+        var player = event.getPlayer();
+        var stack = event.getItemStack();
+        if(stack.is(ModTags.BANDOLIER_INSTANT))
         {
-            if(event.getItem().is(Items.POTION)) player.getCooldowns().addCooldown(Items.POTION, 16);//TODO config values for all three
-
-            if(event.getItem().is(ModTags.BANDOLIER))
-            {
-                ItemStack bandolier = BandolierItem.findBandolier(player);
-
-                if(!bandolier.isEmpty() && !player.isCreative())
-                {
-                    ItemStack peek = AbstractBundleItem.peekFirstStack(bandolier);
-
-                    if(!peek.isEmpty())
-                    {
-                        if(!event.getResultStack().isEmpty())
-                        {
-                            var drop = event.getResultStack();
-                            ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), drop);
-                            itemEntity.setNoPickUpDelay();
-                            player.level.addFreshEntity(itemEntity);
-                        }
-
-                        var take = AbstractBundleItem.takeFirstStack(bandolier);
-
-                        event.setResultStack(take.copy());
-                    }
-                }
-            }
+            var newStack = BandolierItem.findItemInBandolier(player, stack);
+            if(!player.level.isClientSide && !provisions.containsKey(player.getUUID())) provisions.put(player.getUUID(), new Provided(newStack, player.getUsedItemHand()));
+            else localProvided = new Provided(newStack, player.getUsedItemHand());
         }
     }
 

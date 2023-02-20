@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -58,11 +59,10 @@ public class DaggerItem extends LazyItem
 
     public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player player, @NotNull InteractionHand hand)
     {
-        ItemStack stack = player.getItemInHand(hand);
+        Debug.log("throwing");
+        ItemStack dagger = player.getItemInHand(hand);
 
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ModUtil.random.nextFloat() * 0.4F + 0.8F));
-
-        player.getCooldowns().addCooldown(this, 10);
 
         if (!world.isClientSide)
         {
@@ -70,12 +70,12 @@ public class DaggerItem extends LazyItem
             if(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem && !player.isCrouching())
             {
                 player.startUsingItem(InteractionHand.OFF_HAND);
-                return InteractionResultHolder.fail(stack);
+                return InteractionResultHolder.fail(dagger);
             }
 
-            stack.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
+            dagger.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
 
-            DaggerEntity daggerEntity = new DaggerEntity(world, player, stack.copy());
+            DaggerEntity daggerEntity = new DaggerEntity(world, player, dagger.copy());
 
             daggerEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1F, 1.0F);
 
@@ -90,22 +90,11 @@ public class DaggerItem extends LazyItem
 
             if (!player.getAbilities().instabuild)
             {
-                stack.shrink(1);
+                dagger.shrink(1);
             }
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
-
-        var bandolier = BandolierItem.findBandolier(player);
-
-        if(!bandolier.isEmpty())
-        {
-            var taken = AbstractBundleItem.takeFirstStack(bandolier);
-            if(!taken.isEmpty())
-            {
-                return InteractionResultHolder.sidedSuccess(taken, world.isClientSide());
-            }
-        }
 
         return InteractionResultHolder.sidedSuccess(ItemStack.EMPTY, world.isClientSide());
     }

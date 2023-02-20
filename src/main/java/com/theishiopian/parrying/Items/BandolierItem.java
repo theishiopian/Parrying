@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,7 @@ public class BandolierItem extends AbstractBundleItem
         return c.stacksList.size();
     }
 
-    public static ItemStack findBandolier(Player player)
+    public static ItemStack findItemInBandolier(Player player, ItemStack oldStack)
     {
         ItemStack itemToScan;
         ItemStack bandolier = ItemStack.EMPTY;
@@ -48,6 +49,32 @@ public class BandolierItem extends AbstractBundleItem
 
         if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
 
-        return bandolier;
+        BundleItemCapability c = getActualCapability(bandolier);
+
+        if(c != null)
+        {
+            var oldClass = oldStack.getItem().getClass();
+            c.deflate();
+            Debug.log("starting loop");
+            for (int i = 0; i < c.stacksList.size(); i++)
+            {
+                var newClass = c.stacksList.get(i).getItem().getClass();
+                Debug.log("ITERATION");
+                Debug.log("oldItem " + oldClass);
+                Debug.log("newItem " + newClass);
+
+                if(oldClass.toString().equals(newClass.toString()))//I hate this so much
+                {
+                    var stackOut = c.stacksList.get(i).copy();
+                    c.stacksList.set(i, ItemStack.EMPTY);
+                    c.deflate();
+                    player.getCooldowns().addCooldown(stackOut.getItem(), 20);
+                    Debug.log("returning " + stackOut);
+                    return stackOut;
+                }
+            }
+        }
+
+        return oldStack;
     }
 }

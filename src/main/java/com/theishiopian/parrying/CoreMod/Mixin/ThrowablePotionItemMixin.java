@@ -13,6 +13,6 @@ public class ThrowablePotionItemMixin
     @ModifyConstant(constant = @Constant(floatValue = 0.5f), method = "use(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResultHolder;")
     private float ModifyPotionThrowingPower(float constant)
     {
-        return Config.modifyThrow.get() ? ((ThrowablePotionItem)(Object)this) instanceof SplashPotionItem ? 0.8f : 0.6f : 0.5f;
+        return Config.modifyThrow.get() ? (((ThrowablePotionItem)(Object)this) instanceof SplashPotionItem) ? 0.8f : 0.6f : 0.5f;
     }
 }

@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values":
+  [
+    "parrying:wooden_dagger",
+    "parrying:stone_dagger",
+    "parrying:iron_dagger",
+    "parrying:golden_dagger",
+    "parrying:diamond_dagger",
+    "parrying:netherite_dagger",
+    "minecraft:splash_potion",
+    "minecraft:lingering_potion"
+  ]
+}
