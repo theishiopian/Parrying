@@ -6,11 +6,16 @@ import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class BandolierItem extends AbstractBundleItem
 {
+    public static HashMap<UUID, ItemStack> itemsToGive = new HashMap<>();
     public BandolierItem(Properties pProperties)
     {
         super(pProperties, 512, 64, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));

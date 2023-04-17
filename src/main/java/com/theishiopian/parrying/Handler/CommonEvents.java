@@ -8,6 +8,7 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
@@ -563,30 +564,6 @@ public class CommonEvents
 
                 if(entity instanceof ServerPlayer player)ModTriggers.sick.trigger(player);
             }
-        }
-    }
-
-    public static void OnFinishUsing(LivingEntityUseItemEvent.Finish event)
-    {
-        if(!(event.getEntityLiving() instanceof Player player)) return;
-        var stack = event.getItem();
-        if(stack.is(ModTags.BANDOLIER_FINISH))
-        {
-            var newStack = BandolierItem.findItemInBandolier(player, stack);
-            if(!player.level.isClientSide && !provisions.containsKey(player.getUUID())) provisions.put(player.getUUID(), new Provided(newStack, player.getUsedItemHand()));
-            else localProvided = new Provided(newStack, player.getUsedItemHand());
-        }
-    }
-
-    public static void OnRightClickItem(PlayerInteractEvent.RightClickItem event)
-    {
-        var player = event.getPlayer();
-        var stack = event.getItemStack();
-        if(stack.is(ModTags.BANDOLIER_INSTANT))
-        {
-            var newStack = BandolierItem.findItemInBandolier(player, stack);
-            if(!player.level.isClientSide && !provisions.containsKey(player.getUUID())) provisions.put(player.getUUID(), new Provided(newStack, player.getUsedItemHand()));
-            else localProvided = new Provided(newStack, player.getUsedItemHand());
         }
     }
 

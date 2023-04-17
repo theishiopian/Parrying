@@ -59,7 +59,7 @@ public class DaggerItem extends LazyItem
 
     public @NotNull InteractionResultHolder<ItemStack> use(Level world, Player player, @NotNull InteractionHand hand)
     {
-        Debug.log("throwing");
+        //Debug.log("throwing");
         ItemStack dagger = player.getItemInHand(hand);
 
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ModUtil.random.nextFloat() * 0.4F + 0.8F));
@@ -96,7 +96,7 @@ public class DaggerItem extends LazyItem
 
         player.awardStat(Stats.ITEM_USED.get(this));
 
-        return InteractionResultHolder.sidedSuccess(ItemStack.EMPTY, world.isClientSide());
+        return InteractionResultHolder.sidedSuccess(dagger, world.isClientSide());
     }
 
     @Override
