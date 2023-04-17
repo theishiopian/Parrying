@@ -4,6 +4,7 @@ import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Effects.CoalescenceEffect;
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.Mechanics.*;
+import com.theishiopian.parrying.Network.GameplayStatusPacket;
 import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
@@ -81,7 +82,7 @@ public class CommonEvents
     //is to restructure the logic of the minecraft combat system, which would cause innumerable problems for compatibility im sure.
     //Why do you do this to me mojang?
 
-    private static final HashMap<UUID, Provided> provisions = new HashMap<>();
+    //private static final HashMap<UUID, Provided> provisions = new HashMap<>();
     private static Provided localProvided;
 
     protected record Provided(ItemStack provided, InteractionHand hand){}
@@ -368,26 +369,21 @@ public class CommonEvents
 
         ScabbardItem.drawCooldown.replaceAll((k, v) -> v - 1);
         ScabbardItem.drawCooldown.entrySet().removeIf(entry -> entry.getValue() <= 0);
+        GameplayStatusPacket.UpdateTicks();
     }
 
     public static void OnPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        //Debug.log("ticking");
         if(!event.player.level.isClientSide())
         {
-            if(provisions.containsKey(event.player.getUUID()))
+            if(BandolierItem.itemsToGive.containsKey(event.player.getUUID()))
             {
-                //Debug.log("Providing item to player: " + _provisions.get(event.player.getUUID()));
-                var p = provisions.get(event.player.getUUID());
-                if(!event.player.getItemInHand(p.hand).isEmpty())
+                if(GameplayStatusPacket.isPlayerPlaying((ServerPlayer) event.player) && GameplayStatusPacket.getTicks((ServerPlayer) event.player) > 5)
                 {
-                    var oldItemInHand = event.player.getItemInHand(p.hand).copy();
-                    var itemEntity = new ItemEntity(event.player.level, event.player.getX(), event.player.getY(), event.player.getZ(), oldItemInHand);
-                    itemEntity.setNoPickUpDelay();
-                    event.player.level.addFreshEntity(itemEntity);
+                    Debug.log("providing item: " + BandolierItem.itemsToGive.get(event.player.getUUID()));
                 }
-                event.player.setItemInHand(p.hand, p.provided);
-                provisions.remove(event.player.getUUID());
+
+                BandolierItem.itemsToGive.remove(event.player.getUUID());
             }
 
             if(!ModUtil.IsWeapon(event.player.getMainHandItem()) && ModUtil.IsWeapon(event.player.getOffhandItem()))

@@ -14,10 +14,7 @@ import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Items.SpearItem;
 import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
 import com.theishiopian.parrying.Mechanics.ParryingMechanic;
-import com.theishiopian.parrying.Network.DodgePacket;
-import com.theishiopian.parrying.Network.DualWieldPacket;
-import com.theishiopian.parrying.Network.LeftClickPacket;
-import com.theishiopian.parrying.Network.UseScabbardPacket;
+import com.theishiopian.parrying.Network.*;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ModUtil;
@@ -43,6 +40,7 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -135,17 +133,17 @@ public class ClientEvents
 
     /**
      * This method is used to ensure mechanics don't occur when, say, we are in the main menu
-     * @param noInventory whether to consider the player's inventory being open as something to cancel mechanics
+     * @param considerInventory whether to consider the player's inventory being open as something to cancel mechanics
      * @return is gameplay in progress?
      */
-    private static boolean IsGameplayInProgress(boolean noInventory)
+    private static boolean IsGameplayInProgress(boolean considerInventory)
     {
         boolean a = Minecraft.getInstance().screen == null;
         boolean b = Minecraft.getInstance().level != null;
         boolean c = !Minecraft.getInstance().isPaused();
         boolean d = Minecraft.getInstance().player != null;
 
-        return (a || !noInventory) && b && c && d;
+        return (a || !considerInventory) && b && c && d;
     }
 
     public static void OnTooltip(ItemTooltipEvent event)
@@ -235,6 +233,22 @@ public class ClientEvents
                 }
             }
         }
+    }
+
+    private static boolean last = false;
+
+    public static void OnClientTick(TickEvent.PlayerTickEvent event)
+    {
+        if(!event.player.level.isClientSide) return;
+
+        boolean isPlaying = IsGameplayInProgress(true);
+
+        if(isPlaying != last)//only send packet if there was a change
+        {
+            ParryingMod.channel.sendToServer(new GameplayStatusPacket(isPlaying));
+        }
+
+        last = isPlaying;
     }
 
     public static void OnKeyPressed(InputEvent.KeyInputEvent event)

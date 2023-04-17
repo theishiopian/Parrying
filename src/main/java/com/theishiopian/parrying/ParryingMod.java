@@ -44,8 +44,8 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 14;  //protocol version, bump whenever adding new network packets or changing existing ones.
-                                            // last change: renamed a few things
+    private static final int VERSION = 15;  //protocol version, bump whenever adding new network packets or changing existing ones.
+                                            // last change: added inventory status packet
 
     static
     {
@@ -89,6 +89,12 @@ public class ParryingMod
                 .decoder(UseScabbardPacket::fromBytes)
                 .encoder(UseScabbardPacket::toBytes)
                 .consumer(UseScabbardPacket::handle)
+                .add();
+
+        channel.messageBuilder(GameplayStatusPacket.class, 7)
+                .decoder(GameplayStatusPacket::fromBytes)
+                .encoder(GameplayStatusPacket::toBytes)
+                .consumer(GameplayStatusPacket::handle)
                 .add();
     }
 
@@ -150,6 +156,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnTooltip);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::RenderOverlays);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnHandRendered);
+        MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClientTick);
         //MinecraftForge.EVENT_BUS.addListener(ClientEvents::ModifyHealthBar);
         EntityRenderers.register(ModEntities.SPEAR.get(), RenderSpear::new);
         EntityRenderers.register(ModEntities.DAGGER.get(), RenderDagger::new);

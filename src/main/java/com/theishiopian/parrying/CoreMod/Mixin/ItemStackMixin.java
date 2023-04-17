@@ -10,8 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,8 +30,28 @@ public class ItemStackMixin
 
         if(oldStack.getCount() - pDecrement == 0 && oldStack.is(ModTags.BANDOLIER))
         {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    Debug.log("send packet"));//todo daggers don't fire this on dedicated server. fix this, detect open inventory to prevent firing from inventory management, and send packets to server
+            var server = ServerLifecycleHooks.getCurrentServer();
+            if(server == null) return;
+
+            for (ServerLevel level : server.getAllLevels())
+            {
+                var players = level.players();
+                var hasFound = false;
+
+                for (ServerPlayer player : players)
+                {
+                    for (ItemStack item : player.getInventory().items)
+                    {
+                        if(oldStack == item)
+                        {
+                            hasFound = true;
+                            BandolierItem.itemsToGive.put(player.getUUID(), oldStack);
+                        }
+                    }
+                }
+
+                if(hasFound) break;
+            }
         }
     }
 }
