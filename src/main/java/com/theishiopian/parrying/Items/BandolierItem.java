@@ -3,15 +3,12 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.EnderpearlItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -37,7 +34,7 @@ public class BandolierItem extends AbstractBundleItem
     {
         if(!itemsToGive.containsKey(player.getUUID())) return;
 
-        ItemStack oldStack = itemsToGive.get(player.getUUID());
+        ItemStack oldStack = itemsToGive.get(player.getUUID());//todo use this for context enchant
 
         ItemStack itemToScan;
         ItemStack bandolier = ItemStack.EMPTY;
@@ -76,7 +73,7 @@ public class BandolierItem extends AbstractBundleItem
 
             if(oldItemInHand != ItemStack.EMPTY)
             {
-                //todo fix potions
+                //todo fix potions destroying new incoming potions
                 ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
                 itemEntity.setNoPickUpDelay();
                 player.level.addFreshEntity(itemEntity);
