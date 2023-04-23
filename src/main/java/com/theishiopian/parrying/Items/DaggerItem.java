@@ -3,7 +3,6 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

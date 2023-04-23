@@ -5,10 +5,13 @@ import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.EnderpearlItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,8 +33,12 @@ public class BandolierItem extends AbstractBundleItem
         return c.stacksList.size();
     }
 
-    public static ItemStack findItemInBandolier(Player player, ItemStack oldStack)
+    public static void findItemInBandolier(Player player)
     {
+        if(!itemsToGive.containsKey(player.getUUID())) return;
+
+        ItemStack oldStack = itemsToGive.get(player.getUUID());
+
         ItemStack itemToScan;
         ItemStack bandolier = ItemStack.EMPTY;
         ItemStack priorityBandolier = ItemStack.EMPTY;
@@ -58,28 +65,22 @@ public class BandolierItem extends AbstractBundleItem
 
         if(c != null)
         {
-            var oldClass = oldStack.getItem().getClass();
             c.deflate();
-            Debug.log("starting loop");
-            for (int i = 0; i < c.stacksList.size(); i++)
-            {
-                var newClass = c.stacksList.get(i).getItem().getClass();
-                Debug.log("ITERATION");
-                Debug.log("oldItem " + oldClass);
-                Debug.log("newItem " + newClass);
 
-                if(oldClass.toString().equals(newClass.toString()))//I hate this so much
-                {
-                    var stackOut = c.stacksList.get(i).copy();
-                    c.stacksList.set(i, ItemStack.EMPTY);
-                    c.deflate();
-                    player.getCooldowns().addCooldown(stackOut.getItem(), 20);
-                    Debug.log("returning " + stackOut);
-                    return stackOut;
-                }
+            //todo add smarts here with enchant
+            var newItem =  c.stacksList.remove(0);
+            var oldItemInHand = player.getMainHandItem().copy();
+
+            player.setItemInHand(InteractionHand.MAIN_HAND, newItem.copy());
+            player.getCooldowns().addCooldown(newItem.getItem(), 20);
+
+            if(oldItemInHand != ItemStack.EMPTY)
+            {
+                //todo fix potions
+                ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
+                itemEntity.setNoPickUpDelay();
+                player.level.addFreshEntity(itemEntity);
             }
         }
-
-        return oldStack;
     }
 }

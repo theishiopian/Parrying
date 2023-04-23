@@ -1,12 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
-import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.CoreMod.Hooks.PlayerHooks;
-import com.theishiopian.parrying.Items.ScopedCrossbow;
-import com.theishiopian.parrying.Mechanics.DualWieldingMechanic;
-import com.theishiopian.parrying.Registration.ModItems;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

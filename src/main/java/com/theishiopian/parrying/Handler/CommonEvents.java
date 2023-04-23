@@ -380,7 +380,7 @@ public class CommonEvents
             {
                 if(GameplayStatusPacket.isPlayerPlaying((ServerPlayer) event.player) && GameplayStatusPacket.getTicks((ServerPlayer) event.player) > 5)
                 {
-                    Debug.log("providing item: " + BandolierItem.itemsToGive.get(event.player.getUUID()));
+                    BandolierItem.findItemInBandolier(event.player);
                 }
 
                 BandolierItem.itemsToGive.remove(event.player.getUUID());
