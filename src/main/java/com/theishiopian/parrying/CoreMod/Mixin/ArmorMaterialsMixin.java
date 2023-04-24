@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterials;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,18 +18,18 @@ public class ArmorMaterialsMixin
     @Inject(method = "getDefenseForSlot", at = @At("HEAD"), cancellable = true)
     private void InjectIntoGetDefenseForSlot(EquipmentSlot pSlot, CallbackInfoReturnable<Integer> cir)
     {
-        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD)cir.setReturnValue(protections[pSlot.getIndex()]);
+        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD && Config.isGoldBuffed.get())cir.setReturnValue(protections[pSlot.getIndex()]);
     }
 
     @Inject(method = "getDurabilityForSlot", at = @At("HEAD"), cancellable = true)
     private void InjectIntoGetDurabilityForSlot(EquipmentSlot pSlot, CallbackInfoReturnable<Integer> cir)
     {
-        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD)cir.setReturnValue(goldDurabilityMultiplier * HEALTH_PER_SLOT[pSlot.getIndex()]);
+        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD && Config.isGoldBuffed.get())cir.setReturnValue(goldDurabilityMultiplier * HEALTH_PER_SLOT[pSlot.getIndex()]);
     }
 
     @Inject(method = "getKnockbackResistance", at = @At("HEAD"), cancellable = true)
     private void InjectIntoGetKnockbackResistance(CallbackInfoReturnable<Float> cir)
     {
-        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD)cir.setReturnValue(0.1f);
+        if(ArmorMaterials.class.cast(this) == ArmorMaterials.GOLD && Config.isGoldBuffed.get())cir.setReturnValue(0.1f);
     }
 }
