@@ -95,6 +95,8 @@ public class Config
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
 
+    public static  final ForgeConfigSpec.BooleanValue isGoldBuffed;
+
     //zero g arrows for scoped crossbows
     public static final ForgeConfigSpec.BooleanValue zeroGravityBolts;
 
@@ -220,6 +222,7 @@ public class Config
         isSwiftStrikeTreasure = builder.comment("Whether or not the swift strike enchantment is treasure only").define("is_swift_strike_treasure", true);
 
         isChainmailCraftable = builder.comment("Easy way to disable chainmail crafting without a datapack").define("is_chainmail_craftable", true);
+        isGoldBuffed = builder.comment("Is gold equipment buffed?").define("is_gold_buffed", true);
 
         zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
         protectPets = builder.comment("Are pets immune to damage from their owners?").define("protect_pets", true);

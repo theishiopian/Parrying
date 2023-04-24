@@ -4,6 +4,7 @@ import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -70,13 +71,13 @@ public class BandolierItem extends AbstractBundleItem
 
             player.setItemInHand(InteractionHand.MAIN_HAND, newItem.copy());
             player.getCooldowns().addCooldown(newItem.getItem(), 20);
+            player.inventoryMenu.sendAllDataToRemote();
 
             if(oldItemInHand != ItemStack.EMPTY)
             {
-                //todo fix potions destroying new incoming potions
-                ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
-                itemEntity.setNoPickUpDelay();
-                player.level.addFreshEntity(itemEntity);
+                ItemEntity itemEntity2 = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
+                itemEntity2.setNoPickUpDelay();
+                player.level.addFreshEntity(itemEntity2);
             }
         }
     }

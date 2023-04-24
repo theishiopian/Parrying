@@ -390,9 +390,11 @@ public class CommonEvents
             {
                 DualWieldingMechanic.dualWielders.remove(event.player.getUUID());
             }
+
             float newValue;
             ParryingMechanic.ServerDefenseValues.putIfAbsent(event.player.getUUID(), 1f);
             float v = ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
+
             if(v <= 0)
             {
                 event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
