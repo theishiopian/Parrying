@@ -169,7 +169,7 @@ public class ModItems
         for (Item item : items)
         {
             //noinspection deprecation
-            if(item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE))
+            if(item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED) )
                 Minecraft.getInstance().getItemColors().register((stack, color) ->
                 {
                     var tag = stack.getTag();

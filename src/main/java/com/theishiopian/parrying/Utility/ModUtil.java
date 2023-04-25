@@ -57,7 +57,7 @@ public class ModUtil
 
     public static boolean IsWeapon(ItemStack stack)
     {
-        return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE);
+        return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED);
     }
 
     public static Comparator<Entity> GetDistanceSorter(Entity target)
