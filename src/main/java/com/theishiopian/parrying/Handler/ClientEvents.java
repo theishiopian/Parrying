@@ -9,6 +9,7 @@ import com.theishiopian.parrying.Client.Particle.ParryParticle;
 import com.theishiopian.parrying.Client.Particle.SliceParticle;
 import com.theishiopian.parrying.Client.Particle.StabParticle;
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Items.OilPotionItem;
 import com.theishiopian.parrying.Items.ScabbardItem;
 import com.theishiopian.parrying.Items.ScopedCrossbow;
 import com.theishiopian.parrying.Items.SpearItem;
@@ -23,6 +24,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
@@ -31,6 +33,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,6 +48,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
 
 public class ClientEvents
 {
@@ -163,6 +169,17 @@ public class ClientEvents
         if (Registry.ITEM.isKnownTagName(ModTags.TWO_HANDED_WEAPONS) && Config.twoHandedEnabled.get() && event.getItemStack().is(ModTags.TWO_HANDED_WEAPONS))
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
+        }
+
+        if(ModUtil.IsWeapon(event.getItemStack()) && PotionUtils.getPotion(event.getItemStack()) != Potions.EMPTY)
+        {
+            event.getToolTip().add(new TranslatableComponent("tooltip.parrying.oil").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE)));
+
+            var list = new ArrayList<Component>();
+
+            PotionUtils.addPotionTooltip(event.getItemStack(), list, OilPotionItem.DURATION_MOD);
+
+            event.getToolTip().addAll(list);
         }
 
         if(event.getItemStack().is(ModItems.SCABBARD.get()))

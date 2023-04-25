@@ -85,6 +85,8 @@
   "item.minecraft.tipped_arrow.effect.coalescence" : "Arrow of Compatibility",
   "item.minecraft.tipped_arrow.effect.coalescence_long" : "Arrow of Compatibility",
 
+  "item.parrying.oil": "Oil",
+
   "tooltip.parrying.two_handed": "Two Handed",
   "tooltip.parrying.jousting": "+%s Damage While Riding",
 
@@ -92,6 +94,7 @@
   "tooltip.parrying.bandolier": "Stores potions and daggers",
   "tooltip.parrying.swords": "Stored blade:",
   "tooltip.parrying.none": "None",
+  "tooltip.parrying.oil": "Oiled:",
 
   "death.attack.bludgeoning": "%1$s was crushed",
   "death.attack.bludgeoning.player": "%1$s was crushed by %2$s",
@@ -190,5 +193,30 @@
   "advancements.parrying.surrender.desc": "Gain the coalescence effect",
 
   "advancements.parrying.immortal" : "You cannot kill me in a way that matters...",
-  "advancements.parrying.immortal.desc": "Absorb 10 or more damage with immortality"
+  "advancements.parrying.immortal.desc": "Absorb 10 or more damage with immortality",
+
+  "item.parrying.oil.effect.empty": "Uncraftable Oil",
+  "item.parrying.oil.effect.water": "A Contradiction",
+  "item.parrying.oil.effect.mundane": "Mundane Oil",
+  "item.parrying.oil.effect.thick": "Thick Oil",
+  "item.parrying.oil.effect.awkward": "Awkward Oil",
+  "item.parrying.oil.effect.night_vision": "Oil of Night Vision",
+  "item.parrying.oil.effect.invisibility": "Oil of Invisibility",
+  "item.parrying.oil.effect.leaping": "Oil of Leaping",
+  "item.parrying.oil.effect.fire_resistance": "Oil of Fire Resistance",
+  "item.parrying.oil.effect.swiftness": "Oil of Swiftness",
+  "item.parrying.oil.effect.slowness": "Oil of Slowness",
+  "item.parrying.oil.effect.water_breathing": "Oil of Water Breathing",
+  "item.parrying.oil.effect.healing": "Oil of Healing",
+  "item.parrying.oil.effect.harming": "Oil of Harming",
+  "item.parrying.oil.effect.poison": "Oil of Poison",
+  "item.parrying.oil.effect.regeneration": "Oil of Regeneration",
+  "item.parrying.oil.effect.strength": "Oil of Strength",
+  "item.parrying.oil.effect.weakness": "Oil of Weakness",
+  "item.parrying.oil.effect.levitation": "Oil of Levitation",
+  "item.parrying.oil.effect.luck": "Oil of Luck",
+  "item.parrying.oil.effect.turtle_master": "Oil of the Turtle Master",
+  "item.parrying.oil.effect.slow_falling": "Oil of Slow Falling",
+  "item.parrying.oil.effect.coalescence": "Oil of Coalescence",
+  "item.parrying.oil.effect.coalescence_long": "Oil of Coalescence"
 }

@@ -6,10 +6,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
 
 /**
  * This class is used to register custom items. Mostly weapons.
@@ -73,6 +78,7 @@ public class ModItems
     public static final RegistryObject<AbstractBundleItem> QUIVER = ITEMS.register("quiver", () -> new QuiverItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<AbstractBundleItem> BANDOLIER = ITEMS.register("bandolier", () -> new BandolierItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<ScabbardItem> SCABBARD = ITEMS.register("scabbard", () -> new ScabbardItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<OilPotionItem> OIL = ITEMS.register("oil", () -> new OilPotionItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_BREWING)));
 
     /**
      * This method is used to register item overrides for any items that need them. This allows models to be swapped out on the fly, such as
@@ -108,6 +114,8 @@ public class ModItems
 
         ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
         ItemProperties.register(BANDOLIER.get(), new ResourceLocation("items"), (stack, world, user, seed) -> (BandolierItem.GetCount(stack)));
+
+        ItemProperties.register(OIL.get(), new ResourceLocation("in_use"), (stack, world, user, seed) -> user != null && user.isUsingItem() && user.getUseItem() == stack ? 1 : 0);
 
         ItemProperties.register(SCOPED_CROSSBOW.get(), new ResourceLocation("pull"), (stack, world, user, seed) ->
         {
@@ -154,5 +162,23 @@ public class ModItems
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.QUIVER.get());
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.SCABBARD.get());
         Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack), ModItems.BANDOLIER.get());
+        Minecraft.getInstance().getItemColors().register((stack, color) -> color > 0 ? -1 : PotionUtils.getColor(stack), ModItems.OIL.get());
+
+        //this code adds a color handler to ALL weapons. all of them. todo config
+        var items = new ArrayList<>(ForgeRegistries.ITEMS.getValues());
+        for (Item item : items)
+        {
+            //noinspection deprecation
+            if(item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE))
+                Minecraft.getInstance().getItemColors().register((stack, color) ->
+                {
+                    var tag = stack.getTag();
+                    if(stack.getTag() == null || !stack.getTag().contains("CustomPotionColor"))
+                    {
+                        return -1;
+                    }
+                    return color > 0 ? -1 : PotionUtils.getColor(stack);
+                }, item);
+        }
     }
 }

@@ -12,6 +12,7 @@ import com.theishiopian.parrying.Registration.*;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -179,5 +180,6 @@ public class ParryingMod
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.CHORUS_FRUIT, ModPotions.COALESCENCE.get()));
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.COALESCENCE.get(), Items.GLOWSTONE_DUST, ModPotions.COALESCENCE_LONG.get()));
 
+        PotionBrewing.addContainerRecipe(Items.POTION, Items.HONEYCOMB, ModItems.OIL.get());//todo may want to move all potion stuff here
     }
 }

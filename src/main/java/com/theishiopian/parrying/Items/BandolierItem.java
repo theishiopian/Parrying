@@ -4,7 +4,6 @@ import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -59,26 +58,17 @@ public class BandolierItem extends AbstractBundleItem
 
         if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
 
-        BundleItemCapability c = getActualCapability(bandolier);
+        //todo add smarts here with enchant
+        var newItem =  AbstractBundleItem.takeFirstStack(bandolier);
+        if(newItem.isEmpty()) return;
+        var oldItemInHand = player.getMainHandItem().copy();
 
-        if(c != null)
-        {
-            c.deflate();
+        player.setItemInHand(InteractionHand.MAIN_HAND, newItem.copy());
+        player.getCooldowns().addCooldown(newItem.getItem(), 20);
+        player.inventoryMenu.sendAllDataToRemote();
 
-            //todo add smarts here with enchant
-            var newItem =  c.stacksList.remove(0);
-            var oldItemInHand = player.getMainHandItem().copy();
-
-            player.setItemInHand(InteractionHand.MAIN_HAND, newItem.copy());
-            player.getCooldowns().addCooldown(newItem.getItem(), 20);
-            player.inventoryMenu.sendAllDataToRemote();
-
-            if(oldItemInHand != ItemStack.EMPTY)
-            {
-                ItemEntity itemEntity2 = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
-                itemEntity2.setNoPickUpDelay();
-                player.level.addFreshEntity(itemEntity2);
-            }
-        }
+        ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
+        itemEntity.setNoPickUpDelay();
+        player.level.addFreshEntity(itemEntity);
     }
 }

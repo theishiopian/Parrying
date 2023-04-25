@@ -9,7 +9,6 @@ import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
-import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
@@ -37,7 +36,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.horse.Horse;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
@@ -91,13 +89,44 @@ public class CommonEvents
     {
         strength = event.getPlayer().getAttackStrengthScale(0.5f);
 
-        if(!event.getPlayer().level.isClientSide && event.getPlayer().getMainHandItem().getItem() instanceof SpearItem)
+        if(!event.getPlayer().level.isClientSide )
         {
-            float dist = (float) event.getPlayer().position().distanceTo(event.getTarget().position());
+            var mainItem = event.getPlayer().getMainHandItem();
 
-            if(dist > 3)
+            if(mainItem.getItem() instanceof SpearItem)
             {
-                ModTriggers.poke.trigger((ServerPlayer) event.getPlayer());
+                float dist = (float) event.getPlayer().position().distanceTo(event.getTarget().position());
+
+                if(dist > 3)
+                {
+                    ModTriggers.poke.trigger((ServerPlayer) event.getPlayer());
+                }
+            }
+
+            if(ModUtil.IsWeapon(mainItem) && event.getTarget() instanceof LivingEntity living)
+            {
+                var effects = PotionUtils.getMobEffects(mainItem);
+
+                for (MobEffectInstance effect : effects)
+                {
+                    var e = effect.getEffect();
+                    var dur = effect.getDuration() * OilPotionItem.DURATION_MOD;
+                    var amp = effect.getAmplifier();
+
+                    event.getPlayer().level.playSound(null, event.getPlayer().blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + event.getPlayer().getLevel().getRandom().nextFloat() * 0.2F);
+
+                    if(e.isInstantenous())
+                    {
+                        e.applyInstantenousEffect(event.getPlayer(), event.getPlayer(), living, amp, 1);
+                    }
+                    else
+                    {
+                        living.addEffect(new MobEffectInstance(e, (int) dur, amp, effect.isAmbient(),effect.isVisible()), event.getPlayer());
+                    }
+                }
+
+                mainItem.removeTagKey("CustomPotionColor");
+                mainItem.removeTagKey("Potion");
             }
         }
     }

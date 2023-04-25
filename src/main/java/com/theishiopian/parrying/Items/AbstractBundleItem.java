@@ -140,6 +140,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     {
         BundleItemCapability c = getActualCapability(bundle);
         if(c == null) return ItemStack.EMPTY;
+        c.deflate();
         var toTake = c.stacksList.get(0).copy();
         //Debug.log("First item in bandolier is: " + toTake.getItem());
         c.stacksList.set(0, ItemStack.EMPTY);

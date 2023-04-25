@@ -38,7 +38,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "FoodDataMixin",
         "FoodsMixin",
         "LivingEntityMixin",
-        "ItemStackMixin"
+        "ItemStackMixin",
+        "ThrownTridentMixin"
     };
 
     @Override

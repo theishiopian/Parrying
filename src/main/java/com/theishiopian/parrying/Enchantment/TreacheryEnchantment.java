@@ -26,11 +26,6 @@ public class TreacheryEnchantment extends Enchantment
     public int getMaxLevel() {
         return 2;
     }
-    
-    public boolean checkCompatibility(@NotNull Enchantment toCheck)
-    {
-        return !(toCheck instanceof VenomousEnchantment);
-    }
 
     public boolean canEnchant(ItemStack toEnchant)
     {

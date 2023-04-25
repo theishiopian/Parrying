@@ -10,8 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +29,6 @@ public abstract class Backstab
             if(e instanceof LivingEntity attacker && CanBackstab(attacker, entity))
             {
                 int tLevel;
-                int vLevel;
 
                 if(event.getSource() instanceof IndirectEntityDamageSource && (event.getSource()).getDirectEntity() instanceof DaggerEntity)
                 {
@@ -40,20 +37,13 @@ public abstract class Backstab
                     ItemStack dagger = d.daggerItem;
 
                     tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.TREACHERY.get(), dagger) : 0;
-                    vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.VENOMOUS.get(), dagger) : 0;
                 }
                 else
                 {
                     tLevel = Config.treacheryEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.TREACHERY.get(), attacker) : 0;
-                    vLevel = Config.venomousEnabled.get() ? EnchantmentHelper.getEnchantmentLevel(ModEnchantments.VENOMOUS.get(), attacker) : 0;
                 }
 
                 event.setAmount((float) (event.getAmount() * (Config.backStabDamageMultiplier.get() + tLevel)));
-
-                if(vLevel > 0)
-                {
-                    entity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, vLevel - 1));
-                }
 
                 if(attacker instanceof Player && tLevel > 0)
                 {

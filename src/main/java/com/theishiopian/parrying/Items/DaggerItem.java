@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.DaggerEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
+import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -18,7 +19,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -61,16 +61,16 @@ public class DaggerItem extends LazyItem
         //Debug.log("throwing");
         ItemStack dagger = player.getItemInHand(hand);
 
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ModUtil.random.nextFloat() * 0.4F + 0.8F));
-
         if (!world.isClientSide)
         {
             //thanks k1r0s
-            if(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem && !player.isCrouching())
+            if((player.getItemInHand(InteractionHand.OFF_HAND).is(ModTags.THROW_CANCEL) && !player.isCrouching()))
             {
                 player.startUsingItem(InteractionHand.OFF_HAND);
                 return InteractionResultHolder.fail(dagger);
             }
+
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (ModUtil.random.nextFloat() * 0.4F + 0.8F));
 
             dagger.hurtAndBreak(1, player, (playerEntity) -> playerEntity.broadcastBreakEvent(player.getUsedItemHand()));
 

@@ -17,7 +17,7 @@ public abstract class PotionBrewingMixin
     @Inject(method = "bootStrap", at = @At("HEAD"), cancellable = true)
     private static void ReplaceRecipes(CallbackInfo ci)
     {
-        if(!Config.brewingRecipeOverhaul.get()) return;
+        if (!Config.brewingRecipeOverhaul.get()) return;
 
         //boiler plate
         addContainer(Items.POTION);
@@ -26,7 +26,6 @@ public abstract class PotionBrewingMixin
 
         addContainerRecipe(Items.POTION, Items.GUNPOWDER, Items.SPLASH_POTION);
         addContainerRecipe(Items.POTION, Items.DRAGON_BREATH, Items.LINGERING_POTION);
-        //todo oil goes here
 
         //base potions
         addMix(Potions.WATER, Items.WHEAT, Potions.THICK);

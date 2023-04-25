@@ -3,6 +3,7 @@ package com.theishiopian.parrying.Items;
 import com.google.common.collect.ImmutableMultimap;
 import com.theishiopian.parrying.Entity.SpearEntity;
 import com.theishiopian.parrying.Registration.ModAttributes;
+import com.theishiopian.parrying.Registration.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +17,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.Vanishable;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -91,7 +95,7 @@ public class SpearItem extends LazyItem implements Vanishable
         ItemStack stack = player.getItemInHand(hand);
 
         //thanks k1r0s
-        if(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShieldItem && !player.isCrouching())
+        if(player.getItemInHand(InteractionHand.OFF_HAND).is(ModTags.THROW_CANCEL) && !player.isCrouching())
         {
             player.startUsingItem(InteractionHand.OFF_HAND);
             return InteractionResultHolder.fail(stack);

@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "parrying:item/oil_overlay",
+    "layer1": "parrying:item/oil"
+  }
+}

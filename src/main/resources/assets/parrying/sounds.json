@@ -9,7 +9,6 @@
       }
     ]
   },
-
   "parry_stone":
   {
     "sounds":
@@ -117,6 +116,16 @@
     [
       {
         "name": "parrying:immortal_hit",
+        "stream": false
+      }
+    ]
+  },
+  "smear":
+  {
+    "sounds":
+    [
+      {
+        "name": "parrying:smear",
         "stream": false
       }
     ]
