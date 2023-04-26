@@ -24,7 +24,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
  * May want to move this code in the future. Will need to move deflection enchant out of this code to do this.
  * Works on any arrow or arrow like entity, such as tridents.
  */
-public abstract class Deflection
+public abstract class DeflectionMechanic
 {
     public static boolean Deflect(ProjectileImpactEvent event)
     {

@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
-public abstract class Backstab
+public abstract class BackstabMechanic
 {
     public static void DoBackstab(LivingHurtEvent event, LivingEntity entity)
     {

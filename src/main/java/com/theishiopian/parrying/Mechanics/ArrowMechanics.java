@@ -28,7 +28,7 @@ public abstract class ArrowMechanics
             arrow.isNoGravity() &&
             result instanceof EntityHitResult hit &&
             hit.getEntity() instanceof LivingEntity target &&
-            Backstab.CanBackstab(player, target) &&
+            BackstabMechanic.CanBackstab(player, target) &&
             player.distanceTo(target) >= 50
         )
         {

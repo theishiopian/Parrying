@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Utility;
 
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -58,6 +59,35 @@ public class ModUtil
     public static boolean IsWeapon(ItemStack stack)
     {
         return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED);
+    }
+
+    public static boolean ShouldBeHarmful(List<MobEffectInstance> list, LivingEntity target)
+    {
+        if(list != null)
+        {
+            boolean shouldBeHarmful = true;
+            for (MobEffectInstance i : list)
+            {
+                boolean beneficial = i.getEffect().isBeneficial();
+                boolean isInstantHeal = i.getEffect() == MobEffects.HEAL;
+                boolean isInstantHarm = i.getEffect() == MobEffects.HARM;
+                boolean targetUndead = target.isInvertedHealAndHarm();
+                if(beneficial && !(targetUndead && isInstantHeal))
+                {
+                    shouldBeHarmful = false;
+                    break;
+                }
+                else if(targetUndead && isInstantHarm)
+                {
+                    shouldBeHarmful = false;
+                    break;
+                }
+            }
+
+            return shouldBeHarmful;
+        }
+
+        return true;
     }
 
     public static Comparator<Entity> GetDistanceSorter(Entity target)

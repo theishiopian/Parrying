@@ -40,7 +40,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "LivingEntityMixin",
         "ItemStackMixin",
         "ThrownTridentMixin",
-        "TridentItemMixin"
+        "TridentItemMixin",
+        "AbstractArrowInvoker"
     };
 
     @Override

@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.CoreMod.Mixin.AbstractArrowInvoker;
 import com.theishiopian.parrying.Effects.CoalescenceEffect;
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.Mechanics.*;
@@ -72,6 +73,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+//todo list:
+//move stuff to mechanics classes
+//add bandolier enchants
+//add hourai elixir
+
 public class CommonEvents
 {
     static float pAmount = 0;//this is dumb
@@ -101,32 +107,6 @@ public class CommonEvents
                 {
                     ModTriggers.poke.trigger((ServerPlayer) event.getPlayer());
                 }
-            }
-
-            if(ModUtil.IsWeapon(mainItem) && event.getTarget() instanceof LivingEntity living)
-            {
-                var effects = PotionUtils.getMobEffects(mainItem);
-
-                for (MobEffectInstance effect : effects)
-                {
-                    var e = effect.getEffect();
-                    var dur = effect.getDuration() * OilPotionItem.DURATION_MOD;
-                    var amp = effect.getAmplifier();
-
-                    event.getPlayer().level.playSound(null, event.getPlayer().blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + event.getPlayer().getLevel().getRandom().nextFloat() * 0.2F);
-
-                    if(e.isInstantenous())
-                    {
-                        e.applyInstantenousEffect(event.getPlayer(), event.getPlayer(), living, amp, 1);
-                    }
-                    else
-                    {
-                        living.addEffect(new MobEffectInstance(e, (int) dur, amp, effect.isAmbient(),effect.isVisible()), event.getPlayer());
-                    }
-                }
-
-                mainItem.removeTagKey("CustomPotionColor");
-                mainItem.removeTagKey("Potion");
             }
         }
     }
@@ -260,7 +240,7 @@ public class CommonEvents
 
     public static void OnArrowImpact(ProjectileImpactEvent event)
     {
-        if(event.getProjectile() instanceof AbstractArrow arrow && !Deflection.Deflect(event))
+        if(event.getProjectile() instanceof AbstractArrow arrow && !DeflectionMechanic.Deflect(event))
         {
             ArrowMechanics.DoSonicArrow(arrow);
             ArrowMechanics.DoBurningArrow(arrow, event.getRayTraceResult());
@@ -276,6 +256,34 @@ public class CommonEvents
 
         if(target != null)
         {
+            if(ModUtil.IsWeapon(weapon))
+            {
+                var effects = PotionUtils.getMobEffects(weapon);
+
+                for (MobEffectInstance effect : effects)
+                {
+                    var e = effect.getEffect();
+                    var dur = effect.getDuration() * OilPotionItem.DURATION_MOD;
+                    var amp = effect.getAmplifier();
+
+                    target.level.playSound(null, target.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + target.getLevel().getRandom().nextFloat() * 0.2F);
+
+                    if(e.isInstantenous())
+                    {
+                        e.applyInstantenousEffect(target, target, target, amp, 1);
+                    }
+                    else
+                    {
+                        target.addEffect(new MobEffectInstance(e, (int) dur, amp, effect.isAmbient(),effect.isVisible()), attacker);
+                    }
+                }
+
+                weapon.removeTagKey("CustomPotionColor");
+                weapon.removeTagKey("Potion");
+
+                if(!ModUtil.ShouldBeHarmful(effects, target)) event.setAmount(0);
+            }
+
             float diff = target.getHealth() - event.getAmount();
             if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul() && (diff <= 0 || target.getHealth() <= 2))
             {
@@ -294,57 +302,30 @@ public class CommonEvents
                 event.setAmount(event.getAmount() * 0.8f);//milk reduces fall damage by 20%, because bones
             }
 
-            if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing())
+            if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
             {
-                if(event.getSource() instanceof IndirectEntityDamageSource src && event.getSource().isProjectile())
+                if(src.getDirectEntity() instanceof AbstractArrow arrow)
                 {
-                    Entity e = src.getDirectEntity();
+                    int pLevel = arrow.getPierceLevel();
 
-                    if(e instanceof AbstractArrow arrow)
+                    if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing() && pLevel > 0)
                     {
-                        int pLevel = arrow.getPierceLevel();
+                        //it actually will bypass the shield, this is just to trick the helper method
+                        ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, target, attacker, false, "piercing.player");
+                        event.setAmount(0);//prevent extra damage
 
-                        if(pLevel > 0)
-                        {
-                            //it actually will bypass the shield, this is just to trick the helper method
-                            ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, target, attacker, false, "piercing.player");
-                            event.setAmount(0);//prevent extra damage
+                        //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
+                        //hence the need for a check if the system is doing AP
+                    }
 
-                            //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
-                            //hence the need for a check if the system is doing AP
-                        }
+                    if(arrow instanceof Arrow && Config.pickyPotionArrows.get())
+                    {
+                        List<MobEffectInstance> tippedEffects = ((Arrow)arrow).potion.getEffects();
+                        List<MobEffectInstance> oilEffects = PotionUtils.getMobEffects(((AbstractArrowInvoker)arrow).invokeGetPickup());
 
-                        if(arrow instanceof Arrow && Config.pickyPotionArrows.get())
-                        {
-                            List<MobEffectInstance> effects = ((Arrow)arrow).potion.getEffects();
+                        var list = tippedEffects.size() > 0 ? tippedEffects : oilEffects.size() > 0 ? oilEffects : null;
 
-                            if(effects.size() > 0)
-                            {
-                                boolean shouldBeHarmful = true;
-                                for (MobEffectInstance i : effects)
-                                {
-                                    boolean beneficial = i.getEffect().isBeneficial();
-                                    boolean isInstantHeal = i.getEffect() == MobEffects.HEAL;
-                                    boolean isInstantHarm = i.getEffect() == MobEffects.HARM;
-                                    boolean targetUndead = target.isInvertedHealAndHarm();
-                                    if(beneficial && !(targetUndead && isInstantHeal))
-                                    {
-                                        shouldBeHarmful = false;
-                                        break;
-                                    }
-                                    else if(targetUndead && isInstantHarm)
-                                    {
-                                        shouldBeHarmful = false;
-                                        break;
-                                    }
-                                }
-
-                                if(!shouldBeHarmful)
-                                {
-                                    event.setAmount(0);
-                                }
-                            }
-                        }
+                        if(!ModUtil.ShouldBeHarmful(list, target)) event.setAmount(0);
                     }
                 }
             }
@@ -375,7 +356,7 @@ public class CommonEvents
                 }
             }
 
-            Backstab.DoBackstab(event, target);
+            BackstabMechanic.DoBackstab(event, target);
         }
     }
 
@@ -525,6 +506,7 @@ public class CommonEvents
     }
 
     //TODO let people set this via config or data pack
+    //todo move this shit
     private static final Map<MobEffect, MobEffect> antidotes = new HashMap<>()
     {
         {put(MobEffects.POISON, MobEffects.REGENERATION);}
