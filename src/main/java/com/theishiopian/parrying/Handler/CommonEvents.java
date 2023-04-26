@@ -1,21 +1,16 @@
 package com.theishiopian.parrying.Handler;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.CoreMod.Mixin.AbstractArrowInvoker;
-import com.theishiopian.parrying.Effects.CoalescenceEffect;
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.Mechanics.*;
 import com.theishiopian.parrying.Network.GameplayStatusPacket;
-import com.theishiopian.parrying.Network.SyncDefPacket;
 import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Trades.DyedItemForEmeralds;
 import com.theishiopian.parrying.Utility.ModUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
@@ -23,12 +18,10 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -41,7 +34,6 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -64,17 +56,13 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 //todo list:
-//move stuff to mechanics classes
 //add bandolier enchants
 //add hourai elixir
 
@@ -119,16 +107,7 @@ public class CommonEvents
 
     public static void OnArrowShoot(EntityJoinWorldEvent event)
     {
-        if
-        (
-            Config.zeroGravityBolts.get() &&
-            event.getEntity() instanceof AbstractArrow arrow &&
-            arrow.getOwner() instanceof LivingEntity shooter &&
-            shooter.getMainHandItem().is(ModItems.SCOPED_CROSSBOW.get())
-        )
-        {
-            arrow.setNoGravity(true);
-        }
+        ArrowMechanics.DoZeroGravityBolts(event.getEntity());
     }
 
     public static void OnArrowScan(LivingGetProjectileEvent event)
@@ -137,47 +116,8 @@ public class CommonEvents
                 (event.getProjectileWeaponItemStack().getItem() instanceof BowItem ||
                         (event.getProjectileWeaponItemStack().getItem() instanceof CrossbowItem)))
         {
-            if(player.getOffhandItem().is(ItemTags.ARROWS)) return;
-            ItemStack itemToScan;
-            ItemStack quiver = ItemStack.EMPTY;
-            ItemStack priorityQuiver = ItemStack.EMPTY;
-            for(int i = 45; i >= 0; i--)
-            {
-                itemToScan = player.getInventory().getItem(i);
-
-                if(itemToScan.is(ModItems.QUIVER.get()) )
-                {
-                    if(AbstractBundleItem.isEmpty(itemToScan))continue;
-
-                    quiver = itemToScan;
-
-                    if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
-                    {
-                        priorityQuiver = itemToScan;
-                    }
-                }
-            }
-
-            if(!priorityQuiver.isEmpty())quiver = priorityQuiver;
-
-            if(!quiver.isEmpty())
-            {
-                ItemStack peek = AbstractBundleItem.peekFirstStack(quiver);
-
-                int pLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.PROVIDENCE.get(), quiver);
-                float chance = 1f - (pLevel * (1/64f));
-
-                boolean doProvide = !player.level.isClientSide && ModUtil.random.nextFloat() > chance;
-
-                if(doProvide)
-                {
-                    ModTriggers.provide.trigger((ServerPlayer) player);
-                    //magic sound go brr
-                    player.level.playSound(null, player.blockPosition(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.PLAYERS, 1, ModUtil.random.nextFloat() * 2f);
-                }
-
-                event.setProjectileItemStack(doProvide ? peek.copy() : peek);
-            }
+            var stack = QuiverItem.ScanForArrows(player);
+            if(stack != null)event.setProjectileItemStack(stack);
         }
     }
 
@@ -218,7 +158,6 @@ public class CommonEvents
                 if(e instanceof AbstractArrow)
                 {
                     pAmount = amount;
-
                     entity.invulnerableTime = 0;
                 }
             }
@@ -256,33 +195,7 @@ public class CommonEvents
 
         if(target != null)
         {
-            if(ModUtil.IsWeapon(weapon))
-            {
-                var effects = PotionUtils.getMobEffects(weapon);
-
-                for (MobEffectInstance effect : effects)
-                {
-                    var e = effect.getEffect();
-                    var dur = effect.getDuration() * OilPotionItem.DURATION_MOD;
-                    var amp = effect.getAmplifier();
-
-                    target.level.playSound(null, target.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + target.getLevel().getRandom().nextFloat() * 0.2F);
-
-                    if(e.isInstantenous())
-                    {
-                        e.applyInstantenousEffect(target, target, target, amp, 1);
-                    }
-                    else
-                    {
-                        target.addEffect(new MobEffectInstance(e, (int) dur, amp, effect.isAmbient(),effect.isVisible()), attacker);
-                    }
-                }
-
-                weapon.removeTagKey("CustomPotionColor");
-                weapon.removeTagKey("Potion");
-
-                if(!ModUtil.ShouldBeHarmful(effects, target)) event.setAmount(0);
-            }
+            if(!OilMechanics.DoMeleeOil(weapon, target, attacker))event.setAmount(0);
 
             float diff = target.getHealth() - event.getAmount();
             if(target.hasEffect(ModEffects.IMMORTALITY.get()) && !event.getSource().isBypassInvul() && (diff <= 0 || target.getHealth() <= 2))
@@ -306,27 +219,8 @@ public class CommonEvents
             {
                 if(src.getDirectEntity() instanceof AbstractArrow arrow)
                 {
-                    int pLevel = arrow.getPierceLevel();
-
-                    if(Config.apPiercing.get() && ArmorPenetrationMechanic.IsNotBypassing() && pLevel > 0)
-                    {
-                        //it actually will bypass the shield, this is just to trick the helper method
-                        ArmorPenetrationMechanic.DoAPDamage(pAmount,strength, 0.2f * pLevel, target, attacker, false, "piercing.player");
-                        event.setAmount(0);//prevent extra damage
-
-                        //NOTE: the backstab still applies with this because the damage is applied separately inside DoAPDamage
-                        //hence the need for a check if the system is doing AP
-                    }
-
-                    if(arrow instanceof Arrow && Config.pickyPotionArrows.get())
-                    {
-                        List<MobEffectInstance> tippedEffects = ((Arrow)arrow).potion.getEffects();
-                        List<MobEffectInstance> oilEffects = PotionUtils.getMobEffects(((AbstractArrowInvoker)arrow).invokeGetPickup());
-
-                        var list = tippedEffects.size() > 0 ? tippedEffects : oilEffects.size() > 0 ? oilEffects : null;
-
-                        if(!ModUtil.ShouldBeHarmful(list, target)) event.setAmount(0);
-                    }
+                    if(!ArrowMechanics.DoAPBolts(arrow, target, attacker, pAmount, strength))event.setAmount(0);
+                    if(!ArrowMechanics.DoPickyPotionProjectiles(arrow, target)) event.setAmount(0);
                 }
             }
 
@@ -386,59 +280,7 @@ public class CommonEvents
     {
         if(!event.player.level.isClientSide())
         {
-            if(BandolierItem.itemsToGive.containsKey(event.player.getUUID()))
-            {
-                if(GameplayStatusPacket.isPlayerPlaying((ServerPlayer) event.player) && GameplayStatusPacket.getTicks((ServerPlayer) event.player) > 5)
-                {
-                    BandolierItem.findItemInBandolier(event.player);
-                }
-
-                BandolierItem.itemsToGive.remove(event.player.getUUID());
-            }
-
-            if(!ModUtil.IsWeapon(event.player.getMainHandItem()) && ModUtil.IsWeapon(event.player.getOffhandItem()))
-            {
-                DualWieldingMechanic.dualWielders.remove(event.player.getUUID());
-            }
-
-            float newValue;
-            ParryingMechanic.ServerDefenseValues.putIfAbsent(event.player.getUUID(), 1f);
-            float v = ParryingMechanic.ServerDefenseValues.get(event.player.getUUID());
-
-            if(v <= 0)
-            {
-                event.player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
-                float pitch = ModUtil.random.nextFloat() * 0.4f + 0.8f;
-                event.player.level.playSound(null, event.player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f, pitch);
-                Vec3 pos = event.player.position();
-
-                ((ServerLevel) event.player.level).sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.x, pos.y, pos.z, 30, 0.5D, 2D, 0.5D, 0.0D);
-                Vec3 dir = event.player.getViewVector(1);
-                event.player.knockback(1, dir.x, dir.z);
-                event.player.hurtMarked = true;
-
-                ModTriggers.stagger.trigger((ServerPlayer) event.player);
-
-                if (event.player.isBlocking())
-                {
-                    event.player.getCooldowns().addCooldown(event.player.getUseItem().getItem(), 60);
-                    event.player.stopUsingItem();
-                    event.player.level.playSound(null, event.player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f,1f);
-                }
-                newValue = 0.001f;
-            }
-            else if(v < 1)
-            {
-                newValue = v + 0.003f;
-            }
-            else
-            {
-                newValue = 1f;
-            }
-
-            ParryingMechanic.ServerDefenseValues.replace(event.player.getUUID(), newValue);
-
-            ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) event.player), new SyncDefPacket(newValue));
+            ParryingMechanic.DoParryTick((ServerPlayer) event.player);
         }
         else if(localProvided != null)
         {
@@ -505,60 +347,12 @@ public class CommonEvents
         }
     }
 
-    //TODO let people set this via config or data pack
-    //todo move this shit
-    private static final Map<MobEffect, MobEffect> antidotes = new HashMap<>()
-    {
-        {put(MobEffects.POISON, MobEffects.REGENERATION);}
-        {put(MobEffects.REGENERATION, MobEffects.POISON);}
-        {put(MobEffects.MOVEMENT_SPEED, MobEffects.MOVEMENT_SLOWDOWN);}
-        {put(MobEffects.MOVEMENT_SLOWDOWN, MobEffects.MOVEMENT_SPEED);}
-        {put(MobEffects.BLINDNESS, MobEffects.NIGHT_VISION);}
-        {put(MobEffects.NIGHT_VISION, MobEffects.BLINDNESS);}
-        {put(MobEffects.DAMAGE_BOOST, MobEffects.WEAKNESS);}
-        {put(MobEffects.WEAKNESS, MobEffects.DAMAGE_BOOST);}
-        {put(MobEffects.INVISIBILITY, MobEffects.GLOWING);}
-        {put(MobEffects.GLOWING, MobEffects.INVISIBILITY);}
-        {put(MobEffects.JUMP, MobEffects.SLOW_FALLING);}
-        {put(MobEffects.SLOW_FALLING, MobEffects.JUMP);}
-        {put(MobEffects.WATER_BREATHING, MobEffects.FIRE_RESISTANCE);}
-        {put(MobEffects.FIRE_RESISTANCE, MobEffects.WATER_BREATHING);}
-    };
-
     public static void OnPotionEffectAdded(PotionEvent.PotionApplicableEvent event)
     {
         LivingEntity entity = event.getEntityLiving();
+        var effect = event.getPotionEffect();
 
-        if(entity.hasEffect(ModEffects.COALESCENCE.get()) || event.getPotionEffect().getEffect() instanceof CoalescenceEffect)
-        {
-            if(entity instanceof ServerPlayer player)ModTriggers.surrender.trigger(player);
-        }
-        else
-        {
-            //ANTIDOTES
-            MobEffect incoming = event.getPotionEffect().getEffect();
-            MobEffect opposite = antidotes.getOrDefault(incoming, null);
-
-            if(opposite != null && entity.hasEffect(opposite))
-            {
-                int reduction = event.getPotionEffect().getAmplifier() + 1;
-                event.setResult(Event.Result.DENY);
-
-                MobEffectInstance i = entity.getEffect(opposite);
-                event.getEntityLiving().removeEffect(opposite);
-
-                assert i != null;
-                int newLevel = ((i.getAmplifier() + 1) - reduction);
-                if(newLevel > 0)event.getEntityLiving().addEffect(new MobEffectInstance(i.getEffect(), i.getDuration(), newLevel - 1));
-
-                if(newLevel < 0)
-                {
-                    event.getEntityLiving().addEffect(new MobEffectInstance(incoming, event.getPotionEffect().getDuration(), -1 * (newLevel + 1)));
-                }
-
-                entity.level.playSound(null, entity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + entity.getLevel().getRandom().nextFloat() * 0.2F);
-            }
-        }
+        if(!AntidoteMechanic.DoAntidoteCheck(entity, effect)) event.setResult(Event.Result.DENY);
     }
 
     public static void OnLivingTick(LivingEvent.LivingUpdateEvent event)

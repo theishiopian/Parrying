@@ -1,8 +1,13 @@
 package com.theishiopian.parrying.Mechanics;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Items.BandolierItem;
+import com.theishiopian.parrying.Network.GameplayStatusPacket;
+import com.theishiopian.parrying.Network.SyncDefPacket;
+import com.theishiopian.parrying.ParryingMod;
 import com.theishiopian.parrying.Registration.*;
 import com.theishiopian.parrying.Utility.ModUtil;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -23,6 +28,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -118,6 +124,63 @@ public abstract class ParryingMechanic
                 }
             }
         }
+    }
+
+    public static void DoParryTick(ServerPlayer player)
+    {
+        if(BandolierItem.itemsToGive.containsKey(player.getUUID()))
+        {
+            if(GameplayStatusPacket.isPlayerPlaying(player) && GameplayStatusPacket.getTicks(player) > 5)
+            {
+                BandolierItem.findItemInBandolier(player);
+            }
+
+            BandolierItem.itemsToGive.remove(player.getUUID());
+        }
+
+        if(!ModUtil.IsWeapon(player.getMainHandItem()) && ModUtil.IsWeapon(player.getOffhandItem()))
+        {
+            DualWieldingMechanic.dualWielders.remove(player.getUUID());
+        }
+
+        float newValue;
+        ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
+        float v = ParryingMechanic.ServerDefenseValues.get(player.getUUID());
+
+        if(v <= 0)
+        {
+            player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
+            float pitch = ModUtil.random.nextFloat() * 0.4f + 0.8f;
+            player.level.playSound(null, player.blockPosition(), ModSoundEvents.DEFENSE_BREAK.get(), SoundSource.PLAYERS, 1f, pitch);
+            Vec3 pos = player.position();
+
+            ((ServerLevel) player.level).sendParticles(ParticleTypes.ANGRY_VILLAGER, pos.x, pos.y, pos.z, 30, 0.5D, 2D, 0.5D, 0.0D);
+            Vec3 dir = player.getViewVector(1);
+            player.knockback(1, dir.x, dir.z);
+            player.hurtMarked = true;
+
+            ModTriggers.stagger.trigger((ServerPlayer) player);
+
+            if (player.isBlocking())
+            {
+                player.getCooldowns().addCooldown(player.getUseItem().getItem(), 60);
+                player.stopUsingItem();
+                player.level.playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.PLAYERS, 1f,1f);
+            }
+            newValue = 0.001f;
+        }
+        else if(v < 1)
+        {
+            newValue = v + 0.003f;
+        }
+        else
+        {
+            newValue = 1f;
+        }
+
+        ParryingMechanic.ServerDefenseValues.replace(player.getUUID(), newValue);
+
+        ParryingMod.channel.send(PacketDistributor.PLAYER.with(()-> player), new SyncDefPacket(newValue));
     }
 
     public static SoundEvent GetMaterialParrySound(Item item)
