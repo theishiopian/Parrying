@@ -85,6 +85,18 @@
   "item.minecraft.tipped_arrow.effect.coalescence" : "Arrow of Compatibility",
   "item.minecraft.tipped_arrow.effect.coalescence_long" : "Arrow of Compatibility",
 
+  "item.minecraft.potion.effect.immortality" : "Hourai Elixir",
+  "item.minecraft.potion.effect.immortality_long" : "Hourai Elixir",
+
+  "item.minecraft.splash_potion.effect.immortality" : "Splashing Hourai Elixir",
+  "item.minecraft.splash_potion.effect.immortality_long" : "Splashing Hourai Elixir",
+
+  "item.minecraft.lingering_potion.effect.immortality" : "Lingering Hourai Elixir",
+  "item.minecraft.lingering_potion.effect.immortality_long" : "Lingering Hourai Elixir",
+
+  "item.minecraft.tipped_arrow.effect.immortality" : "Hourai Arrow",
+  "item.minecraft.tipped_arrow.effect.immortality_long" : "Hourai Arrow",
+
   "item.parrying.oil": "Oil",
 
   "tooltip.parrying.two_handed": "Two Handed",
@@ -217,6 +229,8 @@
   "item.parrying.oil.effect.luck": "Oil of Luck",
   "item.parrying.oil.effect.turtle_master": "Oil of the Turtle Master",
   "item.parrying.oil.effect.slow_falling": "Oil of Slow Falling",
-  "item.parrying.oil.effect.coalescence": "Oil of Coalescence",
-  "item.parrying.oil.effect.coalescence_long": "Oil of Coalescence"
+  "item.parrying.oil.effect.coalescence": "Oil of Compatibility",
+  "item.parrying.oil.effect.coalescence_long": "Oil of Compatibility",
+  "item.parrying.oil.effect.immortality": "Hourai Oil",
+  "item.parrying.oil.effect.immortality_long": "Hourai Oil"
 }

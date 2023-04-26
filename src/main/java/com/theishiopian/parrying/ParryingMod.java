@@ -178,7 +178,8 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("is_chainmail_craftable", Config.isChainmailCraftable).new Serializer());
 
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.CHORUS_FRUIT, ModPotions.COALESCENCE.get()));
-        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.COALESCENCE.get(), Items.GLOWSTONE_DUST, ModPotions.COALESCENCE_LONG.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.COALESCENCE.get(), Items.REDSTONE, ModPotions.COALESCENCE_LONG.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.IMMORTALITY.get(), Items.REDSTONE, ModPotions.IMMORTALITY_LONG.get()));
 
         PotionBrewing.addContainerRecipe(Items.POTION, Items.HONEYCOMB, ModItems.OIL.get());//todo may want to move all potion stuff here
     }

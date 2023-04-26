@@ -64,7 +64,7 @@ import java.util.UUID;
 
 //todo list:
 //add bandolier enchants
-//add hourai elixir
+//fix oils with bandolier
 
 public class CommonEvents
 {
