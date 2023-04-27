@@ -8,6 +8,12 @@
     "parrying:gold_spear",
     "parrying:diamond_spear",
     "parrying:netherite_spear",
-    "minecraft:trident"
+    "minecraft:trident",
+    "parrying:wooden_hammer",
+    "parrying:stone_hammer",
+    "parrying:iron_hammer",
+    "parrying:golden_hammer",
+    "parrying:diamond_hammer",
+    "parrying:netherite_hammer"
   ]
 }
