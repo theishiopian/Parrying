@@ -3,19 +3,47 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class BandolierItem extends AbstractBundleItem
 {
-    public static HashMap<UUID, ItemStack> itemsToGive = new HashMap<>();
+    private static class ToProvide
+    {
+        public ToProvide(ItemStack oldStack, EquipmentSlot slot)
+        {
+            this.stack = oldStack;
+            this.slot = slot;
+        }
+
+        public ItemStack stack;
+        public EquipmentSlot slot;
+    }
+
+    public static void Add(UUID player, ItemStack toProvide, @Nullable EquipmentSlot slot)
+    {
+        itemsToGive.put(player, new ToProvide(toProvide, slot));
+    }
+
+    public static void Remove(UUID player)
+    {
+        itemsToGive.remove(player);
+    }
+
+    public static boolean Has(UUID player)
+    {
+        return itemsToGive.containsKey(player);
+    }
+
+    private static final HashMap<UUID, ToProvide> itemsToGive = new HashMap<>();
     public BandolierItem(Properties pProperties)
     {
         super(pProperties, 512, 64, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));
@@ -34,11 +62,14 @@ public class BandolierItem extends AbstractBundleItem
     {
         if(!itemsToGive.containsKey(player.getUUID())) return;
 
-        ItemStack oldStack = itemsToGive.get(player.getUUID());//todo use this for context enchant
+        var toProvide = itemsToGive.get(player.getUUID());//todo use this for context enchant
 
         ItemStack itemToScan;
         ItemStack bandolier = ItemStack.EMPTY;
         ItemStack priorityBandolier = ItemStack.EMPTY;
+
+        //todo check offhand first
+
         for(int i = 45; i >= 0; i--)
         {
             itemToScan = player.getInventory().getItem(i);
@@ -58,17 +89,26 @@ public class BandolierItem extends AbstractBundleItem
 
         if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
 
-        //todo add smarts here with enchant
-        var newItem =  AbstractBundleItem.takeFirstStack(bandolier);
-        if(newItem.isEmpty()) return;
-        var oldItemInHand = player.getMainHandItem().copy();
+        Debug.log("bandolier found: " + bandolier);
 
-        player.setItemInHand(InteractionHand.MAIN_HAND, newItem.copy());
+        var newItem =  AbstractBundleItem.takeFirstStack(bandolier);//todo add smarts here with enchantment, sometimes its not the first item
+
+        if(newItem.isEmpty()) return;
+
+        ItemStack oldItemInHand = null;
+
+        if(toProvide.slot != null)
+        {
+            oldItemInHand = player.getItemBySlot(toProvide.slot).copy();//replace any previous item in hand
+        }
+
+        //give player new item
+        if(toProvide.slot != null) player.setItemSlot(toProvide.slot, newItem.copy());
+        else player.getInventory().add(newItem.copy());
+
         player.getCooldowns().addCooldown(newItem.getItem(), 20);
         player.inventoryMenu.sendAllDataToRemote();
 
-        ItemEntity itemEntity = new ItemEntity(player.level, player.getX(), player.getY(), player.getZ(), oldItemInHand);
-        itemEntity.setNoPickUpDelay();
-        player.level.addFreshEntity(itemEntity);
+        if(oldItemInHand != null) player.getInventory().add(oldItemInHand);
     }
 }

@@ -128,14 +128,14 @@ public abstract class ParryingMechanic
 
     public static void DoParryTick(ServerPlayer player)
     {
-        if(BandolierItem.itemsToGive.containsKey(player.getUUID()))
+        if(BandolierItem.Has(player.getUUID()))
         {
             if(GameplayStatusPacket.isPlayerPlaying(player) && GameplayStatusPacket.getTicks(player) > 5)
             {
                 BandolierItem.findItemInBandolier(player);
             }
 
-            BandolierItem.itemsToGive.remove(player.getUUID());
+            BandolierItem.Remove(player.getUUID());
         }
 
         if(!ModUtil.IsWeapon(player.getMainHandItem()) && ModUtil.IsWeapon(player.getOffhandItem()))

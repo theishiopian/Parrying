@@ -2,13 +2,13 @@
   "replace": false,
   "values":
   [
+    "minecraft:trident",
     "parrying:wood_spear",
     "parrying:stone_spear",
     "parrying:iron_spear",
     "parrying:gold_spear",
     "parrying:diamond_spear",
     "parrying:netherite_spear",
-    "minecraft:trident",
     "parrying:wooden_hammer",
     "parrying:stone_hammer",
     "parrying:iron_hammer",

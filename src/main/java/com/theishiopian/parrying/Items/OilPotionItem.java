@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Registration.ModSoundEvents;
+import com.theishiopian.parrying.Utility.Debug;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
@@ -97,9 +98,12 @@ public class OilPotionItem extends PotionItem
 
         if (!player.getAbilities().instabuild)
         {
+            Debug.log("Shrinking oil stack");
             pStack.shrink(1);
+            Debug.log("Oil stack shrunk");
+            player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
         }
 
-        return !player.getAbilities().instabuild && pStack.isEmpty() ? new ItemStack(Items.GLASS_BOTTLE) : pStack;
+        return pStack;
     }
 }
