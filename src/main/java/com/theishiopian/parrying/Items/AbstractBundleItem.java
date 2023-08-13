@@ -2,6 +2,8 @@ package com.theishiopian.parrying.Items;
 
 import com.theishiopian.parrying.Capability.CapabilityProvider;
 import com.theishiopian.parrying.Capability.IPersistentCapability;
+import com.theishiopian.parrying.Registration.ModEnchantments;
+import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -27,6 +29,7 @@ import net.minecraft.world.inventory.tooltip.BundleTooltip;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
@@ -116,6 +119,37 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         if(!player.isCrouching())return super.onDroppedByPlayer(item, player);
         if(!AbstractBundleItem.dropAllItems(item, player))return super.onDroppedByPlayer(item, player);
         return false;
+    }
+
+    public static ItemStack findBundleItem(Player player, AbstractBundleItem type)
+    {
+        ItemStack itemToScan;
+        ItemStack bundle = ItemStack.EMPTY;
+        ItemStack priorityBundle = ItemStack.EMPTY;
+
+        for(int i = 46; i >= 0; i--)
+        {
+            //check offhand first
+            itemToScan = i == 46 ? player.getOffhandItem() : player.getInventory().getItem(i);
+
+            if(itemToScan.is(type))
+            {
+                if(AbstractBundleItem.isEmpty(itemToScan)) continue;
+
+                bundle = itemToScan;
+
+                if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
+                {
+                    priorityBundle = itemToScan;
+                }
+            }
+        }
+
+        if(!priorityBundle.isEmpty())bundle = priorityBundle;
+
+        Debug.log("bandolier found: " + bundle);
+
+        return bundle;
     }
 
     public static void addLoot(ItemStack bundle, LootTable table, LootContext context)

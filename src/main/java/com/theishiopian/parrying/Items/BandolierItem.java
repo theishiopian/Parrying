@@ -1,14 +1,11 @@
 package com.theishiopian.parrying.Items;
 
-import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -63,34 +60,7 @@ public class BandolierItem extends AbstractBundleItem
         if(!itemsToGive.containsKey(player.getUUID())) return;
 
         var toProvide = itemsToGive.get(player.getUUID());//todo use this for context enchant
-
-        ItemStack itemToScan;
-        ItemStack bandolier = ItemStack.EMPTY;
-        ItemStack priorityBandolier = ItemStack.EMPTY;
-
-        //todo check offhand first
-
-        for(int i = 45; i >= 0; i--)
-        {
-            itemToScan = player.getInventory().getItem(i);
-
-            if(itemToScan.is(ModItems.BANDOLIER.get()) )
-            {
-                if(AbstractBundleItem.isEmpty(itemToScan))continue;
-
-                bandolier = itemToScan;
-
-                if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
-                {
-                    priorityBandolier = itemToScan;
-                }
-            }
-        }
-
-        if(!priorityBandolier.isEmpty())bandolier = priorityBandolier;
-
-        Debug.log("bandolier found: " + bandolier);
-
+        var bandolier = BandolierItem.findBundleItem(player, ModItems.BANDOLIER.get());
         var newItem =  AbstractBundleItem.takeFirstStack(bandolier);//todo add smarts here with enchantment, sometimes its not the first item
 
         if(newItem.isEmpty()) return;
@@ -106,7 +76,7 @@ public class BandolierItem extends AbstractBundleItem
         if(toProvide.slot != null) player.setItemSlot(toProvide.slot, newItem.copy());
         else player.getInventory().add(newItem.copy());
 
-        player.getCooldowns().addCooldown(newItem.getItem(), 20);
+        player.getCooldowns().addCooldown(newItem.getItem(), 20);//todo add enchant to reduce this cooldown
         player.inventoryMenu.sendAllDataToRemote();
 
         if(oldItemInHand != null) player.getInventory().add(oldItemInHand);

@@ -49,27 +49,8 @@ public class QuiverItem extends AbstractBundleItem
     public static @Nullable ItemStack ScanForArrows(Player player)
     {
         if(player.getOffhandItem().is(ItemTags.ARROWS)) return null;
-        ItemStack itemToScan;
-        ItemStack quiver = ItemStack.EMPTY;
-        ItemStack priorityQuiver = ItemStack.EMPTY;
-        for(int i = 45; i >= 0; i--)
-        {
-            itemToScan = player.getInventory().getItem(i);
 
-            if(itemToScan.is(ModItems.QUIVER.get()) )
-            {
-                if(AbstractBundleItem.isEmpty(itemToScan))continue;
-
-                quiver = itemToScan;
-
-                if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.INTRUSIVE.get(), itemToScan) > 0)
-                {
-                    priorityQuiver = itemToScan;
-                }
-            }
-        }
-
-        if(!priorityQuiver.isEmpty())quiver = priorityQuiver;
+        var quiver = QuiverItem.findBundleItem(player, ModItems.QUIVER.get());
 
         if(!quiver.isEmpty())
         {
