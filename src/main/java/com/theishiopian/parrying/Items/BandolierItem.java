@@ -46,7 +46,7 @@ public class BandolierItem extends AbstractBundleItem
         super(pProperties, 512, 64, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));
     }
 
-    public static int GetCount(ItemStack bandolier)
+    public static int GetWeightlessCount(ItemStack bandolier)
     {
         BundleItemCapability c = getActualCapability(bandolier);
 

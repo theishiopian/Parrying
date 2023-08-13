@@ -419,7 +419,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         return Optional.of(new BundleTooltip(c.getNonnullStackList(), c.getWeight()));
     }
 
-    public void appendHoverText(@NotNull ItemStack bundle, Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
+    public void appendHoverText(@NotNull ItemStack bundle, Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced)
     {
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return;

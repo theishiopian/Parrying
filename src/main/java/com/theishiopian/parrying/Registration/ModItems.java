@@ -113,7 +113,7 @@ public class ModItems
         ItemProperties.register(SCABBARD.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
 
         ItemProperties.register(BANDOLIER.get(), new ResourceLocation("dyed"), (stack, world, user, seed) -> ((DyeableLeatherItem)(stack.getItem())).hasCustomColor(stack) ? 1 : 0);
-        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("items"), (stack, world, user, seed) -> (BandolierItem.GetCount(stack)));
+        ItemProperties.register(BANDOLIER.get(), new ResourceLocation("items"), (stack, world, user, seed) -> (BandolierItem.GetWeightlessCount(stack)));
 
         ItemProperties.register(OIL.get(), new ResourceLocation("in_use"), (stack, world, user, seed) -> user != null && user.isUsingItem() && user.getUseItem() == stack ? 1 : 0);
 
