@@ -8,9 +8,9 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.NotNull;
 
-public class TreacheryEnchantment extends Enchantment
+public class VenomousEnchantment extends Enchantment
 {
-    public TreacheryEnchantment()
+    public VenomousEnchantment()
     {
         super(Rarity.RARE, EnchantmentCategory.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
     }
@@ -24,17 +24,17 @@ public class TreacheryEnchantment extends Enchantment
     }
 
     public int getMaxLevel() {
-        return 2;
+        return 3;
     }
 
     public boolean checkCompatibility(@NotNull Enchantment toCheck)
     {
-        return !(toCheck instanceof VenomousEnchantment);
+        return !(toCheck instanceof TreacheryEnchantment);
     }
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof DaggerItem && Config.treacheryEnabled.get();
+        return toEnchant.getItem() instanceof DaggerItem && Config.venomousEnabled.get();
     }
 
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
