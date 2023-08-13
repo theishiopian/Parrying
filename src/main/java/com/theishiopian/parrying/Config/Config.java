@@ -89,6 +89,8 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
     public static final ForgeConfigSpec.BooleanValue joustingEnabled;
     public static final ForgeConfigSpec.BooleanValue providenceEnabled;
+    public static final ForgeConfigSpec.BooleanValue contextEnabled;
+    public static final ForgeConfigSpec.BooleanValue rapidityEnabled;
     public static final ForgeConfigSpec.BooleanValue swiftStrikeEnabled;
     public static final ForgeConfigSpec.BooleanValue intrusiveCurseEnabled;
 
@@ -212,6 +214,8 @@ public class Config
         venomousEnabled = builder.comment("Whether or not the venomous enchantment is enabled").define("venomous_enabled", true);
         providenceEnabled = builder.comment("Whether or not the providence enchantment is enabled").define("providence_enabled", true);
         swiftStrikeEnabled = builder.comment("Whether or not the swift strike enchantment is enabled").define("swift_strike_enabled", true);
+        contextEnabled = builder.comment("Whether or not the context enchantment is enabled").define("context_enabled", true);
+        rapidityEnabled = builder.comment("Whether or not the rapidity enchantment is enabled").define("rapidity_enabled", true);
         fragileCurseEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
         phasingCurseEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);
         intrusiveCurseEnabled = builder.comment("Whether or not the intrusion curse is enabled").define("intrusion_enabled", true);
