@@ -86,7 +86,14 @@ public class BandolierItem extends AbstractBundleItem
                 //1
                 var isSamePotionType = toMatch.getItem().getClass() == itemStack.getItem().getClass();
                 //2
-                var isSameEffectType = PotionUtils.getPotion(toMatch).getEffects().stream().findFirst().get().getEffect().isBeneficial() == PotionUtils.getPotion(itemStack).getEffects().stream().findFirst().get().getEffect().isBeneficial();
+                var isSameEffectType = PotionUtils
+                        .getPotion(toMatch)
+                        .getEffects().stream().findFirst().get()
+                        .getEffect().isBeneficial()
+                        == PotionUtils
+                        .getPotion(itemStack)
+                        .getEffects().stream().findFirst().get()
+                        .getEffect().isBeneficial();
                 //3
                 var isSameEffects = PotionUtils.getMobEffects(toMatch).equals(PotionUtils.getMobEffects(itemStack));
                 var score = (isSamePotionType ? 1 : 0) + (isSameEffectType ? 1 : 0) + (isSameEffects ? 1 : 0);
@@ -99,7 +106,9 @@ public class BandolierItem extends AbstractBundleItem
             else if (type == BandolierType.WEAPON && ModUtil.IsWeapon(itemStack))
             {
                 var isSameWeaponType = toMatch.getItem().getClass() == itemStack.getItem().getClass();
-                var isSameMaterial = ((TieredItem) toMatch.getItem()).getTier() == ((TieredItem) itemStack.getItem()).getTier();
+                var isSameMaterial = itemStack.getItem() instanceof TieredItem &&
+                        ((TieredItem) toMatch.getItem()).getTier()
+                                == ((TieredItem) itemStack.getItem()).getTier();
                 var isSameEnchants = EnchantmentHelper.getEnchantments(toMatch).equals(EnchantmentHelper.getEnchantments(itemStack));
                 var score = (isSameWeaponType ? 1 : 0) + (isSameMaterial ? 1 : 0) + (isSameEnchants ? 1 : 0);
                 if (score > currentBestScore)
@@ -141,15 +150,11 @@ public class BandolierItem extends AbstractBundleItem
 
         if (newItem.isEmpty()) return;
 
-        ItemStack oldItemInHand = null;
-
-        if (toProvide.slot != null)
-        {
-            oldItemInHand = player.getItemBySlot(toProvide.slot).copy();//replace any previous item in hand
-        }
+        var hasToProvide = toProvide.slot != null;
+        var oldItemInHand = hasToProvide ? player.getItemBySlot(toProvide.slot).copy() : null;
 
         //give player new item
-        if (toProvide.slot != null) player.setItemSlot(toProvide.slot, newItem.copy());
+        if (hasToProvide) player.setItemSlot(toProvide.slot, newItem.copy());
         else player.getInventory().add(newItem.copy());
 
         var rLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RAPIDITY.get(), bandolier);

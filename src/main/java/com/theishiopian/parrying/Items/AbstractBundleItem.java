@@ -3,7 +3,6 @@ package com.theishiopian.parrying.Items;
 import com.theishiopian.parrying.Capability.CapabilityProvider;
 import com.theishiopian.parrying.Capability.IPersistentCapability;
 import com.theishiopian.parrying.Registration.ModEnchantments;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -146,8 +145,6 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         }
 
         if(!priorityBundle.isEmpty())bundle = priorityBundle;
-
-        Debug.log("bandolier found: " + bundle);
 
         return bundle;
     }
