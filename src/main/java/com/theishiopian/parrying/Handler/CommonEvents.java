@@ -62,10 +62,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-//todo list:
-//add bandolier enchants
-//fix oils with bandolier
-
 public class CommonEvents
 {
     static float pAmount = 0;//this is dumb
@@ -237,16 +233,6 @@ public class CommonEvents
                 if (attacker.isPassenger() && joustLevel > 0)
                 {
                     event.setAmount(event.getAmount() + 2 * joustLevel);
-                }
-            }
-
-            if(attacker != null && Config.cripplingEnchantEnabled.get() && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.CRIPPLING.get(), attacker) > 0)
-            {
-                float chance = ModUtil.random.nextFloat();
-
-                if(chance <= 0.25)
-                {
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, (int) Math.floor(chance * 20 * 4) + 20));
                 }
             }
 

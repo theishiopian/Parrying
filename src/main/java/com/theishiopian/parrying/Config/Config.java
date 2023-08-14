@@ -76,7 +76,6 @@ public class Config
     //enchants
     public static final ForgeConfigSpec.BooleanValue deflectionEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue riposteEnchantEnabled;
-    public static final ForgeConfigSpec.BooleanValue cripplingEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue fragileCurseEnabled;
     public static final ForgeConfigSpec.BooleanValue phasingCurseEnabled;
     public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
@@ -207,7 +206,6 @@ public class Config
 
         drawCooldown = builder.comment("The time in seconds before you can draw or sheathe again").defineInRange("draw_cooldown", 1, 0, 99999d);
 
-        cripplingEnchantEnabled = builder.comment("Whether or not the crippling enchantment is enabled").define("crippling_enabled", true);
         bashingEnchantEnabled = builder.comment("Whether or not the bashing enchantment is enabled").define("bashing_enabled", true);
         treacheryEnabled = builder.comment("Whether or not the treachery enchantment is enabled").define("treachery_enabled", true);
         joustingEnabled = builder.comment("Whether or not the jousting enchantment is enabled").define("jousting_enabled", true);

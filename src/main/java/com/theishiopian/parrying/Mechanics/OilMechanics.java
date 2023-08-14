@@ -1,6 +1,8 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.OilPotionItem;
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.sounds.SoundSource;
@@ -8,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 public abstract class OilMechanics
 {
@@ -35,8 +38,16 @@ public abstract class OilMechanics
                 }
             }
 
-            weapon.removeTagKey("CustomPotionColor");
-            weapon.removeTagKey("Potion");
+            var vLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.VENOMOUS.get(), weapon);
+
+            var random = target.getLevel().getRandom();
+            var roll = random.nextInt(10);
+
+            if(!Config.venomousEnabled.get() || vLevel <= roll)
+            {
+                weapon.removeTagKey("CustomPotionColor");
+                weapon.removeTagKey("Potion");
+            }
 
             return ModUtil.ShouldBeHarmful(effects, target);
         }

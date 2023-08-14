@@ -52,13 +52,13 @@ public class OilPotionItem extends PotionItem
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack)
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack)
     {
         return UseAnim.DRINK;
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag)
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag)
     {
         PotionUtils.addPotionTooltip(pStack, pTooltip, DURATION_MOD);
     }
