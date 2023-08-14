@@ -16,15 +16,15 @@ public class RapidityEnchantment extends Enchantment
     }
 
     public int getMinCost(int in) {
-        return 15;
+        return 10;
     }
 
     public int getMaxCost(int in) {
-        return 45;
+        return 50;
     }
 
     public int getMaxLevel() {
-        return 3;
+        return 5;
     }
 
     public boolean checkCompatibility(@NotNull Enchantment toCheck)

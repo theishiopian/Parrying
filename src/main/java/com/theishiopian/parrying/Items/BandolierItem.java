@@ -1,11 +1,13 @@
 package com.theishiopian.parrying.Items;
 
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -76,7 +78,9 @@ public class BandolierItem extends AbstractBundleItem
         if(toProvide.slot != null) player.setItemSlot(toProvide.slot, newItem.copy());
         else player.getInventory().add(newItem.copy());
 
-        player.getCooldowns().addCooldown(newItem.getItem(), 20);//todo add enchant to reduce this cooldown
+        var rLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.RAPIDITY.get(), bandolier);
+
+        player.getCooldowns().addCooldown(newItem.getItem(), 20 - (rLevel * 2));
         player.inventoryMenu.sendAllDataToRemote();
 
         if(oldItemInHand != null) player.getInventory().add(oldItemInHand);

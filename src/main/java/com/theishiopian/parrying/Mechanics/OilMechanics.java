@@ -39,7 +39,6 @@ public abstract class OilMechanics
             }
 
             var vLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.VENOMOUS.get(), weapon);
-
             var random = target.getLevel().getRandom();
             var roll = random.nextInt(10);
 
