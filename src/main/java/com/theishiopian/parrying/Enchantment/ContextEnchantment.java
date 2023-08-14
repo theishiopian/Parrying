@@ -16,15 +16,11 @@ public class ContextEnchantment extends Enchantment
     }
 
     public int getMinCost(int in) {
-        return 15;
+        return 30;
     }
 
     public int getMaxCost(int in) {
-        return 45;
-    }
-
-    public int getMaxLevel() {
-        return 3;
+        return 30;
     }
 
     public boolean checkCompatibility(@NotNull Enchantment toCheck)
