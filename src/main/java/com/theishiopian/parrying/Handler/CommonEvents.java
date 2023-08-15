@@ -173,9 +173,11 @@ public class CommonEvents
         }
     }
 
-    public static void OnArrowImpact(ProjectileImpactEvent event)
+    public static void OnProjectileImpact(ProjectileImpactEvent event)
     {
-        if(event.getProjectile() instanceof AbstractArrow arrow && !DeflectionMechanic.Deflect(event))
+        if(DeflectionMechanic.Deflect(event)) return;
+
+        if(event.getProjectile() instanceof AbstractArrow arrow)
         {
             ArrowMechanics.DoSonicArrow(arrow);
             ArrowMechanics.DoBurningArrow(arrow, event.getRayTraceResult());

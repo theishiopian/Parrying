@@ -45,8 +45,8 @@ public class ParryingMod
     public static final Logger LOGGER = LogManager.getLogger();
     private static final ResourceLocation netName = new ResourceLocation(MOD_ID, "network");
     public static final SimpleChannel channel;
-    private static final int VERSION = 15;  //protocol version, bump whenever adding new network packets or changing existing ones.
-                                            // last change: added inventory status packet
+    private static final int VERSION = 16;  //protocol version, bump whenever adding new network packets or changing existing ones.
+                                            // last change: added fireball packet
 
     static
     {
@@ -97,6 +97,12 @@ public class ParryingMod
                 .encoder(GameplayStatusPacket::toBytes)
                 .consumer(GameplayStatusPacket::handle)
                 .add();
+
+        channel.messageBuilder(SyncFireballPacket.class, 8, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncFireballPacket::fromBytes)
+                .encoder(SyncFireballPacket::toBytes)
+                .consumer(SyncFireballPacket::handle)
+                .add();
     }
 
     public ParryingMod()
@@ -111,7 +117,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttacked);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowShoot);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerAttackTarget);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowImpact);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnProjectileImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnWorldTick);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnLivingTick);
