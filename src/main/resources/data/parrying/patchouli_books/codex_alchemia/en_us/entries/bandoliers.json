@@ -1,0 +1,23 @@
+{
+  "name": "Bandoliers",
+  "icon": "parrying:bandolier",
+  "category": "parrying:items",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Since time began, rouges and alchemists the world over have suffered from a vexing problem: potions and daggers don't stack. It's not their fault, it's just the way they're shaped. Fortunately, there is a simple solution: the humble bandolier $(br2) A bandolier is a strap of leather with small loops on it for holding useful yet unstackable items, including most potions, oils, and daggers. "
+    },
+    {
+      "type": "text",
+      "text": "Items can be inserted and extracted from bandoliers in all the usual bundle ways, and dropping a bandolier while crouching empties it. Right clicking a bandolier cycles the items, and shift right clicking places the first item in the bandolier into your other hand, assuming said hand is empty. $(br2) Whenever you consume a bandolier-compatible item, the first bandolier in your inventory will try to give you the first item in its inventory."
+    },
+    {
+      "type": "text",
+      "text": "This feature works with any item that is bandolier compatible, which is potions, daggers, and the strange totems that evokers carry around. $(br2) You can also apparently make items compatible with a bandolier by \"altering the tag\", whatever that means. I don't think writing \"diamond\" on the tag of a shirt makes it armor. Anyways, I digress. $(br2) Bandoliers can be crafted with rabbit, and can be dyed any color."
+    },
+    {
+      "type": "text",
+      "text": "Right clicking on a cauldron of water with a bandolier will wash off any dyes. $(br2) Up until recently, it was assumed that bandoliers were a modern invention. However, recent anthropological findings indicate that witch covens have been using bandoliers for centuries to compensate for their lack of an inventory."
+    }
+  ]
+}

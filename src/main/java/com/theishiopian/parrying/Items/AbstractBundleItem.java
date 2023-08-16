@@ -53,31 +53,38 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
 
     private final int CAPACITY;
     private final int DIVISOR;
+    private final int MAX_STACK_SIZE;
     private final TagKey<Item> FILTER;
     private final TranslatableComponent FILTER_TOOLTIP;
 
     //TODO may want to replace this pattern with something else
     protected static Consumer<BundleItemCapability> POST_ADD;
 
-    public AbstractBundleItem(Properties pProperties, int capacity, int divisor, TagKey<Item> filter, TranslatableComponent filter_tooltip)
+    public AbstractBundleItem(Properties pProperties, int capacity, int divisor, int maxStackSize, TagKey<Item> filter, TranslatableComponent filter_tooltip)
     {
         super(pProperties.stacksTo(1));
         CAPACITY = capacity;
         FILTER = filter;
         FILTER_TOOLTIP = filter_tooltip;
         DIVISOR = divisor;
+        MAX_STACK_SIZE = maxStackSize;
+    }
+
+    public AbstractBundleItem(Properties pProperties, int capacity, int maxStackSize, TagKey<Item> filter, TranslatableComponent filter_tooltip)
+    {
+        this(pProperties, capacity, 1, maxStackSize, filter, filter_tooltip);
     }
 
     public AbstractBundleItem(Properties pProperties, int capacity, TagKey<Item> filter, TranslatableComponent filter_tooltip)
     {
-        this(pProperties, capacity, 1, filter, filter_tooltip);
+        this(pProperties, capacity, 1, 64, filter, filter_tooltip);
     }
 
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new CapabilityProvider<>(new BundleItemCapability(CAPACITY, FILTER)) {};
+        return new CapabilityProvider<>(new BundleItemCapability(CAPACITY, MAX_STACK_SIZE, FILTER)) {};
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -338,11 +345,16 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
 
     public static ItemStack addItem(ItemStack bundle, ItemStack stackToInsert, @Nullable Player player)
     {
-        int startingCount = stackToInsert.getCount();
         BundleItemCapability c =  AbstractBundleItem.getActualCapability(bundle);
         if(c == null)return stackToInsert;
         c.deflate();
-        if(stackToInsert.isEmpty() || !stackToInsert.is(c.FILTER) || c.isFull())return stackToInsert;
+
+        if(stackToInsert.getMaxStackSize() > c.MAX_STACK_SIZE) return stackToInsert;
+        if(stackToInsert.isEmpty())return stackToInsert;
+        if(!stackToInsert.is(c.FILTER)) return stackToInsert;
+        if(c.isFull()) return stackToInsert;
+
+        var startingCount = stackToInsert.getCount();
 
         for (ItemStack itemStack : c.stacksList)
         {
@@ -453,6 +465,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
     protected static class BundleItemCapability implements IPersistentCapability<BundleItemCapability>
     {
         private final int CAPACITY;
+        private final int MAX_STACK_SIZE;
         private final TagKey<Item> FILTER;
         public ArrayList<ItemStack> stacksList = new ArrayList<>();
 
@@ -463,11 +476,12 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         {
             return INSTANCE;
         }
-        public BundleItemCapability(int capacity, TagKey<Item> filter)
+        public BundleItemCapability(int capacity, int maxStackSize, TagKey<Item> filter)
         {
             super();
             CAPACITY = capacity;
             FILTER = filter;
+            MAX_STACK_SIZE = maxStackSize;
         }
 
         public NonNullList<ItemStack> getNonnullStackList()

@@ -1,0 +1,11 @@
+{
+  "name": "Venomous",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Oiling a blade with poison is a time honored tradition among assassins. Unfortunately, the oil tends not to stick to the blade for very long. This enchantment causes the oil to soak into the material, giving a small chance to not consume the oil when attacking."
+    }
+  ]
+}

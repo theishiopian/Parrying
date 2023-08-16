@@ -1,0 +1,19 @@
+{
+  "name": "Oiling",
+  "icon": "minecraft:honeycomb",
+  "category": "parrying:mechanics",
+  "pages": [
+    {
+      "type": "text",
+      "text": "There are a multitude of ways to inflict your enemies with poisons. Arrows, splash and lingering potions, and stew-based trickery are all options, but sometimes you want your stab to sting just a bit more. $(br2) That's where oils come in. Oils are special potions that can be applied to melee weapons. Any melee weapon may have oil applied, and any potion can be turned into an oil."
+    },
+    {
+      "type": "text",
+      "text": "To oil a weapon, you must hold a weapon in one hand and an oil in the other and hold right click. The oil will be smeared onto the weapon, and the weapon will take on the color of the applied potion. Oils can be removed by right clicking on a cauldron with the weapon in hand. If an oil is applied to a weapon that already has oil, the old oil will be removed and replaced with the new oil."
+    },
+    {
+      "type": "text",
+      "text": "Attacking with an oiled weapon will apply the potion effect to the target, and will remove the oil from the weapon. Thrown weapons that have been oiled will also apply their effect. If the effect on the weapon is beneficial, the weapon will deal no damage."
+    }
+  ]
+}

@@ -51,7 +51,7 @@ public class BandolierItem extends AbstractBundleItem
 
     public BandolierItem(Properties pProperties)
     {
-        super(pProperties, 512, 64, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));
+        super(pProperties, 512, 1, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));
     }
 
     @Override

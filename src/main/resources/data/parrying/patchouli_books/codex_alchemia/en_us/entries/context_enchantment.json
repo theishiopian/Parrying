@@ -1,0 +1,15 @@
+{
+  "name": "Context",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Bandoliers are great, but in the heat of battle it can be hard to grab the right item. This enchantment aims to fix this by granting your bandolier a spark of intelligence. $(br2) When the bandolier provides an item, it tries its best to provide an item similar to the one you just used."
+    },
+    {
+      "type": "text",
+      "text": "If you just used a potion, the bandolier will try to give you a potion that is of the same type, effect, and beneficial or harmful nature as the one you just used. It will match as many of these criteria as it can. Similarly, when providing a dagger, it will try to match the material and enchantments of the dagger you just threw."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Rapidity",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "It takes practice to use a bandolier effectively, fumbling items out of their loops and pouches can be a hassle. This enchantment effectively sidesteps all that boring practicing. A bandolier with rapidity will provide items with a reduced cooldown, allowing you to use items much faster."
+    }
+  ]
+}

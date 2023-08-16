@@ -42,6 +42,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -354,6 +355,27 @@ public class CommonEvents
                 if(Config.potionSicknessNausea.get())entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 300));
 
                 if(entity instanceof ServerPlayer player)ModTriggers.sick.trigger(player);
+            }
+        }
+    }
+
+    public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event)
+    {
+        var level = event.getWorld();
+        if(level.isClientSide) return;
+        var player = event.getPlayer();
+        var weapon = player.getItemInHand(event.getHand());
+        var pos = event.getPos();
+        var blockState = player.level.getBlockState(pos);
+
+        if(blockState.is(Blocks.WATER_CAULDRON))
+        {
+            if(ModUtil.IsWeapon(weapon) && !PotionUtils.getMobEffects(weapon).isEmpty())
+            {
+                weapon.removeTagKey("CustomPotionColor");
+                weapon.removeTagKey("Potion");
+                player.level.playSound(null, player.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.PLAYERS, 0.4F, 0.8F + player.getLevel().getRandom().nextFloat() * 0.2F);
+                LayeredCauldronBlock.lowerFillLevel(blockState, level, pos);
             }
         }
     }
