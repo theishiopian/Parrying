@@ -39,17 +39,14 @@ public class BandolierItem extends AbstractBundleItem
     {
         itemsToGive.put(player, new ToProvide(toProvide, slot));
     }
-
     public static void Remove(UUID player)
     {
         itemsToGive.remove(player);
     }
-
     public static boolean Has(UUID player)
     {
         return itemsToGive.containsKey(player);
     }
-
     private static final HashMap<UUID, ToProvide> itemsToGive = new HashMap<>();
 
     public BandolierItem(Properties pProperties)

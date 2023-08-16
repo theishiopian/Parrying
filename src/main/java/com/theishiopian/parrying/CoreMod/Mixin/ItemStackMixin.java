@@ -3,7 +3,6 @@ package com.theishiopian.parrying.CoreMod.Mixin;
 import com.theishiopian.parrying.Items.BandolierItem;
 import com.theishiopian.parrying.Network.GameplayStatusPacket;
 import com.theishiopian.parrying.Registration.ModTags;
-import com.theishiopian.parrying.Utility.Debug;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,13 +23,13 @@ public abstract class ItemStackMixin
     @Inject(method = "shrink", at = @At("HEAD"))
     private void InjectIntoShrink(int pDecrement, CallbackInfo ci)
     {
-        Debug.log("shrink injection");
+        //Debug.log("shrink injection");
         var oldStack = (ItemStack)(Object)this;
-        Debug.log("old stack: " + oldStack);
+        //Debug.log("old stack: " + oldStack);
 
         if(oldStack.getCount() - pDecrement == 0 && oldStack.is(ModTags.BANDOLIER))
         {
-            Debug.log("bandolier check passed");
+            //Debug.log("bandolier check passed");
             var server = ServerLifecycleHooks.getCurrentServer();
             if(server == null) return;
 
@@ -46,14 +45,14 @@ public abstract class ItemStackMixin
 
                     if(player.getMainHandItem() == oldStack)
                     {
-                        Debug.log("found item: " + player.getMainHandItem() + " for player: " + player.getUUID());
+                        //Debug.log("found item: " + player.getMainHandItem() + " for player: " + player.getUUID());
                         hasFound = true;
                         BandolierItem.Add(player.getUUID(), oldStack.copy(), EquipmentSlot.MAINHAND);
                         break;
                     }
                     else if(player.getOffhandItem() == oldStack)
                     {
-                        Debug.log("found item: " + player.getOffhandItem() + " for player: " + player.getUUID());
+                        //Debug.log("found item: " + player.getOffhandItem() + " for player: " + player.getUUID());
                         hasFound = true;
                         BandolierItem.Add(player.getUUID(), oldStack.copy(), EquipmentSlot.OFFHAND);
                         break;
@@ -67,7 +66,7 @@ public abstract class ItemStackMixin
                         {
                             if(itemStack == oldStack)
                             {
-                                Debug.log("found item: " + itemStack + " for player: " + player.getUUID());
+                                //Debug.log("found item: " + itemStack + " for player: " + player.getUUID());
                                 hasFound = true;
                                 BandolierItem.Add(player.getUUID(), oldStack.copy(), null);
                                 break;
