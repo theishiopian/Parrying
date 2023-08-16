@@ -5,6 +5,8 @@ import com.theishiopian.parrying.Registration.ModItems;
 import com.theishiopian.parrying.Registration.ModTags;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +14,8 @@ import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -51,6 +55,26 @@ public class BandolierItem extends AbstractBundleItem
     public BandolierItem(Properties pProperties)
     {
         super(pProperties, 512, 64, ModTags.BANDOLIER, new TranslatableComponent("tooltip.parrying.bandolier"));
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand)
+    {
+        var otherHand = ModUtil.GetOtherHand(pUsedHand);
+        var otherHandItem = pPlayer.getItemInHand(otherHand);
+
+        if(pPlayer.isCrouching())
+        {
+            if(otherHandItem.isEmpty())
+            {
+                pPlayer.setItemInHand(otherHand, takeFirstStack(pPlayer.getItemInHand(pUsedHand)));
+                return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+            }
+
+            return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+        }
+
+        return super.use(pLevel, pPlayer, pUsedHand);
     }
 
     public static int GetWeightlessCount(ItemStack bandolier)

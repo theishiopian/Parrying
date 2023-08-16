@@ -2,6 +2,7 @@ package com.theishiopian.parrying.Utility;
 
 import com.theishiopian.parrying.ParryingMod;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +27,11 @@ public class ModUtil
 {
     public static final ResourceLocation GENERAL_ICONS = new ResourceLocation(ParryingMod.MOD_ID, "textures/gui/icons.png");
     public static final Random random = new Random();
+
+    public static InteractionHand GetOtherHand(InteractionHand hand)
+    {
+        return hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+    }
 
     public static boolean IsBlocked(LivingEntity defender, LivingEntity attacker)
     {

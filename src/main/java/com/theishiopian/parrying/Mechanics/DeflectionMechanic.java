@@ -49,7 +49,7 @@ public abstract class DeflectionMechanic
                 projectileDir.subtract(0,projectileDir.y,0);//remove y difference
                 double angle = playerLookDir.dot(projectileDir);//get angle between player and projectile
                 ItemStack mainHandItem = player.getMainHandItem();//get player item
-                ItemStack offHandItem = player.getOffhandItem();//get player item
+                //ItemStack offHandItem = player.getOffhandItem();//get player item
 
                 int level = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DEFLECTING.get(), mainHandItem);
 
