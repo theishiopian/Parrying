@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class LivingEntityHooks
@@ -23,33 +24,7 @@ public class LivingEntityHooks
         {
             if(source.isBypassInvul()) return Optional.of(false);
 
-            ItemStack totem = null;
-
-            if(Config.undyingWorksFromInventory.get() && entity instanceof Player player)
-            {
-                for (ItemStack item : player.getInventory().items)
-                {
-                    if(item.is(Items.TOTEM_OF_UNDYING))
-                    {
-                        totem = item.copy();
-                        item.shrink(1);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                for(InteractionHand interactionhand : InteractionHand.values())
-                {
-                    ItemStack itemInHand = entity.getItemInHand(interactionhand);
-                    if (itemInHand.is(Items.TOTEM_OF_UNDYING))
-                    {
-                        totem = itemInHand.copy();
-                        itemInHand.shrink(1);
-                        break;
-                    }
-                }
-            }
+            var totem = findTotem(entity);
 
             if (totem != null)
             {
@@ -69,5 +44,43 @@ public class LivingEntityHooks
         }
 
         return Optional.empty();
+    }
+
+    @Nullable
+    private static ItemStack findTotem(LivingEntity entity)
+    {
+        ItemStack totem = null;
+
+        if(Config.undyingWorksFromInventory.get() && entity instanceof Player player)
+        {
+            ItemStack itemToScan;
+            for(int i = 46; i >= 0; i--)
+            {
+                //check offhand first
+                itemToScan = i == 46 ? player.getOffhandItem() : player.getInventory().getItem(i);
+
+                if(itemToScan.is(Items.TOTEM_OF_UNDYING))
+                {
+                    totem = itemToScan.copy();
+                    itemToScan.shrink(1);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for(InteractionHand interactionhand : InteractionHand.values())
+            {
+                ItemStack itemInHand = entity.getItemInHand(interactionhand);
+                if (itemInHand.is(Items.TOTEM_OF_UNDYING))
+                {
+                    totem = itemInHand.copy();
+                    itemInHand.shrink(1);
+                    break;
+                }
+            }
+        }
+
+        return totem;
     }
 }

@@ -90,6 +90,7 @@ public class BandolierItem extends AbstractBundleItem
 
     public static ItemStack takeBestMatch(ItemStack bandolier, ItemStack toMatch)
     {
+        //Debug.log("Taking best match");
         BundleItemCapability c = getActualCapability(bandolier);
         if (c == null) return ItemStack.EMPTY;
         c.deflate();
@@ -97,6 +98,8 @@ public class BandolierItem extends AbstractBundleItem
         ItemStack currentBest = ItemStack.EMPTY;
         int currentBestScore = 0;
         var type = toMatch.getItem() instanceof PotionItem ? BandolierType.POTION : ModUtil.IsWeapon(toMatch) ? BandolierType.WEAPON : BandolierType.OTHER;
+
+        //Debug.log("Type: " + type);
 
         for (ItemStack itemStack : c.stacksList)
         {
@@ -138,16 +141,15 @@ public class BandolierItem extends AbstractBundleItem
                     currentBestScore = score;
                 }
             }
-
-            var other = type == BandolierType.OTHER && itemStack.is(toMatch.getItem());
-            if (other || currentBestScore == 3)
+            else if (type == BandolierType.OTHER && itemStack.is(toMatch.getItem()))
             {
+                //Debug.log("Found match: " + itemStack);
                 currentBest = itemStack;
                 break;
             }
         }
 
-        if(currentBestScore == 0) return takeFirstStack(bandolier);
+        if(currentBestScore == 0 && type != BandolierType.OTHER) return takeFirstStack(bandolier);
 
         var toReturn = currentBest.copy();
 
