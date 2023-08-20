@@ -1,0 +1,15 @@
+{
+  "name": "Antidotes",
+  "icon": "minecraft:magma_cream",
+  "category": "parrying:basics",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Many potions have an inverse relationship with another potion. For example, poison can be cured with regeneration. This relationship works both ways, so regeneration can also be neutralized with poison. The two effects cannot be present at the same time under most circumstances. This is useful both as a way to remove potion effects you don't want as well as to remove buffs from your enemies."
+    },
+    {
+      "type": "text",
+      "text": "Examples of antidote pairs include: $(li) Poison and Regeneration $(li) Speed and Slowness $(li) Invisibility and Glowing $(li) Strength and Weakness $(br2)There may be other antidote interactions that have yet to be discovered."
+    }
+  ]
+}

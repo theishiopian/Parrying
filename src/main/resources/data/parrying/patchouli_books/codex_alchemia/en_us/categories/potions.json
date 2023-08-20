@@ -1,0 +1,5 @@
+{
+  "name": "Notable Potions",
+  "description": "A few extraordinary potions that few have seen and fewer have brewed",
+  "icon": "minecraft:potion{Potion:leaping}"
+}

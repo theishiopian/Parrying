@@ -1,0 +1,11 @@
+{
+  "name": "Tier 0 Potions",
+  "icon": "minecraft:potion{Potion:water}",
+  "category": "parrying:brewing",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "These simple potions can be brewed with just water. They include healing and harming potions, as well as their extended, amplified, and splash variants. Healing potions are made with glistering melons, and harming potions are made with spider eyes."
+    }
+  ]
+}

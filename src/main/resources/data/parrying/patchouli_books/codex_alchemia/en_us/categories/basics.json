@@ -1,0 +1,5 @@
+{
+  "name": "Alchemy 101",
+  "description": "Everything you need to know before using alchemy",
+  "icon": "minecraft:potion{Potion:healing}"
+}

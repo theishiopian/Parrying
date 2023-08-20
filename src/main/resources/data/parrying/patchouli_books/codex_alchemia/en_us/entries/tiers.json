@@ -1,0 +1,15 @@
+{
+  "name": "Potion Tiers",
+  "icon": "minecraft:glass_bottle",
+  "category": "parrying:brewing",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Potions are divided into tiers. More powerful potion effects are more complex to brew, with a few exceptions. Every tier has a base potion, each of which is more complex to brew than the last. Each base potion uses the previous tier's base potion as a base, with the exception of tier 0, which uses water bottles."
+    },
+    {
+      "type": "text",
+      "text": "Tier 0 potions are brewed with plain water, tier 1 are brewed with thick potions, created using rotten flesh. Tier 2 potions come from mundane potions, brewed using beetroot. Tier 3 potions use awkward potions as a base, brewed using nether wart."
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "name": "Oiling",
   "icon": "minecraft:honeycomb",
-  "category": "parrying:mechanics",
+  "category": "parrying:basics",
   "pages": [
     {
       "type": "text",
-      "text": "There are a multitude of ways to inflict your enemies with poisons. Arrows, splash and lingering potions, and stew-based trickery are all options, but sometimes you want your stab to sting just a bit more. $(br2) That's where oils come in. Oils are special potions that can be applied to melee weapons. Any melee weapon may have oil applied, and any potion can be turned into an oil."
+      "text": "There are a multitude of ways to poison your enemies. Arrows, splash potions, and stew-based trickery are all options, but sometimes you want your stab to sting just a bit more. $(br2) That's where oils come in. Oils are special potions that can be applied to melee weapons. Any melee weapon may have oil applied, and any potion can be turned into an oil by adding honeycomb in a brewing stand."
     },
     {
       "type": "text",

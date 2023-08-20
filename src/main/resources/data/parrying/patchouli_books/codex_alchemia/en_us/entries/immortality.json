@@ -1,0 +1,11 @@
+{
+  "name": "Hourai Elixir",
+  "icon": "minecraft:potion{Potion:immortality}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Ancient texts speak of sages beyond time and space, or possibly from the moon, who learned the secrets of life and death. They are have said to have created a potion that allows those who drink it to simply ignore most damage for a short time. There is no known way to brew this potion."
+    }
+  ]
+}

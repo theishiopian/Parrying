@@ -1,0 +1,11 @@
+{
+  "name": "Tier 2 Potions",
+  "icon": "minecraft:beetroot",
+  "category": "parrying:brewing",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Tier 2 potions are brewed with thick potions, requiring beetroot to brew. Including slow fall, water breathing, jump boost, and night vision, these potions are good for exploration. They can be brewed with phantom membrane, pufferfish, rabbit's foot, and golden carrots respectively."
+    }
+  ]
+}

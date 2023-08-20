@@ -10,6 +10,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModLootModifiers
 {
     public static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, ParryingMod.MOD_ID);
+
+    public static final RegistryObject<LootHandler.TableModifier.Serializer> TABLE_MODIFIER = GLM.register("table_modifier", LootHandler.TableModifier.Serializer::new);
     public static final RegistryObject<LootHandler.QuiverModifier.Serializer> QUIVER_MODIFIER = GLM.register("quiver_modifier", LootHandler.QuiverModifier.Serializer::new);
     public static final RegistryObject<LootHandler.ScabbardModifier.Serializer> SCABBARD_MODIFIER = GLM.register("scabbard_modifier", LootHandler.ScabbardModifier.Serializer::new);
 }

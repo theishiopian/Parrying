@@ -28,9 +28,9 @@ public abstract class PotionBrewingMixin
         addContainerRecipe(Items.POTION, Items.DRAGON_BREATH, Items.LINGERING_POTION);
 
         //base potions
-        addMix(Potions.WATER, Items.WHEAT, Potions.THICK);
-        addMix(Potions.THICK, Items.ROTTEN_FLESH, Potions.MUNDANE);
-        addMix(Potions.MUNDANE, Items.NETHER_WART, Potions.AWKWARD);
+        addMix(Potions.WATER, Items.ROTTEN_FLESH, Potions.MUNDANE);
+        addMix(Potions.MUNDANE, Items.BEETROOT, Potions.THICK);
+        addMix(Potions.THICK, Items.NETHER_WART, Potions.AWKWARD);
 
         //tier 0
         addMix(Potions.WATER, Items.GLISTERING_MELON_SLICE, Potions.HEALING);

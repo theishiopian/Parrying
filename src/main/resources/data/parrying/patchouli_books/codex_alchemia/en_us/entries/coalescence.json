@@ -1,0 +1,11 @@
+{
+  "name": "Potion of Compatibility",
+  "icon": "minecraft:potion{Potion:coalescence}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Sometimes, it is beneficial to have incompatible potion effects at the same time. The potion of compatibility prevents antidotes from canceling each other out. This is mostly useful for certain so called \"advancements\", whatever those are, but is sure to have numerous fringe use cases. The potion of compatibility is tier 3 and can be brewed with chorus fruit"
+    }
+  ]
+}

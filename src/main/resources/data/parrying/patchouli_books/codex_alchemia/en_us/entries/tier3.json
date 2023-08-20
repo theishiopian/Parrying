@@ -1,0 +1,11 @@
+{
+  "name": "Tier 3 Potions",
+  "icon": "minecraft:nether_wart",
+  "category": "parrying:brewing",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Tier 3 potions are the most complex and powerful, and require nether wart to make. Strength, regeneration, invisibility, fire resistance, and turtle master are all tier 3 potions. They can be made with blaze powder, ghast tears, tropical fish, magma cream, and turtle scutes, respectively."
+    }
+  ]
+}

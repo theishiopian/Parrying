@@ -25,8 +25,6 @@ public class MilkBucketMixin
     {
         if(Config.milkBucketRework.get())
         {
-            //TODO add fortified effect
-
             pEntityLiving.addEffect(new MobEffectInstance(ModEffects.FORTIFIED.get(), 1200));
 
             if (pEntityLiving instanceof ServerPlayer serverplayer)

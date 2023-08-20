@@ -45,6 +45,11 @@ public class LootHandler
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:mineshaft_scabbard"))
             );
 
+            add("end_city_hourai_modifier", ModLootModifiers.TABLE_MODIFIER.get(), new TableModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/end_city_treasure")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:hourai_elixir"))
+            );
+
             add("end_city_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/end_city_treasure")).build(),
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:end_city_scabbard"))
@@ -120,15 +125,11 @@ public class LootHandler
         }
     }
 
-    public static class QuiverModifier extends LootModifier
+    public static class TableModifier extends LootModifier
     {
-        private final ResourceLocation table;
-        /**
-         * Constructs a LootModifier.
-         *
-         * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
-         */
-        protected QuiverModifier(LootItemCondition[] conditionsIn, ResourceLocation table)
+        protected final ResourceLocation table;
+
+        protected TableModifier(LootItemCondition[] conditionsIn, ResourceLocation table)
         {
             super(conditionsIn);
             this.table = table;
@@ -137,6 +138,46 @@ public class LootHandler
         public LootItemCondition[] GetConditions()
         {
             return conditions;
+        }
+
+        @NotNull
+        @Override
+        protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
+        {
+            LootTable table = context.getLootTable(this.table);
+            generatedLoot.addAll(table.getRandomItems(context));
+            return generatedLoot;
+        }
+
+        public static class Serializer extends GlobalLootModifierSerializer<TableModifier>
+        {
+            @Override
+            public TableModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions)
+            {
+                ResourceLocation table = new ResourceLocation(GsonHelper.getAsString(object, "table"));
+                return new TableModifier(conditions, table);
+            }
+
+            @Override
+            public JsonObject write(TableModifier instance)
+            {
+                JsonObject res = this.makeConditions(instance.GetConditions());
+                res.addProperty("table", instance.table.toString());
+                return res;
+            }
+        }
+    }
+
+    public static class QuiverModifier extends TableModifier
+    {
+        /**
+         * Constructs a LootModifier.
+         *
+         * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
+         */
+        protected QuiverModifier(LootItemCondition[] conditionsIn, ResourceLocation table)
+        {
+            super(conditionsIn, table);
         }
 
         @NotNull
@@ -171,9 +212,8 @@ public class LootHandler
         }
     }
 
-    public static class ScabbardModifier extends LootModifier
+    public static class ScabbardModifier extends TableModifier
     {
-        private final ResourceLocation tableLocation;
         /**
          * Constructs a LootModifier.
          *
@@ -181,13 +221,7 @@ public class LootHandler
          */
         protected ScabbardModifier(LootItemCondition[] conditionsIn, ResourceLocation tableLocation)
         {
-            super(conditionsIn);
-            this.tableLocation = tableLocation;
-        }
-
-        public LootItemCondition[] GetConditions()
-        {
-            return conditions;
+            super(conditionsIn, tableLocation);
         }
 
         @NotNull
@@ -195,7 +229,7 @@ public class LootHandler
         protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context)
         {
             if(!Config.scabbardEnabled.get())return generatedLoot;
-            LootTable table = context.getLootTable(this.tableLocation);
+            LootTable table = context.getLootTable(this.table);
             ItemStack scabbard = new ItemStack(ModItems.SCABBARD.get());
             ScabbardItem.AddLootSword(scabbard, table, context);
             generatedLoot.add(scabbard);
@@ -215,7 +249,7 @@ public class LootHandler
             public JsonObject write(ScabbardModifier instance)
             {
                 JsonObject res = this.makeConditions(instance.GetConditions());
-                res.addProperty("scabbard_sword_table", instance.tableLocation.toString());
+                res.addProperty("scabbard_sword_table", instance.table.toString());
                 return res;
             }
         }

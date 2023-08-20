@@ -1,0 +1,15 @@
+{
+  "name": "Potion Sickness",
+  "icon": "minecraft:pufferfish",
+  "category": "parrying:basics",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Potions are inherently volatile. Drinking too many at once will cause you to become sick. The effects of all the potions you have active will be neutralised, and you will receive the nausea effect. Tolerance varies, but in general you can drink 3 potions before becoming nauseated."
+    },
+    {
+      "type": "text",
+      "text": "While something of a nuisance, potion sickness can be helpful for removing negative effects, especially if you don't have an antidote on hand. Just keep in mind that this removes all effects, not just the negative ones."
+    }
+  ]
+}

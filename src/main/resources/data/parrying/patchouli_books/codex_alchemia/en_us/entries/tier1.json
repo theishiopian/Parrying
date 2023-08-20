@@ -1,0 +1,11 @@
+{
+  "name": "Tier 1 Potions",
+  "icon": "minecraft:rotten_flesh",
+  "category": "parrying:brewing",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Brewed with mundane potions, tier 1 potions are more complex than tier 0 potions. They include poison, swiftness, slowness, and weakness. These are brewed with fermented spider eye, sugar, slime balls, and poisonous potatoes respectively."
+    }
+  ]
+}

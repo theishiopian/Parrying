@@ -1,0 +1,11 @@
+{
+  "name": "Milk",
+  "icon": "minecraft:milk_bucket",
+  "category": "parrying:basics",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Drinking cow's milk is a time honored tradition for curing sicknesses. In regards to alchemy, however, its really more of a preventive measure. Drinking milk adds the fortified effect, which grants immunity to potion sickness. It also reduces fall damage taken, something to do with the extra calcium"
+    }
+  ]
+}

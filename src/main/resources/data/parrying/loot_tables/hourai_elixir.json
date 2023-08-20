@@ -1,0 +1,31 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "parrying:immortality"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "parrying:immortality_long"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}
