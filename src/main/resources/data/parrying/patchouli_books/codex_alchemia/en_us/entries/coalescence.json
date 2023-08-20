@@ -1,6 +1,6 @@
 {
   "name": "Potion of Compatibility",
-  "icon": "minecraft:potion{Potion:coalescence}",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:8126719}",
   "category": "parrying:potions",
   "pages" : [
     {

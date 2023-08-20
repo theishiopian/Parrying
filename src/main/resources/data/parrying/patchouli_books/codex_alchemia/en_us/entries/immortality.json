@@ -1,6 +1,6 @@
 {
   "name": "Hourai Elixir",
-  "icon": "minecraft:potion{Potion:immortality}",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:8331833}",
   "category": "parrying:potions",
   "pages" : [
     {

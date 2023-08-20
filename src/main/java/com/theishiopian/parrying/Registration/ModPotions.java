@@ -9,6 +9,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModPotions
 {
+    //todo stability and instability potions, wither effect changes, vitality potion, section in alchemy book on totems and golden foods
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, ParryingMod.MOD_ID);
     public static final RegistryObject<Potion> COALESCENCE = POTIONS.register("coalescence", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 1200)));
     public static final RegistryObject<Potion> COALESCENCE_LONG = POTIONS.register("coalescence_long", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 3600)));
