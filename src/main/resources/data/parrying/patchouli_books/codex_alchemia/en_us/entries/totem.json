@@ -1,0 +1,11 @@
+{
+  "name": "The Totem of Undying",
+  "icon": "minecraft:totem_of_undying",
+  "category": "parrying:curiosities",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "The origin of this strange artifact remains a mystery, despite constant study. It was first discovered by the illagers at some unknown point in time, and has been used by them to gain unnatural powers. In the hands (or inventory) of a player, the totem of undying will sacrifice itself to save its owner if they are in mortal peril, granting temporary immortality."
+    }
+  ]
+}

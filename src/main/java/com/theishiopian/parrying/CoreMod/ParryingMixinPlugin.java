@@ -36,7 +36,6 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "BrewingStandMenuMixin",
         "BrewingStandFuelSlotMixin",
         "FoodDataMixin",
-        "FoodsMixin",
         "LivingEntityMixin",
         "ItemStackMixin",
         "ThrownTridentMixin",

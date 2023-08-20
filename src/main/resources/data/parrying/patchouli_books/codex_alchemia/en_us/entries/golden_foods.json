@@ -1,0 +1,11 @@
+{
+  "name": "Golden Foods",
+  "icon": "minecraft:golden_apple",
+  "category": "parrying:curiosities",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Coating foods in gold has long been known to give various"
+    }
+  ]
+}

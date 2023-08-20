@@ -132,6 +132,7 @@ public class ParryingMod
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);
+        ModItems.VANILLA_ITEM_OVERRIDES.register(bus);
         ModLootModifiers.GLM.register(bus);
         ModParticles.PARTICLE_TYPES.register(bus);
         ModSoundEvents.SOUND_EVENTS.register(bus);
@@ -165,7 +166,6 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::RenderOverlays);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnHandRendered);
         MinecraftForge.EVENT_BUS.addListener(ClientEvents::OnClientTick);
-        //MinecraftForge.EVENT_BUS.addListener(ClientEvents::ModifyHealthBar);
         EntityRenderers.register(ModEntities.SPEAR.get(), RenderSpear::new);
         EntityRenderers.register(ModEntities.DAGGER.get(), RenderDagger::new);
     }

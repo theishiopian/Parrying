@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class ModItems
 {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ParryingMod.MOD_ID);
+    public static final DeferredRegister<Item> VANILLA_ITEM_OVERRIDES = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft");
     public static final float MACE_AP = 0.35f;
     public static final float HAMMER_AP = 0.65f;
     public static final float FLAIL_AP = 0.15f;
@@ -39,6 +40,10 @@ public class ModItems
     public static final int SPEAR_DMG = 2;
     public static final int DAGGER_DMG = 1;
 
+    public static final RegistryObject<Item> GLISTERING_MELON_SLICE = VANILLA_ITEM_OVERRIDES.register("glistering_melon_slice", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(ModFoods.GLISTERING_MELON)));
+    public static final RegistryObject<Item> GOLDEN_CARROT = VANILLA_ITEM_OVERRIDES.register("golden_carrot", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(ModFoods.GOLDEN_CARROT)));
+    public static final RegistryObject<Item> GOLDEN_APPLE = VANILLA_ITEM_OVERRIDES.register("golden_apple", () -> new Item((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.RARE).food(ModFoods.GOLDEN_APPLE)));
+    public static final RegistryObject<Item> ENCHANTED_GOLDEN_APPLE = VANILLA_ITEM_OVERRIDES.register("enchanted_golden_apple", () -> new EnchantedGoldenAppleItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_APPLE)));
     public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new BludgeonItem(Tiers.WOOD, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new BludgeonItem(Tiers.STONE, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<Item> IRON_MACE = ITEMS.register("iron_mace", () -> new BludgeonItem(Tiers.IRON, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
