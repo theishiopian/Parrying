@@ -41,7 +41,7 @@ public class OilPotionItem extends PotionItem
         var oil = pPlayer.getItemInHand(pHand);
         var otherItem = pHand == InteractionHand.MAIN_HAND ? pPlayer.getOffhandItem() : pPlayer.getMainHandItem();
 
-        if(!ModUtil.IsWeapon(otherItem)) return InteractionResultHolder.fail(oil);
+        if(!ModUtil.IsStackWeapon(otherItem)) return InteractionResultHolder.fail(oil);
 
         return ItemUtils.startUsingInstantly(pLevel, pPlayer, pHand);
     }
@@ -71,7 +71,7 @@ public class OilPotionItem extends PotionItem
         var hand = player.getUsedItemHand();
         var otherItem = hand == InteractionHand.MAIN_HAND ? player.getOffhandItem() : player.getMainHandItem();
 
-        if(!ModUtil.IsWeapon(otherItem))
+        if(!ModUtil.IsStackWeapon(otherItem))
         {
             return pStack;
         }

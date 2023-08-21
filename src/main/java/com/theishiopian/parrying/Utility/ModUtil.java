@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -62,9 +63,16 @@ public class ModUtil
         return attackPowerFull && hasFallen && inAir && notClimbing && notWet && notBlind && notRiding && targetValid && walking;
     }
 
-    public static boolean IsWeapon(ItemStack stack)
+    public static boolean IsStackWeapon(ItemStack stack)
     {
-        return stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && stack.getAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED);
+        //eventually this will be removed, stack has a method for this, but item may become a problem
+        return IsItemWeapon(stack.getItem());
+    }
+
+    @SuppressWarnings("deprecation")
+    public static boolean IsItemWeapon(Item item)
+    {
+        return item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED);
     }
 
     public static boolean ShouldBeHarmful(List<MobEffectInstance> list, LivingEntity target)

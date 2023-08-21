@@ -14,6 +14,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue brewingRequiresFuel;
     public static final ForgeConfigSpec.BooleanValue brewingRecipeOverhaul;
     public static final ForgeConfigSpec.BooleanValue poisonLethal;
+    public static final ForgeConfigSpec.BooleanValue witherRework;
     public static final ForgeConfigSpec.BooleanValue modifyThrow;
     public static final ForgeConfigSpec.BooleanValue noSelfSplash;
     public static final ForgeConfigSpec.BooleanValue potionSickness;
@@ -119,6 +120,7 @@ public class Config
         sipTicks = builder.comment("How many ticks a potion takes to drink. Vanilla is 32, mod default is 16").defineInRange("potion_drink_ticks", 16, 1, Integer.MAX_VALUE);
         brewingTicks = builder.comment("How many ticks the brewing stand takes to brew a potion, vanilla is 400, mod default is 120").defineInRange("brewing_ticks", 120, 1, Integer.MAX_VALUE);
         poisonLethal = builder.comment("Whether or not poison is lethal").define("poison_lethal", true);
+        witherRework = builder.comment("Whether or not the wither effect is reworked").define("wither_rework", true);
         modifyThrow = builder.comment("Whether or not to modify the throwing force of thrown potions").define("modify_potion_throwing", true);
         noSelfSplash = builder.comment("Whether or not to disable splash potions affecting the thrower").define("no_self_splash", true);
         potionSickness = builder.comment("Whether or not to dlimit the number of effects on a player at once").define("potion_sickness", true);

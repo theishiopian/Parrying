@@ -359,6 +359,18 @@ public class CommonEvents
         }
     }
 
+    public static void OnHeal(LivingHealEvent event)
+    {
+        if(event.getEntityLiving().hasEffect(MobEffects.WITHER) && Config.witherRework.get())
+        {
+            event.setCanceled(true);
+        }
+        else if(event.getEntityLiving().hasEffect(ModEffects.VITALITY.get()))
+        {
+            event.setAmount(event.getAmount() * 1.5f);
+        }
+    }
+
     public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event)
     {
         var level = event.getWorld();
@@ -370,7 +382,7 @@ public class CommonEvents
 
         if(blockState.is(Blocks.WATER_CAULDRON))
         {
-            if(ModUtil.IsWeapon(weapon) && !PotionUtils.getMobEffects(weapon).isEmpty())
+            if(ModUtil.IsStackWeapon(weapon) && !PotionUtils.getMobEffects(weapon).isEmpty())
             {
                 weapon.removeTagKey("CustomPotionColor");
                 weapon.removeTagKey("Potion");

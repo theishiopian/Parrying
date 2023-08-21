@@ -30,7 +30,6 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "ThrowablePotionItemMixin",
         "MilkBucketMixin",
         "ThrownPotionEntityMixin",
-        "PoisonMixin",
         "PotionBrewingMixin",
         "BrewingStandMixin",
         "BrewingStandMenuMixin",
@@ -40,7 +39,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "ItemStackMixin",
         "ThrownTridentMixin",
         "TridentItemMixin",
-        "AbstractArrowInvoker"
+        "AbstractArrowInvoker",
+        "MobEffectMixin"
     };
 
     @Override

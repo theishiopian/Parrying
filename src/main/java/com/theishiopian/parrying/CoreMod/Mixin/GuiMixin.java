@@ -6,6 +6,7 @@ import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,6 +44,7 @@ public class GuiMixin
         {
             RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
             Screen.blit(pPoseStack, pX, pY, 32, 16, 16, 16, 64, 64);
+            RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         }
         else
         {
@@ -50,5 +52,23 @@ public class GuiMixin
         }
 
         x++;
+    }
+
+    @Redirect(method = "renderHearts", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/gui/Gui;renderHeart(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/gui/Gui$HeartType;IIIZZ)V"))
+    private void RedirectHeartContainerRenderer(Gui instance, PoseStack pPoseStack, Gui.HeartType pHeartType, int pX, int pY, int p_168705_, boolean p_168706_, boolean p_168707_)
+    {
+        Player player = Minecraft.getInstance().player;
+        assert player != null : "Null player in heart container renderer mixin! What the heck happened?!";
+
+        if(player.hasEffect(ModEffects.VITALITY.get()))
+        {
+            RenderSystem.setShaderTexture(0, ModUtil.GENERAL_ICONS);
+            Screen.blit(pPoseStack, pX, pY, 48, 16, 16, 16, 64, 64);
+            RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
+        }
+        else
+        {
+            instance.renderHeart(pPoseStack, pHeartType, pX, pY, p_168705_, p_168706_, p_168707_);//vanilla render
+        }
     }
 }

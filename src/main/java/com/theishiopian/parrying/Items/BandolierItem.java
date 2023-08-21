@@ -97,7 +97,7 @@ public class BandolierItem extends AbstractBundleItem
 
         ItemStack currentBest = ItemStack.EMPTY;
         int currentBestScore = 0;
-        var type = toMatch.getItem() instanceof PotionItem ? BandolierType.POTION : ModUtil.IsWeapon(toMatch) ? BandolierType.WEAPON : BandolierType.OTHER;
+        var type = toMatch.getItem() instanceof PotionItem ? BandolierType.POTION : ModUtil.IsStackWeapon(toMatch) ? BandolierType.WEAPON : BandolierType.OTHER;
 
         //Debug.log("Type: " + type);
 
@@ -127,7 +127,7 @@ public class BandolierItem extends AbstractBundleItem
                     currentBestScore = score;
                 }
             }
-            else if (type == BandolierType.WEAPON && ModUtil.IsWeapon(itemStack))
+            else if (type == BandolierType.WEAPON && ModUtil.IsStackWeapon(itemStack))
             {
                 var isSameWeaponType = toMatch.getItem().getClass() == itemStack.getItem().getClass();
                 var isSameMaterial = itemStack.getItem() instanceof TieredItem &&

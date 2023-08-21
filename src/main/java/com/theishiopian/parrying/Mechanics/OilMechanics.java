@@ -16,7 +16,7 @@ public abstract class OilMechanics
 {
     public static boolean DoMeleeOil(ItemStack weapon, LivingEntity target, LivingEntity attacker)
     {
-        if(ModUtil.IsWeapon(weapon))
+        if(ModUtil.IsStackWeapon(weapon))
         {
             var effects = PotionUtils.getMobEffects(weapon);
 

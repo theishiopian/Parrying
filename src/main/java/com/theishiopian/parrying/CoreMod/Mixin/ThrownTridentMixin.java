@@ -24,7 +24,7 @@ public class ThrownTridentMixin
 {
     @Shadow private ItemStack tridentItem;
 
-    @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrownTrident;doPostHurtEffects(Lnet/minecraft/world/entity/LivingEntity;)V",shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/ThrownTrident;doPostHurtEffects(Lnet/minecraft/world/entity/LivingEntity;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
     private void InjectIntoOnHit(EntityHitResult pResult, CallbackInfo ci, Entity entity, float f, Entity entity1, DamageSource damagesource, SoundEvent soundevent, LivingEntity livingentity1)
     {
         var effects = PotionUtils.getMobEffects(tridentItem);

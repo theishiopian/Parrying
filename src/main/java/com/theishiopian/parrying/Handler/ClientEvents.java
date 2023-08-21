@@ -171,7 +171,7 @@ public class ClientEvents
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.two_handed").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_RED)));
         }
 
-        if(ModUtil.IsWeapon(event.getItemStack()) && PotionUtils.getPotion(event.getItemStack()) != Potions.EMPTY)
+        if(ModUtil.IsStackWeapon(event.getItemStack()) && PotionUtils.getPotion(event.getItemStack()) != Potions.EMPTY)
         {
             event.getToolTip().add(new TranslatableComponent("tooltip.parrying.oil").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE)));
 

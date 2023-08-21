@@ -2,12 +2,11 @@ package com.theishiopian.parrying.Registration;
 
 import com.theishiopian.parrying.Items.*;
 import com.theishiopian.parrying.ParryingMod;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,17 +22,16 @@ import java.util.ArrayList;
 public class ModItems
 {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ParryingMod.MOD_ID);
-    public static final DeferredRegister<Item> VANILLA_ITEM_OVERRIDES = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft");
+    public static final DeferredRegister<Item> VANILLA_ITEM_OVERRIDES = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft");//may be able to use a similar approach for custom shields, wait until after 1.19 registry changes to test
+
     public static final float MACE_AP = 0.35f;
     public static final float HAMMER_AP = 0.65f;
     public static final float FLAIL_AP = 0.15f;
-
     public static final float MACE_SPEED = -2.6f;
     public static final float HAMMER_SPEED = -3.2f;
     public static final float FLAIL_SPEED = -2.4f;
     public static final float SPEAR_SPEED = -2.8f;
     public static final float DAGGER_SPEED = -1.6f;
-
     public static final int MACE_DMG = 3;
     public static final int HAMMER_DMG = 5;
     public static final int FLAIL_DMG = 2;
@@ -44,6 +42,7 @@ public class ModItems
     public static final RegistryObject<Item> GOLDEN_CARROT = VANILLA_ITEM_OVERRIDES.register("golden_carrot", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_FOOD).food(ModFoods.GOLDEN_CARROT)));
     public static final RegistryObject<Item> GOLDEN_APPLE = VANILLA_ITEM_OVERRIDES.register("golden_apple", () -> new Item((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.RARE).food(ModFoods.GOLDEN_APPLE)));
     public static final RegistryObject<Item> ENCHANTED_GOLDEN_APPLE = VANILLA_ITEM_OVERRIDES.register("enchanted_golden_apple", () -> new EnchantedGoldenAppleItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ModFoods.ENCHANTED_GOLDEN_APPLE)));
+
     public static final RegistryObject<Item> WOODEN_MACE = ITEMS.register("wooden_mace", () -> new BludgeonItem(Tiers.WOOD, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<Item> STONE_MACE = ITEMS.register("stone_mace", () -> new BludgeonItem(Tiers.STONE, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
     public static final RegistryObject<Item> IRON_MACE = ITEMS.register("iron_mace", () -> new BludgeonItem(Tiers.IRON, MACE_DMG, MACE_SPEED, MACE_AP, (new Item.Properties()).tab(CreativeModeTab.TAB_COMBAT)));
@@ -173,8 +172,7 @@ public class ModItems
         var items = new ArrayList<>(ForgeRegistries.ITEMS.getValues());
         for (Item item : items)
         {
-            //noinspection deprecation
-            if(item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_DAMAGE) && item.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND).containsKey(Attributes.ATTACK_SPEED) )
+            if(ModUtil.IsItemWeapon(item))
                 Minecraft.getInstance().getItemColors().register((stack, color) ->
                 {
                     var tag = stack.getTag();

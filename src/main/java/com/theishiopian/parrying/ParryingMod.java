@@ -129,6 +129,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowScan);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPotionEffectAdded);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRightClickBlock);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHeal);
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);
@@ -187,6 +188,8 @@ public class ParryingMod
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.CHORUS_FRUIT, ModPotions.COALESCENCE.get()));
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.COALESCENCE.get(), Items.REDSTONE, ModPotions.COALESCENCE_LONG.get()));
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.IMMORTALITY.get(), Items.REDSTONE, ModPotions.IMMORTALITY_LONG.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.GOLDEN_APPLE, ModPotions.VITALITY.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.VITALITY.get(), Items.REDSTONE, ModPotions.VITALITY_LONG.get()));
 
         PotionBrewing.addContainerRecipe(Items.POTION, Items.HONEYCOMB, ModItems.OIL.get());//todo may want to move all potion stuff here
     }

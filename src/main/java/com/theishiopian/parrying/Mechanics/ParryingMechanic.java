@@ -55,7 +55,7 @@ public abstract class ParryingMechanic
                     ItemStack held = player.getMainHandItem();//the item in use
 
                     //is the player holding a weapon?
-                    if(ModUtil.IsWeapon(held))
+                    if(ModUtil.IsStackWeapon(held))
                     {
                         Entity attacker = source.getEntity();//the attacking entity
                         Vec3 playerLookDir = player.getViewVector(1);//the direction the player is looking
@@ -138,7 +138,7 @@ public abstract class ParryingMechanic
             BandolierItem.Remove(player.getUUID());
         }
 
-        if(!ModUtil.IsWeapon(player.getMainHandItem()) && ModUtil.IsWeapon(player.getOffhandItem()))
+        if(!ModUtil.IsStackWeapon(player.getMainHandItem()) && ModUtil.IsStackWeapon(player.getOffhandItem()))
         {
             DualWieldingMechanic.dualWielders.remove(player.getUUID());
         }

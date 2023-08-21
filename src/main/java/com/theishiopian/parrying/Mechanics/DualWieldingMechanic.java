@@ -67,10 +67,10 @@ public class DualWieldingMechanic
         ItemStack offItem = player.getOffhandItem();
 
         //boolean main = ParryModUtil.IsWeapon(mainItem) && (!mainItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
-        boolean main = ModUtil.IsWeapon(mainItem) && (!mainItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
+        boolean main = ModUtil.IsStackWeapon(mainItem) && (!mainItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
 
         //boolean off = ParryModUtil.IsWeapon(offItem) && (!offItem.getItem().is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
-        boolean off = ModUtil.IsWeapon(offItem) && (!offItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
+        boolean off = ModUtil.IsStackWeapon(offItem) && (!offItem.is(ModTags.TWO_HANDED_WEAPONS) || !twoHanded);
 
         return main && off;
     }
