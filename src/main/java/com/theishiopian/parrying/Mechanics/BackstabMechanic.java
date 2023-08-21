@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,9 +23,18 @@ public abstract class BackstabMechanic
     {
         if(Config.backStabEnabled.get())
         {
-            Entity e = event.getSource().getEntity();
+            var source = event.getSource();
 
-            if(e instanceof LivingEntity attacker && CanBackstab(attacker, entity))
+            if
+            (
+                !source.isFall() &&
+                !source.isBypassMagic() &&
+                !source.isExplosion() &&
+                !source.isFire() &&
+                !source.isMagic() &&
+                source.getEntity() instanceof LivingEntity attacker &&
+                CanBackstab(attacker, entity)
+            )
             {
                 int tLevel;
 
@@ -63,6 +71,7 @@ public abstract class BackstabMechanic
     public static boolean CanBackstab(LivingEntity attacker, LivingEntity defender)
     {
         if(defender.getMaxHealth() > Config.backStabMaxHealth.get()) return false;
+        if(attacker.distanceTo(defender) < 0.01) return false;
         Vec3 attackerDir = attacker.getViewVector(1);
         Vec3 defenderDir = defender.getViewVector(1);
 
