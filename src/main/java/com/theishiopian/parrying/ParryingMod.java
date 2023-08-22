@@ -176,6 +176,7 @@ public class ParryingMod
         //here, I am registering new crafting conditions
         //first I make a new EnabledCondition, and then I make a Serializer that is "inside" that object
         //you can get the enclosing object (EnabledCondition) via "EnabledCondition.this", at least locally
+        //hopefully we can replace this nonsense with feature flags in 1.20
         CraftingHelper.register(new EnabledCondition("maces_enabled", Config.maceEnabled).new Serializer());
         CraftingHelper.register(new EnabledCondition("hammers_enabled", Config.hammerEnabled).new Serializer());
         CraftingHelper.register(new EnabledCondition("flails_enabled", Config.flailEnabled).new Serializer());
@@ -183,6 +184,7 @@ public class ParryingMod
         CraftingHelper.register(new EnabledCondition("daggers_enabled", Config.daggerEnabled).new Serializer());
         CraftingHelper.register(new EnabledCondition("quivers_enabled", Config.quiverEnabled).new Serializer());
         CraftingHelper.register(new EnabledCondition("scabbards_enabled", Config.scabbardEnabled).new Serializer());
+        CraftingHelper.register(new EnabledCondition("bandoliers_enabled", Config.bandolierEnabled).new Serializer());
         CraftingHelper.register(new EnabledCondition("is_chainmail_craftable", Config.isChainmailCraftable).new Serializer());
 
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.CHORUS_FRUIT, ModPotions.COALESCENCE.get()));

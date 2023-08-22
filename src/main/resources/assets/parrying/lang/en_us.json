@@ -32,6 +32,7 @@
   "effect.parrying.fortified": "Fortified",
   "effect.parrying.coalescence": "Coalescence",
   "effect.parrying.immortality": "Immortality",
+  "effect.parrying.vitality": "Vitality",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
@@ -100,6 +101,18 @@
 
   "item.minecraft.tipped_arrow.effect.immortality" : "Hourai Arrow",
   "item.minecraft.tipped_arrow.effect.immortality_long" : "Hourai Arrow",
+
+  "item.minecraft.potion.effect.vitality" : "Potion of Vitality",
+  "item.minecraft.potion.effect.vitality_long" : "Potion of Vitality",
+
+  "item.minecraft.splash_potion.effect.vitality" : "Splash Potion of Vitality",
+  "item.minecraft.splash_potion.effect.vitality_long" : "Splash Potion of Vitality",
+
+  "item.minecraft.lingering_potion.effect.vitality" : "Lingering Potion of Vitality",
+  "item.minecraft.lingering_potion.effect.vitality_long" : "Lingering Potion of Vitality",
+
+  "item.minecraft.tipped_arrow.effect.vitality" : "Arrow of Vitality",
+  "item.minecraft.tipped_arrow.effect.vitality_long" : "Arrow of Vitality",
 
   "item.parrying.oil": "Oil",
 
@@ -235,6 +248,8 @@
   "item.parrying.oil.effect.slow_falling": "Oil of Slow Falling",
   "item.parrying.oil.effect.coalescence": "Oil of Compatibility",
   "item.parrying.oil.effect.coalescence_long": "Oil of Compatibility",
+  "item.parrying.oil.effect.vitality": "Oil of Vitality",
+  "item.parrying.oil.effect.vitality_long": "Oil of Vitality",
   "item.parrying.oil.effect.immortality": "Hourai Oil",
   "item.parrying.oil.effect.immortality_long": "Hourai Oil"
 }

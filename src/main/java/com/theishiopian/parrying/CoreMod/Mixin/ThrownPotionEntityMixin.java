@@ -1,7 +1,7 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
-import net.minecraft.world.entity.Entity;
+import com.theishiopian.parrying.Utility.ModUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.level.Level;
@@ -22,12 +22,11 @@ public class ThrownPotionEntityMixin
     {
         //Debug.log("redirecting");
         List<LivingEntity> targets = instance.getEntitiesOfClass(LivingEntity.class, aabb);
-        Entity owner = ((ThrownPotion)(Object)this).getOwner();
+        var potion = (ThrownPotion)(Object)this;
+        var owner = potion.getOwner();
 
-        if(Config.noSelfSplash.get() && owner instanceof LivingEntity)
-        {
-            targets.remove(owner);
-        }
+        targets.removeIf(target -> Config.shieldSplash.get() && ModUtil.IsBlocked(target, potion));
+        targets.removeIf(target -> Config.noSelfSplash.get() && target == owner);
 
         return targets;
     }

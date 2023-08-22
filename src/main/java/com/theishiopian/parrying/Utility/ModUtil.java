@@ -34,7 +34,7 @@ public class ModUtil
         return hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
     }
 
-    public static boolean IsBlocked(LivingEntity defender, LivingEntity attacker)
+    public static boolean IsBlocked(LivingEntity defender, Entity attacker)
     {
         if (defender.isBlocking() && attacker != null)
         {

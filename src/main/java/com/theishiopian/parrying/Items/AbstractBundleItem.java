@@ -433,7 +433,7 @@ public abstract class AbstractBundleItem extends Item implements DyeableLeatherI
         BundleItemCapability c = AbstractBundleItem.getActualCapability(bundle);
         if(c ==  null) return;
         pTooltipComponents.add((FILTER_TOOLTIP).withStyle(ChatFormatting.DARK_RED));
-        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", c.getWeight()/DIVISOR, CAPACITY/DIVISOR)).withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add((new TranslatableComponent("item.minecraft.bundle.fullness", c.getWeight() / DIVISOR, CAPACITY / DIVISOR)).withStyle(ChatFormatting.GRAY));
     }
 
     public void onDestroyed(ItemEntity pItemEntity)

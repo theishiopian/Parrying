@@ -9,7 +9,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModPotions
 {
-    //todo stability and instability potions
+    //todo stability and instability potions, cleansing potions, decay potions, shields block potions, splash resistance, buff regen, stew buffs, sustenance potion, bees potion
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, ParryingMod.MOD_ID);
     public static final RegistryObject<Potion> COALESCENCE = POTIONS.register("coalescence", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 1200)));
     public static final RegistryObject<Potion> COALESCENCE_LONG = POTIONS.register("coalescence_long", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 3600)));

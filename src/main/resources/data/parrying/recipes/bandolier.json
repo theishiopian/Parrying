@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "conditions":
+    [
+        {
+            "type": "parrying:bandoliers_enabled"
+        }
+    ],
+    "pattern": [
+        "  r",
+        " n ",
+        "r  "
+    ],
+    "key": {
+        "r":
+        {
+            "item": "minecraft:rabbit_hide"
+        },
+        "n":
+        {
+            "tag": "forge:nuggets"
+        }
+    },
+    "result":
+    {
+        "item": "parrying:bandolier",
+        "count": 1
+    }
+}

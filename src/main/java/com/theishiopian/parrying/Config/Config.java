@@ -17,6 +17,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue witherRework;
     public static final ForgeConfigSpec.BooleanValue modifyThrow;
     public static final ForgeConfigSpec.BooleanValue noSelfSplash;
+    public static final ForgeConfigSpec.BooleanValue shieldSplash;
     public static final ForgeConfigSpec.BooleanValue potionSickness;
     public static final ForgeConfigSpec.BooleanValue potionSicknessNausea;
     public static final ForgeConfigSpec.IntValue potionTolerance;
@@ -39,6 +40,7 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue spearEnabled;
     public static final ForgeConfigSpec.BooleanValue daggerEnabled;
     public static final ForgeConfigSpec.BooleanValue quiverEnabled;
+    public static final ForgeConfigSpec.BooleanValue bandolierEnabled;
     public static final ForgeConfigSpec.BooleanValue scabbardEnabled;
 
     //arrow tweaks
@@ -123,6 +125,7 @@ public class Config
         witherRework = builder.comment("Whether or not the wither effect is reworked").define("wither_rework", true);
         modifyThrow = builder.comment("Whether or not to modify the throwing force of thrown potions").define("modify_potion_throwing", true);
         noSelfSplash = builder.comment("Whether or not to disable splash potions affecting the thrower").define("no_self_splash", true);
+        shieldSplash = builder.comment("Whether or not a shield can block splash potions").define("shield_splash", true);
         potionSickness = builder.comment("Whether or not to dlimit the number of effects on a player at once").define("potion_sickness", true);
         potionSicknessNausea = builder.comment("Whether or not to give nausea to a player who overdoses on potions. Disable in case of motion sickness.").define("potion_sickness_nausea", true);
         potionTolerance = builder.comment("How many effects the player can have before overdosing.").defineInRange("potion_tolerance", 4, 1, 1000);
@@ -139,6 +142,7 @@ public class Config
         spearEnabled = builder.comment("Whether or not the spear is craftable.").define("spear_enabled", true);
         daggerEnabled = builder.comment("Whether or not the dagger is craftable.").define("dagger_enabled", true);
         quiverEnabled = builder.comment("Whether or not the quiver is craftable.").define("quiver_enabled", true);
+        bandolierEnabled = builder.comment("Whether or not the bandolier is craftable.").define("quiver_enabled", true);
         scabbardEnabled = builder.comment("Whether or not the scabbard is craftable.").define("scabbard_enabled", true);
 
         flamingArrowGriefing = builder.comment("Can flaming arrows ignite blocks?").define("flaming_arrow_griefing", true);
