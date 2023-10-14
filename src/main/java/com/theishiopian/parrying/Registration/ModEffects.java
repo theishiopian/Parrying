@@ -19,4 +19,5 @@ public class ModEffects
     public static final RegistryObject<MobEffect> COALESCENCE = EFFECTS.register("coalescence", CoalescenceEffect::new);
     public static final RegistryObject<MobEffect> IMMORTALITY = EFFECTS.register("immortality", ImmortalityEffect::new);
     public static final RegistryObject<MobEffect> VITALITY = EFFECTS.register("vitality", VitalityEffect::new);
+    public static final RegistryObject<MobEffect> SUSTENANCE = EFFECTS.register("sustenance", SustenanceEffect::new);
 }

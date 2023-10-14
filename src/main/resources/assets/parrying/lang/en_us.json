@@ -33,6 +33,7 @@
   "effect.parrying.coalescence": "Coalescence",
   "effect.parrying.immortality": "Immortality",
   "effect.parrying.vitality": "Vitality",
+  "effect.parrying.sustenance": "Sustenance",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
@@ -77,6 +78,11 @@
   "item.parrying.scabbard" : "Scabbard",
   "item.parrying.bandolier" : "Bandolier",
   "item.parrying.scoped_crossbow" : "Scoped Crossbow",
+
+  "item.minecraft.potion.effect.sustenance" : "Potion of Filling",
+  "item.minecraft.splash_potion.effect.sustenance" : "Splash Potion of Filling",
+  "item.minecraft.lingering_potion.effect.sustenance" : "Lingering Potion of Filling",
+  "item.minecraft.tipped_arrow.effect.sustenance" : "Arrow of Filling",
 
   "item.minecraft.potion.effect.coalescence" : "Potion of Compatibility",
   "item.minecraft.potion.effect.coalescence_long" : "Potion of Compatibility",
@@ -251,5 +257,6 @@
   "item.parrying.oil.effect.vitality": "Oil of Vitality",
   "item.parrying.oil.effect.vitality_long": "Oil of Vitality",
   "item.parrying.oil.effect.immortality": "Hourai Oil",
-  "item.parrying.oil.effect.immortality_long": "Hourai Oil"
+  "item.parrying.oil.effect.immortality_long": "Hourai Oil",
+  "item.parrying.oil.effect.sustenance": "Oil of Filling"
 }

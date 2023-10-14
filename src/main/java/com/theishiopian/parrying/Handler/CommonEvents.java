@@ -55,6 +55,7 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.resource.PathResourcePack;
@@ -390,6 +391,14 @@ public class CommonEvents
                 LayeredCauldronBlock.lowerFillLevel(blockState, level, pos);
             }
         }
+    }
+
+    public static void OnRegisterWanderingTrades(WandererTradesEvent event)
+    {
+        var common = event.getGenericTrades();
+        var rare = event.getRareTrades();
+
+        rare.add(new BasicItemListing(10, PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.SUSTENANCE.get()), 1, 12));
     }
 
     public static void OnRegisterTrades(VillagerTradesEvent event)

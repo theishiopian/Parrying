@@ -1,7 +1,10 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -19,8 +22,20 @@ public class MobEffectMixin
     }
 
     @Inject(method = "applyEffectTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", ordinal = 1), cancellable = true)
-    private void InjectIntoApplyEffectTick(CallbackInfo ci)
+    private void ModifyWitherEffect(CallbackInfo ci)
     {
         if(Config.witherRework.get())ci.cancel();
+    }
+
+    @Inject(method = "applyEffectTick", at = @At(value = "HEAD"))
+    private void DoSustenance(LivingEntity pLivingEntity, int pAmplifier, CallbackInfo ci)
+    {
+        var effect = (MobEffect)(Object)this;
+
+        if(effect == ModEffects.SUSTENANCE.get() && pLivingEntity instanceof Player player)
+        {
+            player.getFoodData().setFoodLevel(20);
+            player.getFoodData().setSaturation(20);
+        }
     }
 }
