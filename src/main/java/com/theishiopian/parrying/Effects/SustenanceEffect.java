@@ -7,6 +7,6 @@ public class SustenanceEffect extends InstantenousMobEffect
 {
     public SustenanceEffect()
     {
-        super(MobEffectCategory.BENEFICIAL, 14397194);
+        super(MobEffectCategory.BENEFICIAL, 10314776);
     }
 }

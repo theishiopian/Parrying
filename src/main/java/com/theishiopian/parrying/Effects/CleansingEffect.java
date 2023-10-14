@@ -7,6 +7,6 @@ public class CleansingEffect extends InstantenousMobEffect
 {
     public CleansingEffect()
     {
-        super(MobEffectCategory.BENEFICIAL, 14397194);
+        super(MobEffectCategory.BENEFICIAL, 14672383);
     }
 }

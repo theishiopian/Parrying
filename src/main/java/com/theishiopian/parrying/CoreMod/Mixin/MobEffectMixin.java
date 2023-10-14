@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModDamageSources;
 import com.theishiopian.parrying.Registration.ModEffects;
 import com.theishiopian.parrying.Registration.ModSoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -57,32 +58,39 @@ public class MobEffectMixin
         }
         else if(effect == ModEffects.CLEANSING.get())
         {
-            var list = new ArrayList<MobEffectInstance>();
-
-            for(var effectInstance : pLivingEntity.getActiveEffects())
+            if(!pLivingEntity.isInvertedHealAndHarm())
             {
-                if(!effectInstance.getEffect().isBeneficial())
+                var list = new ArrayList<MobEffectInstance>();
+
+                for(var effectInstance : pLivingEntity.getActiveEffects())
                 {
-                    list.add(effectInstance);
-                    pLivingEntity.removeEffect(effectInstance.getEffect());
-                }
-            }
-
-            if(!list.isEmpty())
-            {
-                pLivingEntity.level.playSound(null, pLivingEntity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.NEUTRAL, 0.4F, 0.8F + pLivingEntity.getLevel().getRandom().nextFloat() * 0.2F);
-
-                for(var effectInstance : list)
-                {
-                    var duration = effectInstance.getDuration();
-                    var newDuration = duration - 1200;
-
-                    if(newDuration > 0)
+                    if(!effectInstance.getEffect().isBeneficial())
                     {
-                        var newEffectInstance = new MobEffectInstance(effectInstance.getEffect(), newDuration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
-                        pLivingEntity.addEffect(newEffectInstance);
+                        list.add(effectInstance);
+                        pLivingEntity.removeEffect(effectInstance.getEffect());
                     }
                 }
+
+                if(!list.isEmpty())
+                {
+                    pLivingEntity.level.playSound(null, pLivingEntity.blockPosition(), ModSoundEvents.CLEANSE.get(), SoundSource.NEUTRAL, 0.4F, 0.8F + pLivingEntity.getLevel().getRandom().nextFloat() * 0.2F);
+
+                    for(var effectInstance : list)
+                    {
+                        var duration = effectInstance.getDuration();
+                        var newDuration = duration - 1200;
+
+                        if(newDuration > 0)
+                        {
+                            var newEffectInstance = new MobEffectInstance(effectInstance.getEffect(), newDuration, effectInstance.getAmplifier(), effectInstance.isAmbient(), effectInstance.isVisible(), effectInstance.showIcon());
+                            pLivingEntity.addEffect(newEffectInstance);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                pLivingEntity.hurt(ModDamageSources.CLEANSING, 10);
             }
         }
     }
