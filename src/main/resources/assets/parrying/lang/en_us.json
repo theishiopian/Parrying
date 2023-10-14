@@ -90,6 +90,11 @@
   "item.minecraft.potion.effect.decay" : "Potion of Decay",
   "item.minecraft.potion.effect.decay_long" : "Potion of Decay",
 
+  "item.minecraft.splash_potion.effect.decay" : "Splash Potion of Decay",
+  "item.minecraft.splash_potion.effect.decay_long" : "Splash Potion of Decay",
+  "item.minecraft.lingering_potion.effect.decay" : "Splash Potion of Decay",
+  "item.minecraft.lingering_potion.effect.decay_long" : "Splash Potion of Decay",
+
   "item.minecraft.splash_potion.effect.coalescence" : "Splash Potion of Compatibility",
   "item.minecraft.splash_potion.effect.coalescence_long" : "Splash Potion of Compatibility",
 
