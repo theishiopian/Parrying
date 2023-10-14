@@ -87,6 +87,9 @@
   "item.minecraft.potion.effect.coalescence" : "Potion of Compatibility",
   "item.minecraft.potion.effect.coalescence_long" : "Potion of Compatibility",
 
+  "item.minecraft.potion.effect.decay" : "Potion of Decay",
+  "item.minecraft.potion.effect.decay_long" : "Potion of Decay",
+
   "item.minecraft.splash_potion.effect.coalescence" : "Splash Potion of Compatibility",
   "item.minecraft.splash_potion.effect.coalescence_long" : "Splash Potion of Compatibility",
 
@@ -258,5 +261,7 @@
   "item.parrying.oil.effect.vitality_long": "Oil of Vitality",
   "item.parrying.oil.effect.immortality": "Hourai Oil",
   "item.parrying.oil.effect.immortality_long": "Hourai Oil",
-  "item.parrying.oil.effect.sustenance": "Oil of Filling"
+  "item.parrying.oil.effect.sustenance": "Oil of Filling",
+  "item.parrying.oil.effect.decay": "Oil of Decay",
+  "item.parrying.oil.effect.decay_long": "Oil of Decay"
 }
