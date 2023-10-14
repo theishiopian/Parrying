@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModPotions
 {
-    //todo stability and instability potions, cleansing potions, splash resistance, stew buffs, bees potion
+    //todo stability and instability potions, splash resistance, stew buffs, bees potion
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, ParryingMod.MOD_ID);
     public static final RegistryObject<Potion> COALESCENCE = POTIONS.register("coalescence", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 1200)));
     public static final RegistryObject<Potion> COALESCENCE_LONG = POTIONS.register("coalescence_long", () -> new Potion(new MobEffectInstance(ModEffects.COALESCENCE.get(), 3600)));
@@ -19,6 +19,7 @@ public class ModPotions
     public static final RegistryObject<Potion> VITALITY = POTIONS.register("vitality", () -> new Potion(new MobEffectInstance(ModEffects.VITALITY.get(), 600)));
     public static final RegistryObject<Potion> VITALITY_LONG = POTIONS.register("vitality_long", () -> new Potion(new MobEffectInstance(ModEffects.VITALITY.get(), 1200)));
     public static final RegistryObject<Potion> SUSTENANCE = POTIONS.register("sustenance", () -> new Potion(new MobEffectInstance(ModEffects.SUSTENANCE.get(), 1)));
+    public static final RegistryObject<Potion> CLEANSING = POTIONS.register("cleansing", () -> new Potion(new MobEffectInstance(ModEffects.CLEANSING.get(), 1)));
     public static final RegistryObject<Potion> DECAY = POTIONS.register("decay", () -> new Potion(new MobEffectInstance(MobEffects.WITHER, 1200)));
     public static final RegistryObject<Potion> DECAY_LONG = POTIONS.register("decay_long", () -> new Potion(new MobEffectInstance(MobEffects.WITHER, 3600)));
 }
