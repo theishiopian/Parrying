@@ -399,6 +399,7 @@ public class CommonEvents
         var rare = event.getRareTrades();
 
         rare.add(new BasicItemListing(10, PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.SUSTENANCE.get()), 1, 12));
+        rare.add(new BasicItemListing(5, PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.BEES.get()), 5, 12));
     }
 
     public static void OnRegisterTrades(VillagerTradesEvent event)
@@ -438,7 +439,9 @@ public class CommonEvents
             //potion seller, i require your strongest potions
             trades.get(1).add(new BasicItemListing(5, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.HEALING), 5, 1));
             trades.get(1).add(new BasicItemListing(7, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING), 3, 3));
+            trades.get(1).add(new BasicItemListing(7, PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotions.CLEANSING.get()), 3, 3));
             trades.get(2).add(new BasicItemListing(8, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.REGENERATION), 1, 5));
+            trades.get(3).add(new BasicItemListing(10, PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), ModPotions.CLEANSING.get()), 1, 7));
             trades.get(5).add(new BasicItemListing(10, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_STRENGTH), 1, 8));
 
             trades.get(1).add(new DyedItemForEmeralds(ModItems.BANDOLIER.get(), 5, 1));

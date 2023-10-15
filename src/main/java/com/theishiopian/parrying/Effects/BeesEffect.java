@@ -7,6 +7,6 @@ public class BeesEffect extends InstantenousMobEffect
 {
     public BeesEffect()
     {
-        super(MobEffectCategory.BENEFICIAL, 14397194);
+        super(MobEffectCategory.BENEFICIAL, 14274363);
     }
 }

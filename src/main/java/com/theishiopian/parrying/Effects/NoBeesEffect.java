@@ -7,6 +7,6 @@ public class NoBeesEffect extends MobEffect
 {
     public NoBeesEffect()
     {
-        super(MobEffectCategory.BENEFICIAL, 14397194);
+        super(MobEffectCategory.BENEFICIAL, 14274363);
     }
 }
