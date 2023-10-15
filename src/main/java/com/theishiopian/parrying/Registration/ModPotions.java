@@ -20,6 +20,7 @@ public class ModPotions
     public static final RegistryObject<Potion> VITALITY_LONG = POTIONS.register("vitality_long", () -> new Potion(new MobEffectInstance(ModEffects.VITALITY.get(), 1200)));
     public static final RegistryObject<Potion> SUSTENANCE = POTIONS.register("sustenance", () -> new Potion(new MobEffectInstance(ModEffects.SUSTENANCE.get(), 1)));
     public static final RegistryObject<Potion> CLEANSING = POTIONS.register("cleansing", () -> new Potion(new MobEffectInstance(ModEffects.CLEANSING.get(), 1)));
+    public static final RegistryObject<Potion> BEES = POTIONS.register("bees", () -> new Potion(new MobEffectInstance(ModEffects.BEES.get(), 1)));
     public static final RegistryObject<Potion> DECAY = POTIONS.register("decay", () -> new Potion(new MobEffectInstance(MobEffects.WITHER, 1200)));
     public static final RegistryObject<Potion> DECAY_LONG = POTIONS.register("decay_long", () -> new Potion(new MobEffectInstance(MobEffects.WITHER, 3600)));
 }

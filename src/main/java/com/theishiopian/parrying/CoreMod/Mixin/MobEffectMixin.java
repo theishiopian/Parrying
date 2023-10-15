@@ -8,8 +8,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -91,6 +94,38 @@ public class MobEffectMixin
             else
             {
                 pLivingEntity.hurt(ModDamageSources.CLEANSING, 10);
+            }
+        }
+        else if(effect == ModEffects.BEES.get() && !pLivingEntity.level.isClientSide)
+        {
+            if(!pLivingEntity.hasEffect(ModEffects.NO_BEES.get()) && !(pLivingEntity instanceof Bee))
+            {
+                pLivingEntity.addEffect(new MobEffectInstance(ModEffects.NO_BEES.get(), 1200));
+
+                var level = pLivingEntity.level;
+                var beeCount = level.random.nextInt(3) + 3;
+
+                for(int i = 0; i < beeCount; i++)
+                {
+                    var bee = EntityType.BEE.create(level);
+
+                    assert bee != null : "Bee entity is null!";
+
+                    var signX = level.random.nextInt(3) - 1;
+                    var signZ = level.random.nextInt(3) - 1;
+                    var xOffset = signX * level.random.nextFloat(3) + 1;
+                    var yOffset = level.random.nextFloat(2);
+                    var zOffset = signZ * level.random.nextFloat(3) + 1;
+                    var beeX = pLivingEntity.getX() + xOffset;
+                    var beeY = pLivingEntity.getY() + yOffset;
+                    var beeZ = pLivingEntity.getZ() + zOffset;
+
+                    bee.setPos(new Vec3(beeX, beeY, beeZ));
+                    bee.setAggressive(true);
+                    bee.setTarget(pLivingEntity);
+
+                    level.addFreshEntity(bee);
+                }
             }
         }
     }

@@ -23,7 +23,7 @@ public class MilkBucketMixin
     @Inject(at = @At("HEAD"), method = "finishUsingItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/item/ItemStack;", cancellable = true)
     private void InjectIntoFinishedUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, CallbackInfoReturnable<ItemStack> cir)
     {
-        if(Config.milkBucketRework.get())
+        if(Config.milkBucketRework.get() && pEntityLiving instanceof Player)
         {
             pEntityLiving.addEffect(new MobEffectInstance(ModEffects.FORTIFIED.get(), 1200));
 
