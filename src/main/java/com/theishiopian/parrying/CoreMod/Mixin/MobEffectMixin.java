@@ -66,7 +66,7 @@ public class MobEffectMixin
                 {
                     if(!effectInstance.getEffect().isBeneficial())
                     {
-                        list.add(effectInstance);
+                        if(effectInstance.getEffect() != MobEffects.WITHER)list.add(effectInstance);
                         pLivingEntity.removeEffect(effectInstance.getEffect());
                     }
                 }
