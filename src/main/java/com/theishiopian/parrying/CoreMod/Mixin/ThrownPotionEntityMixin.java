@@ -1,16 +1,17 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Registration.ModEnchantments;
 import com.theishiopian.parrying.Utility.ModUtil;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 
 import java.util.List;
 
@@ -25,9 +26,8 @@ public class ThrownPotionEntityMixin
         var potion = (ThrownPotion)(Object)this;
         var owner = potion.getOwner();
 
-        targets.removeIf(target -> Config.shieldSplash.get() && ModUtil.IsBlocked(target, potion));
-        targets.removeIf(target -> Config.noSelfSplash.get() && target == owner);
-
+        if(Config.shieldSplash.get())targets.removeIf(target -> ModUtil.IsBlocked(target, potion));
+        if(Config.noSelfSplash.get())targets.removeIf(target -> target == owner);
         return targets;
     }
 
@@ -35,5 +35,20 @@ public class ThrownPotionEntityMixin
     private float ModifyLingerCloudRadius(float constant)
     {
         return Config.lingeringRadius.get().floatValue();
+    }
+
+    @ModifyArg(method = "applySplash", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/effect/MobEffectInstance;<init>(Lnet/minecraft/world/effect/MobEffect;IIZZ)V"), index = 1)
+    private int ModifyDuration(int duration, @Local LivingEntity target, @Local MobEffect effect)
+    {
+        if(effect.isInstantenous() || effect.isBeneficial()) return duration;
+        var armor = target.getArmorSlots();
+        var totalLvl = 0;
+
+        for(var slot : armor)
+        {
+            totalLvl += EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.SPLASH_PROTECTION.get(), slot);
+        }
+
+        return Math.max(20, duration - (int)(duration * 0.05f * totalLvl));
     }
 }
