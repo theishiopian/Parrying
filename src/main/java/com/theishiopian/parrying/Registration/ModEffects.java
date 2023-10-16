@@ -23,4 +23,5 @@ public class ModEffects
     public static final RegistryObject<MobEffect> CLEANSING = EFFECTS.register("cleansing", CleansingEffect::new);
     public static final RegistryObject<MobEffect> NO_BEES = EFFECTS.register("no_bees", NoBeesEffect::new);
     public static final RegistryObject<MobEffect> BEES = EFFECTS.register("bees", BeesEffect::new);
+    public static final RegistryObject<MobEffect> STUFFED = EFFECTS.register("stuffed", StuffedEffect::new);
 }

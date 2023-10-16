@@ -131,6 +131,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPotionEffectAdded);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRightClickBlock);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHeal);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnEatStew);
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);

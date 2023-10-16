@@ -372,6 +372,15 @@ public class CommonEvents
         }
     }
 
+    public static void OnEatStew(LivingEntityUseItemEvent.Finish event)
+    {
+        var item = event.getItem();
+        if(item.is(ModTags.STEW))//todo stew config
+        {
+            event.getEntityLiving().addEffect(new MobEffectInstance(ModEffects.STUFFED.get(), 2400));
+        }
+    }
+
     public static void OnRightClickBlock(PlayerInteractEvent.RightClickBlock event)
     {
         var level = event.getWorld();
