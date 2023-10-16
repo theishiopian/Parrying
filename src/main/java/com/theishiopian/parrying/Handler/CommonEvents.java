@@ -337,6 +337,16 @@ public class CommonEvents
         }
     }
 
+    public static void OnLivingKnockback(LivingKnockBackEvent event)
+    {
+        var entity = event.getEntityLiving();
+
+        if(entity.hasEffect(ModEffects.STABILITY.get()))
+        {
+            event.setCanceled(true);
+        }
+    }
+
     public static void OnPotionEffectAdded(PotionEvent.PotionApplicableEvent event)
     {
         LivingEntity entity = event.getEntityLiving();

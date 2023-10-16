@@ -134,6 +134,7 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRightClickBlock);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHeal);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnEatStew);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnLivingKnockback);
 
         ModTriggers.Init();
         ModItems.ITEMS.register(bus);
@@ -197,7 +198,9 @@ public class ParryingMod
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.GOLDEN_APPLE, ModPotions.VITALITY.get()));
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.VITALITY.get(), Items.REDSTONE, ModPotions.VITALITY_LONG.get()));
         BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.WITHER_ROSE, ModPotions.DECAY.get()));
-        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.DECAY.get(), Items.REDSTONE, ModPotions.DECAY_LONG.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.DECAY.get(), Items.REDSTONE, ModPotions.DECAY_LONG.get()));BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(Potions.AWKWARD, Items.WITHER_ROSE, ModPotions.DECAY.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.INSTABILITY.get(), Items.REDSTONE, ModPotions.INSTABILITY_LONG.get()));
+        BrewingRecipeRegistry.addRecipe(new CustomBrewingRecipe(ModPotions.STABILITY.get(), Items.REDSTONE, ModPotions.STABILITY_LONG.get()));
 
         PotionBrewing.addContainerRecipe(Items.POTION, Items.HONEYCOMB, ModItems.OIL.get());//todo may want to move all potion stuff here
     }
