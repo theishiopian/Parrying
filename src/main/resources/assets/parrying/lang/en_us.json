@@ -21,6 +21,8 @@
   "enchantment.parrying.rapidity.desc": "Bandoliers will impose a shorter cooldown on provided items",
   "enchantment.parrying.swift_strike": "Swift Strike",
   "enchantment.parrying.swift_strike.desc": "Scabbards can be used to perform a special attack.",
+  "enchantment.parrying.splash_protection": "Splash Protection",
+  "enchantment.parrying.splash_protection.desc": "Reduces the duration of effects applied via splash or lingering potions. Also reduces damage done by Potions of Harming.",
   "enchantment.parrying.phasing": "Curse of Phasing",
   "enchantment.parrying.phasing.desc": "Causes parrying to randomly fail.",
   "enchantment.parrying.fragile": "Curse of Fragility",

@@ -20,6 +20,7 @@ public class ModEnchantments
     public static final RegistryObject<Enchantment> TREACHERY = ENCHANTMENTS.register("treachery", TreacheryEnchantment::new);
     public static final RegistryObject<Enchantment> JOUSTING = ENCHANTMENTS.register("jousting", JoustingEnchantment::new);
     public static final RegistryObject<Enchantment> PROVIDENCE = ENCHANTMENTS.register("providence", ProvidenceEnchantment::new);
+    public static final RegistryObject<Enchantment> SPLASH_PROTECTION = ENCHANTMENTS.register("splash_protection", SplashProtectionEnchantment::new);
     public static final RegistryObject<Enchantment> SWIFT_STRIKE = ENCHANTMENTS.register("swift_strike", SwiftStrikeEnchantment::new);
     public static final RegistryObject<Enchantment> CONTEXT = ENCHANTMENTS.register("context", ContextEnchantment::new);
     public static final RegistryObject<Enchantment> RAPIDITY = ENCHANTMENTS.register("rapidity", RapidityEnchantment::new);
