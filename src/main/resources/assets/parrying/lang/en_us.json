@@ -37,6 +37,7 @@
   "effect.parrying.cleansing": "Cleansing",
   "effect.parrying.bees": "Bees",
   "effect.parrying.no_bees": "Swarmed",
+  "effect.parrying.stuffed": "Stuffed",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
