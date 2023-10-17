@@ -28,6 +28,7 @@ public class ThrownPotionEntityMixin
 
         if(Config.shieldSplash.get())targets.removeIf(target -> ModUtil.IsBlocked(target, potion));
         if(Config.noSelfSplash.get())targets.removeIf(target -> target == owner);
+
         return targets;
     }
 

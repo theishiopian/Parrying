@@ -345,6 +345,10 @@ public class CommonEvents
         {
             event.setCanceled(true);
         }
+        else if (entity.hasEffect(ModEffects.INSTABILITY.get()))
+        {
+            event.setStrength(event.getStrength() * 2);
+        }
     }
 
     public static void OnPotionEffectAdded(PotionEvent.PotionApplicableEvent event)
