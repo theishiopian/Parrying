@@ -50,6 +50,11 @@ public class LootHandler
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:hourai_elixir"))
             );
 
+            add("dungeon_stability_modifier", ModLootModifiers.TABLE_MODIFIER.get(), new TableModifier(
+                    new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/simple_dungeon")).build(),
+                            LootItemRandomChanceCondition.randomChance(0.5f).build()}, new ResourceLocation("parrying:stability_potion"))
+            );
+
             add("end_city_scabbard_modifier", ModLootModifiers.SCABBARD_MODIFIER.get(), new ScabbardModifier(
                     new LootItemCondition[] { LootTableIdCondition.builder(new ResourceLocation("chests/end_city_treasure")).build(),
                             LootItemRandomChanceCondition.randomChance(0.25f).build()}, new ResourceLocation("parrying:end_city_scabbard"))

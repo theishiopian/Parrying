@@ -1,0 +1,15 @@
+{
+  "name": "Potion of Anchoring",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:12592004}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "In a fight, taking knockback can be deadly. This potion partially suspends the third law of motion, preventing mobs from knocking you around or even pushing you. It also reduces knockback taken from explosions."
+    },
+    {
+      "type": "text",
+      "text": "Unfortunately, the recipe fr this mysterious brew has been lost to time. However, rumor has it that it can be found in the depths of the earth, within ancient dungeons that have been long forgotten."
+    }
+  ]
+}

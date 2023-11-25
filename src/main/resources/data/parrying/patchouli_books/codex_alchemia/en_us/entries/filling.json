@@ -1,0 +1,11 @@
+{
+  "name": "Potion of Filling",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:10314776}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Wandering traders travel long distances to sell their wares. In order to save on space, the majority of their food is condensed into liquid form. Drinking this unique potion will fill your \"hunger bar\" completely."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Potion of Decay",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:3484199}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "There are ancient forces in this world, sleeping restlessly. The wither is one such ancient force, an ancient entity with mysterious ties to the undead. This potion contains the foul essence of the wither, and prevents all healing from any source."
+    }
+  ]
+}

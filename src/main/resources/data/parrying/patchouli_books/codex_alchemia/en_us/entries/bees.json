@@ -1,0 +1,11 @@
+{
+  "name": "Potion of Bees",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:14274363}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "Who knows where the wandering traders found this terrifying tincture, but wherever it was was sure to be a place of nightmares. When this potion is applied to an entity, a swarm of angry bees will be attracted from the mysterious reality that bees inhabit to attack the target."
+    }
+  ]
+}

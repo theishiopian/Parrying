@@ -1,0 +1,11 @@
+{
+  "name": "Stew",
+  "icon": "minecraft:mushroom_stew",
+  "category": "parrying:curiosities",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "The preparation of food is an ancient art, and it has long been known that more complex dishes are more filling. Eating a stew will prevent you from getting hungrier for a short time."
+    }
+  ]
+}

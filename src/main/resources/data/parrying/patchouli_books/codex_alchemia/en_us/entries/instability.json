@@ -1,0 +1,15 @@
+{
+  "name": "Potion of Impulse",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:8508989}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "While not particularly useful when imbibed, this potion can be very useful when applied to arrows or blades. Creatures under the effect of this curious brew will be disproportionally affected by forces applied to them, taking more knockback, being pushed more by mobs, and taking damage from slamming into walls."
+    },
+    {
+      "type": "text",
+      "text": "Unfortunately, the recipe fr this mysterious brew has been lost to time. However, rumor has it that it can be found in the depths of the earth, within ancient dungeons that have been long forgotten."
+    }
+  ]
+}
