@@ -40,6 +40,8 @@
   "effect.parrying.bees": "Bees",
   "effect.parrying.no_bees": "Swarmed",
   "effect.parrying.stuffed": "Stuffed",
+  "effect.parrying.stability" : "Stable",
+  "effect.parrying.instability" : "Unstable",
 
   "attribute.name.parrying.armor_pen": "Armor Penetration",
   "attribute.name.parrying.shield_pen": "Shield Ignorance",
@@ -143,6 +145,30 @@
 
   "item.minecraft.tipped_arrow.effect.vitality" : "Arrow of Vitality",
   "item.minecraft.tipped_arrow.effect.vitality_long" : "Arrow of Vitality",
+
+  "item.minecraft.potion.effect.stability" : "Potion of Anchoring",
+  "item.minecraft.potion.effect.stability_long" : "Potion of Anchoring",
+
+  "item.minecraft.splash_potion.effect.stability" : "Splash Potion of Anchoring",
+  "item.minecraft.splash_potion.effect.stability_long" : "Splash Potion of Anchoring",
+
+  "item.minecraft.lingering_potion.effect.stability" : "Lingering Potion of Anchoring",
+  "item.minecraft.lingering_potion.effect.stability_long" : "Lingering Potion of Anchoring",
+
+  "item.minecraft.tipped_arrow.effect.stability" : "Arrow of Anchoring",
+  "item.minecraft.tipped_arrow.effect.stability_long" : "Arrow of Anchoring",
+
+  "item.minecraft.potion.effect.instability" : "Potion of Impulse",
+  "item.minecraft.potion.effect.instability_long" : "Potion of Impulse",
+
+  "item.minecraft.splash_potion.effect.instability" : "Splash Potion of Impulse",
+  "item.minecraft.splash_potion.effect.instability_long" : "Splash Potion of Impulse",
+
+  "item.minecraft.lingering_potion.effect.instability" : "Lingering Potion of Impulse",
+  "item.minecraft.lingering_potion.effect.instability_long" : "Lingering Potion of Impulse",
+
+  "item.minecraft.tipped_arrow.effect.instability" : "Arrow of Impulse",
+  "item.minecraft.tipped_arrow.effect.instability_long" : "Arrow of Impulse",
 
   "item.parrying.oil": "Oil",
 
@@ -286,5 +312,9 @@
   "item.parrying.oil.effect.cleansing": "Holy Oil",
   "item.parrying.oil.effect.decay": "Oil of Decay",
   "item.parrying.oil.effect.decay_long": "Oil of Decay",
-  "item.parrying.oil.effect.bees": "Oil of Bees"
+  "item.parrying.oil.effect.bees": "Oil of Bees",
+  "item.parrying.oil.effect.stability": "Oil of Anchoring",
+  "item.parrying.oil.effect.stability_long": "Oil of Anchoring",
+  "item.parrying.oil.effect.instability": "Oil of Impulse",
+  "item.parrying.oil.effect.instability_long": "Oil of Impulse"
 }
