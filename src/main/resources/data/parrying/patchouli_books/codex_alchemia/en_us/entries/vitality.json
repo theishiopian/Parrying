@@ -1,0 +1,11 @@
+{
+  "name": "Potion of Vitality",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:14397194}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "This powerful concoction improves the uptake of healing energy, increasing the amount of health restored by healing effects. It works by concentrating the power of a golden apple, causing its absorption effect to penetrate deeper into the body."
+    }
+  ]
+}
