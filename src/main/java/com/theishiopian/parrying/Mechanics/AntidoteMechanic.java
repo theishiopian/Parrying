@@ -33,6 +33,10 @@ public abstract class AntidoteMechanic
         {put(MobEffects.SLOW_FALLING, MobEffects.JUMP);}
         {put(MobEffects.WATER_BREATHING, MobEffects.FIRE_RESISTANCE);}
         {put(MobEffects.FIRE_RESISTANCE, MobEffects.WATER_BREATHING);}
+        {put(ModEffects.STABILITY.get(), ModEffects.INSTABILITY.get());}
+        {put(ModEffects.INSTABILITY.get(), ModEffects.STABILITY.get());}
+        {put(ModEffects.STUFFED.get(), MobEffects.HUNGER);}
+        {put(MobEffects.HUNGER, ModEffects.STUFFED.get());}
     };
 
     public static boolean DoAntidoteCheck(LivingEntity entity, MobEffectInstance effect)
