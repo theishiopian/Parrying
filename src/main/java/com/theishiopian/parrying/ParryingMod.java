@@ -118,7 +118,8 @@ public class ParryingMod
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterTrades);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnRegisterWanderingTrades);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnAttacked);
-        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnArrowShoot);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnEntityJoin);
+        MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnEntityLeave);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnPlayerAttackTarget);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnProjectileImpact);
         MinecraftForge.EVENT_BUS.addListener(CommonEvents::OnHurtEvent);

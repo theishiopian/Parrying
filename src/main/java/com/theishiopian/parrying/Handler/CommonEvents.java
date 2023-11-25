@@ -49,6 +49,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -103,9 +104,22 @@ public class CommonEvents
         ScabbardItem.registerCapability(event);
     }
 
-    public static void OnArrowShoot(EntityJoinWorldEvent event)
+    public static void OnEntityJoin(EntityJoinWorldEvent event)
     {
         ArrowMechanics.DoZeroGravityBolts(event.getEntity());
+
+        if(!event.getWorld().isClientSide && event.getEntity() instanceof LivingEntity living)
+        {
+            DeltaPositionMechanic.velocityTracker.put(living.getUUID(), new DeltaPositionMechanic.VelocityTracker());
+        }
+    }
+
+    public static void OnEntityLeave(EntityLeaveWorldEvent event)
+    {
+        if(!event.getWorld().isClientSide && event.getEntity() instanceof LivingEntity living)
+        {
+            DeltaPositionMechanic.velocityTracker.remove(living.getUUID());
+        }
     }
 
     public static void OnArrowScan(LivingGetProjectileEvent event)
@@ -361,9 +375,10 @@ public class CommonEvents
 
     public static void OnLivingTick(LivingEvent.LivingUpdateEvent event)
     {
+        LivingEntity entity = event.getEntityLiving();
+
         if(Config.potionSickness.get())
         {
-            LivingEntity entity = event.getEntityLiving();
             if(entity.getActiveEffects().size() > Config.potionTolerance.get() && !entity.hasEffect(ModEffects.FORTIFIED.get()))
             {
                 entity.removeAllEffects();
