@@ -16,7 +16,7 @@ import net.minecraft.world.item.Items;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class LivingEntityHooks
+public abstract class LivingEntityHooks
 {
     public static Optional<Boolean> ModifyDeathProtectionCheck(DamageSource source, LivingEntity entity)
     {

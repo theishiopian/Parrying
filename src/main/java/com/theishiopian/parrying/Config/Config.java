@@ -25,6 +25,13 @@ public class Config
     public static final ForgeConfigSpec.IntValue brewingTicks;
     public static final ForgeConfigSpec.DoubleValue lingeringRadius;
 
+
+    public static final ForgeConfigSpec.BooleanValue stabilityModifiesPush;
+    public static final ForgeConfigSpec.BooleanValue instabilityModifiesPush;
+    public static final ForgeConfigSpec.BooleanValue stabilityModifiesCollision;
+    public static final ForgeConfigSpec.BooleanValue instabilityModifiesCollision;
+
+
     //food
     public static final ForgeConfigSpec.BooleanValue noSatHeal;
     public static final ForgeConfigSpec.BooleanValue milkBucketRework;
@@ -234,6 +241,11 @@ public class Config
 
         zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
         protectPets = builder.comment("Are pets immune to damage from their owners?").define("protect_pets", true);
+
+        stabilityModifiesPush = builder.comment("Does the stability effect modify push force?").define("stability_modifies_push", true);
+        instabilityModifiesPush = builder.comment("Does the instability effect modify push force?").define("instability_modifies_push", true);
+        stabilityModifiesCollision = builder.comment("Does the stability effect modify collision?").define("stability_modifies_collision", true);
+        instabilityModifiesCollision = builder.comment("Does the instability effect modify collision?").define("instability_modifies_collision", true);
 
         COMMON = builder.build();
     }
