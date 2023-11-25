@@ -24,8 +24,9 @@ public class Config
     public static final ForgeConfigSpec.IntValue sipTicks;
     public static final ForgeConfigSpec.IntValue brewingTicks;
     public static final ForgeConfigSpec.DoubleValue lingeringRadius;
+    public static final ForgeConfigSpec.BooleanValue buffRegen;
 
-
+    //stability and instability stuff
     public static final ForgeConfigSpec.BooleanValue stabilityModifiesPush;
     public static final ForgeConfigSpec.BooleanValue instabilityModifiesPush;
     public static final ForgeConfigSpec.BooleanValue stabilityModifiesCollision;
@@ -86,13 +87,6 @@ public class Config
     //enchants
     public static final ForgeConfigSpec.BooleanValue deflectionEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue riposteEnchantEnabled;
-    public static final ForgeConfigSpec.BooleanValue fragileCurseEnabled;
-    public static final ForgeConfigSpec.BooleanValue phasingCurseEnabled;
-    public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
-    public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
-    public static final ForgeConfigSpec.BooleanValue isIntrusionTreasure;
-    public static final ForgeConfigSpec.BooleanValue isProvidenceTreasure;
-    public static final ForgeConfigSpec.BooleanValue isSwiftStrikeTreasure;
     public static final ForgeConfigSpec.BooleanValue bashingEnchantEnabled;
     public static final ForgeConfigSpec.BooleanValue treacheryEnabled;
     public static final ForgeConfigSpec.BooleanValue venomousEnabled;
@@ -101,11 +95,24 @@ public class Config
     public static final ForgeConfigSpec.BooleanValue contextEnabled;
     public static final ForgeConfigSpec.BooleanValue rapidityEnabled;
     public static final ForgeConfigSpec.BooleanValue swiftStrikeEnabled;
+    public static final ForgeConfigSpec.BooleanValue splashProtectionEnabled;
+
+    //curses
     public static final ForgeConfigSpec.BooleanValue intrusiveCurseEnabled;
+    public static final ForgeConfigSpec.BooleanValue fragileCurseEnabled;
+    public static final ForgeConfigSpec.BooleanValue phasingCurseEnabled;
+
+    //treasure
+    public static final ForgeConfigSpec.BooleanValue isFragileTreasure;
+    public static final ForgeConfigSpec.BooleanValue isPhasingTreasure;
+    public static final ForgeConfigSpec.BooleanValue isIntrusionTreasure;
+    public static final ForgeConfigSpec.BooleanValue isProvidenceTreasure;
+    public static final ForgeConfigSpec.BooleanValue isSwiftStrikeTreasure;
 
     //chainmail crafting
     public static final ForgeConfigSpec.BooleanValue isChainmailCraftable;
 
+    //better gold gear
     public static  final ForgeConfigSpec.BooleanValue isGoldBuffed;
 
     //zero g arrows for scoped crossbows
@@ -141,6 +148,7 @@ public class Config
         noSatHeal = builder.comment("Whether or not saturation healing is disabled").define("no_saturation_healing", true);
         milkBucketRework = builder.comment("Whether or not the milk bucket is reworked").define("milk_bucket_rework", true);
         lingeringRadius = builder.comment("The radius of lingering potion clouds. Vanilla 3, default 4").defineInRange("lingering_radius", 4f, 0, 100);
+        buffRegen = builder.comment("Whether or not regeneration is buffed").define("buff_regen", true);
 
         //WEAPONS
         maceEnabled = builder.comment("Whether or not the mace is craftable.").define("mace_enabled", true);
@@ -227,9 +235,12 @@ public class Config
         swiftStrikeEnabled = builder.comment("Whether or not the swift strike enchantment is enabled").define("swift_strike_enabled", true);
         contextEnabled = builder.comment("Whether or not the context enchantment is enabled").define("context_enabled", true);
         rapidityEnabled = builder.comment("Whether or not the rapidity enchantment is enabled").define("rapidity_enabled", true);
+        splashProtectionEnabled = builder.comment("Whether or not the splash protection enchantment is enabled").define("splash_protection_enabled", true);
+
         fragileCurseEnabled = builder.comment("Whether or not the fragile curse is enabled").define("fragile_enabled", true);
         phasingCurseEnabled = builder.comment("Whether or not the phasing curse is enabled").define("phasing_enabled", true);
         intrusiveCurseEnabled = builder.comment("Whether or not the intrusion curse is enabled").define("intrusion_enabled", true);
+
         isFragileTreasure = builder.comment("Whether or not the fragile curse is treasure only").define("is_fragile_treasure", true);
         isPhasingTreasure = builder.comment("Whether or not the phasing curse is treasure only").define("is_phasing_treasure", true);
         isIntrusionTreasure = builder.comment("Whether or not intrusion curse is treasure only").define("is_intrusion_treasure", true);

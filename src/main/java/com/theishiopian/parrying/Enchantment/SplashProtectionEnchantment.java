@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.Enchantment;
 
+import com.theishiopian.parrying.Config.Config;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +35,7 @@ public class SplashProtectionEnchantment extends Enchantment
 
     public boolean canEnchant(ItemStack toEnchant)
     {
-        return toEnchant.getItem() instanceof ArmorItem;
+        return Config.splashProtectionEnabled.get() && toEnchant.getItem() instanceof ArmorItem;
     }
 
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack toEnchant)
