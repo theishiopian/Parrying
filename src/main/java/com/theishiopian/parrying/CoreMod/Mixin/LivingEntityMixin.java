@@ -1,8 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Mixin;
 
 import com.theishiopian.parrying.CoreMod.Hooks.LivingEntityHooks;
-import com.theishiopian.parrying.Mechanics.DeltaPositionMechanic;
-import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,39 +28,13 @@ public class LivingEntityMixin
     private void InjectIntoTickHead(CallbackInfo ci)
     {
         var entity = (LivingEntity)(Object)this;
-
-        if(entity.level.isClientSide)return;
-
-        var tracker = DeltaPositionMechanic.velocityTracker.get(entity.getUUID());
-
-        if(tracker != null)
-        {
-            if(tracker.oldPos != null)
-            {
-                tracker.oldDeltaPosition = tracker.deltaPosition;
-                tracker.deltaPosition = entity.position().subtract(tracker.oldPos).length();
-            }
-        }
+        LivingEntityHooks.PreTick(entity);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void InjectIntoTickTail(CallbackInfo ci)
     {
         var entity = (LivingEntity)(Object)this;
-
-        if(entity.level.isClientSide)return;
-
-        var tracker = DeltaPositionMechanic.velocityTracker.get(entity.getUUID());
-
-        if(tracker != null)
-        {
-            var oldSpeed = tracker.oldDeltaPosition * 20;
-            if(entity.hasEffect(ModEffects.INSTABILITY.get()) && entity.horizontalCollision)
-            {
-                entity.hurt(DamageSource.FLY_INTO_WALL, (float) oldSpeed);
-            }
-
-            tracker.oldPos = entity.position();
-        }
+        LivingEntityHooks.PostTick(entity);
     }
 }
