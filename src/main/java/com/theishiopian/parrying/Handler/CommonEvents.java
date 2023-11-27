@@ -386,7 +386,7 @@ public class CommonEvents
 
         if(entity.level.isClientSide)return;
 
-        if(entity.hasEffect(ModEffects.INSTABILITY.get())) DeltaMechanic.TryCollisionDamage(entity);
+        if(entity.hasEffect(ModEffects.INSTABILITY.get()) && !entity.isPassenger()) DeltaMechanic.TryCollisionDamage(entity);
 
         if(Config.potionSickness.get())
         {
