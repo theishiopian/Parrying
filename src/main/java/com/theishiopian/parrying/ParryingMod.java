@@ -1,6 +1,5 @@
 package com.theishiopian.parrying;
 
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import com.theishiopian.parrying.Client.Render.RenderDagger;
 import com.theishiopian.parrying.Client.Render.RenderSpear;
 import com.theishiopian.parrying.Config.Config;
@@ -108,7 +107,6 @@ public class ParryingMod
 
     public ParryingMod()
     {
-        MixinExtrasBootstrap.init();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 

@@ -1,7 +1,6 @@
 package com.theishiopian.parrying.CoreMod.Hooks;
 
 import com.theishiopian.parrying.Config.Config;
-import com.theishiopian.parrying.Mechanics.DeltaPositionMechanic;
 import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
@@ -83,39 +82,5 @@ public abstract class LivingEntityHooks
         }
 
         return totem;
-    }
-
-    public static void PreTick(LivingEntity entity)
-    {
-        if(entity.level.isClientSide)return;
-
-        var tracker = DeltaPositionMechanic.velocityTracker.get(entity.getUUID());
-
-        if(tracker != null)
-        {
-            if(tracker.oldPos != null)
-            {
-                tracker.oldDeltaPosition = tracker.deltaPosition;
-                tracker.deltaPosition = entity.position().subtract(tracker.oldPos).length();
-            }
-        }
-    }
-
-    public static void PostTick(LivingEntity entity)
-    {
-        if(entity.level.isClientSide)return;
-
-        var tracker = DeltaPositionMechanic.velocityTracker.get(entity.getUUID());
-
-        if(tracker != null)
-        {
-            var oldSpeed = tracker.oldDeltaPosition * 20;
-            if(entity.hasEffect(ModEffects.INSTABILITY.get()) && entity.horizontalCollision)
-            {
-                entity.hurt(DamageSource.FLY_INTO_WALL, (float) oldSpeed);
-            }
-
-            tracker.oldPos = entity.position();
-        }
     }
 }

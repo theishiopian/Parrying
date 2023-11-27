@@ -1,5 +1,6 @@
 package com.theishiopian.parrying.CoreMod;
 
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.objectweb.asm.tree.ClassNode;
@@ -50,7 +51,7 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
     @Override
     public void onLoad(String mixinPackage)
     {
-
+        MixinExtrasBootstrap.init();
     }
 
     @Override

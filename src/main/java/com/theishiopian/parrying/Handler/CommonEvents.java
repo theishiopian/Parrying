@@ -106,20 +106,14 @@ public class CommonEvents
 
     public static void OnEntityJoin(EntityJoinWorldEvent event)
     {
-        ArrowMechanics.DoZeroGravityBolts(event.getEntity());
-
-        if(!event.getWorld().isClientSide && event.getEntity() instanceof LivingEntity living)
-        {
-            DeltaPositionMechanic.velocityTracker.put(living.getUUID(), new DeltaPositionMechanic.VelocityTracker());
-        }
+        var entity = event.getEntity();
+        ArrowMechanics.DoZeroGravityBolts(entity);
+        DeltaMechanic.Add(entity);
     }
 
     public static void OnEntityLeave(EntityLeaveWorldEvent event)
     {
-        if(!event.getWorld().isClientSide && event.getEntity() instanceof LivingEntity living)
-        {
-            DeltaPositionMechanic.velocityTracker.remove(living.getUUID());
-        }
+        DeltaMechanic.Remove(event.getEntity());
     }
 
     public static void OnArrowScan(LivingGetProjectileEvent event)
@@ -260,12 +254,18 @@ public class CommonEvents
 
     public static void OnPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
     {
-        if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
+        if(event.getPlayer() instanceof ServerPlayer player)
+        {
+            ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
+        }
     }
 
     public static void OnPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event)
     {
-        if(event.getPlayer() instanceof ServerPlayer player) ParryingMechanic.ServerDefenseValues.remove(player.getUUID());
+        if(event.getPlayer() instanceof ServerPlayer player)
+        {
+            ParryingMechanic.ServerDefenseValues.remove(player.getUUID());
+        }
     }
 
     public static void OnWorldTick(TickEvent.WorldTickEvent event)
@@ -370,12 +370,23 @@ public class CommonEvents
         LivingEntity entity = event.getEntityLiving();
         var effect = event.getPotionEffect();
 
-        if(!AntidoteMechanic.DoAntidoteCheck(entity, effect)) event.setResult(Event.Result.DENY);
+        if(!AntidoteMechanic.DoAntidoteCheck(entity, effect))
+        {
+            event.setResult(Event.Result.DENY);
+        }
+        else if(effect.getEffect() == ModEffects.INSTABILITY.get())
+        {
+            DeltaMechanic.ResetCollision(entity);
+        }
     }
 
     public static void OnLivingTick(LivingEvent.LivingUpdateEvent event)
     {
         LivingEntity entity = event.getEntityLiving();
+
+        if(entity.level.isClientSide)return;
+
+        if(entity.hasEffect(ModEffects.INSTABILITY.get())) DeltaMechanic.TryCollisionDamage(entity);
 
         if(Config.potionSickness.get())
         {

@@ -1,6 +1,7 @@
 package com.theishiopian.parrying.CoreMod.Hooks;
 
 import com.theishiopian.parrying.Config.Config;
+import com.theishiopian.parrying.Mechanics.DeltaMechanic;
 import com.theishiopian.parrying.Registration.ModEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,5 +32,15 @@ public abstract class EntityHooks
         }
 
         return false;
+    }
+
+    public static void PreTick(Entity entity)
+    {
+        DeltaMechanic.PreTick(entity);
+    }
+
+    public static void PostTick(Entity entity)
+    {
+        DeltaMechanic.PostTick(entity);
     }
 }

@@ -23,4 +23,16 @@ public class EntityMixin
     {
         if(EntityHooks.ModifyCollisionPush((Entity)(Object)this)) ci.cancel();
     }
+
+    @Inject(method = "tick()V", at = @At("HEAD"))
+    private void InjectIntoTickHead(CallbackInfo ci)
+    {
+        EntityHooks.PreTick((Entity)(Object)this);
+    }
+
+    @Inject(method = "tick()V", at = @At("TAIL"))
+    private void InjectIntoTickTail(CallbackInfo ci)
+    {
+        EntityHooks.PostTick((Entity)(Object)this);
+    }
 }
