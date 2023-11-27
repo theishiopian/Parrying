@@ -17,4 +17,5 @@ public class ModParticles
     public static final RegistryObject<SimpleParticleType> STAB_PARTICLE = PARTICLE_TYPES.register("stab", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> BASH_PARTICLE = PARTICLE_TYPES.register("bash", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SLICE_PARTICLE = PARTICLE_TYPES.register("slice", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> IMPACT_PARTICLE = PARTICLE_TYPES.register("impact", () -> new SimpleParticleType(true));
 }

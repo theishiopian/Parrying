@@ -1,5 +1,7 @@
 package com.theishiopian.parrying.Mechanics;
 
+import com.theishiopian.parrying.Registration.ModParticles;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -55,6 +57,7 @@ public abstract class DeltaMechanic
                 entity.level.playSound(null, entity.blockPosition(), SoundEvents.PLAYER_SMALL_FALL, SoundSource.NEUTRAL, 2, 1);
                 entity.hurt(DamageSource.FLY_INTO_WALL, oldSpeed);
                 velocityTracker.ticksSinceLastCollision = 0;
+                ((ServerLevel) entity.level).sendParticles(ModParticles.IMPACT_PARTICLE.get(), entity.getX(), entity.getY() + entity.getEyeHeight() / 2, entity.getZ(), 1, 0D, 0D, 0D, 0.0D);
             }
         }
     }

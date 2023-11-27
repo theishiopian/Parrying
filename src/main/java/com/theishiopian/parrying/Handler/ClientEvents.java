@@ -4,10 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.theishiopian.parrying.Client.Particle.BashParticle;
-import com.theishiopian.parrying.Client.Particle.ParryParticle;
-import com.theishiopian.parrying.Client.Particle.SliceParticle;
-import com.theishiopian.parrying.Client.Particle.StabParticle;
+import com.theishiopian.parrying.Client.Particle.*;
 import com.theishiopian.parrying.Config.Config;
 import com.theishiopian.parrying.Items.OilPotionItem;
 import com.theishiopian.parrying.Items.ScabbardItem;
@@ -194,6 +191,7 @@ public class ClientEvents
         Minecraft.getInstance().particleEngine.register(ModParticles.STAB_PARTICLE.get(), StabParticle.Factory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.BASH_PARTICLE.get(), BashParticle.Factory::new);
         Minecraft.getInstance().particleEngine.register(ModParticles.SLICE_PARTICLE.get(), SliceParticle.Factory::new);
+        Minecraft.getInstance().particleEngine.register(ModParticles.IMPACT_PARTICLE.get(), ImpactParticle.Factory::new);
     }
 
     /**
