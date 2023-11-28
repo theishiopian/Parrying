@@ -7,8 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//TODO convert to hooks
-//TODO may cause lag, unlikely, but should spark it to be sure
 @Mixin(Entity.class)
 public class EntityMixin
 {

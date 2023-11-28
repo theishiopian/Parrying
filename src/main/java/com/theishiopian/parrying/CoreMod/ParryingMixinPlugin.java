@@ -45,7 +45,8 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "AreaEffectCloudMixin",
         "EntityMixin",
         "ExplosionMixin",
-        "IronGolemMixin"
+        "IronGolemMixin",
+        "TippedArrowRecipeMixin",
     };
 
     @Override
