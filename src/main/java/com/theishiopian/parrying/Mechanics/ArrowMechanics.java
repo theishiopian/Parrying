@@ -29,6 +29,8 @@ public abstract class ArrowMechanics
 {
     public static void DoShieldPunching(AbstractArrow arrow, HitResult result)
     {
+        if(!Config.shieldPunch.get()) return;
+
         if(arrow.getKnockback() >= 2 && result instanceof EntityHitResult hit)
         {
             if(hit.getEntity() instanceof Player target)

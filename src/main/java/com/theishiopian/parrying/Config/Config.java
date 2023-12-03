@@ -121,6 +121,9 @@ public class Config
     //owners can't attack pets
     public static final ForgeConfigSpec.BooleanValue protectPets;
 
+
+    public static final ForgeConfigSpec.BooleanValue shieldPunch;
+
     public static final ForgeConfigSpec.DoubleValue swiftStrikeAngle;
 
     public static final ForgeConfigSpec.DoubleValue drawCooldown;
@@ -252,6 +255,7 @@ public class Config
 
         zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
         protectPets = builder.comment("Are pets immune to damage from their owners?").define("protect_pets", true);
+        shieldPunch = builder.comment("Does the punch 2 enchant knock down shields?").define("shield_punch", true);
 
         stabilityModifiesPush = builder.comment("Does the stability effect modify push force?").define("stability_modifies_push", true);
         instabilityModifiesPush = builder.comment("Does the instability effect modify push force?").define("instability_modifies_push", true);
