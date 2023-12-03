@@ -47,6 +47,7 @@ public class ParryingMixinPlugin implements IMixinConfigPlugin
         "ExplosionMixin",
         "IronGolemMixin",
         "TippedArrowRecipeMixin",
+        "DiggerItemMixin",
     };
 
     @Override
