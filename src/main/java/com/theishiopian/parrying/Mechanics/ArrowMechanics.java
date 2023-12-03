@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.SpectralArrow;
@@ -26,6 +27,17 @@ import java.util.List;
 //used for all active arrow mechanics
 public abstract class ArrowMechanics
 {
+    public static void DoShieldPunching(AbstractArrow arrow, HitResult result)
+    {
+        if(arrow.getKnockback() >= 2 && result instanceof EntityHitResult hit)
+        {
+            if(hit.getEntity() instanceof Player target)
+            {
+                target.disableShield(true);
+            }
+        }
+    }
+
     public static void DoSnipeChallenge(AbstractArrow arrow, HitResult result)
     {
         if

@@ -192,6 +192,7 @@ public class CommonEvents
             ArrowMechanics.DoSonicArrow(arrow);
             ArrowMechanics.DoBurningArrow(arrow, event.getRayTraceResult());
             ArrowMechanics.DoSnipeChallenge(arrow, event.getRayTraceResult());
+            ArrowMechanics.DoShieldPunching(arrow, event.getRayTraceResult());
         }
     }
 
