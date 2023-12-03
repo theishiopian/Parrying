@@ -128,6 +128,7 @@ public abstract class ParryingMechanic
 
     public static void DoParryTick(ServerPlayer player)
     {
+        //todo move this back to the tick event
         if(BandolierItem.Has(player.getUUID()))
         {
             if(GameplayStatusPacket.isPlayerPlaying(player) && GameplayStatusPacket.getTicks(player) > 5)
@@ -145,9 +146,9 @@ public abstract class ParryingMechanic
 
         float newValue;
         ParryingMechanic.ServerDefenseValues.putIfAbsent(player.getUUID(), 1f);
-        float v = ParryingMechanic.ServerDefenseValues.get(player.getUUID());
+        float defenseValue = ParryingMechanic.ServerDefenseValues.get(player.getUUID());
 
-        if(v <= 0)
+        if(defenseValue <= 0)
         {
             player.addEffect(new MobEffectInstance(ModEffects.STUNNED.get(), 60));
             float pitch = ModUtil.random.nextFloat() * 0.4f + 0.8f;
@@ -159,7 +160,7 @@ public abstract class ParryingMechanic
             player.knockback(1, dir.x, dir.z);
             player.hurtMarked = true;
 
-            ModTriggers.stagger.trigger((ServerPlayer) player);
+            ModTriggers.stagger.trigger(player);
 
             if (player.isBlocking())
             {
@@ -169,9 +170,11 @@ public abstract class ParryingMechanic
             }
             newValue = 0.001f;
         }
-        else if(v < 1)
+        else if(defenseValue < 1)
         {
-            newValue = v + 0.003f;
+            var effectInstance = player.getEffect(MobEffects.DAMAGE_BOOST);
+            var lvl = effectInstance != null ? effectInstance.getAmplifier() + 1 : 0;
+            newValue = defenseValue + 0.003f + (lvl * 0.001f);
         }
         else
         {
