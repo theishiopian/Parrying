@@ -1,0 +1,11 @@
+{
+  "name": "Holy Water",
+  "icon": "minecraft:potion{Potion:water, CustomPotionColor:14672383}",
+  "category": "parrying:potions",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "The secrets of creating this powerful liquid are jealously guarded by village clerics. When applied to an undead creature, said abomination takes a significant amount of damage. When applied to non-undead creatures, any negative effects are reduced in duration."
+    }
+  ]
+}
