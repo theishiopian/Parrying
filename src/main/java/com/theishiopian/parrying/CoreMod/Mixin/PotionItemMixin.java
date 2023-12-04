@@ -15,4 +15,11 @@ public class PotionItemMixin
     {
         cir.setReturnValue(Config.sipTicks.get());
     }
+
+    @Inject(method = "isFoil(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
+    private void ModifyFoil(ItemStack pStack, CallbackInfoReturnable<Boolean> cir)
+    {
+        //todo remove in 1.20
+        if(Config.isPotionShimmerDisabled.get())cir.setReturnValue(false);
+    }
 }

@@ -115,6 +115,9 @@ public class Config
     //better gold gear
     public static  final ForgeConfigSpec.BooleanValue isGoldBuffed;
 
+    //potion shimmer disabled
+    public static  final ForgeConfigSpec.BooleanValue isPotionShimmerDisabled;
+
     //zero g arrows for scoped crossbows
     public static final ForgeConfigSpec.BooleanValue zeroGravityBolts;
 
@@ -256,6 +259,7 @@ public class Config
         zeroGravityBolts = builder.comment("Does the scoped crossbow fire arrows with no gravity?").define("zero_gravity_bolts", true);
         protectPets = builder.comment("Are pets immune to damage from their owners?").define("protect_pets", true);
         shieldPunch = builder.comment("Does the punch 2 enchant knock down shields?").define("shield_punch", true);
+        isPotionShimmerDisabled = builder.comment("Is the shimmer effect on potions disabled?").define("is_potion_shimmer_disabled", true);
 
         stabilityModifiesPush = builder.comment("Does the stability effect modify push force?").define("stability_modifies_push", true);
         instabilityModifiesPush = builder.comment("Does the instability effect modify push force?").define("instability_modifies_push", true);

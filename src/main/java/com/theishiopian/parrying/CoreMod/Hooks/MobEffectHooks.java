@@ -83,8 +83,7 @@ public abstract class MobEffectHooks
                 {
                     if(!effectInstance.getEffect().isBeneficial())
                     {
-                        if(effectInstance.getEffect() != MobEffects.WITHER)list.add(effectInstance);
-                        pLivingEntity.removeEffect(effectInstance.getEffect());
+                        list.add(effectInstance);
                     }
                 }
 
@@ -96,6 +95,8 @@ public abstract class MobEffectHooks
                     {
                         var duration = effectInstance.getDuration();
                         var newDuration = duration - 1200;
+
+                        pLivingEntity.removeEffect(effectInstance.getEffect());
 
                         if(newDuration > 0)
                         {
