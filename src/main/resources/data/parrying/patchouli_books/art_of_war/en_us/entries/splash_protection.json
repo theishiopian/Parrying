@@ -1,0 +1,11 @@
+{
+  "name": "Splash Protection",
+  "icon": "minecraft:enchanted_book",
+  "category": "parrying:enchantments",
+  "pages" : [
+    {
+      "type": "text",
+      "text": "This simple enchantment will reduce the damage you take from instant damage potions, and reduces the duration of negative potion effects applied via splash or lingering potions. It does this by hermetically sealing your armor in response to harmful alchemical agents."
+    }
+  ]
+}

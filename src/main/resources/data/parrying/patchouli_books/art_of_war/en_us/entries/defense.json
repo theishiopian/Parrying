@@ -14,6 +14,10 @@
     {
       "type": "text",
       "text": "A way to counter this is to use a shield, as shields absorb some of the strength of a hit. $(br2) When your defense meter reaches zero, the shield icon will shatter, indicating your defense is broken. While your defense is broken, you cannot parry attacks, and if you were using a shield it will be disabled. This stun fades quickly, but can open a big hole in your defense, so be ready to start moving evasively!"
+    },
+    {
+      "type": "text",
+      "text": "Another way to improve your defense is to drink a potion of strength. The extra oomph it gives your muscles lets your defense meter charge faster, making it harder to break your defense."
     }
   ]
 }
