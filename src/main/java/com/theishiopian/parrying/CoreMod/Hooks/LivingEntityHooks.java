@@ -22,7 +22,7 @@ public abstract class LivingEntityHooks
     {
         if(Config.undyingRework.get())
         {
-            if(source.isBypassInvul()) return Optional.of(false);
+            if(source.isBypassInvul() || entity instanceof Player player && player.getCooldowns().isOnCooldown(Items.TOTEM_OF_UNDYING)) return Optional.of(false);
 
             var totem = findTotem(entity);
 
@@ -38,6 +38,7 @@ public abstract class LivingEntityHooks
                 entity.removeAllEffects();
                 entity.addEffect(new MobEffectInstance(ModEffects.IMMORTALITY.get(), 600));
                 entity.level.broadcastEntityEvent(entity, (byte)35);
+                if(entity instanceof Player player) player.getCooldowns().addCooldown(Items.TOTEM_OF_UNDYING, 600);
             }
 
             return Optional.of(totem != null);
